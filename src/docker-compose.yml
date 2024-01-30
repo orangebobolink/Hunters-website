@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+    sqlserver: 
+        container_name: SqlServer
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+          - 1433:1433
+        environment:
+          - ACCEPT_EULA=Y
+          - MSSQL_SA_PASSWORD=Passw0rd
+        restart: unless-stopped
+
+    identity:
+        container_name: Identity
+        build:
+            context: "."
+            dockerfile: /services/Identity/Identity.API/Dockerfile
+        ports:
+            - 9001:8080
+        restart: unless-stopped
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker

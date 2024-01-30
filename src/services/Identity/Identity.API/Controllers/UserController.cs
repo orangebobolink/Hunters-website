@@ -1,0 +1,64 @@
+﻿using Identity.Services.Dtos.RequestDtos;
+using Identity.Services.Dtos.ResponseDtos;
+using Identity.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Identity.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private IUserService _userService;
+
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<ResponseUserDto>>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+        {
+            var users = await _userService.GetAllAsync();
+
+            return Ok(users);
+        }
+
+        [Authorize]
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ResponseUserDto>> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+
+            return Ok(user);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<ResponseCreateUserDto>> CreateUserAsync([FromBody] RequestUserDto requestUserDto,
+                                                                                CancellationToken cancellationToken = default)
+        {
+            var user = await _userService.CreateAsync(requestUserDto);
+
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUserAsync([FromQuery] Guid id,
+                                                                         [FromBody] RequestUserDto requestUserDto,
+                                                                         CancellationToken cancellationToken = default)
+        {
+            var user = await _userService.UpdateAsync(id, requestUserDto);
+
+            return Ok(user);
+        }
+    }
+}
