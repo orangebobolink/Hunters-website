@@ -22,7 +22,7 @@ namespace Identity.API.Controllers
                                                     [FromBody] TokenApiDto tokenApiDto,
                                                     CancellationToken cancellationToken = default)
         {
-            var response = await _tokenService.Refresh(id, tokenApiDto);
+            var response = await _tokenService.Refresh(id, tokenApiDto, cancellationToken);
 
             return Ok(response);
         }
@@ -32,7 +32,7 @@ namespace Identity.API.Controllers
         public async Task<IActionResult> Revoke([FromQuery] Guid id,
                                                 CancellationToken cancellationToken = default)
         {
-            await _tokenService.Revoke(id);
+            await _tokenService.Revoke(id, cancellationToken);
 
             return Ok();
         }

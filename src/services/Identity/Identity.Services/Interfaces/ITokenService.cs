@@ -5,9 +5,9 @@ namespace Identity.Services.Interfaces
 {
     public interface ITokenService
     {
-        public Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken = default);
+        public Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken);
         string GenerateRefreshToken();
-        Task<AuthenticatedResponse> Refresh(Guid id, TokenApiDto tokenApiModel, CancellationToken cancellationToken = default);
-        Task Revoke(Guid id, CancellationToken cancellationToken = default);
+        Task<AuthenticatedResponse> Refresh(Guid id, TokenApiDto tokenApiModel, CancellationToken cancellationToken);
+        Task Revoke(Guid id, CancellationToken cancellationToken);
     }
 }

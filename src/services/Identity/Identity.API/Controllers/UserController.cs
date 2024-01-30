@@ -1,4 +1,5 @@
-﻿using Identity.Services.Dtos.RequestDtos;
+﻿using Identity.Domain.Entities;
+using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +18,12 @@ namespace Identity.API.Controllers
             _userService = userService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<ResponseUserDto>>> GetAllUsersAsync(CancellationToken cancellationToken = default)
         {
-            var users = await _userService.GetAllAsync();
+            var users = await _userService.GetAllAsync(cancellationToken);
 
             return Ok(users);
         }
@@ -33,18 +34,18 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<ResponseUserDto>> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdAsync(id, cancellationToken);
 
             return Ok(user);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<ResponseCreateUserDto>> CreateUserAsync([FromBody] RequestUserDto requestUserDto,
                                                                                 CancellationToken cancellationToken = default)
         {
-            var user = await _userService.CreateAsync(requestUserDto);
+            var user = await _userService.CreateAsync(requestUserDto, cancellationToken);
 
             return Ok(user);
         }
@@ -56,7 +57,7 @@ namespace Identity.API.Controllers
                                                                          [FromBody] RequestUserDto requestUserDto,
                                                                          CancellationToken cancellationToken = default)
         {
-            var user = await _userService.UpdateAsync(id, requestUserDto);
+            var user = await _userService.UpdateAsync(id, requestUserDto, cancellationToken);
 
             return Ok(user);
         }

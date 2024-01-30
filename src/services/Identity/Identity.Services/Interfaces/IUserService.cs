@@ -6,9 +6,9 @@ namespace Identity.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default);
-        Task<List<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<ResponseCreateUserDto> CreateAsync(RequestUserDto user, CancellationToken cancellationToken = default);
-        Task<ResponseUpdateUserDto> UpdateAsync(Guid id, RequestUserDto user, CancellationToken cancellationToken = default);
+        Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<List<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<ResponseCreateUserDto> CreateAsync(RequestUserDto user, CancellationToken cancellationToken);
+        Task<ResponseUpdateUserDto> UpdateAsync(Guid id, RequestUserDto user, CancellationToken cancellationToken);
     }
 }

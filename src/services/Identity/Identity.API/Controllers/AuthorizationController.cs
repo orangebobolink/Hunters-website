@@ -19,7 +19,7 @@ namespace Identity.API.Controllers
         public async Task<IActionResult> LoginAsync([FromBody] LoginUserDto loginUserDto,
                                                     CancellationToken cancellationToken = default)
         {
-            var response = await _authorizationService.LoginAsync(loginUserDto);
+            var response = await _authorizationService.LoginAsync(loginUserDto, cancellationToken);
 
             return Ok(response);
         }
@@ -28,7 +28,7 @@ namespace Identity.API.Controllers
         public async Task<IActionResult> RegistrationAsync([FromBody] RegistrationUserDto registrationUserDto,
                                                             CancellationToken cancellationToken = default)
         {
-            var response = await _authorizationService.RegistrationAsync(registrationUserDto);
+            var response = await _authorizationService.RegistrationAsync(registrationUserDto, cancellationToken);
 
             return Ok(response);
         }

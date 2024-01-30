@@ -6,7 +6,16 @@ namespace Identity.Infrastructure.Configurations
 {
     internal static class DataSeedConfiguration
     {
-        public static void ApplySeed(this ModelBuilder builder)
+        public static void ApplyDataSeed(this ModelBuilder builder)
+        {
+            List<IdentityRole<Guid>> roles = UseRolesDataSeed(builder);
+
+            List<User> users = UseUsersDataSeed(builder);
+
+            builder.SettingUserRole(users, roles);
+        }
+
+        private static List<IdentityRole<Guid>> UseRolesDataSeed(ModelBuilder builder)
         {
             List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>()
             {
@@ -24,8 +33,14 @@ namespace Identity.Infrastructure.Configurations
                 }
             };
 
-            builder.Entity<IdentityRole<Guid>>().HasData(roles);
+            builder.Entity<IdentityRole<Guid>>()
+                .HasData(roles);
 
+            return roles;
+        }
+
+        private static List<User> UseUsersDataSeed(ModelBuilder builder)
+        {
             var passwordHasher = new PasswordHasher<User>();
 
             List<User> users = new List<User>()
@@ -51,8 +66,14 @@ namespace Identity.Infrastructure.Configurations
             };
 
 
-            builder.Entity<User>().HasData(users);
+            builder.Entity<User>()
+                .HasData(users);
 
+            return users;
+        }
+
+        private static void SettingUserRole(this ModelBuilder builder, List<User> users, List<IdentityRole<Guid>> roles)
+        {
             List<IdentityUserRole<Guid>> userRoles = new List<IdentityUserRole<Guid>>()
             {
                 new IdentityUserRole<Guid>
@@ -67,7 +88,8 @@ namespace Identity.Infrastructure.Configurations
                 }
             };
 
-            builder.Entity<IdentityUserRole<Guid>>().HasData(userRoles);
+            builder.Entity<IdentityUserRole<Guid>>()
+                .HasData(userRoles);
 
             builder.Entity<IdentityUserRole<Guid>>(userRole =>
             {
