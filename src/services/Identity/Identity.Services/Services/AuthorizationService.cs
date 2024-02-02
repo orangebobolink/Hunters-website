@@ -4,6 +4,7 @@ using Identity.Services.Dtos;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
+using Identity.Services.Utilities;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 
@@ -45,7 +46,7 @@ namespace Identity.Services.Services
 
             }
 
-            var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
+            var accessToken = await _tokenService.GenerateAccessTokenAsync(user, cancellationToken);
             var refreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
@@ -66,28 +67,11 @@ namespace Identity.Services.Services
         public async Task<bool> RegistrationAsync(RegistrationUserDto registrationUserDto, CancellationToken cancellationToken = default)
         {
             var userRequestDto = registrationUserDto.Adapt<RequestUserDto>();
-            userRequestDto.UserName = GenerateRandomUsername();
+            userRequestDto.UserName = RandomUsernameGeneratorUtility.GenerateRandomUsername();
 
-            var response = await _userService.CreateAsync(userRequestDto);
+            var response = await _userService.CreateAsync(userRequestDto, cancellationToken);
 
             return true;
-        }
-
-        private string GenerateRandomUsername()
-        {
-            char[] availableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
-
-            Random random = new Random();
-            int usernameLength = 8;
-
-            char[] username = new char[usernameLength];
-
-            for(int i = 0; i < usernameLength; i++)
-            {
-                username[i] = availableChars[random.Next(availableChars.Length)];
-            }
-
-            return new string(username);
         }
     }
 }

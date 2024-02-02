@@ -6,17 +6,19 @@ using Identity.Services.Configurations;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddCorsConfiguration(builder.Configuration);
+builder.Services.AddFluentValidationConfiguration();
 builder.Services.AddServicesConfiguration();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddRoutingConfiguration();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
-builder.Services.AddSwaggerGenConfiguration();
+builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
 builder.Services.AddJWTAuthenticationConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
-app.UseCors("CorsPolicy");
+app.UseCors();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

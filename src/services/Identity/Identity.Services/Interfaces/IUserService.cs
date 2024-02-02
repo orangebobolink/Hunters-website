@@ -1,5 +1,4 @@
-﻿using Identity.Domain.Entities;
-using Identity.Services.Dtos.RequestDtos;
+﻿using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 
 namespace Identity.Services.Interfaces
