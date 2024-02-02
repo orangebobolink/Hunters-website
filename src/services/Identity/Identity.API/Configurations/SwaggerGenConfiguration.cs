@@ -5,19 +5,26 @@ namespace Identity.API.Configurations
 {
     public static class SwaggerGenConfiguration
     {
-        public static void AddSwaggerGenConfiguration(this IServiceCollection services)
+        public static void AddSwaggerGenConfiguration(this IServiceCollection services, IConfiguration congiguration)
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+                options.SwaggerDoc(
+                    congiguration["SwaggerGen:Version"],
+                    new OpenApiInfo
+                    {
+                        Title = congiguration["SwaggerGen:Title"],
+                        Version = congiguration["SwaggerGen:Version"]
+                    }
+                );
 
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
-                    Name = "Authorization",
+                    Description = congiguration["SwaggerGen:Description"],
+                    Name = congiguration["SwaggerGen:Name"],
                     Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
+                    BearerFormat = congiguration["SwaggerGen:BearerFormat"],
                     Scheme = JwtBearerDefaults.AuthenticationScheme
                 });
 
