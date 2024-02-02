@@ -9,7 +9,7 @@
                   builder.AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
-                    .WithOrigins(configuration.GetSection("CorsPolicy:AllowedOrigins").Value!));
+                    .WithOrigins(configuration["CorsPolicy:AllowedOrigins"]!));
            });
     }
 }
