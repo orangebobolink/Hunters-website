@@ -8,14 +8,14 @@ namespace Identity.Infrastructure.Configurations
     {
         public static void ApplyDataSeed(this ModelBuilder builder)
         {
-            List<IdentityRole<Guid>> roles = UseRolesDataSeed(builder);
+            List<IdentityRole<Guid>> roles = builder.SeedRoles();
 
-            List<User> users = UseUsersDataSeed(builder);
+            List<User> users = builder.SeedUsers();
 
-            builder.SettingUserRole(users, roles);
+            builder.SeedUserRole(users, roles);
         }
 
-        private static List<IdentityRole<Guid>> UseRolesDataSeed(ModelBuilder builder)
+        private static List<IdentityRole<Guid>> SeedRoles(this ModelBuilder builder)
         {
             List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>()
             {
@@ -39,7 +39,7 @@ namespace Identity.Infrastructure.Configurations
             return roles;
         }
 
-        private static List<User> UseUsersDataSeed(ModelBuilder builder)
+        private static List<User> SeedUsers(this ModelBuilder builder)
         {
             var passwordHasher = new PasswordHasher<User>();
 
@@ -72,7 +72,7 @@ namespace Identity.Infrastructure.Configurations
             return users;
         }
 
-        private static void SettingUserRole(this ModelBuilder builder, List<User> users, List<IdentityRole<Guid>> roles)
+        private static void SeedUserRole(this ModelBuilder builder, List<User> users, List<IdentityRole<Guid>> roles)
         {
             List<IdentityUserRole<Guid>> userRoles = new List<IdentityUserRole<Guid>>()
             {
