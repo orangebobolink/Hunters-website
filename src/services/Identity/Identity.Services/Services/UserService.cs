@@ -6,16 +6,19 @@ using Identity.Services.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MR.AspNetCore.Pagination;
 
 namespace Identity.Services.Services
 {
     internal class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
+        private readonly IPaginationService _paginationService;
 
-        public UserService(UserManager<User> userManager)
+        public UserService(UserManager<User> userManager, IPaginationService paginationService)
         {
             _userManager = userManager;
+            _paginationService = paginationService;
         }
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
@@ -41,20 +44,26 @@ namespace Identity.Services.Services
             return response;
         }
 
-        public async Task<List<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<KeysetPaginationResult<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            var users = await _userManager.Users.ToListAsync();
+            var usersPaginationResult = await _paginationService.KeysetPaginateAsync(
+                _userManager.Users,
+                b => b.Descending(x => x.UserName!).Descending(x => x.Id),
+                async id =>
+                {
+                    var guidId = Guid.Parse(id);
+                    var reference = await _userManager.Users.FirstOrDefaultAsync(user => user.Id == guidId,
+                                                                                cancellationToken);
+                    if(reference == null)
+                    {
+                        throw new AccountNotFoundException(guidId);
+                    }
 
-            if(users == null || users.Count == 0)
-            {
+                    return reference;
+                },
+                query => query.Select(user => user.Adapt<ResponseUserDto>()));
 
-
-                return new List<ResponseUserDto>();
-            }
-
-            var usersDto = users.Adapt<List<ResponseUserDto>>();
-
-            return usersDto;
+            return usersPaginationResult;
         }
 
         public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)

@@ -1,9 +1,14 @@
-﻿using Identity.Domain.Entities;
+﻿using DrfLikePaginations;
+using Identity.Domain.Entities;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MR.AspNetCore.Pagination;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Identity.API.Controllers
 {
@@ -12,16 +17,17 @@ namespace Identity.API.Controllers
     public class UserController : ControllerBase
     {
         private IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly UserManager<User> _userManager;
+        public UserController(IUserService userService, UserManager<User> userManager)
         {
             _userService = userService;
+            _userManager = userManager;
         }
 
         [Authorize(Roles = Role.Admin)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<ResponseUserDto>>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsersAsync(CancellationToken cancellationToken = default)
         {
             var users = await _userService.GetAllAsync(cancellationToken);
 

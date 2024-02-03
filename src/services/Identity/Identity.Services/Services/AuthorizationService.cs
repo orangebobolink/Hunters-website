@@ -42,7 +42,7 @@ namespace Identity.Services.Services
 
             if(!checkPassword)
             {
-
+                // TODO: доб exc
             }
 
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user, cancellationToken);
@@ -53,7 +53,9 @@ namespace Identity.Services.Services
             var result = await _userManager.UpdateAsync(user);
 
             if(result.Succeeded == false)
+            {
                 throw new Exception();
+            }
 
             return new ResponseAuthenticatedDto
             {

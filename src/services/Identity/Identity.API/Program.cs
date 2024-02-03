@@ -15,6 +15,7 @@ builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
 builder.Services.AddJWTAuthenticationConfiguration(builder.Configuration);
+builder.Services.AddPagination();
 
 var app = builder.Build();
 
