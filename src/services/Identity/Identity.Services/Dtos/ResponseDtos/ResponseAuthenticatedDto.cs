@@ -1,8 +1,6 @@
-﻿using Identity.Services.Dtos.ResponseDtos;
-
-namespace Identity.Services.Dtos
+﻿namespace Identity.Services.Dtos.ResponseDtos
 {
-    public class AuthenticatedResponse
+    public class ResponseAuthenticatedDto
     {
         public string? Token { get; set; }
         public string? RefreshToken { get; set; }
