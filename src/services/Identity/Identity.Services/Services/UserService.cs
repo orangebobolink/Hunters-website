@@ -18,7 +18,8 @@ namespace Identity.Services.Services
             _userManager = userManager;
         }
 
-        public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto, CancellationToken cancellationToken = default)
+        public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
+                                                            CancellationToken cancellationToken = default)
         {
             var user = requestUserDto.Adapt<User>();
             var identityResult = await _userManager.CreateAsync(user, requestUserDto.Password);

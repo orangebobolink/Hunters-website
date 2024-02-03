@@ -1,24 +1,27 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Exceptions;
 using Identity.Services.Dtos;
+using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
+using Identity.Services.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
 public class TokenService : ITokenService
 {
-    private readonly IConfiguration _configuration;
     private readonly UserManager<User> _userManager;
+    private readonly IConfiguration _configuration;
+    private readonly JwtUtilities _jwtUtilities;
 
-    public TokenService(IConfiguration configuration, UserManager<User> userManager)
+    public TokenService(UserManager<User> userManager, IConfiguration configuration)
     {
         _configuration = configuration;
         _userManager = userManager;
+        _jwtUtilities = new JwtUtilities(_userManager, _configuration);
     }
 
     public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken = default)
@@ -26,12 +29,12 @@ public class TokenService : ITokenService
         var issuer = _configuration["JwtSettings:Issuer"];
         var audience = _configuration["JwtSettings:Audience"];
 
-        var claims = await GetClaimsAsync(user);
+        var claims = await _jwtUtilities.GetClaimsAsync(user);
 
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!));
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-        int expiryTimeToken = GetExpiryTimeToken();
+        int expiryTimeToken = _jwtUtilities.GetExpiryTimeToken();
 
         var tokenOptions = new JwtSecurityToken(
             issuer: issuer,
@@ -46,33 +49,6 @@ public class TokenService : ITokenService
         return tokenString;
     }
 
-    private async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = default)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName!)
-        };
-
-        var roles = await _userManager.GetRolesAsync(user);
-        var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role)).ToList();
-        claims.AddRange(roleClaims);
-
-        return claims;
-    }
-
-    private int GetExpiryTimeToken()
-    {
-        string expiryTimeTokenString = _configuration["JwtSettings:ExpiresInMinute"];
-
-        if(!int.TryParse(expiryTimeTokenString, out int expiryTimeTokenInt))
-        {
-            throw new InvalidConfigurationException();
-        }
-
-        return expiryTimeTokenInt;
-    }
-
     public string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];
@@ -85,7 +61,8 @@ public class TokenService : ITokenService
         }
     }
 
-    public async Task<AuthenticatedResponse> Refresh(Guid id, TokenApiDto tokenApiModel, CancellationToken cancellationToken = default)
+    public async Task<ResponseAuthenticatedDto> Refresh(Guid id, TokenApiDto tokenApiModel,
+                                                     CancellationToken cancellationToken = default)
     {
         if(tokenApiModel is null)
             throw new InvalidTokenException();
@@ -109,7 +86,7 @@ public class TokenService : ITokenService
         if(userUpdateResult.Succeeded == false)
             throw new UserUpdateException();
 
-        return new AuthenticatedResponse()
+        return new ResponseAuthenticatedDto()
         {
             Token = newAccessToken,
             RefreshToken = newRefreshToken

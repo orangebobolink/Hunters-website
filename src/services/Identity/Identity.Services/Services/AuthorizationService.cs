@@ -1,6 +1,5 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Exceptions;
-using Identity.Services.Dtos;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
@@ -25,7 +24,7 @@ namespace Identity.Services.Services
             _userService = userService;
         }
 
-        public async Task<AuthenticatedResponse> LoginAsync(LoginUserDto loginUserDto, CancellationToken cancellationToken = default)
+        public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto, CancellationToken cancellationToken = default)
         {
             if(loginUserDto is null)
             {
@@ -56,7 +55,7 @@ namespace Identity.Services.Services
             if(result.Succeeded == false)
                 throw new Exception();
 
-            return new AuthenticatedResponse
+            return new ResponseAuthenticatedDto
             {
                 Token = accessToken,
                 RefreshToken = refreshToken,
@@ -64,7 +63,7 @@ namespace Identity.Services.Services
             };
         }
 
-        public async Task<bool> RegistrationAsync(RegistrationUserDto registrationUserDto, CancellationToken cancellationToken = default)
+        public async Task<bool> RegistrationAsync(RequestRegistrationUserDto registrationUserDto, CancellationToken cancellationToken = default)
         {
             var userRequestDto = registrationUserDto.Adapt<RequestUserDto>();
             userRequestDto.UserName = RandomUsernameGeneratorUtility.GenerateRandomUsername();

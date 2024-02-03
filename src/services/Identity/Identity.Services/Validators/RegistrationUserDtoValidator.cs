@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Identity.Domain.Helpers;
-using Identity.Services.Dtos;
+using Identity.Services.Dtos.RequestDtos;
 
 namespace Identity.Services.Validators
 {
     internal class RegistrationUserDtoValidator
-        : AbstractValidator<RegistrationUserDto>
+        : AbstractValidator<RequestRegistrationUserDto>
     {
         public RegistrationUserDtoValidator()
         {
