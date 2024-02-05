@@ -28,7 +28,7 @@ if(!app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI(s =>
     {
-        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo API v1");
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity API");
     });
 }
 

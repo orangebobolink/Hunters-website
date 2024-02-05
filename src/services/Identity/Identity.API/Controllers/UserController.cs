@@ -1,14 +1,11 @@
-﻿using DrfLikePaginations;
-using Identity.Domain.Entities;
+﻿using Identity.Domain.Entities;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MR.AspNetCore.Pagination;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Identity.API.Controllers
 {
