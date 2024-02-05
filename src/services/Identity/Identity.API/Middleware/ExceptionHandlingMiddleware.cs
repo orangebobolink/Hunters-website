@@ -6,9 +6,11 @@ namespace Identity.API.Middleware
 {
     public class ExceptionHandlingMiddleware : IMiddleware
     {
-        public ExceptionHandlingMiddleware()
-        {
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
+        public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger)
+        {
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -19,7 +21,7 @@ namespace Identity.API.Middleware
             }
             catch(Exception e)
             {
-                //_logger.LogError(e, e.Message);
+                _logger.LogError(e, e.Message);
 
                 await HandleExceptionAsync(context, e);
             }
@@ -38,7 +40,7 @@ namespace Identity.API.Middleware
 
             if(status == HttpStatusCode.InternalServerError)
             {
-                //_logger.LogError(exception, message);
+                _logger.LogError(exception, message);
             }
 
             return context.Response.WriteAsync(exceptionResult);

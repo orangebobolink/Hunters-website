@@ -6,6 +6,7 @@ using Identity.Services.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MR.AspNetCore.Pagination;
 
 namespace Identity.Services.Services
@@ -14,11 +15,14 @@ namespace Identity.Services.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IPaginationService _paginationService;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(UserManager<User> userManager, IPaginationService paginationService)
+        public UserService(UserManager<User> userManager, IPaginationService paginationService,
+            ILogger<UserService> logger)
         {
             _userManager = userManager;
             _paginationService = paginationService;
+            _logger = logger;
         }
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
@@ -29,6 +33,8 @@ namespace Identity.Services.Services
 
             if(!identityResult.Succeeded)
             {
+                _logger.LogError("User creation failed. {Errors}", identityResult.Errors);
+
                 throw new InvalidClientRequestException();
             }
 
@@ -36,10 +42,14 @@ namespace Identity.Services.Services
 
             if(!result.Succeeded)
             {
+                _logger.LogError("Adding user to role failed. {Errors}", result.Errors);
+
                 throw new Exception();
             }
 
             var response = user.Adapt<ResponseCreateUserDto>();
+
+            _logger.LogInformation("User created successfully: {UserId}", user.Id);
 
             return response;
         }
@@ -56,12 +66,16 @@ namespace Identity.Services.Services
                                                                                 cancellationToken);
                     if(reference == null)
                     {
+                        _logger.LogError("User not found during pagination. UserId: {UserId}", guidId);
+
                         throw new AccountNotFoundException(guidId);
                     }
 
                     return reference;
                 },
                 query => query.Select(user => user.Adapt<ResponseUserDto>()));
+
+            _logger.LogInformation("Pagination was successfully completed.");
 
             return usersPaginationResult;
         }
@@ -72,12 +86,14 @@ namespace Identity.Services.Services
 
             if(user == null)
             {
-
+                _logger.LogError("User not found. UserId: {UserId}", id);
 
                 throw new AccountNotFoundException(id);
             }
 
             var userDto = user.Adapt<ResponseUserDto>();
+
+            _logger.LogInformation("Retrieved user by Id successfully. UserId: {UserId}", id);
 
             return userDto;
         }
@@ -90,7 +106,7 @@ namespace Identity.Services.Services
 
             if(existedUser == null)
             {
-
+                _logger.LogError("User not found during update. UserId: {UserId}", id);
 
                 throw new AccountNotFoundException(id);
             }
@@ -101,10 +117,14 @@ namespace Identity.Services.Services
 
             if(!result.Succeeded)
             {
+                _logger.LogError("User update failed. UserId: {UserId}", id);
+
                 throw new UserUpdateException();
             }
 
             var response = newUser.Adapt<ResponseUpdateUserDto>();
+
+            _logger.LogInformation("Updated user successfully. UserId: {UserId}", id);
 
             return response;
         }
