@@ -1,4 +1,4 @@
-﻿using Identity.Services.Dtos;
+﻿using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginUserDto loginUserDto,
+        public async Task<IActionResult> LoginAsync([FromBody] RequestLoginUserDto loginUserDto,
                                                     CancellationToken cancellationToken = default)
         {
             var response = await _authorizationService.LoginAsync(loginUserDto, cancellationToken);
@@ -25,7 +25,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> RegistrationAsync([FromBody] RegistrationUserDto registrationUserDto,
+        public async Task<IActionResult> RegistrationAsync([FromBody] RequestRegistrationUserDto registrationUserDto,
                                                             CancellationToken cancellationToken = default)
         {
             var response = await _authorizationService.RegistrationAsync(registrationUserDto, cancellationToken);

@@ -11,6 +11,17 @@ services:
           - MSSQL_SA_PASSWORD=Passw0rd
         restart: unless-stopped
 
+    gateway:
+        container_name: Gateway
+        build:
+            context: "."
+            dockerfile: /gateways/OcelotApiGateway/Dockerfile
+        ports:
+            - 5001:8080
+        restart: unless-stopped
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
+
     identity:
         container_name: Identity
         build:

@@ -9,6 +9,8 @@ namespace Identity.API.Configurations
         {
             services.AddSwaggerGen(options =>
             {
+                options.ConfigurePagination();
+
                 options.SwaggerDoc(
                     congiguration["SwaggerGen:Version"],
                     new OpenApiInfo

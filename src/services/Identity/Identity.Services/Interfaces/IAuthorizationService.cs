@@ -1,10 +1,11 @@
-﻿using Identity.Services.Dtos;
+﻿using Identity.Services.Dtos.RequestDtos;
+using Identity.Services.Dtos.ResponseDtos;
 
 namespace Identity.Services.Interfaces
 {
     public interface IAuthorizationService
     {
-        Task<AuthenticatedResponse> LoginAsync(LoginUserDto loginUserDto, CancellationToken cancellationToken);
-        Task<bool> RegistrationAsync(RegistrationUserDto registrationUserDto, CancellationToken cancellationToken);
+        Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto, CancellationToken cancellationToken);
+        Task<bool> RegistrationAsync(RequestRegistrationUserDto registrationUserDto, CancellationToken cancellationToken);
     }
 }

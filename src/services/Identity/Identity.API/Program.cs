@@ -15,9 +15,12 @@ builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
 builder.Services.AddJWTAuthenticationConfiguration(builder.Configuration);
+builder.Services.AddLoggerConfiguration(builder.Configuration);
+builder.Services.AddPagination();
 
 var app = builder.Build();
 
+//app.UseSerilogRequestLogging();
 app.UseCors();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -27,7 +30,7 @@ if(!app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI(s =>
     {
-        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo API v1");
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity API");
     });
 }
 
