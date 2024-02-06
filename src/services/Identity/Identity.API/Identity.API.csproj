@@ -25,6 +25,7 @@
     <PackageReference Include="MR.AspNetCore.Pagination" Version="3.0.0" />
     <PackageReference Include="MR.AspNetCore.Pagination.Swashbuckle" Version="3.0.0" />
     <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
     <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
     <PackageReference Include="Serilog.Expressions" Version="4.0.0" />
