@@ -1,34 +1,23 @@
-version: '3.4'
+version: '3.8'
+
+volumes:
+    sqlserver_data:
 
 services:
     sqlserver: 
         container_name: SqlServer
         image: mcr.microsoft.com/mssql/server:2022-latest
-        ports:
-          - 1433:1433
-        environment:
-          - ACCEPT_EULA=Y
-          - MSSQL_SA_PASSWORD=Passw0rd
-        restart: unless-stopped
+        volumes:
+             - sqlserver_data:/var/opt/mssql
 
     gateway:
         container_name: Gateway
         build:
             context: "."
             dockerfile: /gateways/OcelotApiGateway/Dockerfile
-        ports:
-            - 5001:8080
-        restart: unless-stopped
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Docker
-
+        
     identity:
         container_name: Identity
         build:
             context: "."
             dockerfile: /services/Identity/Identity.API/Dockerfile
-        ports:
-            - 9001:8080
-        restart: unless-stopped
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Docker
