@@ -9,6 +9,39 @@ services:
           - MSSQL_SA_PASSWORD=Passw0rd
         restart: unless-stopped
 
+    kibana:
+        ports:
+            - 5601:5601
+        environment:
+            - ELASTICSEARCH_URL:http://localhost:9200
+        links:
+            - elasticsearch
+        networks:
+            - elk
+        depends_on:
+            - elasticsearch
+ 
+    logstash:
+        ports:
+          - 5000:5000
+          - 9600:9600
+        depends_on:
+          - elasticsearch
+        links:
+            - elasticsearch
+        networks:
+            - elk
+ 
+    elasticsearch:
+        ports:
+            - 9200:9200
+        environment: 
+            - xpack.security.enabled=false
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - discovery.type=single-node
+        networks:
+            - elk
+         
     gateway:
         ports:
             - 5001:8080
@@ -25,3 +58,7 @@ services:
         depends_on:
             - gateway
             - sqlserver
+
+networks:
+    elk:
+        driver: bridge

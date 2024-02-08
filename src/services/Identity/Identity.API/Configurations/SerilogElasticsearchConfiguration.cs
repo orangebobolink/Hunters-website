@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.Network;
 
 namespace Identity.API.Configurations
 {
@@ -18,7 +19,7 @@ namespace Identity.API.Configurations
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithExceptionDetails()
                 .WriteTo.Console()
-                .WriteTo.Elasticsearch(ConfigureElasticsearchSink(configuration))
+                .WriteTo.TCPSink("logstash", 5000)
                 .Enrich.WithProperty("Environment", environment)
                 .ReadFrom.Configuration(builder.Configuration)
                 .CreateLogger();
@@ -26,15 +27,15 @@ namespace Identity.API.Configurations
             builder.Host.UseSerilog();
         }
 
-        private static ElasticsearchSinkOptions ConfigureElasticsearchSink(IConfigurationRoot configuration)
-        {
-            return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]!))
-            {
-                AutoRegisterTemplate = true,
-                IndexFormat = $"logstash-{DateTime.Now:yyyy.MM.dd}",
-                NumberOfReplicas = 1,
-                NumberOfShards = 2
-            };
-        }
+        //private static ElasticsearchSinkOptions ConfigureElasticsearchSink(IConfigurationRoot configuration)
+        //{
+        //    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]!))
+        //    {
+        //        AutoRegisterTemplate = true,
+        //        IndexFormat = $"logstash-{DateTime.Now:yyyy.MM.dd}",
+        //        NumberOfReplicas = 1,
+        //        NumberOfShards = 2
+        //    };
+        //}
     }
 }
