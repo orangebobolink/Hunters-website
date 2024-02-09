@@ -2,6 +2,7 @@ using Identity.API.Configurations;
 using Identity.API.Middleware;
 using Identity.Infrastructure.Configurations;
 using Identity.Services.Configurations;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,6 @@ builder.Services.AddPagination();
 
 var app = builder.Build();
 
-//app.UseSerilogRequestLogging();
 app.UseCors();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

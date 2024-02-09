@@ -17,17 +17,12 @@ services:
         volumes:
             - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
 
-    logstash:
-        image: logstash:8.8.1
-        container_name: logstash
-        volumes:
-          - ./config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-
     elasticsearch:
         container_name: elasticsearch
         image: elasticsearch:8.8.1
         volumes:
-            - elasticsearch-data:/usr/share/elasticsearch/data
+            - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+            - elasticsearch-data:/usr/share/elasticsearch/data:Z
 
     gateway:
         container_name: Gateway

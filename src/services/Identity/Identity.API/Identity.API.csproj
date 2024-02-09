@@ -38,6 +38,8 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+    <PackageReference Include="Serilog.Sinks.Http" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.LogstashHttp" Version="1.2.0" />
     <PackageReference Include="Serilog.Sinks.Network" Version="2.0.2.68" />
     <PackageReference Include="Serilog.Sinks.SyslogMessages" Version="3.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
