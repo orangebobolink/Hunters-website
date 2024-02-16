@@ -7,14 +7,9 @@ namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TokenController : ControllerBase
+    public class TokenController(ITokenService tokenService) : ControllerBase
     {
-        private readonly ITokenService _tokenService;
-
-        public TokenController(ITokenService tokenService)
-        {
-            _tokenService = tokenService;
-        }
+        private readonly ITokenService _tokenService = tokenService;
 
         [Authorize]
         [HttpPost("refresh")]

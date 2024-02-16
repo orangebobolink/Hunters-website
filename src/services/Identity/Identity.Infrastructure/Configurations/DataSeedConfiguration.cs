@@ -17,7 +17,7 @@ namespace Identity.Infrastructure.Configurations
 
         private static List<IdentityRole<Guid>> SeedRoles(this ModelBuilder builder)
         {
-            List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>()
+            var roles = new List<IdentityRole<Guid>>()
             {
                 new IdentityRole<Guid>
                 {
@@ -43,7 +43,7 @@ namespace Identity.Infrastructure.Configurations
         {
             var passwordHasher = new PasswordHasher<User>();
 
-            List<User> users = new List<User>()
+            var users = new List<User>()
             {
                 new User {
                     Id = Guid.NewGuid(),
@@ -74,7 +74,7 @@ namespace Identity.Infrastructure.Configurations
 
         private static void SeedUserRole(this ModelBuilder builder, List<User> users, List<IdentityRole<Guid>> roles)
         {
-            List<IdentityUserRole<Guid>> userRoles = new List<IdentityUserRole<Guid>>()
+            var userRoles = new List<IdentityUserRole<Guid>>()
             {
                 new IdentityUserRole<Guid>
                 {

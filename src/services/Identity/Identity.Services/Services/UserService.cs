@@ -11,19 +11,13 @@ using MR.AspNetCore.Pagination;
 
 namespace Identity.Services.Services
 {
-    internal class UserService : IUserService
+    internal class UserService(UserManager<User> userManager,
+        IPaginationService paginationService,
+        ILogger<UserService> logger) : IUserService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IPaginationService _paginationService;
-        private readonly ILogger<UserService> _logger;
-
-        public UserService(UserManager<User> userManager, IPaginationService paginationService,
-            ILogger<UserService> logger)
-        {
-            _userManager = userManager;
-            _paginationService = paginationService;
-            _logger = logger;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IPaginationService _paginationService = paginationService;
+        private readonly ILogger<UserService> _logger = logger;
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
                                                             CancellationToken cancellationToken = default)

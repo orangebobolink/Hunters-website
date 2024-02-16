@@ -10,23 +10,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Identity.Services.Services
 {
-    internal class AuthorizationService : IAuthorizationService
+    internal class AuthorizationService(UserManager<User> userManager,
+        ITokenService tokenService,
+        IUserService userService,
+        ILogger<AuthorizationService> logger) : IAuthorizationService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly ITokenService _tokenService;
-        private readonly IUserService _userService;
-        private readonly ILogger<AuthorizationService> _logger;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly ITokenService _tokenService = tokenService;
+        private readonly IUserService _userService = userService;
+        private readonly ILogger<AuthorizationService> _logger = logger;
 
-        public AuthorizationService(UserManager<User> userManager, ITokenService tokenService,
-            IUserService userService, ILogger<AuthorizationService> logger)
-        {
-            _userManager = userManager;
-            _tokenService = tokenService;
-            _userService = userService;
-            _logger = logger;
-        }
-
-        public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto, CancellationToken cancellationToken = default)
+        public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
+            CancellationToken cancellationToken = default)
         {
             if(loginUserDto is null)
             {
@@ -77,12 +72,13 @@ namespace Identity.Services.Services
             };
         }
 
-        public async Task<bool> RegistrationAsync(RequestRegistrationUserDto registrationUserDto, CancellationToken cancellationToken = default)
+        public async Task<bool> RegistrationAsync(RequestRegistrationUserDto registrationUserDto,
+            CancellationToken cancellationToken = default)
         {
             var userRequestDto = registrationUserDto.Adapt<RequestUserDto>();
             userRequestDto.UserName = RandomUsernameGeneratorUtility.GenerateRandomUsername();
 
-            var response = await _userService.CreateAsync(userRequestDto, cancellationToken);
+            await _userService.CreateAsync(userRequestDto, cancellationToken);
 
             _logger.LogInformation($"User registered successfully. Username: {userRequestDto.UserName}");
 

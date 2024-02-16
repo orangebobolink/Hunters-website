@@ -6,7 +6,7 @@
         {
             char[] availableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
 
-            Random random = new Random();
+            var random = new Random();
             int usernameLength = 8;
 
             char[] username = new char[usernameLength];
