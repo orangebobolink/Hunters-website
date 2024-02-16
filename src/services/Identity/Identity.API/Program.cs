@@ -20,7 +20,6 @@ builder.Services.AddPagination();
 
 var app = builder.Build();
 
-//app.UseSerilogRequestLogging();
 app.UseCors();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

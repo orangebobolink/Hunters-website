@@ -3,7 +3,6 @@ using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MR.AspNetCore.Pagination;
 
@@ -11,15 +10,9 @@ namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IUserService userService) : ControllerBase
     {
-        private IUserService _userService;
-        private readonly UserManager<User> _userManager;
-        public UserController(IUserService userService, UserManager<User> userManager)
-        {
-            _userService = userService;
-            _userManager = userManager;
-        }
+        private readonly IUserService _userService = userService;
 
         [Authorize(Roles = Role.Admin)]
         [HttpGet]

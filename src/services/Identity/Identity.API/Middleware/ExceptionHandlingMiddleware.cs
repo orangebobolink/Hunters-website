@@ -4,14 +4,9 @@ using System.Text.Json;
 
 namespace Identity.API.Middleware
 {
-    public class ExceptionHandlingMiddleware : IMiddleware
+    public class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) : IMiddleware
     {
-        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-        public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {

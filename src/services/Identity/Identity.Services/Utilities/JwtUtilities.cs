@@ -6,16 +6,11 @@ using System.Security.Claims;
 
 namespace Identity.Services.Utilities
 {
-    internal class JwtUtilities
+    internal class JwtUtilities(UserManager<User> userManager,
+        IConfiguration configuration)
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IConfiguration _configuration;
-
-        public JwtUtilities(UserManager<User> userManager, IConfiguration configuration)
-        {
-            _configuration = configuration;
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = default)
         {

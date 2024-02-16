@@ -6,14 +6,9 @@ namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthorizationController : ControllerBase
+    public class AuthorizationController(IAuthorizationService authorizationService) : ControllerBase
     {
-        private IAuthorizationService _authorizationService;
-
-        public AuthorizationController(IAuthorizationService authorizationService)
-        {
-            _authorizationService = authorizationService;
-        }
+        private readonly IAuthorizationService _authorizationService = authorizationService;
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] RequestLoginUserDto loginUserDto,
