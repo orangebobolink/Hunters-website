@@ -2,6 +2,7 @@
 using Identity.Domain.Exceptions;
 using Identity.Services.Dtos;
 using Identity.Services.Dtos.ResponseDtos;
+using Identity.Services.Extentions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Microsoft.AspNetCore.Identity;
@@ -78,32 +79,17 @@ namespace Identity.Services.Services
 
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-            if(user is null)
-            {
-                _logger.LogError("User not found. UserId: {UserId}", id);
+            NullCheckerUtilities.CheckUserExistence(user, logger, id);
 
-                throw new AccountNotFoundException(id);
-            }
+            user!.CheckUserRefreshToken(refreshToken, logger);
 
-            if(user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-            {
-                _logger.LogError("Refresh token is invalid.");
-
-                throw new InvalidTokenException();
-            }
-
-            var newAccessToken = await GenerateAccessTokenAsync(user, cancellationToken);
+            var newAccessToken = await GenerateAccessTokenAsync(user!, cancellationToken);
             var newRefreshToken = GenerateRefreshToken();
-            user.RefreshToken = newRefreshToken;
+            user!.RefreshToken = newRefreshToken;
 
             var userUpdateResult = await _userManager.UpdateAsync(user);
 
-            if(userUpdateResult.Succeeded == false)
-            {
-                _logger.LogError("Failed to update user during token refresh.");
-
-                throw new UserUpdateException();
-            }
+            userUpdateResult.CheckUserUpdateResult(_logger);
 
             return new ResponseAuthenticatedDto()
             {
@@ -116,21 +102,11 @@ namespace Identity.Services.Services
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-            if(user == null)
-            {
-                _logger.LogError("User not found. UserId: {UserId}", id);
+            NullCheckerUtilities.CheckUserExistence(user, _logger, id);
 
-                throw new AccountNotFoundException(id);
-            }
+            var userUpdateResult = await _userManager.UpdateAsync(user!);
 
-            var userUpdateResult = await _userManager.UpdateAsync(user);
-
-            if(userUpdateResult.Succeeded == false)
-            {
-                _logger.LogError("Failed to update user during token revocation.");
-
-                throw new UserUpdateException();
-            }
+            userUpdateResult.CheckUserUpdateResult(_logger);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Identity.Domain.Entities;
-using Identity.Domain.Exceptions;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
+using Identity.Services.Extentions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
@@ -23,44 +23,14 @@ namespace Identity.Services.Services
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
             CancellationToken cancellationToken = default)
         {
-            if(loginUserDto is null)
-            {
-                _logger.LogError("Invalid client request: loginUserDto is null.");
+            NullCheckerUtilities.CheckRequestLoginUser(loginUserDto, _logger);
 
-                throw new InvalidClientRequestException();
-            }
-
-            var user = await _userManager.FindByNameAsync(loginUserDto.UserName);
-
-            if(user is null)
-            {
-                _logger.LogError($"User not found for username: {loginUserDto.UserName}.");
-
-                throw new UnauthorizedAccessException();
-            }
-
-            var checkPassword = await _userManager.CheckPasswordAsync(user, loginUserDto.Password);
-
-            if(!checkPassword)
-            {
-                _logger.LogError($"Incorrect password for user: {user.UserName}.");
-
-                throw new InvalidPasswordException();
-            }
+            var user = await VerifyingTheValidityOfLoginDataAsync(loginUserDto);
 
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user, cancellationToken);
             var refreshToken = _tokenService.GenerateRefreshToken();
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
 
-            var result = await _userManager.UpdateAsync(user);
-
-            if(result.Succeeded == false)
-            {
-                _logger.LogError($"Failed to update user: {user.UserName}.");
-
-                throw new Exception();
-            }
+            await UpdateUserRefreshTokenAsync(user, refreshToken);
 
             _logger.LogInformation($"User {user.UserName} logged in successfully.");
 
@@ -83,6 +53,29 @@ namespace Identity.Services.Services
             _logger.LogInformation($"User registered successfully. Username: {userRequestDto.UserName}");
 
             return true;
+        }
+
+        private async Task UpdateUserRefreshTokenAsync(User user, string refreshToken)
+        {
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+
+            var userUpdateResult = await _userManager.UpdateAsync(user);
+
+            userUpdateResult.CheckUserUpdateResult(_logger);
+        }
+
+        private async Task<User> VerifyingTheValidityOfLoginDataAsync(RequestLoginUserDto loginUserDto)
+        {
+            var user = await _userManager.FindByNameAsync(loginUserDto.UserName);
+
+            NullCheckerUtilities.CheckUserExistence(user, _logger, loginUserDto.UserName);
+
+            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user!, loginUserDto.Password);
+
+            isPasswordCorrect.CheckIsPasswordCorrect(_logger, user!.UserName!);
+
+            return user;
         }
     }
 }

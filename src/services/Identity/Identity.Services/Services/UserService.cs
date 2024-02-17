@@ -2,7 +2,9 @@
 using Identity.Domain.Exceptions;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
+using Identity.Services.Extentions;
 using Identity.Services.Interfaces;
+using Identity.Services.Utilities;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,11 +34,11 @@ namespace Identity.Services.Services
                 throw new InvalidClientRequestException();
             }
 
-            var result = await _userManager.AddToRoleAsync(user, Role.User);
+            var addToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
 
-            if(!result.Succeeded)
+            if(!addToRoleResult.Succeeded)
             {
-                _logger.LogError("Adding user to role failed. {Errors}", result.Errors);
+                _logger.LogError("Adding user to role failed. {Errors}", addToRoleResult.Errors);
 
                 throw new Exception();
             }
@@ -56,16 +58,11 @@ namespace Identity.Services.Services
                 async id =>
                 {
                     var guidId = Guid.Parse(id);
-                    var reference = await _userManager.Users.FirstOrDefaultAsync(user => user.Id == guidId,
+                    var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Id == guidId,
                                                                                 cancellationToken);
-                    if(reference == null)
-                    {
-                        _logger.LogError("User not found during pagination. UserId: {UserId}", guidId);
+                    NullCheckerUtilities.CheckUserExistence(user, logger, id);
 
-                        throw new AccountNotFoundException(guidId);
-                    }
-
-                    return reference;
+                    return user;
                 },
                 query => query.Select(user => user.Adapt<ResponseUserDto>()));
 
@@ -78,12 +75,7 @@ namespace Identity.Services.Services
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-            if(user == null)
-            {
-                _logger.LogError("User not found. UserId: {UserId}", id);
-
-                throw new AccountNotFoundException(id);
-            }
+            NullCheckerUtilities.CheckUserExistence(user, logger, id);
 
             var userDto = user.Adapt<ResponseUserDto>();
 
@@ -98,25 +90,15 @@ namespace Identity.Services.Services
         {
             var existedUser = await _userManager.FindByIdAsync(id.ToString());
 
-            if(existedUser == null)
-            {
-                _logger.LogError("User not found during update. UserId: {UserId}", id);
+            NullCheckerUtilities.CheckUserExistence(existedUser, logger, id);
 
-                throw new AccountNotFoundException(id);
-            }
+            User updatedUser = user.Adapt(existedUser)!;
 
-            var newUser = user.Adapt(existedUser);
+            var updateResult = await _userManager.UpdateAsync(updatedUser);
 
-            var result = await _userManager.UpdateAsync(newUser);
+            updateResult.CheckUserUpdateResult(_logger);
 
-            if(!result.Succeeded)
-            {
-                _logger.LogError("User update failed. UserId: {UserId}", id);
-
-                throw new UserUpdateException();
-            }
-
-            var response = newUser.Adapt<ResponseUpdateUserDto>();
+            var response = updatedUser.Adapt<ResponseUpdateUserDto>();
 
             _logger.LogInformation("Updated user successfully. UserId: {UserId}", id);
 
