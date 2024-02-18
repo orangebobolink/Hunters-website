@@ -1,7 +1,5 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Exceptions;
-using Identity.Services.Dtos;
-using Identity.Services.Dtos.RequestDtos;
 using Microsoft.Extensions.Logging;
 
 namespace Identity.Services.Utilities
@@ -13,13 +11,6 @@ namespace Identity.Services.Utilities
         public ThrowExceptionUtilities(ILogger<T> logger)
         {
             _logger = logger;
-        }
-
-        public TokenApiDto ThrowInvalidTokenException()
-        {
-            _logger.LogError("Token api is null");
-
-            throw new InvalidTokenException();
         }
 
         public User ThrowAccountNotFoundException(string username)
@@ -34,13 +25,6 @@ namespace Identity.Services.Utilities
             _logger.LogError($"User not found during update. UserId: {id}");
 
             throw new AccountNotFoundException(id);
-        }
-
-        public RequestLoginUserDto ThrowInvalidClientRequestException()
-        {
-            _logger.LogError("Invalid client request: loginUserDto is null.");
-
-            throw new InvalidClientRequestException();
         }
     }
 }

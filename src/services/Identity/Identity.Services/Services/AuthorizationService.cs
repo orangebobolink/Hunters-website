@@ -24,10 +24,7 @@ namespace Identity.Services.Services
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
             CancellationToken cancellationToken = default)
         {
-            _ = loginUserDto
-                ?? _throwExceptionUtilities.ThrowInvalidClientRequestException();
-
-            var user = await VerifyingTheValidityOfLoginDataAsync(loginUserDto!);
+            var user = await VerifyingTheValidityOfLoginDataAsync(loginUserDto);
 
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user, cancellationToken);
             var refreshToken = _tokenService.GenerateRefreshToken();

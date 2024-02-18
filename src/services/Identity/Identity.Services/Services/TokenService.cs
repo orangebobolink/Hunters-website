@@ -43,10 +43,7 @@ namespace Identity.Services.Services
         public async Task<ResponseAuthenticatedDto> Refresh(Guid id, TokenApiDto tokenApiModel,
                                                          CancellationToken cancellationToken)
         {
-            _ = tokenApiModel
-                ?? _throwExceptionUtilities.ThrowInvalidTokenException();
-
-            string refreshToken = tokenApiModel!.RefreshToken!;
+            string refreshToken = tokenApiModel.RefreshToken!;
 
             var user = (await _userManager.FindByIdAsync(id.ToString()))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
@@ -62,11 +59,13 @@ namespace Identity.Services.Services
 
             userUpdateResult.CheckUserUpdateResult(_logger);
 
-            return new ResponseAuthenticatedDto()
+            var response = new ResponseAuthenticatedDto()
             {
                 Token = newAccessToken,
                 RefreshToken = newRefreshToken
             };
+
+            return response;
         }
 
         public async Task Revoke(Guid id, CancellationToken cancellationToken)

@@ -4,10 +4,10 @@ using Identity.Services.Dtos.RequestDtos;
 
 namespace Identity.Services.Validators
 {
-    internal class RegistrationUserDtoValidator
+    internal class RequestRegistrationUserDtoValidator
         : AbstractValidator<RequestRegistrationUserDto>
     {
-        public RegistrationUserDtoValidator()
+        public RequestRegistrationUserDtoValidator()
         {
             RuleFor(user => user.Email)
                 .NotEmpty()
