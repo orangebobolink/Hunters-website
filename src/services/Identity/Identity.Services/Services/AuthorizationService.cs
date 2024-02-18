@@ -19,13 +19,15 @@ namespace Identity.Services.Services
         private readonly ITokenService _tokenService = tokenService;
         private readonly IUserService _userService = userService;
         private readonly ILogger<AuthorizationService> _logger = logger;
+        private readonly ThrowExceptionUtilities<AuthorizationService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
             CancellationToken cancellationToken = default)
         {
-            NullCheckerUtilities.CheckRequestLoginUser(loginUserDto, _logger);
+            _ = loginUserDto
+                ?? _throwExceptionUtilities.ThrowInvalidClientRequestException();
 
-            var user = await VerifyingTheValidityOfLoginDataAsync(loginUserDto);
+            var user = await VerifyingTheValidityOfLoginDataAsync(loginUserDto!);
 
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user, cancellationToken);
             var refreshToken = _tokenService.GenerateRefreshToken();
@@ -67,9 +69,8 @@ namespace Identity.Services.Services
 
         private async Task<User> VerifyingTheValidityOfLoginDataAsync(RequestLoginUserDto loginUserDto)
         {
-            var user = await _userManager.FindByNameAsync(loginUserDto.UserName);
-
-            NullCheckerUtilities.CheckUserExistence(user, _logger, loginUserDto.UserName);
+            var user = await _userManager.FindByNameAsync(loginUserDto.UserName)
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(loginUserDto.UserName);
 
             var isPasswordCorrect = await _userManager.CheckPasswordAsync(user!, loginUserDto.Password);
 

@@ -2,7 +2,10 @@
 using Identity.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace Identity.Services.Utilities
 {
@@ -12,7 +15,27 @@ namespace Identity.Services.Utilities
         private readonly UserManager<User> _userManager = userManager;
         private readonly IConfiguration _configuration = configuration;
 
-        public async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = default)
+        public async Task<JwtSecurityToken> GetTokenOptionsAsync(User user, CancellationToken cancellationToken)
+        {
+            var issuer = _configuration["JwtSettings:Issuer"];
+            var audience = _configuration["JwtSettings:Audience"];
+            var claims = await GetClaimsAsync(user, cancellationToken);
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            int expiryTimeToken = GetExpiryTimeToken();
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(expiryTimeToken),
+                signingCredentials: signinCredentials
+            );
+
+            return tokenOptions;
+        }
+
+        public async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
         {
             var claims = new List<Claim>
             {

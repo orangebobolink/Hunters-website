@@ -1,5 +1,4 @@
 ﻿using Identity.Domain.Entities;
-using Identity.Domain.Exceptions;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Extentions;
@@ -20,28 +19,18 @@ namespace Identity.Services.Services
         private readonly UserManager<User> _userManager = userManager;
         private readonly IPaginationService _paginationService = paginationService;
         private readonly ILogger<UserService> _logger = logger;
+        private readonly ThrowExceptionUtilities<UserService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
-                                                            CancellationToken cancellationToken = default)
+                                                            CancellationToken cancellationToken)
         {
             var user = requestUserDto.Adapt<User>();
-            var identityResult = await _userManager.CreateAsync(user, requestUserDto.Password);
 
-            if(!identityResult.Succeeded)
-            {
-                _logger.LogError("User creation failed. {Errors}", identityResult.Errors);
-
-                throw new InvalidClientRequestException();
-            }
+            var userCreateResult = await _userManager.CreateAsync(user, requestUserDto.Password);
+            userCreateResult.CheckUserCreateResult(_logger);
 
             var addToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
-
-            if(!addToRoleResult.Succeeded)
-            {
-                _logger.LogError("Adding user to role failed. {Errors}", addToRoleResult.Errors);
-
-                throw new Exception();
-            }
+            addToRoleResult.CheckAddToRoleResult(_logger);
 
             var response = user.Adapt<ResponseCreateUserDto>();
 
@@ -50,32 +39,19 @@ namespace Identity.Services.Services
             return response;
         }
 
-        public async Task<KeysetPaginationResult<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<KeysetPaginationResult<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var usersPaginationResult = await _paginationService.KeysetPaginateAsync(
-                _userManager.Users,
-                b => b.Descending(x => x.UserName!).Descending(x => x.Id),
-                async id =>
-                {
-                    var guidId = Guid.Parse(id);
-                    var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Id == guidId,
-                                                                                cancellationToken);
-                    NullCheckerUtilities.CheckUserExistence(user, logger, id);
-
-                    return user;
-                },
-                query => query.Select(user => user.Adapt<ResponseUserDto>()));
+            var usersPaginationResult = await GetKeysetPaginateAsync(cancellationToken);
 
             _logger.LogInformation("Pagination was successfully completed.");
 
             return usersPaginationResult;
         }
 
-        public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-
-            NullCheckerUtilities.CheckUserExistence(user, logger, id);
+            var user = (await _userManager.FindByIdAsync(id.ToString()))
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
             var userDto = user.Adapt<ResponseUserDto>();
 
@@ -86,16 +62,14 @@ namespace Identity.Services.Services
 
         public async Task<ResponseUpdateUserDto> UpdateAsync(Guid id,
                                                             RequestUserDto user,
-                                                            CancellationToken cancellationToken = default)
+                                                            CancellationToken cancellationToken)
         {
-            var existedUser = await _userManager.FindByIdAsync(id.ToString());
-
-            NullCheckerUtilities.CheckUserExistence(existedUser, logger, id);
+            var existedUser = (await _userManager.FindByIdAsync(id.ToString()))
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
             User updatedUser = user.Adapt(existedUser)!;
 
             var updateResult = await _userManager.UpdateAsync(updatedUser);
-
             updateResult.CheckUserUpdateResult(_logger);
 
             var response = updatedUser.Adapt<ResponseUpdateUserDto>();
@@ -103,6 +77,27 @@ namespace Identity.Services.Services
             _logger.LogInformation("Updated user successfully. UserId: {UserId}", id);
 
             return response;
+        }
+
+        private async Task<KeysetPaginationResult<ResponseUserDto>> GetKeysetPaginateAsync(CancellationToken cancellationToken)
+        {
+            var usersPaginationResult = await _paginationService.KeysetPaginateAsync(
+               _userManager.Users,
+               b => b.Descending(x => x.UserName!).Descending(x => x.Id),
+               async id => await GetReferenceAsync(id, cancellationToken),
+               query => query.Select(user => user.Adapt<ResponseUserDto>()));
+
+            return usersPaginationResult;
+        }
+
+        private async Task<User> GetReferenceAsync(string id, CancellationToken cancellationToken)
+        {
+            var guidId = Guid.Parse(id);
+            var user = (await _userManager.Users.FirstOrDefaultAsync(user => user.Id == guidId,
+                                                                        cancellationToken))
+                                    ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
+
+            return user!;
         }
     }
 }
