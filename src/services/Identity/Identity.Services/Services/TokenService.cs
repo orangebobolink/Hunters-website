@@ -1,7 +1,7 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Services.Dtos;
 using Identity.Services.Dtos.ResponseDtos;
-using Identity.Services.Extentions;
+using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +23,7 @@ namespace Identity.Services.Services
 
         public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken)
         {
-            var tokenOptions = await _jwtUtilities.GetTokenOptionsAsync(user, cancellationToken);
+            JwtSecurityToken tokenOptions = await _jwtUtilities.GetTokenOptionsAsync(user, cancellationToken);
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             _logger.LogInformation("Access token was created successfully");
@@ -37,6 +37,7 @@ namespace Identity.Services.Services
             string refreshToken = GetRandomNumberGeneratorRefreshToken(randomNumber);
 
             _logger.LogInformation("Refresh token was created successfully");
+
             return refreshToken;
         }
 
@@ -45,17 +46,17 @@ namespace Identity.Services.Services
         {
             string refreshToken = tokenApiModel.RefreshToken!;
 
-            var user = (await _userManager.FindByIdAsync(id.ToString()))
+            User user = (await _userManager.FindByIdAsync(id.ToString()))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
-            user!.CheckUserRefreshToken(refreshToken, logger);
+            user!.CheckUserRefreshToken(refreshToken, _logger);
 
             var newAccessToken = await GenerateAccessTokenAsync(user!, cancellationToken);
             var newRefreshToken = GenerateRefreshToken();
 
             user!.RefreshToken = newRefreshToken;
 
-            var userUpdateResult = await _userManager.UpdateAsync(user);
+            IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
 
             userUpdateResult.CheckUserUpdateResult(_logger);
 
@@ -87,7 +88,7 @@ namespace Identity.Services.Services
 
                 _logger.LogInformation("Refresh token was created successfully");
 
-                return Convert.ToBase64String(randomNumber);
+                return refreshToken;
             }
         }
     }

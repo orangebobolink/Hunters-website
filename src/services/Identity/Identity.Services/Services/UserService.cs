@@ -1,7 +1,7 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
-using Identity.Services.Extentions;
+using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;

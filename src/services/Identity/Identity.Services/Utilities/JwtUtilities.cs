@@ -35,7 +35,7 @@ namespace Identity.Services.Utilities
             return tokenOptions;
         }
 
-        public async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
+        private async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
         {
             var claims = new List<Claim>
             {
@@ -50,7 +50,7 @@ namespace Identity.Services.Utilities
             return claims;
         }
 
-        public int GetExpiryTimeToken()
+        private int GetExpiryTimeToken()
         {
             string expiryTimeTokenString = _configuration["JwtSettings:ExpiresInMinute"]!;
 

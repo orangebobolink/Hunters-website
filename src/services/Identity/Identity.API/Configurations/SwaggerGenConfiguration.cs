@@ -19,9 +19,9 @@ namespace Identity.API.Configurations
                         Version = congiguration["SwaggerGen:Version"],
                         Contact = new OpenApiContact
                         {
-                            Name = "Nikita Tishkov",
-                            Email = "nikitatishkou@gmail.com",
-                            Url = new Uri("https://github.com/orangebobolink"),
+                            Name = congiguration["SwaggerGen:Contacts:Name"],
+                            Email = congiguration["SwaggerGen:Contacts:Email"],
+                            Url = new Uri(congiguration["SwaggerGen:Contacts:Url"]!),
                         },
                     }
                 );

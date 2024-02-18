@@ -2,9 +2,9 @@
 using Identity.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace Identity.Services.Extentions
+namespace Identity.Services.Extensions
 {
-    static internal class UserValidationExtensions
+    internal static class UserValidationExtensions
     {
 
         public static void CheckUserRefreshToken(this User user, string refreshToken, ILogger logger)

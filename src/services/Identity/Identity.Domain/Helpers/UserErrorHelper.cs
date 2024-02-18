@@ -8,7 +8,7 @@
         public const string InvalidEmailError = "Email is invalid.";
         public const string EmptyPasswordError = "Password is required.";
         public const string InvalidPasswordError = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.";
-        public const string InvalidMinimumLenghtPasswordError = "Password must be at least 8 characters long.";
+        public const string InvalidMinimumLengthPasswordError = "Password must be at least 8 characters long.";
         public const string EmptyPhoneError = "Phone number is required.";
         public const string InvalidPhoneError = "Invalid phone number format.";
     }

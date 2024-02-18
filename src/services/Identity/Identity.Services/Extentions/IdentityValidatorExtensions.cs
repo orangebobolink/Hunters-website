@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace Identity.Services.Extentions
+namespace Identity.Services.Extensions
 {
-    static internal class IdentityValidatorExtensions
+    internal static class IdentityValidatorExtensions
     {
         public static void CheckUserUpdateResult(this IdentityResult userUpdateResult, ILogger logger)
         {

@@ -26,7 +26,7 @@ namespace Identity.Services.Validators
                 .NotEmpty()
                 .WithMessage(UserErrorHelper.EmptyPasswordError)
                 .MinimumLength(8)
-                .WithMessage(UserErrorHelper.InvalidMinimumLenghtPasswordError)
+                .WithMessage(UserErrorHelper.InvalidMinimumLengthPasswordError)
                 .Matches(UserMatchHelper.PasswordMatch)
                 .WithMessage(UserErrorHelper.InvalidPasswordError);
 

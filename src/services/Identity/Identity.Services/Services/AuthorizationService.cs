@@ -1,7 +1,7 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
-using Identity.Services.Extentions;
+using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
@@ -33,12 +33,14 @@ namespace Identity.Services.Services
 
             _logger.LogInformation($"User {user.UserName} logged in successfully.");
 
-            return new ResponseAuthenticatedDto
+            var response = new ResponseAuthenticatedDto
             {
                 Token = accessToken,
                 RefreshToken = refreshToken,
                 User = user.Adapt<ResponseUserDto>(),
             };
+
+            return response;
         }
 
         public async Task<bool> RegistrationAsync(RequestRegistrationUserDto registrationUserDto,
