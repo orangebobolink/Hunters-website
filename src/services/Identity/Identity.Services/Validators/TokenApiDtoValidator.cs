@@ -3,7 +3,7 @@ using Identity.Services.Dtos;
 
 namespace Identity.Services.Validators
 {
-    internal class TokenApiDtoValidator
+    public class TokenApiDtoValidator
          : AbstractValidator<TokenApiDto>
     {
         public TokenApiDtoValidator()

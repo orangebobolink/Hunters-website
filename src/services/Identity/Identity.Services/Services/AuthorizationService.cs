@@ -22,7 +22,7 @@ namespace Identity.Services.Services
         private readonly ThrowExceptionUtilities<AuthorizationService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken)
         {
             var user = await VerifyingTheValidityOfLoginDataAsync(loginUserDto);
 
@@ -42,7 +42,7 @@ namespace Identity.Services.Services
         }
 
         public async Task<bool> RegistrationAsync(RequestRegistrationUserDto registrationUserDto,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken)
         {
             var userRequestDto = registrationUserDto.Adapt<RequestUserDto>();
             userRequestDto.UserName = RandomUsernameGeneratorUtility.GenerateRandomUsername();

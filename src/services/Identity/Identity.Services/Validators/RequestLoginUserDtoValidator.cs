@@ -4,7 +4,7 @@ using Identity.Services.Dtos.RequestDtos;
 
 namespace Identity.Services.Validators
 {
-    internal class RequestLoginUserDtoValidator
+    public class RequestLoginUserDtoValidator
          : AbstractValidator<RequestLoginUserDto>
     {
         public RequestLoginUserDtoValidator()
