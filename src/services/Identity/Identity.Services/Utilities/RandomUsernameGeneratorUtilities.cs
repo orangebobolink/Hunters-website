@@ -1,22 +1,16 @@
-﻿namespace Identity.Services.Utilities
+﻿using Bogus;
+
+namespace Identity.Services.Utilities
 {
     internal static class RandomUsernameGeneratorUtility
     {
         public static string GenerateRandomUsername()
         {
-            char[] availableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
+            var faker = new Faker<string>().RuleFor(str => str,
+                                                faker => faker.Person.UserName)
+                                        .Generate();
 
-            var random = new Random();
-            int usernameLength = 8;
-
-            char[] username = new char[usernameLength];
-
-            for(int i = 0; i < usernameLength; i++)
-            {
-                username[i] = availableChars[random.Next(availableChars.Length)];
-            }
-
-            return new string(username);
+            return faker!;
         }
     }
 }

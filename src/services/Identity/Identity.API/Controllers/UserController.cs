@@ -19,7 +19,8 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsersAsync(
+            CancellationToken cancellationToken = default)
         {
             var users = await _userService.GetAllAsync(cancellationToken);
 
@@ -31,7 +32,8 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseUserDto>> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<ResponseUserDto>> GetUserByIdAsync(Guid id,
+            CancellationToken cancellationToken = default)
         {
             var user = await _userService.GetUserByIdAsync(id, cancellationToken);
 

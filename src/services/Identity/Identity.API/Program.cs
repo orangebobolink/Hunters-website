@@ -10,6 +10,7 @@ builder.Services.AddFluentValidationConfiguration();
 builder.Services.AddServicesConfiguration();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddRoutingConfiguration();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);

@@ -1,5 +1,6 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,10 +11,27 @@ using System.Text;
 namespace Identity.Services.Utilities
 {
     internal class JwtUtilities(UserManager<User> userManager,
+        IHttpContextAccessor httpContextAccessor,
         IConfiguration configuration)
     {
         private readonly UserManager<User> _userManager = userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly IConfiguration _configuration = configuration;
+
+        private void SetRefreshTokenCookie(string newRefreshToken)
+        {
+            var refreshTokenCookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"])),
+                Path = "/",
+            };
+
+            _httpContextAccessor.HttpContext?.Response
+                .Cookies.Append("RefreshToken", newRefreshToken, refreshTokenCookieOptions);
+        }
 
         public async Task<JwtSecurityToken> GetTokenOptionsAsync(User user, CancellationToken cancellationToken)
         {

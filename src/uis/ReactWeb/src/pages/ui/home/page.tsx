@@ -1,12 +1,12 @@
 import React from 'react';
-import {Button} from '@/shared/ui/button';
+import {Head} from '@/widgets/navbar/head.tsx';
+import {Outlet} from 'react-router-dom';
 
 export const HomePage: React.FC = () => {
     return (
-        <div>
-            <Button >
-                Let's go
-            </Button>
+        <div className="flex flex-col">
+            <Head/>
+            <Outlet/>
         </div>
     )
 }

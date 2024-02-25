@@ -11,10 +11,6 @@ namespace Identity.Services.Validators
             RuleFor(user => user.AccessToken)
                .NotEmpty()
                .WithMessage("Access token is empty");
-
-            RuleFor(user => user.RefreshToken)
-               .NotEmpty()
-               .WithMessage("Refresh token is empty");
         }
     }
 }
