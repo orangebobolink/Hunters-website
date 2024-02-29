@@ -11,7 +11,6 @@ namespace Identity.API.Controllers
     {
         private readonly ITokenService _tokenService = tokenService;
 
-        [Authorize]
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshAsync([FromQuery] Guid id,
                                                     [FromBody] TokenApiDto tokenApiDto,

@@ -1,4 +1,4 @@
-export const Routes = {
+export const RoutesMap = {
     home: '/',
     singIn: '/login',
     singUp: '/registration',

@@ -2,6 +2,7 @@ import type { BaseQueryApi, BaseQueryFn } from '@reduxjs/toolkit/dist/query/base
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {LocaleStorageUtils} from '@/shared/lib/utils';
 import {apiMap} from '@/shared/const';
+import {refreshAuthThunk} from '@/shared/model/store/slices/auth/refreshAuthThunk.ts';
 
 
 const customBaseQuery: BaseQueryFn = async (args, api: BaseQueryApi, extraOptions) => {

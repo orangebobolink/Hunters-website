@@ -12,13 +12,40 @@ import logo from '@/assets/logo.png';
 import {useForm} from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import {LoginRequest} from '@/shared/model/store/queries/typing/requests/LoginRequest.ts';
+import {useCallback, useEffect, useMemo} from 'react';
+import {useActions} from '@/shared/lib/hooks/useActions.ts';
+import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
+import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
+import {Notice} from '@/shared/const';
+import {toastError, toastSuccess} from '@/shared/lib/utils/ToastUtils.ts';
+import {useNavigate} from 'react-router-dom';
 
 const formSchema = z.object({
     username: z.string().min(2).max(50),
     password: z.string(),
 });
 
-export const SignInForm = () => {
+export const LoginForm = () => {
+    const { isAuth, error } = useAppSelector(selectAuth);
+    const { login, resetStatuses } = useActions();
+    const controller = useMemo(() => new AbortController(), []);
+    const navigate = useNavigate();
+    //const switchForm = useSwitchForm();
+
+    useEffect(() => {
+        if (isAuth) {
+            toastSuccess(Notice.AUTH_SUCCESSFUL);
+            navigate("/");
+        } else if (error) toastError(error);
+    }, [error, isAuth]);
+
+    useEffect(() => {
+        resetStatuses();
+        return () => controller.abort();
+    }, [resetStatuses, controller]);
+
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -27,11 +54,19 @@ export const SignInForm = () => {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
-    }
+    const onSubmit = useCallback(
+        (values:  z.infer<typeof formSchema>) => {
+            const request:LoginRequest = {
+                username: values.username,
+                password: values.password
+            }
+
+            login({ controller, ...request });
+        },
+        [controller, login],
+    );
+
+    if (isAuth) return null;
 
     return (
         <div className="flex flex-col items-center border-[1px] border-gray-600/30 p-5 w-1/4

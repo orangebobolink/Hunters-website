@@ -6,7 +6,6 @@ namespace Identity.Services.Extensions
 {
     internal static class UserValidationExtensions
     {
-
         public static void CheckUserRefreshToken(this User user, string refreshToken, ILogger logger)
         {
             var isCorrect = user.RefreshToken != refreshToken;

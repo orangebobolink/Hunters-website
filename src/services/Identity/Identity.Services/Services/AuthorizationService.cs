@@ -5,7 +5,9 @@ using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Identity.Services.Services
@@ -13,13 +15,17 @@ namespace Identity.Services.Services
     internal class AuthorizationService(UserManager<User> userManager,
         ITokenService tokenService,
         IUserService userService,
+        IHttpContextAccessor httpContextAccessor,
+        IConfiguration configuration,
         ILogger<AuthorizationService> logger) : IAuthorizationService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly ITokenService _tokenService = tokenService;
         private readonly IUserService _userService = userService;
         private readonly ILogger<AuthorizationService> _logger = logger;
+        private readonly IConfiguration _configuration = configuration;
         private readonly ThrowExceptionUtilities<AuthorizationService> _throwExceptionUtilities = new(logger);
+        private readonly JwtUtilities _jwtUtilities = new(userManager, httpContextAccessor, configuration);
 
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
             CancellationToken cancellationToken)
@@ -31,12 +37,13 @@ namespace Identity.Services.Services
 
             await UpdateUserRefreshTokenAsync(user, refreshToken);
 
+            //_jwtUtilities.AddRefreshTokenCookie(refreshToken);
+
             _logger.LogInformation($"User {user.UserName} logged in successfully.");
 
             var response = new ResponseAuthenticatedDto
             {
                 Token = accessToken,
-                RefreshToken = refreshToken,
                 User = user.Adapt<ResponseUserDto>(),
             };
 
@@ -59,11 +66,12 @@ namespace Identity.Services.Services
         private async Task UpdateUserRefreshTokenAsync(User user, string refreshToken)
         {
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
 
             var userUpdateResult = await _userManager.UpdateAsync(user);
 
             userUpdateResult.CheckUserUpdateResult(_logger);
+
+            _jwtUtilities.AddRefreshTokenCookie(refreshToken);
         }
 
         private async Task<User> VerifyingTheValidityOfLoginDataAsync(RequestLoginUserDto loginUserDto)

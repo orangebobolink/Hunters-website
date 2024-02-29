@@ -4,6 +4,7 @@ using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,10 +15,13 @@ namespace Identity.Services.Services
 {
     public class TokenService(UserManager<User> userManager,
     IConfiguration configuration,
-    ILogger<TokenService> logger) : ITokenService
+    ILogger<TokenService> logger,
+    IHttpContextAccessor httpContextAccessor) : ITokenService
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly JwtUtilities _jwtUtilities = new(userManager, configuration);
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly IConfiguration _configuration = configuration;
+        private readonly JwtUtilities _jwtUtilities = new(userManager, httpContextAccessor, configuration);
         private readonly ILogger<TokenService> _logger = logger;
         private readonly ThrowExceptionUtilities<TokenService> _throwExceptionUtilities = new(logger);
 
@@ -44,10 +48,11 @@ namespace Identity.Services.Services
         public async Task<ResponseAuthenticatedDto> Refresh(Guid id, TokenApiDto tokenApiModel,
                                                          CancellationToken cancellationToken)
         {
-            string refreshToken = tokenApiModel.RefreshToken!;
+            string refreshToken = _jwtUtilities.ReadRefreshTokenCookie();
 
             User user = (await _userManager.FindByIdAsync(id.ToString()))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
+
 
             user!.CheckUserRefreshToken(refreshToken, _logger);
 
@@ -55,15 +60,18 @@ namespace Identity.Services.Services
             var newRefreshToken = GenerateRefreshToken();
 
             user!.RefreshToken = newRefreshToken;
+            user!.RefreshTokenExpiryTime = DateTime.Now
+                                    .AddDays(int.Parse(_configuration["JWT:RefreshToken:ValidityInDays"]!));
 
             IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
 
             userUpdateResult.CheckUserUpdateResult(_logger);
 
+            _jwtUtilities.AddRefreshTokenCookie(newRefreshToken);
+
             var response = new ResponseAuthenticatedDto()
             {
                 Token = newAccessToken,
-                RefreshToken = newRefreshToken
             };
 
             return response;
@@ -74,9 +82,13 @@ namespace Identity.Services.Services
             var user = (await _userManager.FindByIdAsync(id.ToString()))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
+            user.RefreshToken = string.Empty;
+
             var userUpdateResult = await _userManager.UpdateAsync(user!);
 
             userUpdateResult.CheckUserUpdateResult(_logger);
+
+            _jwtUtilities.DeleteRefreshTokenCookie();
         }
 
         private string GetRandomNumberGeneratorRefreshToken(byte[] randomNumber)

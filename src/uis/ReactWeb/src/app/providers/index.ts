@@ -1,1 +1,0 @@
-import {ThemeProvider } from "./theme-provider.tsx"

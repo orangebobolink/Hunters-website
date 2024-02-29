@@ -1,8 +1,8 @@
 import {BackendEndpoints} from '@/shared/const/BackendEndpoints.ts';
 
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND || 'http://localhost:8000';
-const BASE_API_URL = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:8000/api';
+const BASE_URL = 'http://localhost:5001';
+const BASE_API_URL = 'http://localhost:5001/api';
 
 export const apiMap = {
     BASE_URL,

@@ -15,22 +15,38 @@ namespace Identity.Services.Utilities
         IConfiguration configuration)
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly HttpContext _httpContext = httpContextAccessor.HttpContext!;
         private readonly IConfiguration _configuration = configuration;
-
-        private void SetRefreshTokenCookie(string newRefreshToken)
+        private readonly string _cookieRefreshTokenKey = configuration["JwtSettings:RefreshToken:CookieName"]!;
+        public void AddRefreshTokenCookie(string newRefreshToken)
         {
+            var expiresInDay = int.Parse(_configuration["JwtSettings:RefreshToken:ExpiresInDay"]!);
+
             var refreshTokenCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(int.Parse(_configuration["JWT:RefreshTokenValidityInDays"])),
+                Expires = DateTime.UtcNow.AddDays(expiresInDay),
                 Path = "/",
             };
 
-            _httpContextAccessor.HttpContext?.Response
-                .Cookies.Append("RefreshToken", newRefreshToken, refreshTokenCookieOptions);
+            _httpContext.Response
+                .Cookies.Append(_cookieRefreshTokenKey, newRefreshToken, refreshTokenCookieOptions);
+        }
+
+        public string ReadRefreshTokenCookie()
+        {
+            var data = _httpContext.Request
+                                .Cookies[_cookieRefreshTokenKey]!;
+
+            return data;
+        }
+
+        public void DeleteRefreshTokenCookie()
+        {
+            _httpContext.Response
+                    .Cookies.Delete(_cookieRefreshTokenKey);
         }
 
         public async Task<JwtSecurityToken> GetTokenOptionsAsync(User user, CancellationToken cancellationToken)
