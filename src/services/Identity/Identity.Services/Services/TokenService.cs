@@ -1,10 +1,8 @@
 ﻿using Identity.Domain.Entities;
-using Identity.Services.Dtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,20 +12,21 @@ using System.Security.Cryptography;
 namespace Identity.Services.Services
 {
     public class TokenService(UserManager<User> userManager,
-    IConfiguration configuration,
-    ILogger<TokenService> logger,
-    IHttpContextAccessor httpContextAccessor) : ITokenService
+        IConfiguration configuration,
+        ILogger<TokenService> logger,
+        IAccessTokenUtilities accessTokenUtilities,
+        IRefreshTokenCookie refreshTokenCookieUtilities) : ITokenService
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly IConfiguration _configuration = configuration;
-        private readonly JwtUtilities _jwtUtilities = new(userManager, httpContextAccessor, configuration);
+        private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
+        private readonly IAccessTokenUtilities _accessTokenUtilities = accessTokenUtilities;
         private readonly ILogger<TokenService> _logger = logger;
         private readonly ThrowExceptionUtilities<TokenService> _throwExceptionUtilities = new(logger);
 
         public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken)
         {
-            JwtSecurityToken tokenOptions = await _jwtUtilities.GetTokenOptionsAsync(user, cancellationToken);
+            JwtSecurityToken tokenOptions = await _accessTokenUtilities.GetTokenOptionsAsync(user, cancellationToken);
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             _logger.LogInformation("Access token was created successfully");
@@ -45,29 +44,29 @@ namespace Identity.Services.Services
             return refreshToken;
         }
 
-        public async Task<ResponseAuthenticatedDto> Refresh(Guid id, TokenApiDto tokenApiModel,
-                                                         CancellationToken cancellationToken)
+        public async Task<ResponseAuthenticatedDto> RefreshAsync(CancellationToken cancellationToken)
         {
-            string refreshToken = _jwtUtilities.ReadRefreshTokenCookie();
+            var username = _accessTokenUtilities.GetNameFromAccessToken();
 
-            User user = (await _userManager.FindByIdAsync(id.ToString()))
-                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
+            string refreshToken = _refreshTokenCookieUtilities.ReadRefreshTokenCookie();
 
+            User user = (await _userManager.FindByNameAsync(username))
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(username);
 
-            user!.CheckUserRefreshToken(refreshToken, _logger);
+            user.CheckUserRefreshToken(refreshToken, _logger);
 
             var newAccessToken = await GenerateAccessTokenAsync(user!, cancellationToken);
             var newRefreshToken = GenerateRefreshToken();
 
-            user!.RefreshToken = newRefreshToken;
-            user!.RefreshTokenExpiryTime = DateTime.Now
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now
                                     .AddDays(int.Parse(_configuration["JWT:RefreshToken:ValidityInDays"]!));
 
             IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
 
             userUpdateResult.CheckUserUpdateResult(_logger);
 
-            _jwtUtilities.AddRefreshTokenCookie(newRefreshToken);
+            _refreshTokenCookieUtilities.AddRefreshTokenCookie(newRefreshToken);
 
             var response = new ResponseAuthenticatedDto()
             {
@@ -77,10 +76,12 @@ namespace Identity.Services.Services
             return response;
         }
 
-        public async Task Revoke(Guid id, CancellationToken cancellationToken)
+        public async Task RevokeAsync(CancellationToken cancellationToken)
         {
-            var user = (await _userManager.FindByIdAsync(id.ToString()))
-                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
+            var username = _accessTokenUtilities.GetNameFromAccessToken();
+
+            var user = (await _userManager.FindByNameAsync(username))
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(username);
 
             user.RefreshToken = string.Empty;
 
@@ -88,7 +89,7 @@ namespace Identity.Services.Services
 
             userUpdateResult.CheckUserUpdateResult(_logger);
 
-            _jwtUtilities.DeleteRefreshTokenCookie();
+            _refreshTokenCookieUtilities.DeleteRefreshTokenCookie();
         }
 
         private string GetRandomNumberGeneratorRefreshToken(byte[] randomNumber)

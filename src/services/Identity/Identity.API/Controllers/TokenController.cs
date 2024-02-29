@@ -12,21 +12,18 @@ namespace Identity.API.Controllers
         private readonly ITokenService _tokenService = tokenService;
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshAsync([FromQuery] Guid id,
-                                                    [FromBody] TokenApiDto tokenApiDto,
-                                                    CancellationToken cancellationToken = default)
+        public async Task<IActionResult> RefreshAsync(CancellationToken cancellationToken = default)
         {
-            var response = await _tokenService.Refresh(id, tokenApiDto, cancellationToken);
+            var response = await _tokenService.RefreshAsync(cancellationToken);
 
             return Ok(response);
         }
 
         [Authorize]
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Revoke([FromQuery] Guid id,
-                                                CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Revoke(CancellationToken cancellationToken = default)
         {
-            await _tokenService.Revoke(id, cancellationToken);
+            await _tokenService.RevokeAsync(cancellationToken);
 
             return Ok();
         }

@@ -1,5 +1,6 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Exceptions;
+using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -11,13 +12,17 @@ using System.Text;
 namespace Identity.Services.Utilities
 {
     internal class JwtUtilities(UserManager<User> userManager,
-        IHttpContextAccessor httpContextAccessor,
-        IConfiguration configuration)
+        ICookieUtilities cookieUtilities,
+        IConfiguration configuration,
+        IHttpContextAccessor httpContextAccessor)
+        : IRefreshTokenCookie, IAccessTokenUtilities
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly HttpContext _httpContext = httpContextAccessor.HttpContext!;
+        private readonly ICookieUtilities _cookieUtilities = cookieUtilities;
         private readonly IConfiguration _configuration = configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly string _cookieRefreshTokenKey = configuration["JwtSettings:RefreshToken:CookieName"]!;
+
         public void AddRefreshTokenCookie(string newRefreshToken)
         {
             var expiresInDay = int.Parse(_configuration["JwtSettings:RefreshToken:ExpiresInDay"]!);
@@ -31,29 +36,26 @@ namespace Identity.Services.Utilities
                 Path = "/",
             };
 
-            _httpContext.Response
-                .Cookies.Append(_cookieRefreshTokenKey, newRefreshToken, refreshTokenCookieOptions);
+            _cookieUtilities.AddToCookie(_cookieRefreshTokenKey, newRefreshToken, refreshTokenCookieOptions);
         }
 
         public string ReadRefreshTokenCookie()
         {
-            var data = _httpContext.Request
-                                .Cookies[_cookieRefreshTokenKey]!;
+            var data = _cookieUtilities.ReadFromCookie(_cookieRefreshTokenKey);
 
-            return data;
+            return data!;
         }
 
         public void DeleteRefreshTokenCookie()
         {
-            _httpContext.Response
-                    .Cookies.Delete(_cookieRefreshTokenKey);
+            _cookieUtilities.RemoveFromCookie(_cookieRefreshTokenKey);
         }
 
         public async Task<JwtSecurityToken> GetTokenOptionsAsync(User user, CancellationToken cancellationToken)
         {
             var issuer = _configuration["JwtSettings:Issuer"];
             var audience = _configuration["JwtSettings:Audience"];
-            var claims = await GetClaimsAsync(user, cancellationToken);
+            var claims = await GetClaimsAsync(user);
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             int expiryTimeToken = GetExpiryTimeToken();
@@ -69,7 +71,7 @@ namespace Identity.Services.Utilities
             return tokenOptions;
         }
 
-        private async Task<List<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
+        private async Task<List<Claim>> GetClaimsAsync(User user)
         {
             var claims = new List<Claim>
             {
@@ -94,6 +96,60 @@ namespace Identity.Services.Utilities
             }
 
             return expiryTimeTokenInt;
+        }
+
+        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ClockSkew = TimeSpan.Zero
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+
+            JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
+
+            var jwtTokenIsNull = jwtSecurityToken is null;
+            var jwtTokenIsSecurityValid = !jwtSecurityToken!.Header.Alg
+                .Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
+
+            if(jwtTokenIsNull || jwtTokenIsSecurityValid)
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            return principal;
+        }
+
+        public string ReadAccessTokeFromHeaders()
+        {
+            string accessToken = _httpContextAccessor.HttpContext!.Request.Headers.Authorization!;
+
+            if(string.IsNullOrEmpty(accessToken))
+            {
+                throw new Exception();
+            }
+
+            return accessToken;
+        }
+
+        public string GetNameFromAccessToken()
+        {
+            string accessToken = ReadAccessTokeFromHeaders();
+
+            var principals = GetPrincipalFromExpiredToken(accessToken);
+
+            var username = principals.Identity?.Name;
+
+            return username!;
         }
     }
 }

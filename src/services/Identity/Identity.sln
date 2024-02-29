@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.API", "Identity.API\Identity.API.csproj", "{C2CF109D-5E53-458B-82DC-443CFDB66E94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "Identity.API\Identity.API.csproj", "{C2CF109D-5E53-458B-82DC-443CFDB66E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Domain", "Identity.Domain\Identity.Domain.csproj", "{34DE2125-E906-49CF-98BE-B5CCA40D36B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Domain", "Identity.Domain\Identity.Domain.csproj", "{34DE2125-E906-49CF-98BE-B5CCA40D36B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Infrastructure", "Identity.Infrastructure\Identity.Infrastructure.csproj", "{E34C780A-2103-4A54-A57F-733DD9943A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Infrastructure", "Identity.Infrastructure\Identity.Infrastructure.csproj", "{E34C780A-2103-4A54-A57F-733DD9943A15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Services", "Identity.Services\Identity.Services.csproj", "{4A2B2265-128D-4A63-AD8A-F3312825D0F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Services", "Identity.Services\Identity.Services.csproj", "{4A2B2265-128D-4A63-AD8A-F3312825D0F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{AF7F1B70-4DD8-43E9-B60B-D8FF4E6F30DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGateway", "..\..\gateways\OcelotApiGateway\OcelotApiGateway.csproj", "{DB2804B6-C4C1-4149-A6D3-2AE7F2D35495}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{4A2B2265-128D-4A63-AD8A-F3312825D0F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A2B2265-128D-4A63-AD8A-F3312825D0F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A2B2265-128D-4A63-AD8A-F3312825D0F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB2804B6-C4C1-4149-A6D3-2AE7F2D35495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB2804B6-C4C1-4149-A6D3-2AE7F2D35495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB2804B6-C4C1-4149-A6D3-2AE7F2D35495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB2804B6-C4C1-4149-A6D3-2AE7F2D35495}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
