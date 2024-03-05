@@ -36,7 +36,7 @@ export const LoginForm = () => {
     useEffect(() => {
         if (isAuth) {
             toastSuccess(Notice.AUTH_SUCCESSFUL);
-            navigate("/");
+
         } else if (error) toastError(error);
     }, [error, isAuth]);
 
@@ -62,6 +62,7 @@ export const LoginForm = () => {
             }
 
             login({ controller, ...request });
+            navigate("/");
         },
         [controller, login],
     );

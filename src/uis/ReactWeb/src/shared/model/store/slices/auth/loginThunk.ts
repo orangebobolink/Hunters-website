@@ -7,9 +7,10 @@ import type { LoginRequest } from '@/shared/model/store/queries/typing/requests/
 
 export const loginThunk = createAsyncThunk(
     'identity/authorization/login',
-    async ({ controller, ...data }: LoginRequest & { controller: AbortController }, { rejectWithValue }) => {
+    async ({ ...data }: LoginRequest & { controller: AbortController }, { rejectWithValue }) => {
         try {
-            const response = await AuthService.login(data, controller);
+            const response = await AuthService.login(data);
+
             return response.data;
         } catch (error: any) {
             console.log(error);
