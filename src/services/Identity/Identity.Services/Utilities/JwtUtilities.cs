@@ -15,7 +15,7 @@ namespace Identity.Services.Utilities
         ICookieUtilities cookieUtilities,
         IConfiguration configuration,
         IHttpContextAccessor httpContextAccessor)
-        : IRefreshTokenCookie, IAccessTokenUtilities
+        : IRefreshTokenCookie, IAccessTokenUtilities, IRefreshTokenUtilities
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly ICookieUtilities _cookieUtilities = cookieUtilities;
@@ -112,8 +112,10 @@ namespace Identity.Services.Utilities
                 ClockSkew = TimeSpan.Zero
             };
 
+            var accessToken = token.Split(" ")[1];
+
             var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
 
             JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
 
@@ -150,6 +152,13 @@ namespace Identity.Services.Utilities
             var username = principals.Identity?.Name;
 
             return username!;
+        }
+
+        public void UpdateRefreshTokenForUser(User user, string newRefreshToken)
+        {
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now
+                                    .AddDays(int.Parse(_configuration["JwtSettings:RefreshToken:ExpiresInDay"]!));
         }
     }
 }

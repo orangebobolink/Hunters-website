@@ -6,7 +6,6 @@ using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Identity.Services.Services
@@ -15,6 +14,7 @@ namespace Identity.Services.Services
         ITokenService tokenService,
         IUserService userService,
         IRefreshTokenCookie refreshTokenCookieUtilities,
+        IRefreshTokenUtilities refreshTokenUtilities,
         ILogger<AuthorizationService> logger) : IAuthorizationService
     {
         private readonly UserManager<User> _userManager = userManager;
@@ -23,6 +23,7 @@ namespace Identity.Services.Services
         private readonly ILogger<AuthorizationService> _logger = logger;
         private readonly ThrowExceptionUtilities<AuthorizationService> _throwExceptionUtilities = new(logger);
         private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
+        private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
 
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
             CancellationToken cancellationToken)
@@ -38,7 +39,7 @@ namespace Identity.Services.Services
 
             var response = new ResponseAuthenticatedDto
             {
-                Token = accessToken,
+                AccessToken = accessToken,
                 User = user.Adapt<ResponseUserDto>(),
             };
 
@@ -60,7 +61,7 @@ namespace Identity.Services.Services
 
         private async Task UpdateUserRefreshTokenAsync(User user, string refreshToken)
         {
-            user.RefreshToken = refreshToken;
+            _refreshTokenUtilities.UpdateRefreshTokenForUser(user, refreshToken);
 
             var userUpdateResult = await _userManager.UpdateAsync(user);
 

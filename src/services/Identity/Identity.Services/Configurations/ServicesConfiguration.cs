@@ -14,6 +14,7 @@ namespace Identity.Services.Configurations
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IRefreshTokenCookie, JwtUtilities>();
             services.AddScoped<IAccessTokenUtilities, JwtUtilities>();
+            services.AddScoped<IRefreshTokenUtilities, JwtUtilities>();
             services.AddScoped<ICookieUtilities, CookieUtilities>();
         }
     }

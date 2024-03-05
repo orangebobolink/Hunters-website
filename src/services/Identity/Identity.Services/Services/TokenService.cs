@@ -15,12 +15,14 @@ namespace Identity.Services.Services
         IConfiguration configuration,
         ILogger<TokenService> logger,
         IAccessTokenUtilities accessTokenUtilities,
+        IRefreshTokenUtilities refreshTokenUtilities,
         IRefreshTokenCookie refreshTokenCookieUtilities) : ITokenService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly IConfiguration _configuration = configuration;
         private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
         private readonly IAccessTokenUtilities _accessTokenUtilities = accessTokenUtilities;
+        private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
         private readonly ILogger<TokenService> _logger = logger;
         private readonly ThrowExceptionUtilities<TokenService> _throwExceptionUtilities = new(logger);
 
@@ -58,9 +60,7 @@ namespace Identity.Services.Services
             var newAccessToken = await GenerateAccessTokenAsync(user!, cancellationToken);
             var newRefreshToken = GenerateRefreshToken();
 
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now
-                                    .AddDays(int.Parse(_configuration["JWT:RefreshToken:ValidityInDays"]!));
+            _refreshTokenUtilities.UpdateRefreshTokenForUser(user, newRefreshToken);
 
             IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
 
@@ -70,7 +70,7 @@ namespace Identity.Services.Services
 
             var response = new ResponseAuthenticatedDto()
             {
-                Token = newAccessToken,
+                AccessToken = newAccessToken,
             };
 
             return response;

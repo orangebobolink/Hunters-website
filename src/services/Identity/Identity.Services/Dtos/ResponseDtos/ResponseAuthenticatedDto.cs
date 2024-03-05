@@ -2,7 +2,7 @@
 {
     public class ResponseAuthenticatedDto
     {
-        public string? Token { get; set; }
+        public string? AccessToken { get; set; }
         public ResponseUserDto? User { get; set; }
     }
 }
