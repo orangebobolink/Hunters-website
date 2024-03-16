@@ -2,8 +2,9 @@
 {
     public class ResponseAuthenticatedDto
     {
-        public string? Token { get; set; }
-        public string? RefreshToken { get; set; }
-        public ResponseUserDto? User { get; set; }
+        public Guid Id { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public List<string> Roles { get; set; } = new List<string>();
+        public string? AccessToken { get; set; }
     }
 }

@@ -9,9 +9,9 @@ namespace Identity.Services.Configurations
     {
         public static void AddFluentValidationConfiguration(this IServiceCollection services)
         {
+            services.AddValidatorsFromAssembly(typeof(RequestRegistrationUserDtoValidator).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
-            services.AddValidatorsFromAssembly(typeof(RequestUserDtoValidator).Assembly);
         }
     }
 }

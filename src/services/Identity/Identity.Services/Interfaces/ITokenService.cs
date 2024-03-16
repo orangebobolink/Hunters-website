@@ -8,7 +8,7 @@ namespace Identity.Services.Interfaces
     {
         public Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken);
         string GenerateRefreshToken();
-        Task<ResponseAuthenticatedDto> Refresh(Guid id, TokenApiDto tokenApiModel, CancellationToken cancellationToken);
-        Task Revoke(Guid id, CancellationToken cancellationToken);
+        Task<ResponseAuthenticatedDto> RefreshAsync(CancellationToken cancellationToken);
+        Task RevokeAsync(CancellationToken cancellationToken);
     }
 }

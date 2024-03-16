@@ -9,9 +9,9 @@ namespace Identity.API.Configurations
     {
         public static void MigrateDatabase(this IApplicationBuilder applicationBuilder)
         {
-            using(var scope = applicationBuilder.ApplicationServices.CreateScope())
+            using(IServiceScope scope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                using(var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+                using(ApplicationDbContext appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
                 {
                     try
                     {

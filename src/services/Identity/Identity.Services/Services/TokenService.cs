@@ -1,140 +1,111 @@
 ﻿using Identity.Domain.Entities;
-using Identity.Domain.Exceptions;
-using Identity.Services.Dtos;
 using Identity.Services.Dtos.ResponseDtos;
+using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
-using System.Text;
 
-public class TokenService : ITokenService
+namespace Identity.Services.Services
 {
-    private readonly UserManager<User> _userManager;
-    private readonly IConfiguration _configuration;
-    private readonly JwtUtilities _jwtUtilities;
-    private readonly ILogger<TokenService> _logger;
-
-    public TokenService(UserManager<User> userManager, IConfiguration configuration,
-        ILogger<TokenService> logger)
+    public class TokenService(UserManager<User> userManager,
+        IConfiguration configuration,
+        ILogger<TokenService> logger,
+        IAccessTokenUtilities accessTokenUtilities,
+        IRefreshTokenUtilities refreshTokenUtilities,
+        IRefreshTokenCookie refreshTokenCookieUtilities) : ITokenService
     {
-        _userManager = userManager;
-        _configuration = configuration;
-        _jwtUtilities = new JwtUtilities(userManager, configuration);
-        _logger = logger;
-    }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IConfiguration _configuration = configuration;
+        private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
+        private readonly IAccessTokenUtilities _accessTokenUtilities = accessTokenUtilities;
+        private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
+        private readonly ILogger<TokenService> _logger = logger;
+        private readonly ThrowExceptionUtilities<TokenService> _throwExceptionUtilities = new(logger);
 
-    public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken = default)
-    {
-        var issuer = _configuration["JwtSettings:Issuer"];
-        var audience = _configuration["JwtSettings:Audience"];
-
-        var claims = await _jwtUtilities.GetClaimsAsync(user);
-
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]!));
-        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-        int expiryTimeToken = _jwtUtilities.GetExpiryTimeToken();
-
-        var tokenOptions = new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(expiryTimeToken),
-            signingCredentials: signinCredentials
-        );
-
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-        _logger.LogInformation("Access token was created successfully");
-
-        return tokenString;
-    }
-
-    public string GenerateRefreshToken()
-    {
-        var randomNumber = new byte[32];
-
-        using(var rng = RandomNumberGenerator.Create())
+        public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken)
         {
-            rng.GetBytes(randomNumber);
+            JwtSecurityToken tokenOptions = await _accessTokenUtilities.GetTokenOptionsAsync(user, cancellationToken);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            _logger.LogInformation("Access token was created successfully");
+
+            return tokenString;
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            string refreshToken = GetRandomNumberGeneratorRefreshToken(randomNumber);
 
             _logger.LogInformation("Refresh token was created successfully");
 
-            return Convert.ToBase64String(randomNumber);
-        }
-    }
-
-    public async Task<ResponseAuthenticatedDto> Refresh(Guid id, TokenApiDto tokenApiModel,
-                                                     CancellationToken cancellationToken = default)
-    {
-        if(tokenApiModel is null)
-        {
-            _logger.LogError("Token api is null");
-
-            throw new InvalidTokenException();
+            return refreshToken;
         }
 
-        string refreshToken = tokenApiModel.RefreshToken!;
-
-        var user = await _userManager.FindByIdAsync(id.ToString());
-
-        if(user is null)
+        public async Task<ResponseAuthenticatedDto> RefreshAsync(CancellationToken cancellationToken)
         {
-            _logger.LogError("User not found. UserId: {UserId}", id);
+            var username = _accessTokenUtilities.GetNameFromAccessToken();
 
-            throw new AccountNotFoundException(id);
+            string refreshToken = _refreshTokenCookieUtilities.ReadRefreshTokenCookie();
+
+            User user = (await _userManager.FindByNameAsync(username))
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(username);
+
+            user.CheckUserRefreshToken(refreshToken, _logger);
+
+            var newAccessToken = await GenerateAccessTokenAsync(user!, cancellationToken);
+            var newRefreshToken = GenerateRefreshToken();
+
+            _refreshTokenUtilities.UpdateRefreshTokenForUser(user, newRefreshToken);
+
+            IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
+
+            userUpdateResult.CheckUserUpdateResult(_logger);
+
+            _refreshTokenCookieUtilities.AddRefreshTokenCookie(newRefreshToken);
+
+            var response = new ResponseAuthenticatedDto()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Roles = (List<string>)await _userManager.GetRolesAsync(user),
+                AccessToken = newAccessToken,
+            };
+
+            return response;
         }
 
-        if(user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        public async Task RevokeAsync(CancellationToken cancellationToken)
         {
-            _logger.LogError("Refresh token is invalid.");
+            var username = _accessTokenUtilities.GetNameFromAccessToken();
 
-            throw new InvalidTokenException();
+            var user = (await _userManager.FindByNameAsync(username))
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(username);
+
+            user.RefreshToken = string.Empty;
+
+            var userUpdateResult = await _userManager.UpdateAsync(user!);
+
+            userUpdateResult.CheckUserUpdateResult(_logger);
+
+            _refreshTokenCookieUtilities.DeleteRefreshTokenCookie();
         }
 
-        var newAccessToken = await GenerateAccessTokenAsync(user);
-        var newRefreshToken = GenerateRefreshToken();
-        user.RefreshToken = newRefreshToken;
-
-        var userUpdateResult = await _userManager.UpdateAsync(user);
-
-        if(userUpdateResult.Succeeded == false)
+        private string GetRandomNumberGeneratorRefreshToken(byte[] randomNumber)
         {
-            _logger.LogError("Failed to update user during token refresh.");
+            using(var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                string refreshToken = Convert.ToBase64String(randomNumber);
 
-            throw new UserUpdateException();
-        }
+                _logger.LogInformation("Refresh token was created successfully");
 
-        return new ResponseAuthenticatedDto()
-        {
-            Token = newAccessToken,
-            RefreshToken = newRefreshToken
-        };
-    }
-
-    public async Task Revoke(Guid id, CancellationToken cancellationToken = default)
-    {
-        var user = await _userManager.FindByIdAsync(id.ToString());
-
-        if(user == null)
-        {
-            _logger.LogError("User not found. UserId: {UserId}", id);
-
-            throw new AccountNotFoundException(id);
-        }
-
-        var userUpdateResult = await _userManager.UpdateAsync(user);
-
-        if(userUpdateResult.Succeeded == false)
-        {
-            _logger.LogError("Failed to update user during token revocation.");
-
-            throw new UserUpdateException();
+                return refreshToken;
+            }
         }
     }
 }
