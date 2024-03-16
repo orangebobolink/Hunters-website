@@ -9,11 +9,8 @@ import { LoginResponse } from '@/shared/model/store/queries/typing/responses/Log
 type InitialState = {
     id: number | null,
     isAuth: boolean,
-    name: string | null,
-    surname: string | null,
+    username: string | null,
     roles: string[],
-    sex: string | null,
-    avatar: string | null,
 
     isLoading: boolean,
     isSuccess: boolean,
@@ -23,11 +20,8 @@ type InitialState = {
 const initialState: InitialState = {
     id: null,
     isAuth: false,
-    name: null,
-    surname: null,
+    username: null,
     roles: [],
-    sex: null,
-    avatar: null,
 
     isLoading: false,
     isSuccess: false,
@@ -66,7 +60,7 @@ const authSlice = createSlice({
             .addCase(loginThunk.pending, setPendingStatuses)
             .addCase(loginThunk.fulfilled, (state, { payload }: PayloadAction<LoginResponse>) => {
                 state.id = payload.id;
-                state.name = payload.firstName
+                state.username = payload.username
                 state.roles = payload.roles;
                 state.isAuth = true;
                 LocaleStorageUtils.setAccessToken(payload.accessToken);
@@ -77,7 +71,7 @@ const authSlice = createSlice({
             .addCase(refreshAuthThunk.pending, setPendingStatuses)
             .addCase(refreshAuthThunk.fulfilled, (state, { payload }: PayloadAction<LoginResponse>) => {
                 state.id = payload.id;
-                state.name = payload.firstName
+                state.username = payload.username
                 state.roles = payload.roles;
                 state.roles = payload.roles;
                 state.isAuth = true;
@@ -89,8 +83,7 @@ const authSlice = createSlice({
             .addCase(logoutThunk.pending, (state) => {
                 state.id = null;
                 state.isAuth = false;
-                state.name = null;
-                state.surname = null;
+                state.username = null;
                 state.roles = [];
                 LocaleStorageUtils.removeAccessToken();
             })

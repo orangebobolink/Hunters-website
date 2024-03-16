@@ -70,6 +70,9 @@ namespace Identity.Services.Services
 
             var response = new ResponseAuthenticatedDto()
             {
+                Id = user.Id,
+                UserName = user.UserName,
+                Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 AccessToken = newAccessToken,
             };
 

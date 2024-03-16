@@ -14,11 +14,13 @@ export class AuthService {
 
     static async refresh() {
         const accessToken = `Bearer ${LocaleStorageUtils.getAccessToken()}`
-        console.log(accessToken)
-        return axios.post(apiMap.REFRESH, {}, { withCredentials: true,
-        headers:{
-            Authorization:accessToken
-        }});
+
+        return axios.post(apiMap.REFRESH, {}, {
+            withCredentials: true,
+            headers:{
+                Authorization:accessToken
+             }
+        });
     }
 
     static async logout() {

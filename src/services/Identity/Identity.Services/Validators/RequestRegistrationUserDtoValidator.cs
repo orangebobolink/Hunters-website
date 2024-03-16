@@ -23,7 +23,7 @@ namespace Identity.Services.Validators
                 .Matches(UserMatchHelper.PasswordMatch)
                 .WithMessage(UserErrorHelper.InvalidPasswordError);
 
-            RuleFor(x => x.Phone)
+            RuleFor(x => x.PhoneNumber)
                 .NotEmpty()
                 .WithMessage(UserErrorHelper.EmptyPhoneError)
                 .Matches(UserMatchHelper.PhoneMatch)
