@@ -3,11 +3,11 @@
     public interface IRepository<T>
         where T : class
     {
-        public T GetById(int id);
-        public List<T> GetAll();
+        public Task<T?> GetByIdAsync(Guid id);
+        public Task<List<T>> GetAllAsync();
         void Create(T entity);
         void Update(T entity);
-        void Delete(Guid id);
+        void Delete(T entity);
         Task SaveChangesAsync();
     }
 }
