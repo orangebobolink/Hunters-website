@@ -1,4 +1,5 @@
-﻿using Chat.Interfaces.Repositories;
+﻿using Chat.Infrastructure.Contexts;
+using Chat.Interfaces.Repositories;
 
 namespace Chat.Infrastructure.Repositories
 {
@@ -6,28 +7,35 @@ namespace Chat.Infrastructure.Repositories
         : IRepository<T>
         where T : class
     {
-        public void Create(T entity)
+        protected readonly ApplicationDbContext _context;
+
+        public BaseRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public void Delete(Guid id)
+        public void Create(T entity)
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Remove(entity);
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
         }
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
 
-        public abstract List<T> GetAll();
+        public abstract Task<List<T>> GetAllAsync();
 
-        public abstract T GetById(int id);
+        public abstract Task<T?> GetByIdAsync(Guid id);
     }
 }

@@ -1,49 +1,41 @@
 ﻿using Chat.Domain.Entities;
+using Chat.Infrastructure.Contexts;
 using Chat.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Infrastructure.Repositories
 {
-    internal class GroupRepository
-        : IGroupRepository
+    internal class GroupRepository(ApplicationDbContext context)
+        : BaseRepository<Group>(context), IGroupRepository
     {
-        public void Create(Group entity)
+        public override async Task<List<Group>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Groups
+                .AsNoTracking()
+                .Where(g => !g.IsDeleted)
+                .ToListAsync();
         }
 
-        public void Delete(Guid id)
+        public override async Task<Group?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Groups
+                .AsNoTracking()
+                .Where(g => !g.IsDeleted)
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public List<Group> GetAll()
+        public async Task<List<Group>> GetGroupsByUserIdAsync(Guid userId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Group GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Group> GetGroupsByUserId(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
+            return await _context.Groups
+                .AsNoTracking()
+                .Where(g => !g.IsDeleted && g.Members.Any(m => m.Id == userId))
+                .ToListAsync();
         }
 
         public void SoftDelete(Group entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Group entity)
-        {
-            throw new NotImplementedException();
+            entity.IsDeleted = true;
+            _context.Update(entity);
         }
     }
 }
