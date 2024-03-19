@@ -3,7 +3,11 @@
     public class User
     {
         public Guid Id { get; set; }
-        public string Username { get; set; } = string.Empty;
-        public List<Message> Messages { get; set; } = new();
+        public string UserName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string AvatarUrl { get; set; } = string.Empty;
+        public List<Message> Messages { get; set; } = [];
+        public List<Group> Groups { get; set; } = [];
     }
 }
