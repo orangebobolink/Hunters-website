@@ -9,8 +9,6 @@ namespace Identity.API.Configurations
         {
             services.AddSwaggerGen(options =>
             {
-                options.ConfigurePagination();
-
                 options.SwaggerDoc(
                     configuration["SwaggerGen:Version"],
                     new OpenApiInfo
@@ -34,6 +32,13 @@ namespace Identity.API.Configurations
                     Type = SecuritySchemeType.Http,
                     BearerFormat = configuration["SwaggerGen:BearerFormat"],
                     Scheme = JwtBearerDefaults.AuthenticationScheme,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Password = new OpenApiOAuthFlow
+                        {
+                            TokenUrl = new Uri(configuration["SwaggerGen:TokenUri"]!)
+                        }
+                    }
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement

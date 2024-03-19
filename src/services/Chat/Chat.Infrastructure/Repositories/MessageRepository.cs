@@ -11,9 +11,9 @@ namespace Chat.Infrastructure.Repositories
         public override async Task<List<Message>> GetAllAsync()
         {
             return await _context.Messages
-               .AsNoTracking()
-               .Where(m => !m.IsDeleted)
-               .ToListAsync();
+                .AsNoTracking()
+                .Where(m => !m.IsDeleted)
+                .ToListAsync();
         }
 
         public override async Task<Message?> GetByIdAsync(Guid id)

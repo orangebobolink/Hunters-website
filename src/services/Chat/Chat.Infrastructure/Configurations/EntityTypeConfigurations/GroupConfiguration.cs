@@ -9,7 +9,20 @@ namespace Chat.Infrastructure.Configurations.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<Group> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Name)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            builder.Property(x => x.IsDeleted)
+                .IsRequired();
+
+            builder.Property(x => x.DeleteTime)
+                .IsRequired();
+
+            builder.Property(x => x.AverageRating)
+                .IsRequired();
         }
     }
 }

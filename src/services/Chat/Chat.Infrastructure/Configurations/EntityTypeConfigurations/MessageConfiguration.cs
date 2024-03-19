@@ -9,7 +9,13 @@ namespace Chat.Infrastructure.Configurations.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<Message> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Content)
+                .IsRequired();
+
+            builder.Property(x => x.CreateTime)
+                .IsRequired();
         }
     }
 }
