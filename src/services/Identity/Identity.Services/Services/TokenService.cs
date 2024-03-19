@@ -12,14 +12,12 @@ using System.Security.Cryptography;
 namespace Identity.Services.Services
 {
     public class TokenService(UserManager<User> userManager,
-        IConfiguration configuration,
         ILogger<TokenService> logger,
         IAccessTokenUtilities accessTokenUtilities,
         IRefreshTokenUtilities refreshTokenUtilities,
         IRefreshTokenCookie refreshTokenCookieUtilities) : ITokenService
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly IConfiguration _configuration = configuration;
         private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
         private readonly IAccessTokenUtilities _accessTokenUtilities = accessTokenUtilities;
         private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
