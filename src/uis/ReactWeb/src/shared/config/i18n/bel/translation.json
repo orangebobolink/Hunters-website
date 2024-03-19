@@ -1,0 +1,38 @@
+{
+  "header": {
+    "nav": {
+      "webname": "Паляванне",
+      "permit": "Пуцёўка",
+      "rent": {
+        "tittle": "Арэнда",
+        "ammunition": {
+          "tittle": "Амуніцыя",
+          "description": "..."
+        },
+        "gun": {
+          "tittle": "Зброя",
+          "description": "..."
+        },
+        "car": {
+          "tittle": "Аўтамабіль",
+          "description": "..."
+        }
+      }
+    },
+    "theme": {
+      "light": "Светлая",
+      "dark": "Цемная",
+      "system": "Сістэмная"
+    },
+    "profile": {
+      "tittle": "Профіль",
+      "information": "Інфармацыя",
+      "settings": "Налады",
+      "signOut": "Выйсці"
+    },
+    "auth": {
+      "signIn": "Уваход",
+      "signUp": "Рэгістрацыя"
+    }
+  }
+}

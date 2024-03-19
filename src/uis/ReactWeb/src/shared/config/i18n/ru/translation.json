@@ -1,0 +1,39 @@
+{
+  "header": {
+    "nav": {
+      "webname": "Охота",
+      "permit": "Путевка",
+      "rent":
+      {
+        "tittle": "Аренда",
+        "ammunition": {
+          "tittle": "Амуниция",
+          "description": "..."
+        },
+        "gun": {
+          "tittle": "Оружие",
+          "description": "..."
+        },
+        "car": {
+          "tittle": "Автомобиль",
+          "description": "..."
+        }
+      }
+    },
+    "theme": {
+      "light": "Светлая",
+      "dark": "Темная",
+      "system": "Системная"
+    },
+    "profile": {
+      "tittle": "Профиль",
+      "information": "Информация",
+      "settings": "Настройки",
+      "signOut": "Выйти"
+    },
+    "auth": {
+      "signIn": "Вход",
+      "signUp": "Регистрация"
+    }
+  }
+}

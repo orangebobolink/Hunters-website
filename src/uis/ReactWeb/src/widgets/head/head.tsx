@@ -2,107 +2,98 @@ import React from 'react';
 import {
     NavigationMenu, NavigationMenuContent,
     NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger
+    NavigationMenuList, navigationMenuLogoTriggerStyle,
+    NavigationMenuTrigger, navigationMenuTriggerStyle
 } from '@/shared/ui/navigation-menu.tsx';
 import {cn} from '@/shared/lib';
+import {Link} from 'react-router-dom';
+import logo from '@/assets/logo.png';
+import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
+import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
+import ProfileAvatarNavigate from '@/entities/profile/ui/profile-avatar-navigate.tsx';
+import AuthNavButtons from '@/entities/(auth)/ui/auth-nav-buttons.tsx';
+import LanguageNavItem from '@/shared/ui/custom/language-nav-item.tsx';
+import ThemeNavItem from '@/shared/ui/custom/theme-nav-item.tsx';
+import ChatNavItem from '@/entities/chat/ui/chat-nav-item.tsx';
+import {useTranslation} from 'react-i18next';
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "Alert Dialog",
+        title: "rent.ammunition.tittle",
         href: "/docs/primitives/alert-dialog",
-        description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+        description: "rent.ammunition.description",
     },
     {
-        title: "Hover Card",
+        title: "rent.gun.tittle",
         href: "/docs/primitives/hover-card",
-        description:
-            "For sighted users to preview content available behind a link.",
+        description: "rent.gun.description",
     },
     {
-        title: "Progress",
+        title: "rent.car.tittle",
         href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+        description:"rent.car.description",
     },
-    {
-        title: "Scroll-area",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Tabs",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Tooltip",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
+
 ]
 
 export function Head() {
+    const { isAuth } = useAppSelector(selectAuth);
+    const { t} = useTranslation("translation",
+        {
+            keyPrefix: "header.nav"
+        });
+
     return (
-        <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                            <li className="row-span-3">
-                                <NavigationMenuLink asChild>
-                                    <a
-                                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                        href="/"
+            <NavigationMenu className="w-full px-10 justify-between items-center flex m-auto">
+                <NavigationMenuList className="flex flex-row justify-between items-center w-full">
+                    <NavigationMenuItem className="flex flex-row items-center">
+                        <img src={logo} className="size-[3rem]" alt="logo"/>
+                        <Link to="/" >
+                            <NavigationMenuLink className={navigationMenuLogoTriggerStyle()}>
+                                {t('webname')}
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link to="/" >
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                {t("permit")}
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>
+                            {t("rent.tittle")}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                                {components.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={t(component.title)}
+                                        href={component.href}
                                     >
-
-                                        <div className="mb-2 mt-4 text-lg font-medium">
-                                            shadcn/ui
-                                        </div>
-                                        <p className="text-sm leading-tight text-muted-foreground">
-                                            Beautifully designed components built with Radix UI and
-                                            Tailwind CSS.
-                                        </p>
-                                    </a>
-                                </NavigationMenuLink>
-                            </li>
-                            <ListItem href="/docs" title="Introduction">
-                                Re-usable components built using Radix UI and Tailwind CSS.
-                            </ListItem>
-                            <ListItem href="/docs/installation" title="Installation">
-                                How to install dependencies and structure your app.
-                            </ListItem>
-                            <ListItem href="/docs/primitives/typography" title="Typography">
-                                Styles for headings, paragraphs, lists...etc
-                            </ListItem>
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {components.map((component) => (
-                                <ListItem
-                                    key={component.title}
-                                    title={component.title}
-                                    href={component.href}
-                                >
-                                    {component.description}
-                                </ListItem>
-                            ))}
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-
-                </NavigationMenuItem>
-            </NavigationMenuList>
-        </NavigationMenu>
+                                        {t(component.description)}
+                                        </ListItem>
+                                ))}
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+                {
+                    isAuth
+                    ?
+                    <NavigationMenuList className="w-full">
+                        <ChatNavItem/>
+                        <LanguageNavItem/>
+                        <ThemeNavItem/>
+                        <ProfileAvatarNavigate/>
+                    </NavigationMenuList>
+                    :
+                     <AuthNavButtons/>
+                }
+            </NavigationMenu>
     )
 }
 
