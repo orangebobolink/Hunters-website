@@ -30,7 +30,7 @@ namespace Identity.Infrastructure.Configurations
                 {
                     Id = Guid.NewGuid(),
                     Name = roleName,
-                    NormalizedName = Role.User.ToUpperInvariant()
+                    NormalizedName = roleName.ToUpperInvariant()
                 })
                 .ToList();
 
