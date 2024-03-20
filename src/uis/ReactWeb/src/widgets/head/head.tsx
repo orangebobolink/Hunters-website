@@ -44,56 +44,57 @@ export function Head() {
         });
 
     return (
-            <NavigationMenu className="w-full px-10 justify-between items-center flex m-auto">
-                <NavigationMenuList className="flex flex-row justify-between items-center w-full">
-                    <NavigationMenuItem className="flex flex-row items-center">
-                        <img src={logo} className="size-[3rem]" alt="logo"/>
-                        <Link to="/" >
-                            <NavigationMenuLink className={navigationMenuLogoTriggerStyle()}>
-                                {t('webname')}
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link to="/" >
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                {t("permit")}
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>
-                            {t("rent.tittle")}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
-                                {components.map((component) => (
-                                    <ListItem
-                                        key={component.title}
-                                        title={t(component.title)}
-                                        href={component.href}
-                                    >
-                                        {t(component.description)}
-                                        </ListItem>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
+        <NavigationMenu className="w-full px-10 justify-between items-center flex m-auto">
+            <NavigationMenuList className="flex flex-row justify-between items-center w-full">
+                <NavigationMenuItem className="flex flex-row items-center">
+                    <img src={logo} className="size-[3rem]" alt="logo"/>
+                    <Link to="/" >
+                        <NavigationMenuLink className={navigationMenuLogoTriggerStyle()}>
+                            {t('webname')}
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link to="/" >
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            {t("permit")}
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>
+                        {t("rent.tittle")}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                            {components.map((component) => (
+                                <ListItem
+                                    key={component.title}
+                                    title={t(component.title)}
+                                    href={component.href}
+                                >
+                                    {t(component.description)}
+                                    </ListItem>
+                            ))}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+            <NavigationMenuList className="w-full">
                 {
                     isAuth
-                    ?
-                    <NavigationMenuList className="w-full">
-                        <ChatNavItem/>
-                        <LanguageNavItem/>
-                        <ThemeNavItem/>
-                        <ProfileAvatarNavigate/>
-                    </NavigationMenuList>
-                    :
-                     <AuthNavButtons/>
+                    ? <ChatNavItem/>
+                    : <div></div>
                 }
-            </NavigationMenu>
+                <LanguageNavItem/>
+                <ThemeNavItem/>
+                {
+                    isAuth
+                    ? <ProfileAvatarNavigate/>
+                    : <AuthNavButtons/>
+                }
+            </NavigationMenuList>
+        </NavigationMenu>
     )
 }
 

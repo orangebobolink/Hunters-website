@@ -34,5 +34,24 @@
       "signIn": "Уваход",
       "signUp": "Рэгістрацыя"
     }
+  },
+  "login": {
+    "username": "Імя карыстальніка",
+    "password": "Пароль",
+    "forgotPassword": "Забылі пароль?",
+    "signIn": "Увайсці",
+    "signUp": "Рэгістрацыя"
+  },
+  "registration":{
+    "email": "Электронная пошта",
+    "phone": "Нумар тэлефона",
+    "password": "Пароль",
+    "forgotPassword": "Забылі пароль?",
+    "firstName": "Імя",
+    "lastName": "Прозвішча",
+    "dateOfBirth": "Дата нараджэння",
+    "signUp": "Зарэгістравацца",
+    "sex": "Пол",
+    "alreadyHaveAccount": "Ужо ёсць акаўнт"
   }
 }

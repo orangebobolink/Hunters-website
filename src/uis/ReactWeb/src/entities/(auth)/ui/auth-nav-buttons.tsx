@@ -10,14 +10,14 @@ const AuthNavButtons = () => {
             <NavigationMenuItem>
                 <Link to="/login" >
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        {t('header.auth.sign-in')}
+                        {t('header.auth.signIn')}
                     </NavigationMenuLink>
                 </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
                 <Link to="/registration" >
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        Регистрация
+                        {t('header.auth.signUp')}
                     </NavigationMenuLink>
                 </Link>
             </NavigationMenuItem>
