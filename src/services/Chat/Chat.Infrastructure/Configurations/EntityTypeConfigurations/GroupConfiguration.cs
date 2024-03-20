@@ -14,15 +14,6 @@ namespace Chat.Infrastructure.Configurations.EntityTypeConfigurations
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(255);
-
-            builder.Property(x => x.IsDeleted)
-                .IsRequired();
-
-            builder.Property(x => x.DeleteTime)
-                .IsRequired();
-
-            builder.Property(x => x.AverageRating)
-                .IsRequired();
         }
     }
 }
