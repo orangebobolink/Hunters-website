@@ -6,11 +6,10 @@ namespace Identity.Services.Utilities
     {
         public static string GenerateRandomUsername()
         {
-            var faker = new Faker<string>().RuleFor(str => str,
-                                                faker => faker.Person.UserName)
-                                        .Generate();
+            var faker = new Faker();
+            string username = faker.Person.UserName;
 
-            return faker!;
+            return username;
         }
     }
 }

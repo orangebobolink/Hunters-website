@@ -15,6 +15,7 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
+builder.Services.AddMassTransitConfiguration(builder.Configuration);
 builder.Services.AddJWTAuthenticationConfiguration(builder.Configuration);
 builder.Services.AddLoggerConfiguration(builder);
 builder.Services.AddPagination();

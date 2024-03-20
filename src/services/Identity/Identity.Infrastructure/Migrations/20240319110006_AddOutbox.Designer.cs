@@ -4,6 +4,7 @@ using Identity.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319110006_AddOutbox")]
+    partial class AddOutbox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +65,10 @@ namespace Identity.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -114,44 +121,46 @@ namespace Identity.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("333ad5b9-0784-403d-998a-13751f398a31"),
+                            Id = new Guid("c51df0be-43dd-48ee-8729-96435aec4a72"),
                             AccessFailedCount = 0,
                             AvatarUrl = "",
-                            ConcurrencyStamp = "aeb4de5b-86b7-4434-90a5-3d6cf1eb931e",
-                            DateOfBirth = new DateTime(2024, 3, 19, 14, 38, 18, 316, DateTimeKind.Local).AddTicks(4312),
+                            ConcurrencyStamp = "ee0d8ea9-3854-41a8-8c7d-ba8c7e75ed8c",
+                            DateOfBirth = new DateTime(2024, 3, 19, 14, 0, 5, 369, DateTimeKind.Local).AddTicks(7392),
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "",
                             LastName = "",
                             LockoutEnabled = false,
+                            MiddleName = "",
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGOwHjc/7ntqVqY57FQVCTRKypB0f9P2O/wKn49ZuIvww8RqvJv82UgRsp8Te5Mk+w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELj68zdjMJ6w6VJGBSUNAp+9BqtWSKkXRt8w9XC/zaotydx+3La/n82Q2XPpR7ZPIg==",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "5054cdd2-edd2-4bfb-81ad-1947abb48c84",
+                            SecurityStamp = "50378f3c-d04e-45ff-bb48-ccc9c24ce63c",
                             Sex = 0,
                             TwoFactorEnabled = false,
                             UserName = "user"
                         },
                         new
                         {
-                            Id = new Guid("4606c084-187b-49d2-8271-57a379f58f31"),
+                            Id = new Guid("edde2ba8-d84c-4839-86f6-527bdd792ea3"),
                             AccessFailedCount = 0,
                             AvatarUrl = "",
-                            ConcurrencyStamp = "c02cc213-66f0-4714-992a-c3781b4905fc",
-                            DateOfBirth = new DateTime(2024, 3, 19, 14, 38, 18, 403, DateTimeKind.Local).AddTicks(8504),
+                            ConcurrencyStamp = "f31a5587-3c71-4491-a52a-b30c2fc61309",
+                            DateOfBirth = new DateTime(2024, 3, 19, 14, 0, 5, 491, DateTimeKind.Local).AddTicks(7219),
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "",
                             LastName = "",
                             LockoutEnabled = false,
+                            MiddleName = "",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOkXM9GUekipOEGMpZX4E2gcp7gPaVDJoU8fG6mmJvPwwwlqor8k4HFEGY2p8XtJqg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK5pGYA0sfNwCQPC4wSj01CviIlX1+GqsKpQMdqyXkWU4qoBozWM0/7SHK3X4DZBAQ==",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "88a66ab5-70b0-4533-8c58-278731597cdc",
+                            SecurityStamp = "97efb458-142d-4bcc-89e3-beebf511ee94",
                             Sex = 0,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -360,13 +369,13 @@ namespace Identity.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cbb0b182-3e9f-4e24-b649-f19cc671cee7"),
+                            Id = new Guid("99bd882f-b0c2-4cb3-93d9-9c2e0fde4efb"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("91c7328a-6540-4d50-877c-dc5bf3eacbaa"),
+                            Id = new Guid("a18c4ae2-3b1c-4bce-9efc-93009a38d2a1"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -458,13 +467,13 @@ namespace Identity.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("333ad5b9-0784-403d-998a-13751f398a31"),
-                            RoleId = new Guid("91c7328a-6540-4d50-877c-dc5bf3eacbaa")
+                            UserId = new Guid("c51df0be-43dd-48ee-8729-96435aec4a72"),
+                            RoleId = new Guid("a18c4ae2-3b1c-4bce-9efc-93009a38d2a1")
                         },
                         new
                         {
-                            UserId = new Guid("4606c084-187b-49d2-8271-57a379f58f31"),
-                            RoleId = new Guid("cbb0b182-3e9f-4e24-b649-f19cc671cee7")
+                            UserId = new Guid("edde2ba8-d84c-4839-86f6-527bdd792ea3"),
+                            RoleId = new Guid("99bd882f-b0c2-4cb3-93d9-9c2e0fde4efb")
                         });
                 });
 

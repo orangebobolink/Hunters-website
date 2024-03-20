@@ -4,6 +4,7 @@ using Identity.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319105846_AddAvatar")]
+    partial class AddAvatar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +65,10 @@ namespace Identity.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -114,220 +121,50 @@ namespace Identity.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("333ad5b9-0784-403d-998a-13751f398a31"),
+                            Id = new Guid("4cbdc4a7-d44f-4874-8dc5-0848b49f7720"),
                             AccessFailedCount = 0,
                             AvatarUrl = "",
-                            ConcurrencyStamp = "aeb4de5b-86b7-4434-90a5-3d6cf1eb931e",
-                            DateOfBirth = new DateTime(2024, 3, 19, 14, 38, 18, 316, DateTimeKind.Local).AddTicks(4312),
+                            ConcurrencyStamp = "f8f6936b-0404-4ab4-b153-1e14ed46742c",
+                            DateOfBirth = new DateTime(2024, 3, 19, 13, 58, 42, 521, DateTimeKind.Local).AddTicks(8068),
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "",
                             LastName = "",
                             LockoutEnabled = false,
+                            MiddleName = "",
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGOwHjc/7ntqVqY57FQVCTRKypB0f9P2O/wKn49ZuIvww8RqvJv82UgRsp8Te5Mk+w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKbbxK8XPhMNTCDaqziBjlE2cA9UAbGZokpwR+X+/17xl6e6Wlg3kysKvgAwWB2xhQ==",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "5054cdd2-edd2-4bfb-81ad-1947abb48c84",
+                            SecurityStamp = "937767de-8ac2-42ae-9b89-a5b0e2936fa2",
                             Sex = 0,
                             TwoFactorEnabled = false,
                             UserName = "user"
                         },
                         new
                         {
-                            Id = new Guid("4606c084-187b-49d2-8271-57a379f58f31"),
+                            Id = new Guid("ea8f7f4b-ee1f-4b72-a0b5-36b5c32bb0c8"),
                             AccessFailedCount = 0,
                             AvatarUrl = "",
-                            ConcurrencyStamp = "c02cc213-66f0-4714-992a-c3781b4905fc",
-                            DateOfBirth = new DateTime(2024, 3, 19, 14, 38, 18, 403, DateTimeKind.Local).AddTicks(8504),
+                            ConcurrencyStamp = "f0c443e8-7a48-4e7a-a653-9dfa0cb1f974",
+                            DateOfBirth = new DateTime(2024, 3, 19, 13, 58, 42, 664, DateTimeKind.Local).AddTicks(6238),
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "",
                             LastName = "",
                             LockoutEnabled = false,
+                            MiddleName = "",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOkXM9GUekipOEGMpZX4E2gcp7gPaVDJoU8fG6mmJvPwwwlqor8k4HFEGY2p8XtJqg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMFfOMOhMzuw/z4N0Z9UnMED8BSj7N9jwu7vrwPOSKxNewBvlyT0R7KX/1adYcrUyg==",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "88a66ab5-70b0-4533-8c58-278731597cdc",
+                            SecurityStamp = "7f2f3c68-3fc5-4797-8f4f-01d64c893ead",
                             Sex = 0,
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
-                });
-
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime?>("Consumed")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ConsumerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("Delivered")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastSequenceNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("LockId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ReceiveCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Received")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("MessageId", "ConsumerId");
-
-                    b.HasIndex("Delivered");
-
-                    b.ToTable("InboxState");
-                });
-
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
-                {
-                    b.Property<long>("SequenceNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SequenceNumber"));
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<Guid?>("ConversationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CorrelationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DestinationAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<DateTime?>("EnqueueTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FaultAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Headers")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("InboxConsumerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("InboxMessageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("InitiatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("MessageType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("OutboxId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Properties")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RequestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ResponseAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<DateTime>("SentTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SourceAddress")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("SequenceNumber");
-
-                    b.HasIndex("EnqueueTime");
-
-                    b.HasIndex("ExpirationTime");
-
-                    b.HasIndex("OutboxId", "SequenceNumber")
-                        .IsUnique()
-                        .HasFilter("[OutboxId] IS NOT NULL");
-
-                    b.HasIndex("InboxMessageId", "InboxConsumerId", "SequenceNumber")
-                        .IsUnique()
-                        .HasFilter("[InboxMessageId] IS NOT NULL AND [InboxConsumerId] IS NOT NULL");
-
-                    b.ToTable("OutboxMessage");
-                });
-
-            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxState", b =>
-                {
-                    b.Property<Guid>("OutboxId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Delivered")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastSequenceNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("LockId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("OutboxId");
-
-                    b.HasIndex("Created");
-
-                    b.ToTable("OutboxState");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -360,13 +197,13 @@ namespace Identity.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cbb0b182-3e9f-4e24-b649-f19cc671cee7"),
+                            Id = new Guid("ac85eaaf-d147-4dfb-9783-dbbdb989e8d7"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("91c7328a-6540-4d50-877c-dc5bf3eacbaa"),
+                            Id = new Guid("11abb3dd-1bd0-42ec-9987-89988982669b"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -458,13 +295,13 @@ namespace Identity.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("333ad5b9-0784-403d-998a-13751f398a31"),
-                            RoleId = new Guid("91c7328a-6540-4d50-877c-dc5bf3eacbaa")
+                            UserId = new Guid("4cbdc4a7-d44f-4874-8dc5-0848b49f7720"),
+                            RoleId = new Guid("11abb3dd-1bd0-42ec-9987-89988982669b")
                         },
                         new
                         {
-                            UserId = new Guid("4606c084-187b-49d2-8271-57a379f58f31"),
-                            RoleId = new Guid("cbb0b182-3e9f-4e24-b649-f19cc671cee7")
+                            UserId = new Guid("ea8f7f4b-ee1f-4b72-a0b5-36b5c32bb0c8"),
+                            RoleId = new Guid("ac85eaaf-d147-4dfb-9783-dbbdb989e8d7")
                         });
                 });
 
