@@ -46,6 +46,15 @@ services:
         depends_on:
             - gateway
             - sqlserver
+    chat:
+        ports:
+            - 8001:8080
+        restart: unless-stopped
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
+        depends_on:
+            - gateway
+            - sqlserver
 
 networks:
     elk:

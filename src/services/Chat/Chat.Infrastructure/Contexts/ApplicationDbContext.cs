@@ -5,8 +5,8 @@ using System.Reflection;
 
 namespace Chat.Infrastructure.Contexts
 {
-    internal class ApplicationDbContext
-        : DbContext
+    internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+                : DbContext(options)
     {
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }

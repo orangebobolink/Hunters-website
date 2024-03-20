@@ -5,6 +5,14 @@ volumes:
     elasticsearch-data:
 
 services:
+    rabbitmq:
+        container_name: RabbitMQ
+        image: rabbitmq:3-management-alpine
+        ports:
+          - 5672:5672
+          - 15672:15672
+        restart: unless-stopped
+
     sqlserver: 
         container_name: SqlServer
         image: mcr.microsoft.com/mssql/server:2022-latest
@@ -35,3 +43,9 @@ services:
         build:
             context: "."
             dockerfile: /services/Identity/Identity.API/Dockerfile
+
+    chat:
+        container_name: Chat
+        build:
+            context: "."
+            dockerfile: /services/Chat/Chat.API/Dockerfile
