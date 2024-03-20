@@ -7,7 +7,7 @@ using Shared.Messages.UserMessages;
 
 namespace Chat.Services.MassTransit.Consumers
 {
-    internal class DeleteUserConsumer(IUserRepository userRepository, ILogger<DeleteUserConsumer> logger)
+    public class DeleteUserConsumer(IUserRepository userRepository, ILogger<DeleteUserConsumer> logger)
                 : IConsumer<DeleteUserMessage>
     {
         private readonly IUserRepository _userRepository = userRepository;

@@ -7,7 +7,7 @@ using Shared.Messages.UserMessages;
 
 namespace Chat.Services.MassTransit.Consumers
 {
-    internal class UpdateUserConsumer(IUserRepository userRepository, ILogger<UpdateUserConsumer> logger)
+    public class UpdateUserConsumer(IUserRepository userRepository, ILogger<UpdateUserConsumer> logger)
                 : IConsumer<UpdateUserMessage>
     {
         private readonly IUserRepository _userRepository = userRepository;

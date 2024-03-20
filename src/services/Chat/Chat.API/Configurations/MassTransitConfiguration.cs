@@ -1,7 +1,7 @@
 ﻿using MassTransit;
-using Shared.Messages.UserMessages;
 using System.Reflection;
 using Chat.Infrastructure.Extensions;
+using Chat.Services.MassTransit.Consumers;
 
 namespace Chat.API.Configurations
 {
@@ -11,7 +11,7 @@ namespace Chat.API.Configurations
         {
             services.AddMassTransit(x =>
             {
-                var assembly = Assembly.GetAssembly(typeof(CreateUserMessage));
+                var assembly = Assembly.GetAssembly(typeof(CreateUserConsumer));
                 var host = config["RabbitMQ:Host"];
                 var virtualHost = config["RabbitMQ:VirtualHost"];
                 var username = config["RabbitMQ:Username"];
