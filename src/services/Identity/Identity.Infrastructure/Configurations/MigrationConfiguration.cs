@@ -15,7 +15,10 @@ namespace Identity.API.Configurations
                 {
                     try
                     {
-                        appContext.Database.Migrate();
+                        if(!appContext.Users.Any())
+                        {
+                            appContext.Database.Migrate();
+                        }
                     }
                     catch(Exception ex)
                     {
