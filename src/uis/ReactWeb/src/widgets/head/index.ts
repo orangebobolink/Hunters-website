@@ -1,1 +1,1 @@
-export {Navbar} from './head.tsx'
+export {Head} from './head.tsx'

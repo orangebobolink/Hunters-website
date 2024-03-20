@@ -5,20 +5,24 @@ using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MR.AspNetCore.Pagination;
+using Shared.Messages.UserMessages;
 
 namespace Identity.Services.Services
 {
     internal class UserService(UserManager<User> userManager,
         IPaginationService paginationService,
+        IPublishEndpoint publishEndpoint,
         ILogger<UserService> logger) : IUserService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly IPaginationService _paginationService = paginationService;
         private readonly ILogger<UserService> _logger = logger;
+        private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
         private readonly ThrowExceptionUtilities<UserService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
@@ -31,6 +35,10 @@ namespace Identity.Services.Services
 
             var addToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
             addToRoleResult.CheckAddToRoleResult(_logger);
+
+            var message = user.Adapt<CreateUserMessage>();
+
+            await _publishEndpoint.Publish(message);
 
             var response = user.Adapt<ResponseCreateUserDto>();
 
@@ -71,6 +79,10 @@ namespace Identity.Services.Services
 
             var updateResult = await _userManager.UpdateAsync(updatedUser);
             updateResult.CheckUserUpdateResult(_logger);
+
+            var message = user.Adapt<UpdateUserMessage>();
+
+            await _publishEndpoint.Publish(message);
 
             var response = updatedUser.Adapt<ResponseUpdateUserDto>();
 

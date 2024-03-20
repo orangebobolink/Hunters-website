@@ -17,21 +17,22 @@ namespace Identity.Infrastructure.Configurations
 
         private static List<IdentityRole<Guid>> SeedRoles(this ModelBuilder builder)
         {
-            var roles = new List<IdentityRole<Guid>>()
-            {
+            List<string> existingRoles = [
+                Role.Admin,
+                Role.User,
+                Role.Manager,
+                Role.Director,
+                Role.Ranger
+            ];
+
+            var roles = existingRoles.Select(roleName =>
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = Role.Admin,
-                    NormalizedName = Role.Admin.ToUpperInvariant()
-                },
-                new IdentityRole<Guid>
-                {
-                    Id = Guid.NewGuid(),
-                    Name = Role.User,
-                    NormalizedName = Role.User.ToUpperInvariant()
-                }
-            };
+                    Name = roleName,
+                    NormalizedName = roleName.ToUpperInvariant()
+                })
+                .ToList();
 
             builder.Entity<IdentityRole<Guid>>()
                 .HasData(roles);

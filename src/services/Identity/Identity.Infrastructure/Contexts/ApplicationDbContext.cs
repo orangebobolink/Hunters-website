@@ -4,6 +4,7 @@ using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Identity.Infrastructure.Configurations;
+using MassTransit;
 
 namespace Identity.Infrastructure.Contexts
 {
@@ -16,6 +17,10 @@ namespace Identity.Infrastructure.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
         }
     }
 }

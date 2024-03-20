@@ -5,23 +5,23 @@ namespace Identity.API.Configurations
 {
     public static class SwaggerGenConfiguration
     {
-        public static void AddSwaggerGenConfiguration(this IServiceCollection services, IConfiguration congiguration)
+        public static void AddSwaggerGenConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSwaggerGen(options =>
             {
                 options.ConfigurePagination();
 
                 options.SwaggerDoc(
-                    congiguration["SwaggerGen:Version"],
+                    configuration["SwaggerGen:Version"],
                     new OpenApiInfo
                     {
-                        Title = congiguration["SwaggerGen:Title"],
-                        Version = congiguration["SwaggerGen:Version"],
+                        Title = configuration["SwaggerGen:Title"],
+                        Version = configuration["SwaggerGen:Version"],
                         Contact = new OpenApiContact
                         {
-                            Name = congiguration["SwaggerGen:Contacts:Name"],
-                            Email = congiguration["SwaggerGen:Contacts:Email"],
-                            Url = new Uri(congiguration["SwaggerGen:Contacts:Url"]!),
+                            Name = configuration["SwaggerGen:Contacts:Name"],
+                            Email = configuration["SwaggerGen:Contacts:Email"],
+                            Url = new Uri(configuration["SwaggerGen:Contacts:Url"]!),
                         },
                     }
                 );
@@ -29,11 +29,11 @@ namespace Identity.API.Configurations
                 options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = congiguration["SwaggerGen:Description"],
-                    Name = congiguration["SwaggerGen:Name"],
+                    Description = configuration["SwaggerGen:Description"],
+                    Name = configuration["SwaggerGen:Name"],
                     Type = SecuritySchemeType.Http,
-                    BearerFormat = congiguration["SwaggerGen:BearerFormat"],
-                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                    BearerFormat = configuration["SwaggerGen:BearerFormat"],
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
