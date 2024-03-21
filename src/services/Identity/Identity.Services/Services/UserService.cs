@@ -16,19 +16,29 @@ namespace Identity.Services.Services
 {
     internal class UserService(UserManager<User> userManager,
         IPaginationService paginationService,
-        IPublishEndpoint publishEndpoint,
+        IBus bus,
         ILogger<UserService> logger) : IUserService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly IPaginationService _paginationService = paginationService;
         private readonly ILogger<UserService> _logger = logger;
-        private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
+        private readonly IBus _bus = bus;
         private readonly ThrowExceptionUtilities<UserService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
                                                             CancellationToken cancellationToken)
         {
             var user = requestUserDto.Adapt<User>();
+
+            var check = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == requestUserDto.Email
+                                                                || u.UserName == requestUserDto.UserName
+                                                                || u.PhoneNumber == requestUserDto.PhoneNumber,
+                                                                cancellationToken);
+
+            if(check is not null)
+            {
+                throw new Exception();
+            }
 
             var userCreateResult = await _userManager.CreateAsync(user, requestUserDto.Password);
             userCreateResult.CheckUserCreateResult(_logger);
@@ -38,7 +48,7 @@ namespace Identity.Services.Services
 
             var message = user.Adapt<CreateUserMessage>();
 
-            await _publishEndpoint.Publish(message);
+            await _bus.Publish(message, cancellationToken);
 
             var response = user.Adapt<ResponseCreateUserDto>();
 
@@ -82,7 +92,7 @@ namespace Identity.Services.Services
 
             var message = user.Adapt<UpdateUserMessage>();
 
-            await _publishEndpoint.Publish(message);
+            await _bus.Publish(message);
 
             var response = updatedUser.Adapt<ResponseUpdateUserDto>();
 

@@ -11,6 +11,7 @@ builder.Services.AddServicesConfiguration();
 builder.Services.AddInfrastructureConfiguration();
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddMassTransitConfiguration(builder.Configuration);
+builder.Services.AddLoggerConfiguration(builder);
 
 var app = builder.Build();
 

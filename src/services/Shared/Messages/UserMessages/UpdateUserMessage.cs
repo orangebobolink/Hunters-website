@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messages.UserMessages
 {
-    public class UpdateUserMessage
+    public record class UpdateUserMessage
     {
         public Guid Id { get; set; }
         public string UserName { get; set; } = string.Empty;

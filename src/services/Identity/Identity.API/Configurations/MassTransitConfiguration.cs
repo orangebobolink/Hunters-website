@@ -11,15 +11,13 @@ namespace Identity.API.Configurations
         {
             services.AddMassTransit(x =>
             {
-                var assembly = Assembly.GetAssembly(typeof(CreateUserMessage));
                 var host = config["RabbitMQ:Host"];
                 var virtualHost = config["RabbitMQ:VirtualHost"];
                 var username = config["RabbitMQ:Username"];
                 var password = config["RabbitMQ:Password"];
 
                 x.AddEntityFrameworkOutboxPattern();
-                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("Chat", false));
-                x.AddConsumers(assembly);
+                x.SetKebabCaseEndpointNameFormatter();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
