@@ -1,61 +1,67 @@
 version: '3.8'
 
 services:
-    sqlserver: 
-        ports:
-          - 1433:1433
-        environment:
-          - ACCEPT_EULA=Y
-          - MSSQL_SA_PASSWORD=Passw0rd
-        restart: unless-stopped
+  rabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: unless-stopped
 
-    kibana:
-        ports:
-            - 5601:5601
-        environment:
-            - ELASTICSEARCH_URL:http://localhost:9200
-        links:
-            - elasticsearch
-        networks:
-            - elk
-        depends_on:
-            - elasticsearch
- 
-    elasticsearch:
-        ports:
-            - 9200:9200
-        environment: 
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-            - discovery.type=single-node
-        networks:
-            - elk
-         
-    gateway:
-        ports:
-            - 5001:8080
-        restart: unless-stopped
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Docker
+  sqlserver:
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Passw0rd
+    restart: unless-stopped
 
-    identity:
-        ports:
-            - 9001:8080
-        restart: unless-stopped
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Docker
-        depends_on:
-            - gateway
-            - sqlserver
-    chat:
-        ports:
-            - 8001:8080
-        restart: unless-stopped
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Docker
-        depends_on:
-            - gateway
-            - sqlserver
+  kibana:
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL:http://localhost:9200
+    links:
+      - elasticsearch
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    ports:
+      - 9200:9200
+    environment:
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - discovery.type=single-node
+    networks:
+      - elk
+
+  gateway:
+    ports:
+      - 5001:8080
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+
+  identity:
+    ports:
+      - 9001:8080
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    depends_on:
+      - gateway
+      - sqlserver
+  chat:
+    ports:
+      - 8001:8080
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    depends_on:
+      - gateway
+      - sqlserver
 
 networks:
-    elk:
-        driver: bridge
+  elk:
+    driver: bridge

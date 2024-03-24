@@ -1,51 +1,47 @@
 version: '3.8'
 
 volumes:
-    sqlserver_data:
-    elasticsearch-data:
+  sqlserver_data:
+  elasticsearch-data:
 
 services:
-    rabbitmq:
-        container_name: RabbitMQ
-        image: rabbitmq:3-management-alpine
-        ports:
-          - 5672:5672
-          - 15672:15672
-        restart: unless-stopped
+  rabbitmq:
+    container_name: RabbitMQ
+    image: rabbitmq:3-management-alpine
 
-    sqlserver: 
-        container_name: SqlServer
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        volumes:
-             - sqlserver_data:/var/opt/mssql
+  sqlserver:
+    container_name: SqlServer
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    volumes:
+      - sqlserver_data:/var/opt/mssql
 
-    kibana:
-        container_name: kibana
-        image: kibana:8.8.1
-        volumes:
-            - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+  kibana:
+    container_name: kibana
+    image: kibana:8.8.1
+    volumes:
+      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
 
-    elasticsearch:
-        container_name: elasticsearch
-        image: elasticsearch:8.8.1
-        volumes:
-            - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
-            - elasticsearch-data:/usr/share/elasticsearch/data:Z
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:8.8.1
+    volumes:
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch-data:/usr/share/elasticsearch/data:Z
 
-    gateway:
-        container_name: Gateway
-        build:
-            context: "."
-            dockerfile: /gateways/OcelotApiGateway/Dockerfile
-         
-    identity:
-        container_name: Identity
-        build:
-            context: "."
-            dockerfile: /services/Identity/Identity.API/Dockerfile
+  gateway:
+    container_name: Gateway
+    build:
+      context: '.'
+      dockerfile: /gateways/OcelotApiGateway/Dockerfile
 
-    chat:
-        container_name: Chat
-        build:
-            context: "."
-            dockerfile: /services/Chat/Chat.API/Dockerfile
+  identity:
+    container_name: Identity
+    build:
+      context: '.'
+      dockerfile: /services/Identity/Identity.API/Dockerfile
+
+  chat:
+    container_name: Chat
+    build:
+      context: '.'
+      dockerfile: /services/Chat/Chat.API/Dockerfile
