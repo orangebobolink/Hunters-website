@@ -28,17 +28,13 @@ namespace Identity.Services.Services
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
                                                             CancellationToken cancellationToken)
         {
-            var user = requestUserDto.Adapt<User>();
-
-            var check = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == requestUserDto.Email
+            var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == requestUserDto.Email
                                                                 || u.UserName == requestUserDto.UserName
                                                                 || u.PhoneNumber == requestUserDto.PhoneNumber,
-                                                                cancellationToken);
+                                                                cancellationToken)
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(requestUserDto.UserName);
 
-            if(check is not null)
-            {
-                throw new Exception();
-            }
+            var user = requestUserDto.Adapt<User>();
 
             var userCreateResult = await _userManager.CreateAsync(user, requestUserDto.Password);
             userCreateResult.CheckUserCreateResult(_logger);
