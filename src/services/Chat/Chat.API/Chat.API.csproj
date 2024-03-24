@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Hubs\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Chat.Infrastructure\Chat.Infrastructure.csproj" />
     <ProjectReference Include="..\Chat.Services\Chat.Services.csproj" />
   </ItemGroup>

@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import { api } from '@/shared/model/store/queries/api';
 
 import authReducer from '@/shared/model/store/slices/auth';
+import {signal} from '@/shared/model/store/slices/signalr';
 
 const persistConfig = {
     key: 'root',
@@ -34,7 +35,7 @@ export const store = configureStore({
         serializableCheck: {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-    }).concat(api.middleware),
+    }).concat(api.middleware, signal),
     devTools: true,
 });
 
