@@ -5,7 +5,7 @@ export const connectToSignalR = createAsyncThunk(
     'signalr/connect',
     async (_, { getState }) => {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("http://localhost:5019/chat")
+            .withUrl("http://localhost:5001/chat")
             .build();
 
         connection.on("ReceiveMessage", (message) => {
