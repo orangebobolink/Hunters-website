@@ -25,6 +25,36 @@
       "UpstreamPathTemplate": "/api/chat/{everything}",
       "UpstreamHttpMethod": [ "Post", "Put", "Get" ],
       "SwaggerKey": "chat"
+    },
+    {
+      "DownstreamPathTemplate": "/chat/",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5019
+        }
+      ],
+      "UpstreamPathTemplate": "/chat/",
+      "QoSOptions": {
+        "TimeoutValue": 320000
+      },
+      "Priority": 50
+    },
+    {
+      "DownstreamPathTemplate": "/chat/{path}",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5019
+        }
+      ],
+      "UpstreamPathTemplate": "/chat/{path}",
+      "QoSOptions": {
+        "TimeoutValue": 320000
+      },
+      "Priority": 50
     }
   ],
   "SwaggerEndPoints": [
@@ -34,7 +64,7 @@
         {
           "Name": "Identity API",
           "Version": "v1",
-          "Url": "http://localhost:5019/swagger/v1/swagger.json"
+          "Url": "http://localhost:5165/swagger/v1/swagger.json"
         }
       ]
     },

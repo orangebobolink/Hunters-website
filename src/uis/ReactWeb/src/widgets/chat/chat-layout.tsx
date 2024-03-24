@@ -6,6 +6,11 @@ import { cn } from "@/shared/lib/utils/cnUtil.ts";
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from '@/shared/ui/resizable.tsx';
 import {Sidebar} from '@/features/chat/sidebar.tsx';
 import {Chat} from '@/features/chat/chat.tsx';
+import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
+import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '@/shared/model/store';
+import {connectToSignalR} from '@/shared/model/store/slices/signalr/connectionThunk.ts';
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -18,9 +23,30 @@ export function ChatLayout({
                                defaultCollapsed = false,
                                navCollapsedSize,
                            }: ChatLayoutProps) {
+    const dispatch = useDispatch();
+    const connection = useSelector((state: RootState) => state.signalr.connection);
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+
+        dispatch(connectToSignalR());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (connection) {
+            // Добавляем обработчик для получения сообщений
+            connection.on('ReceiveMessage', (message: any) => {
+                console.log(message)
+            });
+
+            return () => {
+                // Удаляем обработчик при размонтировании компонента
+                connection.off('receiveMessage');
+            };
+        }
+    }, [connection]);
 
     useEffect(() => {
         const checkScreenWidth = () => {

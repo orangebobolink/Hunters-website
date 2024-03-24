@@ -55,6 +55,8 @@ namespace Identity.API.Configurations
                         new string[]{}
                     }
                 });
+
+                options.AddSignalRSwaggerGen();
             });
         }
     }
