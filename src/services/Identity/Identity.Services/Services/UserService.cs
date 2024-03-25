@@ -31,8 +31,12 @@ namespace Identity.Services.Services
             var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == requestUserDto.Email
                                                                 || u.UserName == requestUserDto.UserName
                                                                 || u.PhoneNumber == requestUserDto.PhoneNumber,
-                                                                cancellationToken)
-                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(requestUserDto.UserName);
+                                                                cancellationToken);
+
+            if(existingUser is not null)
+            {
+                throw new Exception();
+            }
 
             var user = requestUserDto.Adapt<User>();
 

@@ -11,6 +11,7 @@ import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/shared/model/store';
 import {connectToSignalR} from '@/shared/model/store/slices/signalr/connectionThunk.ts';
+import {Connector} from "@/shared/api/signalr-connection.ts";
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -23,30 +24,19 @@ export function ChatLayout({
                                defaultCollapsed = false,
                                navCollapsedSize,
                            }: ChatLayoutProps) {
-    const dispatch = useDispatch();
-    const connection = useSelector((state: RootState) => state.signalr.connection);
+    const {id} = useAppSelector(selectAuth);
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
+    const { newMessage, getMessages, events } = new Connector();
+    const [message, setMessage] = useState("initial value");
 
     useEffect(() => {
+        events((_, message) => setMessage(message));
+        console.log(message)
+        getMessages();
+    });
 
-        dispatch(connectToSignalR());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (connection) {
-            // Добавляем обработчик для получения сообщений
-            connection.on('ReceiveMessage', (message: any) => {
-                console.log(message)
-            });
-
-            return () => {
-                // Удаляем обработчик при размонтировании компонента
-                connection.off('receiveMessage');
-            };
-        }
-    }, [connection]);
 
     useEffect(() => {
         const checkScreenWidth = () => {

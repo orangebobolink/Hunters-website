@@ -25,6 +25,36 @@
       "UpstreamPathTemplate": "/api/chat/{everything}",
       "UpstreamHttpMethod": [ "Post", "Delete", "Get" ],
       "SwaggerKey": "identity"
+    },
+    {
+      "DownstreamPathTemplate": "/chat/",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "chat",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/chat/",
+      "QoSOptions": {
+        "TimeoutValue": 320000
+      },
+      "Priority": 50
+    },
+    {
+      "DownstreamPathTemplate": "/chat/{path}",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "chat",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/chat/{path}",
+      "QoSOptions": {
+        "TimeoutValue": 320000
+      },
+      "Priority": 50
     }
   ],
   "SwaggerEndPoints": [
