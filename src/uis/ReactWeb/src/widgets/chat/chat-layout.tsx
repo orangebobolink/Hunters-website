@@ -8,10 +8,8 @@ import {Sidebar} from '@/features/chat/sidebar.tsx';
 import {Chat} from '@/features/chat/chat.tsx';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '@/shared/model/store';
-import {connectToSignalR} from '@/shared/model/store/slices/signalr/connectionThunk.ts';
-import {Connector} from "@/shared/api/signalr-connection.ts";
+import * as signalR from "@microsoft/signalr"
+import {Button} from "@/shared/ui";
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -24,21 +22,25 @@ export function ChatLayout({
                                defaultCollapsed = false,
                                navCollapsedSize,
                            }: ChatLayoutProps) {
-    const {id} = useAppSelector(selectAuth);
+    const {id, error} = useAppSelector(selectAuth);
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
-    const { newMessage, getMessages, events } = new Connector();
-    const [message, setMessage] = useState("initial value");
+
+    const  connection = new signalR.HubConnectionBuilder()
+        .withUrl("http://localhost:5001/chat")
+        .withAutomaticReconnect()
+        .build();
+
+    connection.on("ReceiveMessage", (data) => {console.log(data)})
+
+
+    connection.start()
+        .then(() => connection.invoke("ReceiveMessage", id));
+
 
     useEffect(() => {
-        events((_, message) => setMessage(message));
-        console.log(message)
-        getMessages();
-    });
-
-
-    useEffect(() => {
+        console.log(id)
         const checkScreenWidth = () => {
             setIsMobile(window.innerWidth <= 768);
         };
@@ -65,6 +67,7 @@ export function ChatLayout({
             }}
             className="h-full items-stretch"
         >
+
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
                 collapsedSize={navCollapsedSize}

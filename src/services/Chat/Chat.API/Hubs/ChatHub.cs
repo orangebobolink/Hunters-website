@@ -9,7 +9,7 @@ namespace Chat.API.Hubs
     {
         private readonly IGroupService _groupService = groupService;
 
-        public async Task SendMessageToCaller(Guid userId, 
+        public async Task ReceiveMessage(Guid userId, 
             [SignalRHidden] CancellationToken cancellationToken = default)
         {
             var dataToSend = await _groupService.GetAllGroupsByUserId(userId);
