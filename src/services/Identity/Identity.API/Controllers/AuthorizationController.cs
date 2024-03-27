@@ -11,6 +11,8 @@ namespace Identity.API.Controllers
         private readonly IAuthorizationService _authorizationService = authorizationService;
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> LoginAsync([FromBody] RequestLoginUserDto loginUserDto,
                                                     CancellationToken cancellationToken = default)
         {
@@ -20,6 +22,8 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("registration")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RegistrationAsync([FromBody] RequestRegistrationUserDto registrationUserDto,
                                                             CancellationToken cancellationToken = default)
         {
