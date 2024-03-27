@@ -23,6 +23,8 @@ app.UseRouting();
 app.UseSwaggerForOcelotUI(options =>
     options.PathToSwaggerGenerator = "/swagger/docs");
 
+app.UseWebSockets();
+
 await app.UseOcelot();
 
 app.Run();

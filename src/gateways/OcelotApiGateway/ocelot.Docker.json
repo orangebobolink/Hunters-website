@@ -27,23 +27,9 @@
       "SwaggerKey": "identity"
     },
     {
-      "DownstreamPathTemplate": "/chat/",
-      "DownstreamScheme": "ws",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "chat",
-          "Port": 8080
-        }
-      ],
-      "UpstreamPathTemplate": "/chat/",
-      "QoSOptions": {
-        "TimeoutValue": 320000
-      },
-      "Priority": 50
-    },
-    {
       "DownstreamPathTemplate": "/chat/{path}",
       "DownstreamScheme": "ws",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamHostAndPorts": [
         {
           "Host": "chat",

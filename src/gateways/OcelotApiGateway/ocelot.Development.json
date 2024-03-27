@@ -26,24 +26,11 @@
       "UpstreamHttpMethod": [ "Post", "Put", "Get" ],
       "SwaggerKey": "chat"
     },
-    {
-      "DownstreamPathTemplate": "/chat/",
-      "DownstreamScheme": "ws",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5019
-        }
-      ],
-      "UpstreamPathTemplate": "/chat/",
-      "QoSOptions": {
-        "TimeoutValue": 320000
-      },
-      "Priority": 50
-    },
+
     {
       "DownstreamPathTemplate": "/chat/{path}",
       "DownstreamScheme": "ws",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
