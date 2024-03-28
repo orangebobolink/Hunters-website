@@ -9,12 +9,12 @@ namespace Chat.API.Hubs
     {
         private readonly IGroupService _groupService = groupService;
 
-        public async Task ReceiveMessage(Guid userId, 
-            [SignalRHidden] CancellationToken cancellationToken = default)
+        public async Task ReceiveMessages(string id)
         {
-            var dataToSend = await _groupService.GetAllGroupsByUserId(userId);
+            var dataToSend = await _groupService.GetAllGroupsByUserId(Guid.Parse(id));
 
-            await Clients.Caller.SendAsync("ReceiveMessage", dataToSend, cancellationToken);
+            // return dataToSend;
+            await Clients.Caller.SendAsync("ReceiveMessages", dataToSend);
         }
     }
 }

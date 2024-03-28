@@ -8,8 +8,9 @@ import {Sidebar} from '@/features/chat/sidebar.tsx';
 import {Chat} from '@/features/chat/chat.tsx';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import * as signalR from "@microsoft/signalr"
 import {Button} from "@/shared/ui";
+import {SignalRContext} from '@/shared/model/signalrR';
+import axios from 'axios';
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -27,16 +28,14 @@ export function ChatLayout({
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
 
-    const  connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:5001/chat")
-        .withAutomaticReconnect()
-        .build();
+    async function invoke() {
 
-    connection.on("ReceiveMessage", (data) => {console.log(data)})
-
-
-    connection.start()
-        .then(() => connection.invoke("ReceiveMessage", id));
+        const response = await SignalRContext.invoke(
+            "ReceiveMessages",
+            id
+        );
+        console.log("ЧТО-ТО " + JSON.stringify(response));
+    }
 
 
     useEffect(() => {
@@ -67,7 +66,7 @@ export function ChatLayout({
             }}
             className="h-full items-stretch"
         >
-
+            <Button onClick={invoke}>Xnj</Button>
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
                 collapsedSize={navCollapsedSize}
