@@ -7,7 +7,7 @@ namespace Identity.Services.Interfaces
     public interface IAccessTokenUtilities
     {
         string ReadAccessTokeFromHeaders();
-        string GetNameFromAccessToken();
+        string GetUsernameFromAccessToken();
         Task<JwtSecurityToken> GetTokenOptionsAsync(User user, CancellationToken cancellationToken);
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }

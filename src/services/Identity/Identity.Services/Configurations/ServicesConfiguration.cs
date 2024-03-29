@@ -12,10 +12,10 @@ namespace Identity.Services.Configurations
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IRefreshTokenCookie, JwtUtilities>();
-            services.AddScoped<IAccessTokenUtilities, JwtUtilities>();
-            services.AddScoped<IRefreshTokenUtilities, JwtUtilities>();
-            services.AddScoped<ICookieUtilities, CookieUtilities>();
+            services.AddScoped<IRefreshTokenCookie, RefreshTokenUtility>();
+            services.AddScoped<IRefreshTokenUtilities, RefreshTokenUtility>();
+            services.AddScoped<IAccessTokenUtilities, AccessTokenUtility>();
+            services.AddScoped<ICookieUtilities, CookieUtility>();
         }
     }
 }

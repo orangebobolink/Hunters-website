@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Identity.Services.Utilities
 {
-    internal class ThrowExceptionUtilities<T>(ILogger<T> logger)
+    internal class ThrowExceptionUtility<T>(ILogger<T> logger)
     {
         public User ThrowAccountNotFoundException(string username)
         {

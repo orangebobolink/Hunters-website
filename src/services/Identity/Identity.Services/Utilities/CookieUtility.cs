@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Identity.Services.Utilities
 {
-    internal class CookieUtilities(IHttpContextAccessor httpContextAccessor)
+    internal class CookieUtility(IHttpContextAccessor httpContextAccessor)
         : ICookieUtilities
     {
         private readonly HttpContext _httpContext = httpContextAccessor.HttpContext!;

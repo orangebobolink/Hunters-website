@@ -13,17 +13,13 @@ namespace Identity.Services.Services
     internal class AuthorizationService(UserManager<User> userManager,
         ITokenService tokenService,
         IUserService userService,
-        IRefreshTokenCookie refreshTokenCookieUtilities,
-        IRefreshTokenUtilities refreshTokenUtilities,
         ILogger<AuthorizationService> logger) : IAuthorizationService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly ITokenService _tokenService = tokenService;
         private readonly IUserService _userService = userService;
         private readonly ILogger<AuthorizationService> _logger = logger;
-        private readonly ThrowExceptionUtilities<AuthorizationService> _throwExceptionUtilities = new(logger);
-        private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
-        private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
+        private readonly ThrowExceptionUtility<AuthorizationService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseAuthenticatedDto> LoginAsync(RequestLoginUserDto loginUserDto,
             CancellationToken cancellationToken)
@@ -33,7 +29,7 @@ namespace Identity.Services.Services
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user, cancellationToken);
             var refreshToken = _tokenService.GenerateRefreshToken();
 
-            await UpdateUserRefreshTokenAsync(user, refreshToken);
+            await _tokenService.UpdateUserRefreshTokenAsync(user, refreshToken);
 
             _logger.LogInformation($"User {user.UserName} logged in successfully.");
 
@@ -59,17 +55,6 @@ namespace Identity.Services.Services
             _logger.LogInformation($"User registered successfully. Username: {userRequestDto.UserName}");
 
             return true;
-        }
-
-        private async Task UpdateUserRefreshTokenAsync(User user, string refreshToken)
-        {
-            _refreshTokenUtilities.UpdateRefreshTokenForUser(user, refreshToken);
-
-            var userUpdateResult = await _userManager.UpdateAsync(user);
-
-            userUpdateResult.CheckUserUpdateResult(_logger);
-
-            _refreshTokenCookieUtilities.AddRefreshTokenCookie(refreshToken);
         }
 
         private async Task<User> VerifyingTheValidityOfLoginDataAsync(RequestLoginUserDto loginUserDto)

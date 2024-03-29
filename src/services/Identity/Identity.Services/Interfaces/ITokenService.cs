@@ -10,5 +10,7 @@ namespace Identity.Services.Interfaces
         string GenerateRefreshToken();
         Task<ResponseAuthenticatedDto> RefreshAsync(CancellationToken cancellationToken);
         Task RevokeAsync(CancellationToken cancellationToken);
+        Task UpdateUserRefreshTokenAsync(User user, string newRefreshToken);
+        Task DeleteUserRefreshTokenAsync(User user);
     }
 }

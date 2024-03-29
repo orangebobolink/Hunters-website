@@ -11,45 +11,14 @@ using System.Text;
 
 namespace Identity.Services.Utilities
 {
-    internal class JwtUtilities(UserManager<User> userManager,
-        ICookieUtilities cookieUtilities,
-        IConfiguration configuration,
-        IHttpContextAccessor httpContextAccessor)
-        : IRefreshTokenCookie, IAccessTokenUtilities, IRefreshTokenUtilities
+    internal class AccessTokenUtility(UserManager<User> userManager, 
+        IHttpContextAccessor httpContextAccessor,
+        IConfiguration configuration) 
+        : IAccessTokenUtilities
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly ICookieUtilities _cookieUtilities = cookieUtilities;
-        private readonly IConfiguration _configuration = configuration;
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-        private readonly string _cookieRefreshTokenKey = configuration["JwtSettings:RefreshToken:CookieName"]!;
-
-        public void AddRefreshTokenCookie(string newRefreshToken)
-        {
-            var expiresInDay = int.Parse(_configuration["JwtSettings:RefreshToken:ExpiresInDay"]!);
-
-            var refreshTokenCookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(expiresInDay),
-                Path = "/",
-            };
-
-            _cookieUtilities.AddToCookie(_cookieRefreshTokenKey, newRefreshToken, refreshTokenCookieOptions);
-        }
-
-        public string ReadRefreshTokenCookie()
-        {
-            var data = _cookieUtilities.ReadFromCookie(_cookieRefreshTokenKey);
-
-            return data!;
-        }
-
-        public void DeleteRefreshTokenCookie()
-        {
-            _cookieUtilities.RemoveFromCookie(_cookieRefreshTokenKey);
-        }
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task<JwtSecurityToken> GetTokenOptionsAsync(User user, CancellationToken cancellationToken)
         {
@@ -143,7 +112,7 @@ namespace Identity.Services.Utilities
             return accessToken;
         }
 
-        public string GetNameFromAccessToken()
+        public string GetUsernameFromAccessToken()
         {
             string accessToken = ReadAccessTokeFromHeaders();
 
@@ -152,13 +121,6 @@ namespace Identity.Services.Utilities
             var username = principals.Identity?.Name;
 
             return username!;
-        }
-
-        public void UpdateRefreshTokenForUser(User user, string newRefreshToken)
-        {
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now
-                                    .AddDays(int.Parse(_configuration["JwtSettings:RefreshToken:ExpiresInDay"]!));
         }
     }
 }

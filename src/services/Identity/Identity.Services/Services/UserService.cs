@@ -23,7 +23,7 @@ namespace Identity.Services.Services
         private readonly IPaginationService _paginationService = paginationService;
         private readonly ILogger<UserService> _logger = logger;
         private readonly IBus _bus = bus;
-        private readonly ThrowExceptionUtilities<UserService> _throwExceptionUtilities = new(logger);
+        private readonly ThrowExceptionUtility<UserService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
                                                             CancellationToken cancellationToken)
