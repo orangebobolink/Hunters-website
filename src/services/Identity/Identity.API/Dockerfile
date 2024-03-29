@@ -10,7 +10,7 @@ COPY ["services/Identity/Identity.API/Identity.API.csproj", "services/Identity/I
 COPY ["services/Identity/Identity.Services/Identity.Services.csproj", "services/Identity/Identity.Services/"]
 COPY ["services/Identity/Identity.Domain/Identity.Domain.csproj", "services/Identity/Identity.Domain/"]
 COPY ["services/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj", "services/Identity/Identity.Infrastructure/"]
-COPY ["services/Shared/Shared.csproj", "services/Shared/"]
+COPY ["services/Shared.Messages/Shared.Messages.csproj", "services/Shared.Messages/"]
 RUN dotnet restore "services/Identity/Identity.API/Identity.API.csproj"
 COPY ./services/Identity/ ./services/Identity/
 COPY ./services/Shared/ ./services/Shared/
