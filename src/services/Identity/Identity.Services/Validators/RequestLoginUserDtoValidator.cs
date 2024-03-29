@@ -9,9 +9,11 @@ namespace Identity.Services.Validators
     {
         public RequestLoginUserDtoValidator()
         {
-            RuleFor(user => user.UserName)
+            RuleFor(user => user.Email)
                .NotEmpty()
-               .WithMessage(UserErrorHelper.EmptyEmailError);
+               .WithMessage(UserErrorHelper.EmptyEmailError)
+               .EmailAddress()
+               .WithMessage(UserErrorHelper.InvalidEmailError);
 
             RuleFor(x => x.Password)
                 .NotEmpty()

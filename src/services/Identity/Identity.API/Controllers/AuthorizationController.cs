@@ -1,4 +1,6 @@
-﻿using Identity.Services.Dtos.RequestDtos;
+﻿// Ignore Spelling: API Dto
+
+using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

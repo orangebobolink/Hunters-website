@@ -1,4 +1,5 @@
-﻿using Chat.Services.Interfaces;
+﻿using Chat.Services.Dtos.ResponseDtos;
+using Chat.Services.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 
@@ -9,12 +10,11 @@ namespace Chat.API.Hubs
     {
         private readonly IGroupService _groupService = groupService;
 
-        public async Task ReceiveMessages(string id)
+        public async Task<List<ResponseGroupDto>> ReceiveMessages(Guid id)
         {
-            var dataToSend = await _groupService.GetAllGroupsByUserId(Guid.Parse(id));
+            var dataToSend = await _groupService.GetAllGroupsByUserId(id);
 
-            // return dataToSend;
-            await Clients.Caller.SendAsync("ReceiveMessages", dataToSend);
+            return dataToSend;
         }
     }
 }

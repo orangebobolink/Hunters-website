@@ -24,6 +24,11 @@ export class AuthService {
     }
 
     static async logout() {
-        return axios.post(apiMap.LOGOUT, {}, { withCredentials: true });
+        const accessToken = `Bearer ${LocaleStorageUtils.getAccessToken()}`
+        return axios.patch(apiMap.LOGOUT, {}, {
+            withCredentials: true,
+            headers:{
+                Authorization:accessToken
+            } });
     }
 }

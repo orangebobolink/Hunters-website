@@ -23,7 +23,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 
 const formSchema = z.object({
-    username: z.string().min(2).max(50),
+    email: z.string().email(),
     password: z.string(),
 });
 
@@ -33,14 +33,14 @@ export const LoginForm = () => {
     const controller = useMemo(() => new AbortController(), []);
     const navigate = useNavigate();
     const { t} = useTranslation("translation",
-    {
-        keyPrefix: "login"
-    });
+                                                {
+                                                    keyPrefix: "login"
+                                                });
 
     useEffect(() => {
         if (isAuth) {
             toastSuccess(Notice.AUTH_SUCCESSFUL);
-
+            navigate("/");
         } else if (error) toastError(error);
     }, [error, isAuth]);
 
@@ -53,7 +53,7 @@ export const LoginForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
             password: "",
         },
     })
@@ -61,12 +61,11 @@ export const LoginForm = () => {
     const onSubmit = useCallback(
         (values:  z.infer<typeof formSchema>) => {
             const request:LoginRequest = {
-                username: values.username,
+                email: values.email,
                 password: values.password
             }
 
             login({ controller, ...request });
-            navigate("/");
         },
         [controller, login],
     );
@@ -81,11 +80,11 @@ export const LoginForm = () => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                     <FormField
                         control={form.control}
-                        name="username"
+                        name="email"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel className="text-green-500">
-                                    {t("username")}
+                                    {t("email")}
                                 </FormLabel>
                                 <FormControl className="border-black/50">
                                     <Input {...field} />

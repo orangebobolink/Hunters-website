@@ -9,8 +9,8 @@
           "Port": 5165
         }
       ],
-      "UpstreamPathTemplate": "/api/identity/{everything}",
-      "UpstreamHttpMethod": [ "Post", "Put", "Get" ],
+      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Patch" ],
       "SwaggerKey": "identity"
     },
     {

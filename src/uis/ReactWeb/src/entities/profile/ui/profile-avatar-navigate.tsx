@@ -8,8 +8,10 @@ import {
 } from '@/shared/ui/dropdown-menu.tsx';
 import {Avatar, AvatarFallback, AvatarImage} from '@/shared/ui/avatar.tsx';
 import {useTranslation} from 'react-i18next';
+import {useActions} from "@/shared/lib/hooks/useActions.ts";
 
 const ProfileAvatarNavigate = () => {
+    const { logout, resetStatuses } = useActions();
     const { t, i18n } = useTranslation("translation",
         {
             keyPrefix: "header.profile"
@@ -35,7 +37,7 @@ const ProfileAvatarNavigate = () => {
                     <DropdownMenuItem>
                         {t("settings")}
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>
                         {t("signOut")}
                     </DropdownMenuItem>
                 </DropdownMenuContent>

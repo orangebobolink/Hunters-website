@@ -10,7 +10,6 @@ import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {Button} from "@/shared/ui";
 import {SignalRContext} from '@/shared/model/signalrR';
-import axios from 'axios';
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -28,14 +27,14 @@ export function ChatLayout({
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
 
-    async function invoke() {
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await SignalRContext.invoke("ReceiveMessages", id);
+            console.log("ЧТО-ТО " + JSON.stringify(response));
+        };
 
-        const response = await SignalRContext.invoke(
-            "ReceiveMessages",
-            id
-        );
-        console.log("ЧТО-ТО " + JSON.stringify(response));
-    }
+        fetchData().catch(console.error);
+    }, []);
 
 
     useEffect(() => {
@@ -66,7 +65,6 @@ export function ChatLayout({
             }}
             className="h-full items-stretch"
         >
-            <Button onClick={invoke}>Xnj</Button>
             <ResizablePanel
                 defaultSize={defaultLayout[0]}
                 collapsedSize={navCollapsedSize}

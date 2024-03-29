@@ -117,7 +117,7 @@ namespace Identity.Services.Utilities
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
 
-            JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
 
             var jwtTokenIsNull = jwtSecurityToken is null;
             var jwtTokenIsSecurityValid = !jwtSecurityToken!.Header.Alg

@@ -85,10 +85,10 @@ const authSlice = createSlice({
                 state.isAuth = false;
                 state.username = null;
                 state.roles = [];
-                LocaleStorageUtils.removeAccessToken();
             })
             .addCase(logoutThunk.fulfilled, (state) => {
                 setFulfilledValues(state);
+                LocaleStorageUtils.removeAccessToken();
             })
             .addCase(logoutThunk.rejected, setRejectedValues);
     },

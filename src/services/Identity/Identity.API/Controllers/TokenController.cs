@@ -1,5 +1,4 @@
-﻿using Identity.Services.Dtos;
-using Identity.Services.Interfaces;
+﻿using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,10 +21,10 @@ namespace Identity.API.Controllers
         }
 
         [Authorize]
+        [HttpPatch("revoke")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Revoke(CancellationToken cancellationToken = default)
         {
             await _tokenService.RevokeAsync(cancellationToken);

@@ -40,7 +40,7 @@ namespace Identity.Services.Services
             var response = new ResponseAuthenticatedDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                UserName = user.UserName!,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 AccessToken = accessToken,
             };
@@ -74,8 +74,8 @@ namespace Identity.Services.Services
 
         private async Task<User> VerifyingTheValidityOfLoginDataAsync(RequestLoginUserDto loginUserDto)
         {
-            var user = await _userManager.FindByNameAsync(loginUserDto.UserName)
-                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(loginUserDto.UserName);
+            var user = await _userManager.FindByEmailAsync(loginUserDto.Email)
+                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(loginUserDto.Email);
 
             var isPasswordCorrect = await _userManager.CheckPasswordAsync(user!, loginUserDto.Password);
 
