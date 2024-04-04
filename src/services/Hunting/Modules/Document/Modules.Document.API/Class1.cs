@@ -1,4 +1,4 @@
-﻿namespace Module.Document.API
+﻿namespace Modules.Document.API
 {
     public class Class1
     {

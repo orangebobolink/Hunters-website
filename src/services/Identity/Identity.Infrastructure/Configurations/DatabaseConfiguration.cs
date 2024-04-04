@@ -17,6 +17,8 @@ namespace Identity.Infrastructure.Configurations
 
             services.AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IDataSeeder, DataSeeder>();
         }
     }
 }

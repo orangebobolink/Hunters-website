@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Module.Document.API\Module.Document.API.csproj" />
+    <ProjectReference Include="..\..\Shared.Messages\Shared.Messages.csproj" />
+    <ProjectReference Include="..\Modules\Document\Modules.Document.API\Modules.Document.API.csproj" />
   </ItemGroup>
 
 </Project>

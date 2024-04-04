@@ -1,24 +1,30 @@
 ﻿using Identity.Domain.Entities;
+using Identity.Infrastructure.Contexts;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Identity.Infrastructure.Configurations
+namespace Identity.Infrastructure
 {
-    internal static class DataSeedConfiguration
+    internal class DataSeeder(
+        IBus bus, ApplicationDbContext context) 
+        : IDataSeeder
     {
-        public static void ApplyDataSeed(this ModelBuilder builder)
+        private readonly IBus _bus = bus;
+        protected readonly ApplicationDbContext _context = context;
+
+        public async Task SeedAsync(ModelBuilder builder)
         {
-            List<IdentityRole<Guid>> roles = builder.SeedRoles();
+            List<IdentityRole<Guid>> roles = SeedRoles(builder);
 
-            //await _bus.Publish(roles);
+            await _bus.Publish(new User());
 
-            List<User> users = builder.SeedUsers();
+            List<User> users = SeedUsers(builder);
 
-            builder.SeedUserRole(users, roles);
+            SeedUserRole(builder, users, roles);
         }
 
-        private static List<IdentityRole<Guid>> SeedRoles(this ModelBuilder builder)
+        private List<IdentityRole<Guid>> SeedRoles(ModelBuilder builder)
         {
             List<string> existingRoles = [
                 Role.Admin,
@@ -43,7 +49,7 @@ namespace Identity.Infrastructure.Configurations
             return roles;
         }
 
-        private static List<User> SeedUsers(this ModelBuilder builder)
+        private static List<User> SeedUsers(ModelBuilder builder)
         {
             var passwordHasher = new PasswordHasher<User>();
 
@@ -76,7 +82,7 @@ namespace Identity.Infrastructure.Configurations
             return users;
         }
 
-        private static void SeedUserRole(this ModelBuilder builder, List<User> users, List<IdentityRole<Guid>> roles)
+        private static void SeedUserRole(ModelBuilder builder, List<User> users, List<IdentityRole<Guid>> roles)
         {
             var userRoles = new List<IdentityUserRole<Guid>>()
             {

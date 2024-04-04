@@ -3,17 +3,20 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Identity.Infrastructure.Configurations;
 using MassTransit;
 
 namespace Identity.Infrastructure.Contexts
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public class ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options, 
+        IDataSeeder dataSeeder)
         : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
     {
+        private IDataSeeder _dataSeeder = dataSeeder;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyDataSeed();
+            _dataSeeder.SeedAsync(modelBuilder).Wait();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
