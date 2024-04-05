@@ -2,8 +2,10 @@
 
 namespace Modules.Animal.Domain.Interfaces.Repositories
 {
-    internal interface IHuntingSeasonRepository 
+    public interface IHuntingSeasonRepository 
         : IRepository<HuntingSeason>
     {
+        public Task<List<HuntingSeason>> GetHuntingSeasonsByTimePeriod(DateTime startDate, DateTime endDate, 
+                                                                        CancellationToken cancellationToken);
     }
 }

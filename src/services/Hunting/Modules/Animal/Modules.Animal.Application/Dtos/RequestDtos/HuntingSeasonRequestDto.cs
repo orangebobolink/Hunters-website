@@ -1,8 +1,9 @@
-﻿namespace Modules.Animal.Domain.Entities
+﻿using Modules.Animal.Domain.Entities;
+
+namespace Modules.Animal.Application.Dtos.RequestDtos
 {
-    public class HuntingSeason
+    public class HuntingSeasonRequestDto
     {
-        public Guid Id { get; set; }
         public Guid AnimalId { get; set; }
         public AnimalInfo? Animal { get; set; }
         public DateTime StartDate { get; set; } = DateTime.MinValue;
