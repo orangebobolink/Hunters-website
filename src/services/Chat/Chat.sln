@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Services", "..\Ide
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Messages", "..\Shared.Messages\Shared.Messages.csproj", "{1A9BF737-E6A6-4691-AECC-BDB420C062D7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Infrastructure", "..\Identity\Identity.Infrastructure\Identity.Infrastructure.csproj", "{AAA0EBCB-6A34-47CD-9767-51B8E278BD58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{1A9BF737-E6A6-4691-AECC-BDB420C062D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A9BF737-E6A6-4691-AECC-BDB420C062D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A9BF737-E6A6-4691-AECC-BDB420C062D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAA0EBCB-6A34-47CD-9767-51B8E278BD58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA0EBCB-6A34-47CD-9767-51B8E278BD58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA0EBCB-6A34-47CD-9767-51B8E278BD58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA0EBCB-6A34-47CD-9767-51B8E278BD58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

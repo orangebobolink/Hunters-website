@@ -1,5 +1,7 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Infrastructure.Contexts;
+using Identity.Infrastructure.DataSeed;
+using Identity.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +20,7 @@ namespace Identity.Infrastructure.Configurations
             services.AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddSingleton<IDataSeeder, DataSeeder>();
+            services.AddScoped<IDataSeeder, DataSeeder>();
         }
     }
 }

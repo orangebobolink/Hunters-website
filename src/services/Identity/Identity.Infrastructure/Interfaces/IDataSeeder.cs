@@ -1,4 +1,4 @@
-﻿namespace Identity.Infrastructure
+﻿namespace Identity.Infrastructure.Interfaces
 {
     public interface IDataSeeder
     {

@@ -8,15 +8,11 @@ using MassTransit;
 namespace Identity.Infrastructure.Contexts
 {
     public class ApplicationDbContext(
-        DbContextOptions<ApplicationDbContext> options, 
-        IDataSeeder dataSeeder)
+        DbContextOptions<ApplicationDbContext> options)
         : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
     {
-        private IDataSeeder _dataSeeder = dataSeeder;
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            _dataSeeder.SeedAsync(modelBuilder).Wait();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
