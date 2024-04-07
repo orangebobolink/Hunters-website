@@ -4,26 +4,29 @@ using Modules.Animal.Application.Dtos.RequestDtos;
 using Modules.Animal.Application.Dtos.ResponseDtos;
 using Modules.Animal.Application.Interfaces;
 using Modules.Animal.Domain.Entities;
+using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
+using Shared.Helpers;
 
 namespace Modules.Animal.Application.Services
 {
-    internal class AnimalService(IAnimalRepository animalRepository, 
-        ILogger<AnimalService> logger) 
+    internal class AnimalService(IAnimalRepository animalRepository,
+        ILogger<AnimalService> logger)
         : IAnimalService
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly ILogger<AnimalService> _logger = logger;
 
-        public async Task<AnimalInfoResponseDto> CreateAsync(AnimalInfoRequestDto requestAnimal, 
+        public async Task<AnimalInfoResponseDto> CreateAsync(AnimalInfoRequestDto requestAnimal,
                                                             CancellationToken cancellationToken)
         {
             var existingAnimal = await _animalRepository.GetByNameAsync(requestAnimal.Name, cancellationToken);
 
-            if (existingAnimal is not null)
+            if(existingAnimal is not null)
             {
                 _logger.LogInformation($"Animal with name {requestAnimal.Name} already exists.");
-                throw new InvalidOperationException("An animal with this name already exists.");
+                ThrowHelper.ThrowInvalidOperationException(
+                    ErrorMessageHelper.AnimalAlreadyExists(requestAnimal.Name));
             }
 
             var id = Guid.NewGuid();
@@ -46,7 +49,7 @@ namespace Modules.Animal.Application.Services
             if(existingAnimal is null)
             {
                 _logger.LogWarning($"Animal with id {id} not found in the database.");
-                throw new KeyNotFoundException("An animal with this Id not found in the database.");
+                ThrowHelper.ThrowKeyNotFoundException(ErrorMessageHelper.AnimalNotFound(id));
             }
 
             var animal = existingAnimal.Adapt<AnimalInfo>();
@@ -64,10 +67,10 @@ namespace Modules.Animal.Application.Services
             if(animals is null)
             {
                 _logger.LogWarning("No animals found in the database.");
-                throw new InvalidOperationException("No animals found in the database.");
+                ThrowHelper.ThrowInvalidOperationException(ErrorMessageHelper.NoAnimalsFound());
             }
 
-            var response = animals.Adapt< List<AnimalInfoResponseDto>>();
+            var response = animals.Adapt<List<AnimalInfoResponseDto>>();
 
             return response;
         }
@@ -79,7 +82,7 @@ namespace Modules.Animal.Application.Services
             if(animals is null)
             {
                 _logger.LogWarning("No animals found in the database.");
-                throw new InvalidOperationException("No animals found in the database.");
+                ThrowHelper.ThrowInvalidOperationException(ErrorMessageHelper.NoAnimalsFound());
             }
 
             var response = animals.Adapt<List<AnimalInfoResponseDto>>();
@@ -94,7 +97,7 @@ namespace Modules.Animal.Application.Services
             if(animal is null)
             {
                 _logger.LogWarning($"An animal with id {id} not found in the database.");
-                throw new KeyNotFoundException("An animal with this Id not found in the database.");
+                ThrowHelper.ThrowKeyNotFoundException(ErrorMessageHelper.AnimalNotFound(id));
             }
 
             var response = animal.Adapt<AnimalInfoResponseDto>();
@@ -102,8 +105,8 @@ namespace Modules.Animal.Application.Services
             return response;
         }
 
-        public async Task<AnimalInfoResponseDto> UpdateAsync(Guid id, 
-                                                            AnimalInfoRequestDto requestAnimal, 
+        public async Task<AnimalInfoResponseDto> UpdateAsync(Guid id,
+                                                            AnimalInfoRequestDto requestAnimal,
                                                             CancellationToken cancellationToken)
         {
             var existingAnimal = await _animalRepository.GetByIdAsync(id, cancellationToken);
@@ -111,11 +114,11 @@ namespace Modules.Animal.Application.Services
             if(existingAnimal is null)
             {
                 _logger.LogWarning($"An animal with id {id} not found in the database.");
-                throw new KeyNotFoundException("An animal with this Id not found in the database.");
+                ThrowHelper.ThrowKeyNotFoundException(ErrorMessageHelper.AnimalNotFound(id));
             }
 
             var animal = requestAnimal.Adapt(existingAnimal);
-            _animalRepository.Update(animal);
+            _animalRepository.Update(animal!);
 
             await _animalRepository.SaveChangesAsync(cancellationToken);
 

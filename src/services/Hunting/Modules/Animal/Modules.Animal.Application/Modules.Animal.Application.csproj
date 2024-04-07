@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Shared.Helpers\Shared.Helpers.csproj" />
     <ProjectReference Include="..\Modules.Animal.Core\Modules.Animal.Domain.csproj" />
   </ItemGroup>
 
