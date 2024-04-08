@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
-    <Folder Include="Validators\" />
+    <Compile Remove="Features\Animal\Queries\GetAnimalByIdQuery.cs" />
   </ItemGroup>
 
   <ItemGroup>

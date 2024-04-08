@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modules.Animal.Infrastructu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{95BCF66A-1637-45AD-B2B9-EE337FA1C027}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Helpers", "..\Shared.Helpers\Shared.Helpers.csproj", "{B903D772-C059-424A-8E65-CBEC395FC2E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Helpers", "..\Shared.Helpers\Shared.Helpers.csproj", "{B903D772-C059-424A-8E65-CBEC395FC2E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Infrastructure", "Shared.Infrastructure\Shared.Infrastructure.csproj", "{1255E325-69B1-4C91-B739-45FE0741EC2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,10 @@ Global
 		{B903D772-C059-424A-8E65-CBEC395FC2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B903D772-C059-424A-8E65-CBEC395FC2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B903D772-C059-424A-8E65-CBEC395FC2E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1255E325-69B1-4C91-B739-45FE0741EC2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1255E325-69B1-4C91-B739-45FE0741EC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1255E325-69B1-4C91-B739-45FE0741EC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1255E325-69B1-4C91-B739-45FE0741EC2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
