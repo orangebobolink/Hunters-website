@@ -13,7 +13,7 @@ namespace Identity.API.Controllers
         [HttpPost("refresh")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RefreshAsync(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Refresh(CancellationToken cancellationToken = default)
         {
             var response = await _tokenService.RefreshAsync(cancellationToken);
 

@@ -19,7 +19,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsersAsync(
+        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsers(
             CancellationToken cancellationToken = default)
         {
             var users = await _userService.GetAllAsync(cancellationToken);
@@ -32,7 +32,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseUserDto>> GetUserByIdAsync(Guid id,
+        public async Task<ActionResult<ResponseUserDto>> GetUserById(Guid id,
             CancellationToken cancellationToken = default)
         {
             var user = await _userService.GetUserByIdAsync(id, cancellationToken);
@@ -46,7 +46,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseCreateUserDto>> CreateUserAsync([FromBody] RequestUserDto requestUserDto,
+        public async Task<ActionResult<ResponseCreateUserDto>> CreateUser([FromBody] RequestUserDto requestUserDto,
                                                                                 CancellationToken cancellationToken = default)
         {
             var user = await _userService.CreateAsync(requestUserDto, cancellationToken);
@@ -60,7 +60,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUserAsync([FromQuery] Guid id,
+        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUser([FromQuery] Guid id,
                                                                          [FromBody] RequestUserDto requestUserDto,
                                                                          CancellationToken cancellationToken = default)
         {
