@@ -9,9 +9,8 @@ namespace Modules.Animal.API.Configurations
     {
         public static void AddAnimalModuleConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabaseConfiguration(configuration);
             services.AddMediatRConfiguration();
-            services.AddInfrastructureConfiguration();
+            services.AddInfrastructureConfiguration(configuration);
         }
     }
 }
