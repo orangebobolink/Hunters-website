@@ -1,6 +1,7 @@
 using Shared.Infrastructure.Extensions;
 using Modules.Animal.API.Configurations;
 using Identity.API.Configurations;
+using Modules.Animal.Infrastructure.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,5 +30,7 @@ app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MigrateDatabase();
 
 app.Run();

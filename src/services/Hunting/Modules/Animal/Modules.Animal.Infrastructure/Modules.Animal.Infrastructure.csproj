@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared.Infrastructure\Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\Modules.Animal.Core\Modules.Animal.Domain.csproj" />
+    <ProjectReference Include="..\Modules.Animal.Application\Modules.Animal.Application.csproj" />
   </ItemGroup>
 
 </Project>

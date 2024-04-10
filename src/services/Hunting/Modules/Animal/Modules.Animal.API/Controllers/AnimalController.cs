@@ -6,8 +6,8 @@ namespace Modules.Animal.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnimalController(IMediator mediator) 
-        : ControllerBase
+    public class AnimalController(IMediator mediator)
+                : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
