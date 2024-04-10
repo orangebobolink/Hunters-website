@@ -35,7 +35,7 @@ namespace Modules.Animal.Infrastructure.DataSeed
         {
             var animalsName = _animals.Select(u => u.Name).ToList();
             var animals = await _context.Animals.Where(u => animalsName.Contains(u.Name)).ToListAsync();
-            var animalsMessage = animals.Adapt<List<AnimalCreateEvent>>();
+            var animalsMessage = new AnimalCreateRangeEvent(animals);
 
             await _mediator.Publish(animalsMessage);
         }
