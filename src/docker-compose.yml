@@ -45,3 +45,12 @@ services:
     build:
       context: '.'
       dockerfile: /services/Chat/Chat.API/Dockerfile
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports: 
+         - 6379:6379
+    environment:
+        - ALLOW_EMPTY_PASSWORD=yes
+    restart: unless-stopped
