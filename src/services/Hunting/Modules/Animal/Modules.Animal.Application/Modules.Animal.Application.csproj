@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\HuntingSeason\" />
+    <Folder Include="Features\HuntingSeason\Queries\" />
   </ItemGroup>
 
 </Project>

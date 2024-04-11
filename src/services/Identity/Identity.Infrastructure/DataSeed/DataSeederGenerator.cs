@@ -1,7 +1,7 @@
 ﻿using Identity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace Modules.Animal.Infrastructure.DataSeed
+namespace Identity.Infrastructure.DataSeed
 {
     internal static class DataSeederGenerator
     {
@@ -60,19 +60,19 @@ namespace Modules.Animal.Infrastructure.DataSeed
             return users;
         }
 
-        public static List<IdentityUserRole<Guid>> GetUserRole()
+        public static List<IdentityUserRole<Guid>> GetUserRole(List<User> users, List<IdentityRole<Guid>> roles)
         {
             var userRoles = new List<IdentityUserRole<Guid>>()
             {
                 new IdentityUserRole<Guid>
                 {
-                    UserId = _users[0].Id,
-                    RoleId = _roles.First(q => q.Name == Role.User).Id
+                    UserId = users[0].Id,
+                    RoleId = roles.First(q => q.Name == Role.User).Id
                 },
                 new IdentityUserRole<Guid>
                 {
-                    UserId = _users[1].Id,
-                    RoleId = _roles.First(q => q.Name == Role.Admin).Id
+                    UserId = users[1].Id,
+                    RoleId = roles.First(q => q.Name == Role.Admin).Id
                 }
             };
 

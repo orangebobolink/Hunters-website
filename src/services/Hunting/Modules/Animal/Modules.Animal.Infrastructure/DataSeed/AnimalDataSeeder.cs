@@ -1,5 +1,4 @@
-﻿using Mapster;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Modules.Animal.Domain.Entities;
 using Modules.Animal.Infrastructure.Contexts;
@@ -8,18 +7,13 @@ using Modules.Animal.Application.Features.Animal.Events.AnimalCreate;
 
 namespace Modules.Animal.Infrastructure.DataSeed
 {
-    internal class AnimalDataSeeder : IAnimalDataSeeder
+    internal class AnimalDataSeeder(IMediator mediator, 
+        ApplicationDbContext context) 
+        : IAnimalDataSeeder
     {
-        private readonly IMediator _mediator;
-        protected readonly ApplicationDbContext _context;
-        private readonly List<AnimalInfo> _animals;
-
-        public AnimalDataSeeder(IMediator mediator, ApplicationDbContext context)
-        {
-            _mediator = mediator;
-            _context = context;
-            _animals = DataSeederGenerator.GetAnimalInfo();
-        }
+        private readonly IMediator _mediator = mediator;
+        private readonly ApplicationDbContext _context = context;
+        private readonly List<AnimalInfo> _animals = DataSeederGenerator.GetAnimalInfo();
 
         public async Task SeedAsync()
         {
@@ -33,8 +27,12 @@ namespace Modules.Animal.Infrastructure.DataSeed
 
         public async Task SeedMessageAsync()
         {
-            var animalsName = _animals.Select(u => u.Name).ToList();
-            var animals = await _context.Animals.Where(u => animalsName.Contains(u.Name)).ToListAsync();
+            var animalsName = _animals
+                .Select(u => u.Name)
+                .ToList();
+            var animals = await _context.Animals
+                .Where(u => animalsName.Contains(u.Name))
+                .ToListAsync();
             var animalsMessage = new AnimalCreateRangeEvent(animals);
 
             await _mediator.Publish(animalsMessage);

@@ -5,7 +5,6 @@ using Mapster;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Modules.Animal.Infrastructure.DataSeed;
 using Shared.Messages.DataSeedMessages;
 using Shared.Messages.UserMessages;
 
@@ -26,7 +25,7 @@ namespace Identity.Infrastructure.DataSeed
             _context = context;
             _roles = DataSeederGenerator.GetRoles();
             _users = DataSeederGenerator.GetUsers();
-            _userRole = DataSeederGenerator.GetUserRole();
+            _userRole = DataSeederGenerator.GetUserRole(_users, _roles);
         }
 
         public async Task SeedAsync()
