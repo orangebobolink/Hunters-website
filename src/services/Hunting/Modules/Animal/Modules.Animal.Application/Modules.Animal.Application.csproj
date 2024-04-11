@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Modules.Animal.Core\Modules.Animal.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\HuntingSeason\" />
+  </ItemGroup>
+
 </Project>

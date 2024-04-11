@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddOcelotConfiguration();
 
 builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Services.AddCorsConfiguration(builder.Configuration);
 
@@ -21,7 +22,8 @@ app.UseCors();
 app.UseRouting();
 
 app.UseSwaggerForOcelotUI(options =>
-    options.PathToSwaggerGenerator = "/swagger/docs");
+    options.PathToSwaggerGenerator = "/swagger/docs"
+    );
 
 app.UseWebSockets();
 

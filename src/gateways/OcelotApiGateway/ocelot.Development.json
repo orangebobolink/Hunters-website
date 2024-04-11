@@ -9,9 +9,22 @@
           "Port": 5165
         }
       ],
-      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/api/auth/{everything}",
       "UpstreamHttpMethod": [ "Post", "Put", "Get", "Patch" ],
       "SwaggerKey": "identity"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5039
+        }
+      ],
+      "UpstreamPathTemplate": "/api/hunting/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Delete" ],
+      "SwaggerKey": "hunting"
     },
     {
       "DownstreamPathTemplate": "/api/{everything}",
@@ -23,14 +36,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/chat/{everything}",
-      "UpstreamHttpMethod": [ "Post", "Put", "Get" ],
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Delete" ],
       "SwaggerKey": "chat"
     },
-
     {
       "DownstreamPathTemplate": "/chat/{path}",
       "DownstreamScheme": "ws",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Delete", "Options" ],
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -52,6 +64,16 @@
           "Name": "Identity API",
           "Version": "v1",
           "Url": "http://localhost:5165/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "hunting",
+      "Config": [
+        {
+          "Name": "Hunting API",
+          "Version": "v1",
+          "Url": "http://localhost:5039/swagger/v1/swagger.json"
         }
       ]
     },
