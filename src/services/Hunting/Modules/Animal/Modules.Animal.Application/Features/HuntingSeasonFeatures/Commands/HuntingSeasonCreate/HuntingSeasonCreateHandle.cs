@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
 using Modules.Animal.Domain.Entities;
 using Modules.Animal.Domain.Interfaces.Repositories;
+using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.HuntingSeasonFeatures.Commands.HuntingSeasonCreate
 {
@@ -29,9 +30,10 @@ namespace Modules.Animal.Application.Features.HuntingSeasonFeatures.Commands.Hun
 
             if(existingHuntingSeason is not null)
             {
-                //_logger.LogInformation($"Animal with name {huntingSeasonRequest.Name} already exists.");
-                //ThrowHelper.ThrowInvalidOperationException(
-                //    ErrorMessageHelper.AnimalAlreadyExists(huntingSeasonRequest.Name));
+                _logger.LogInformation($"Hunting season conflict: Animal with ID {huntingSeasonRequest.AnimalId}, " +
+                                       $"StartDate '{huntingSeasonRequest.StartDate}', " +
+                                       $"EndDate '{huntingSeasonRequest.EndDate}' already has an existing hunting season.");
+                ThrowHelper.ThrowInvalidOperationException(" ");
             }
 
             var huntingSeason = huntingSeasonRequest.Adapt<HuntingSeason>();
