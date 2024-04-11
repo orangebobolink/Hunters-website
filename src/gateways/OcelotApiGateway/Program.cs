@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddOcelotConfiguration();
 
 builder.Services.AddOcelot(builder.Configuration);
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Services.AddCorsConfiguration(builder.Configuration);
 
