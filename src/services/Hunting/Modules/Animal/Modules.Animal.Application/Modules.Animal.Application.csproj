@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\Animal\Queries\GetAnimalByIdQuery.cs" />
+    <Compile Remove="Features\AnimalFeatures\Queries\GetAnimalByIdQuery.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\HuntingSeason\Queries\" />
+    <Folder Include="Features\HuntingSeasonFeatures\Queries\" />
   </ItemGroup>
 
 </Project>
