@@ -32,9 +32,8 @@ namespace Modules.Animal.Application.Features.Animal.Commands.AnimalCreate
                     ErrorMessageHelper.AnimalAlreadyExists(animalRequestDto.Name));
             }
 
-            var id = Guid.NewGuid();
             var animal = animalRequestDto.Adapt<AnimalInfo>();
-            animal.Id = id;
+            animal.Id = Guid.NewGuid();
             _animalRepository.Create(animal);
 
             await _animalRepository.SaveChangesAsync(cancellationToken);
