@@ -11,6 +11,7 @@ namespace Modules.Animal.API.Configurations
         {
             services.AddMediatRConfiguration();
             services.AddInfrastructureConfiguration(configuration);
+            services.AddFluentValidationConfiguration();
         }
     }
 }
