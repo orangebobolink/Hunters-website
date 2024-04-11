@@ -3,7 +3,7 @@ using Modules.Animal.Domain.Enums;
 
 namespace Modules.Animal.Infrastructure.DataSeed
 {
-    internal class DataSeederGenerator
+    internal static class DataSeederGenerator
     {
         public static List<AnimalInfo> GetAnimalInfo()
         {
