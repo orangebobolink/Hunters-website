@@ -2,14 +2,15 @@ using Shared.Infrastructure.Extensions;
 using Modules.Animal.API.Configurations;
 using Identity.API.Configurations;
 using Modules.Animal.Infrastructure.Configurations;
+using Hunting.API.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAnimalModuleConfiguration(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
+builder.Services.AddRedisConfiguration(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
