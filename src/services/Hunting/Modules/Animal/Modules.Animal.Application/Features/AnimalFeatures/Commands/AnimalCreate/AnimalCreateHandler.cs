@@ -10,14 +10,15 @@ using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalCreate
 {
-    public class AnimalCreateHandler(IAnimalRepository animalRepository, 
+    public class AnimalCreateHandler(
+        IAnimalRepository animalRepository, 
         ILogger<AnimalCreateHandler> logger, 
-        IPublisher publishe) 
+        IPublisher publisher) 
         : IRequestHandler<AnimalCreateCommand, AnimalInfoResponseDto>
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly ILogger<AnimalCreateHandler> _logger = logger;
-        private readonly IPublisher _publisher = publishe;
+        private readonly IPublisher _publisher = publisher;
 
         public async Task<AnimalInfoResponseDto> Handle(AnimalCreateCommand request, CancellationToken cancellationToken)
         {

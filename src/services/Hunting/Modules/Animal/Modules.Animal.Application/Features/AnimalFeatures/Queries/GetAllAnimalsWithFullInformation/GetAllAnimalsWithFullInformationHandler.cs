@@ -9,9 +9,10 @@ using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFullInformation
 {
-    internal class GetAllAnimalsWithFullInformationHandler(IAnimalRepository animalRepository, 
+    internal class GetAllAnimalsWithFullInformationHandler(
+        IAnimalRepository animalRepository, 
         ILogger<GetAllAnimalsWithFullInformationHandler> logger)
-                : IRequestHandler<GetAllAnimalsWithFullInformationQuery, List<AnimalInfoResponseDto>>
+        : IRequestHandler<GetAllAnimalsWithFullInformationQuery, List<AnimalInfoResponseDto>>
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly ILogger<GetAllAnimalsWithFullInformationHandler> _logger = logger;

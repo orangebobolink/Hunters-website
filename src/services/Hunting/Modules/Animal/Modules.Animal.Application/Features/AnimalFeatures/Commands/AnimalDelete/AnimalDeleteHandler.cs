@@ -10,7 +10,8 @@ using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalDelete
 {
-    public class AnimalDeleteHandler(IAnimalRepository animalRepository, 
+    public class AnimalDeleteHandler(
+        IAnimalRepository animalRepository, 
         ILogger<AnimalCreateHandler> logger, 
         IPublisher publisher) 
         : IRequestHandler<AnimalDeleteCommand>

@@ -8,7 +8,8 @@ using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAnimalById
 {
-    internal class GetAnimalByIdHandler(IAnimalRepository animalRepository, 
+    internal class GetAnimalByIdHandler(
+        IAnimalRepository animalRepository, 
         ILogger<GetAnimalByIdHandler> logger) 
         : IRequestHandler<GetAnimalByIdQuery, AnimalInfoResponseDto>
     {

@@ -10,7 +10,8 @@ using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpdate
 {
-    internal class AnimalUpdateHandler(IAnimalRepository animalRepository, 
+    internal class AnimalUpdateHandler(
+        IAnimalRepository animalRepository, 
         ILogger<AnimalCreateHandler> logger, 
         IPublisher publisher) 
         : IRequestHandler<AnimalUpdateCommand, AnimalInfoResponseDto>

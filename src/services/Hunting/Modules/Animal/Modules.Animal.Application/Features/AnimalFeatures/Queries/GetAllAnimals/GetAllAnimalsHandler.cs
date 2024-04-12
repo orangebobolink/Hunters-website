@@ -8,7 +8,8 @@ using Shared.Helpers;
 
 namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimals
 {
-    internal class GetAllAnimalsHandler(IAnimalRepository animalRepository, 
+    internal class GetAllAnimalsHandler(
+        IAnimalRepository animalRepository, 
         ILogger<GetAllAnimalsHandler> logger) 
         : IRequestHandler<GetAllAnimalsQuery, List<AnimalInfoResponseDto>>
     {

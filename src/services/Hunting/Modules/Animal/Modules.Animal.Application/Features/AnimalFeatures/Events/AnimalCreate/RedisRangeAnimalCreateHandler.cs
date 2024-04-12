@@ -6,8 +6,10 @@ using Modules.Animal.Domain.Helpers;
 
 namespace Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate
 {
-    internal class RedisRangeAnimalCreateHandler(IDistributedCache cache, IOptions<RedisCacheOptions> cacheOptions)
-                : INotificationHandler<AnimalCreateRangeEvent>
+    internal class RedisRangeAnimalCreateHandler(
+        IDistributedCache cache, 
+        IOptions<RedisCacheOptions> cacheOptions)
+        : INotificationHandler<AnimalCreateRangeEvent>
     {
         private readonly IDistributedCache _cache = cache;
         private readonly IOptions<RedisCacheOptions> _cacheOptions = cacheOptions;
