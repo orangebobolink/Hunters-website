@@ -3,9 +3,8 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Options;
 using Modules.Animal.Domain.Helpers;
-using Modules.Animal.Application.Extensions;
 
-namespace Modules.Animal.Application.Features.Animal.Events.AnimalCreate
+namespace Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate
 {
     internal class RedisRangeAnimalCreateHandler(IDistributedCache cache, IOptions<RedisCacheOptions> cacheOptions)
                 : INotificationHandler<AnimalCreateRangeEvent>

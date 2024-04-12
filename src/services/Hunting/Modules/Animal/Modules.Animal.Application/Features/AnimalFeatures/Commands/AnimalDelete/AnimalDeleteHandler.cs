@@ -1,14 +1,14 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Modules.Animal.Application.Features.Animal.Commands.AnimalCreate;
-using Modules.Animal.Application.Features.Animal.Events.AnimalDelete;
+using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalCreate;
+using Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalDelete;
 using Modules.Animal.Domain.Entities;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
 
-namespace Modules.Animal.Application.Features.Animal.Commands.AnimalDelete
+namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalDelete
 {
     public class AnimalDeleteHandler(IAnimalRepository animalRepository, 
         ILogger<AnimalCreateHandler> logger, 
@@ -21,7 +21,7 @@ namespace Modules.Animal.Application.Features.Animal.Commands.AnimalDelete
 
         public async Task Handle(AnimalDeleteCommand request, CancellationToken cancellationToken)
         {
-            Guid id = request.Id;
+            var id = request.Id;
 
             var existingAnimal = await _animalRepository.GetByIdAsync(id, cancellationToken);
 
@@ -36,7 +36,7 @@ namespace Modules.Animal.Application.Features.Animal.Commands.AnimalDelete
 
             await _animalRepository.SaveChangesAsync(cancellationToken);
 
-            await _publisher.Publish(new AnimalDeleteEvent(id));
+            await _publisher.Publish(new AnimalDeleteEvent(id), cancellationToken);
         }
     }
 }

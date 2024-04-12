@@ -2,12 +2,11 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
-using Modules.Animal.Application.Features.Animal.Commands.AnimalCreate;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
 
-namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimals
+namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimals
 {
     internal class GetAllAnimalsHandler(IAnimalRepository animalRepository, 
         ILogger<GetAllAnimalsHandler> logger) 
@@ -20,7 +19,7 @@ namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimals
         {
             var animals = await _animalRepository.GetAllAsync(cancellationToken);
 
-            if(animals is null)
+            if(!animals.Any())
             {
                 _logger.LogWarning("No animals found in the database.");
                 ThrowHelper.ThrowInvalidOperationException(ErrorMessageHelper.NoAnimalsFound());

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Modules.Animal.Application.Dtos.ResponseDtos;
 
-namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFullInformation
+namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimalsWithFullInformation
 {
-    public record class GetAllAnimalsWithFullInformationQuery() : IRequest<List<AnimalInfoResponseDto>>;
+    public record GetAllAnimalsWithFullInformationQuery() : IRequest<List<AnimalInfoResponseDto>>;
 }

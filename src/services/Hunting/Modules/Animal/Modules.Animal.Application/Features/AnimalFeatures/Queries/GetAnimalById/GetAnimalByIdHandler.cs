@@ -2,12 +2,11 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
-using Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFullInformation;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
 
-namespace Modules.Animal.Application.Features.Animal.Queries.GetAnimalById
+namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAnimalById
 {
     internal class GetAnimalByIdHandler(IAnimalRepository animalRepository, 
         ILogger<GetAnimalByIdHandler> logger) 

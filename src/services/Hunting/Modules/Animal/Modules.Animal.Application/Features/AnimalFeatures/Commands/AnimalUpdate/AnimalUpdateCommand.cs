@@ -2,7 +2,7 @@
 using Modules.Animal.Application.Dtos.RequestDtos;
 using Modules.Animal.Application.Dtos.ResponseDtos;
 
-namespace Modules.Animal.Application.Features.Animal.Commands.AnimalUpdate
+namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpdate
 {
-    public record class AnimalUpdateCommand(Guid Id, AnimalInfoRequestDto AnimalRequestDto) : IRequest<AnimalInfoResponseDto>;
+    public record AnimalUpdateCommand(Guid Id, AnimalInfoRequestDto AnimalRequestDto) : IRequest<AnimalInfoResponseDto>;
 }

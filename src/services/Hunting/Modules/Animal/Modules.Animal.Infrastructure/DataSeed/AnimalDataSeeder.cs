@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Modules.Animal.Domain.Entities;
 using Modules.Animal.Infrastructure.Contexts;
 using Modules.Animal.Infrastructure.Interfaces;
-using Modules.Animal.Application.Features.Animal.Events.AnimalCreate;
+using Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate;
 
 namespace Modules.Animal.Infrastructure.DataSeed
 {

@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Modules.Animal.Application.Dtos.RequestDtos;
-using Modules.Animal.Application.Features.Animal.Commands.AnimalCreate;
-using Modules.Animal.Application.Features.Animal.Commands.AnimalDelete;
-using Modules.Animal.Application.Features.Animal.Commands.AnimalUpdate;
-using Modules.Animal.Application.Features.Animal.Queries.GetAllAnimals;
-using Modules.Animal.Application.Features.Animal.Queries.GetAnimalById;
+using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalCreate;
+using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalDelete;
+using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpdate;
+using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimals;
+using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAnimalById;
 
 namespace Modules.Animal.API.Controllers
 {

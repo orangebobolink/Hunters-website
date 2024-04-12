@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Modules.Animal.Application.Features.Animal.Commands.AnimalDelete
+namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalDelete
 {
-    public record class AnimalDeleteCommand(Guid Id) : IRequest;
+    public record AnimalDeleteCommand(Guid Id) : IRequest;
 }

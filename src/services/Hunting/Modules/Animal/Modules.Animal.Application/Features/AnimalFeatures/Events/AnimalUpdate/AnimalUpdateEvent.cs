@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Modules.Animal.Domain.Entities;
 
-namespace Modules.Animal.Application.Features.Animal.Events.AnimalUpdate
+namespace Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalUpdate
 {
-    public record class AnimalUpdateEvent(AnimalInfo Animal) : INotification;
+    public record AnimalUpdateEvent(AnimalInfo Animal) : INotification;
 }

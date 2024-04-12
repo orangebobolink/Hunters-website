@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Modules.Animal.Application.Features.Animal.Events.AnimalDelete
+namespace Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalDelete
 {
-    public record class AnimalDeleteEvent(Guid Id) : INotification;
+    public record AnimalDeleteEvent(Guid Id) : INotification;
 }

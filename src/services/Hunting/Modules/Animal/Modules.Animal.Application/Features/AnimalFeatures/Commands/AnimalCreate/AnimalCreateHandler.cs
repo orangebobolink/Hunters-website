@@ -2,13 +2,13 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
-using Modules.Animal.Application.Features.Animal.Events.AnimalCreate;
+using Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate;
 using Modules.Animal.Domain.Entities;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
 
-namespace Modules.Animal.Application.Features.Animal.Commands.AnimalCreate
+namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalCreate
 {
     public class AnimalCreateHandler(IAnimalRepository animalRepository, 
         ILogger<AnimalCreateHandler> logger, 

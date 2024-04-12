@@ -2,13 +2,13 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
-using Modules.Animal.Application.Features.Animal.Commands.AnimalCreate;
-using Modules.Animal.Application.Features.Animal.Events.AnimalUpdate;
+using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalCreate;
+using Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalUpdate;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
 
-namespace Modules.Animal.Application.Features.Animal.Commands.AnimalUpdate
+namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpdate
 {
     internal class AnimalUpdateHandler(IAnimalRepository animalRepository, 
         ILogger<AnimalCreateHandler> logger, 
@@ -39,7 +39,7 @@ namespace Modules.Animal.Application.Features.Animal.Commands.AnimalUpdate
 
             var updatedAnimal = await _animalRepository.GetByNameAsync(animalRequestDto.Name, cancellationToken);
 
-            await _publisher.Publish(new AnimalUpdateEvent(updatedAnimal!));
+            await _publisher.Publish(new AnimalUpdateEvent(updatedAnimal!), cancellationToken);
 
             var response = updatedAnimal.Adapt<AnimalInfoResponseDto>();
 
