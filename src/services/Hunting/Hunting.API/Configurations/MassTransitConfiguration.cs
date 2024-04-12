@@ -1,7 +1,6 @@
 ﻿using MassTransit;
-using System.Reflection;
 
-namespace Hunting.Bus.Configurations
+namespace Hunting.API.Configurations
 {
     public static class MassTransitConfiguration
     {

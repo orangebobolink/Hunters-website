@@ -4,7 +4,9 @@ namespace Hunting.API.Configurations
 {
     public static class RedisConfiguration
     {
-        public static void AddRedisConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static void AddRedisConfiguration(
+            this IServiceCollection services, 
+            IConfiguration configuration)
         {
             var redisCacheUrl = configuration["Redis:Url"];
 

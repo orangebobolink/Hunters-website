@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace Identity.API.Configurations
+namespace Hunting.API.Configurations
 {
-    public static class JWTAuthenticationConfiguration
+    public static class JwtAuthenticationConfiguration
     {
-        public static void AddJWTAuthenticationConfiguration(this IServiceCollection services,
+        public static void AddJwtAuthenticationConfiguration(this IServiceCollection services,
             IConfiguration configuration)
         {
             services.AddAuthentication(options =>

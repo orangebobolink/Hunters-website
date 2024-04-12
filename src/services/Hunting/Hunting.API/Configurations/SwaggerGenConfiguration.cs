@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace Identity.API.Configurations
+namespace Hunting.API.Configurations
 {
     public static class SwaggerGenConfiguration
     {
-        public static void AddSwaggerGenConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static void AddSwaggerGenConfiguration(
+            this IServiceCollection services, 
+            IConfiguration configuration)
         {
             services.AddSwaggerGen(options =>
             {
@@ -24,30 +26,35 @@ namespace Identity.API.Configurations
                     }
                 );
 
-                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = configuration["SwaggerGen:Description"],
-                    Name = configuration["SwaggerGen:Name"],
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = configuration["SwaggerGen:BearerFormat"],
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                options.AddSecurityDefinition(
+                    JwtBearerDefaults.AuthenticationScheme, 
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = JwtBearerDefaults.AuthenticationScheme
-                            }
-                        },
-                        new string[]{}
+                        In = ParameterLocation.Header,
+                        Description = configuration["SwaggerGen:Description"],
+                        Name = configuration["SwaggerGen:Name"],
+                        Type = SecuritySchemeType.Http,
+                        BearerFormat = configuration["SwaggerGen:BearerFormat"],
+                        Scheme = JwtBearerDefaults.AuthenticationScheme,
                     }
-                });
+                );
+
+                options.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = JwtBearerDefaults.AuthenticationScheme
+                                }
+                            },
+                            new string[]{}
+                        }
+                    }
+                );
             });
         }
     }
