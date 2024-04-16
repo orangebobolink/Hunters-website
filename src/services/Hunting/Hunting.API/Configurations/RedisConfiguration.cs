@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Redis;
+﻿using Shared.Redis;
+using Shared.Redis.Options;
 
 namespace Hunting.API.Configurations
 {
@@ -8,16 +9,16 @@ namespace Hunting.API.Configurations
             this IServiceCollection services, 
             IConfiguration configuration)
         {
-            var redisCacheUrl = configuration["Redis:Url"];
+            services.AddSharedRedisConfiguration();
 
+            var redisCacheUrl = configuration["Redis:Url"];
             services.AddStackExchangeRedisCache(redisOptions =>
             {
                 redisOptions.Configuration = redisCacheUrl;
             });
 
-            services.Configure<RedisCacheOptions>(
-                configuration.GetSection("redis")
-                );
+            var section = configuration.GetSection("redis");
+            services.Configure<RedisCacheOptions>(section);
         }
     }
 }

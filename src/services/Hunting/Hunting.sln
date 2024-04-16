@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A047E2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGateway", "..\..\gateways\OcelotApiGateway\OcelotApiGateway.csproj", "{9A22439D-558E-43AC-BD08-BF03FC246DD6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Redis", "..\Shared.Redis\Shared.Redis.csproj", "{14CC3777-B896-46E0-8FAA-6A72D410DE34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{9A22439D-558E-43AC-BD08-BF03FC246DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A22439D-558E-43AC-BD08-BF03FC246DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A22439D-558E-43AC-BD08-BF03FC246DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14CC3777-B896-46E0-8FAA-6A72D410DE34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CC3777-B896-46E0-8FAA-6A72D410DE34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CC3777-B896-46E0-8FAA-6A72D410DE34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CC3777-B896-46E0-8FAA-6A72D410DE34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{95BCF66A-1637-45AD-B2B9-EE337FA1C027} = {92D6699B-C3B0-4F4B-8C2D-318BE7CA9808}
 		{B903D772-C059-424A-8E65-CBEC395FC2E5} = {A047E26B-0A58-4847-9442-AC50D0EE7620}
 		{1255E325-69B1-4C91-B739-45FE0741EC2B} = {A047E26B-0A58-4847-9442-AC50D0EE7620}
+		{14CC3777-B896-46E0-8FAA-6A72D410DE34} = {A047E26B-0A58-4847-9442-AC50D0EE7620}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8527AB43-ED51-4C77-AC18-AA5AC81654D9}

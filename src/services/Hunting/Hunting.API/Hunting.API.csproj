@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Redis\Shared.Redis.csproj" />
     <ProjectReference Include="..\Hunting.Bus\Hunting.Bus.csproj" />
     <ProjectReference Include="..\Modules\Animal\Modules.Animal.API\Modules.Animal.API.csproj" />
     <ProjectReference Include="..\Modules\Document\Modules.Document.API\Modules.Document.API.csproj" />
