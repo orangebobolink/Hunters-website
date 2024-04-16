@@ -25,7 +25,23 @@ namespace Shared.Redis
             return value;
         }
 
-        public async Task SetData<T>(string key, 
+        public async Task<T?> GetAsync<T>(string key, Func<Task<T>> factory, CancellationToken cancellationToken) where T : class
+        {
+            T? cachedValue = await GetAsync<T>(
+                key,
+                cancellationToken);
+
+            if(cachedValue is not null) 
+                return cachedValue;
+
+            cachedValue = await factory();
+
+            await SetDataAsync(key, cachedValue, cancellationToken);
+
+            return cachedValue;
+        }
+
+        public async Task SetDataAsync<T>(string key, 
             T value, 
             CancellationToken cancellationToken) 
             where T : class
@@ -35,13 +51,13 @@ namespace Shared.Redis
             await _cache.SetStringAsync(key, cachedValue, cancellationToken);
         }
 
-        public async Task RemoveData(string key, 
+        public async Task RemoveDataAsync(string key, 
             CancellationToken cancellationToken)
         {
             await _cache.RemoveAsync(key, cancellationToken);
         }
 
-        public async Task RefreshData<T>(string key, 
+        public async Task RefreshDataAsync<T>(string key, 
             T value, 
             CancellationToken cancellationToken)
             where T : class
@@ -50,10 +66,10 @@ namespace Shared.Redis
 
             if (existingData is not null)
             {
-                await RemoveData(key, cancellationToken);
+                await RemoveDataAsync(key, cancellationToken);
             }
 
-            await SetData(key, value, cancellationToken);
+            await SetDataAsync(key, value, cancellationToken);
         }
     }
 }

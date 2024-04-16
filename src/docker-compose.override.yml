@@ -61,6 +61,12 @@ services:
     depends_on:
       - gateway
       - sqlserver
+  redis:
+    ports: 
+         - 6379:6379
+    environment:
+        - ALLOW_EMPTY_PASSWORD=yes
+    restart: unless-stopped
 
 networks:
   elk:
