@@ -3,21 +3,38 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
 using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimalsWithFullInformation;
+using Modules.Animal.Domain.Entities;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
+using Shared.Redis;
 
 namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFullInformation
 {
     internal class GetAllAnimalsWithFullInformationHandler(
-        IAnimalRepository animalRepository, 
-        ILogger<GetAllAnimalsWithFullInformationHandler> logger)
+        IAnimalRepository animalRepository,
+        ILogger<GetAllAnimalsWithFullInformationHandler> logger,
+        ICacheService cacheService)
         : IRequestHandler<GetAllAnimalsWithFullInformationQuery, List<AnimalInfoResponseDto>>
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly ILogger<GetAllAnimalsWithFullInformationHandler> _logger = logger;
+        private readonly ICacheService _cacheService = cacheService;
 
-        public async Task<List<AnimalInfoResponseDto>> Handle(GetAllAnimalsWithFullInformationQuery request, 
+        public async Task<List<AnimalInfoResponseDto>> Handle(
+            GetAllAnimalsWithFullInformationQuery request,
+            CancellationToken cancellationToken)
+        {
+            var animals = await _cacheService.GetAsync(CacheHelper.GetCacheKeyForAllAnimals(),
+                async () => await GetAnimalsThroughRepository(cancellationToken),
+                cancellationToken);
+
+            var response = animals.Adapt<List<AnimalInfoResponseDto>>();
+
+            return response;
+        }
+
+        private async Task<List<AnimalInfo>> GetAnimalsThroughRepository(
             CancellationToken cancellationToken)
         {
             var animals = await _animalRepository.GetAllWithFullInformationAsync(cancellationToken);
@@ -28,9 +45,7 @@ namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFu
                 ThrowHelper.ThrowInvalidOperationException(ErrorMessageHelper.NoAnimalsFound());
             }
 
-            var response = animals.Adapt<List<AnimalInfoResponseDto>>();
-
-            return response;
+            return animals;
         }
     }
 }
