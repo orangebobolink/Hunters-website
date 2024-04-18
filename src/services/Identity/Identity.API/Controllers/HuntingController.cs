@@ -1,19 +1,26 @@
 ﻿using Identity.Domain.Entities;
-using Microsoft.AspNetCore.Http;
+using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HuntingController : ControllerBase
+    public class HuntingController(
+        IHuntingLicenseService huntingLicenseService)
+        : ControllerBase
     {
-        [HttpGet]
-        public async Task<ActionResult<HuntingLicense>> GetHunterLicense(
-            Guid id,
+        private readonly IHuntingLicenseService _huntingLicenseService = huntingLicenseService;
+
+        [HttpGet("{licenseNumber:length}")]
+        public async Task<ActionResult<HuntingLicense>> GetHunterLicenseByLicenseNumber(
+            string licenseNumber,
             CancellationToken cancellationToken = default)
         {
+            var respons = await _huntingLicenseService
+                .GetByLicenseNumberAsync(licenseNumber, cancellationToken);
 
+            return Ok(respons);
         }
     }
 }
