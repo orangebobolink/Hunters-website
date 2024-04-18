@@ -6,6 +6,7 @@ namespace Identity.Domain.Entities
     public class User : IdentityUser<Guid>
     {
         public string FirstName { get; set; } = string.Empty;
+        public string MiddleName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; } = DateTime.Now;
         public string AvatarUrl { get; set; } = string.Empty;
