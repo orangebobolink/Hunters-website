@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Modules.Document.Domain.Enums;
 
 namespace Modules.Document.Domain.Entities
 {
-    internal class Animal
+    public class Animal
     {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public AnimalType Type { get; set; }
     }
 }
