@@ -6,7 +6,7 @@ namespace Identity.Domain.Interfaces
         : IRepository<HuntingLicense>
     {
         public Task<HuntingLicense?> GetByLicenseNumberAsync(
-            Guid id,
+            string licenseNumber,
             CancellationToken cancellationToken);
     }
 }
