@@ -1,8 +1,5 @@
-﻿
-
-using Modules.Animal.Domain.Interfaces.Repositories;
+﻿using Modules.Animal.Domain.Interfaces.Repositories;
 using Modules.Animal.Infrastructure.Contexts;
-using System.Threading;
 
 namespace Modules.Animal.Infrastructure.Repositories
 {

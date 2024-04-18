@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\..\..\Shared.Helpers\Shared.Helpers.csproj" />
     <ProjectReference Include="..\..\..\..\Shared.Redis\Shared.Redis.csproj" />
     <ProjectReference Include="..\Modules.Animal.Core\Modules.Animal.Domain.csproj" />
+    <ProjectReference Include="..\Modules.Animal.Domain\Modules.Animal.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

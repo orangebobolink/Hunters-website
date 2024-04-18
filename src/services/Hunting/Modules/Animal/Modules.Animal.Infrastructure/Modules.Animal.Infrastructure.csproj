@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared.Infrastructure\Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules.Animal.Application\Modules.Animal.Application.csproj" />
+    <ProjectReference Include="..\Modules.Animal.Domain\Modules.Animal.Domain.csproj" />
   </ItemGroup>
 
 </Project>
