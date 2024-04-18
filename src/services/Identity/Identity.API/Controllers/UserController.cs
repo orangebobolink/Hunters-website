@@ -4,7 +4,6 @@ using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MR.AspNetCore.Pagination;
 using MR.EntityFrameworkCore.KeysetPagination;
 
 namespace Identity.API.Controllers

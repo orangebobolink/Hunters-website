@@ -7,11 +7,7 @@ using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
 using MassTransit;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using MR.AspNetCore.Pagination;
 using MR.EntityFrameworkCore.KeysetPagination;
 using Shared.Messages.UserMessages;
 

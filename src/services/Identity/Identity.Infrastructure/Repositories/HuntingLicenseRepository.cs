@@ -32,7 +32,7 @@ namespace Identity.Infrastructure.Repositories
         {
             return await _context.HuntingLicenses
                 .AsNoTracking()
-                .FirstOrDefaultAsync(h => h.Id == id);
+                .FirstOrDefaultAsync(h => h.Id == id && h.ExpiryDate > DateTime.Now);
         }
 
         public async Task<HuntingLicense?> GetByLicenseNumberAsync(
@@ -41,7 +41,8 @@ namespace Identity.Infrastructure.Repositories
         {
             return await _context.HuntingLicenses
                .AsNoTracking()
-               .FirstOrDefaultAsync(h => h.LicenseNumber == licenseNumber);
+               .FirstOrDefaultAsync(h => h.LicenseNumber == licenseNumber
+               && h.ExpiryDate > DateTime.Now);
         }
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)

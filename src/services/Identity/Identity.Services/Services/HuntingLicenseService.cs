@@ -4,14 +4,18 @@ using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Mapster;
+using MassTransit;
+using Shared.Messages.HunterLicenseMessage;
 
 namespace Identity.Services.Services
 {
     internal class HuntingLicenseService(
-        IHyntingLicenseRepository hyntingLicenseRepository)
+        IHyntingLicenseRepository hyntingLicenseRepository,
+        IBus bus)
         : IHuntingLicenseService
     {
         private readonly IHyntingLicenseRepository _hyntingLicenseRepository = hyntingLicenseRepository;
+        private readonly IBus _bus = bus;
 
         public async Task<HuntingLicenseResponseDto> CreateAsync(
             HuntingLicenseRequestDto huntingLicenseRequest,
@@ -37,6 +41,10 @@ namespace Identity.Services.Services
             _hyntingLicenseRepository.Create(huntingLicense);
 
             await _hyntingLicenseRepository.SaveChangesAsync(cancellationToken);
+
+            var message = huntingLicense.Adapt<CreateHuntingLicense>();
+
+            await _bus.Publish(message);
 
             var response = huntingLicense.Adapt<HuntingLicenseResponseDto>();
 
