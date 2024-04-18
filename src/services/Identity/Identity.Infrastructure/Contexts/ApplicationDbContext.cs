@@ -11,6 +11,8 @@ namespace Identity.Infrastructure.Contexts
         DbContextOptions<ApplicationDbContext> options)
         : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
     {
+        public DbSet<HuntingLicense> HuntingLicenses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
