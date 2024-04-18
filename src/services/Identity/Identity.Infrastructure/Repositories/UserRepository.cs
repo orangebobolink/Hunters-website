@@ -1,9 +1,7 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
-using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MR.EntityFrameworkCore;
 using MR.EntityFrameworkCore.KeysetPagination;
 
 namespace Identity.Infrastructure.Repositories
@@ -16,15 +14,12 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<IdentityResult> CreateAsync(
             User entity,
-            string password,
-            CancellationToken cancellationToken)
+            string password)
         {
             return await _userManager.CreateAsync(entity, password);
         }
 
-        public async Task<IdentityResult> DeleteAsync(
-            User entity,
-            CancellationToken cancellationToken)
+        public async Task<IdentityResult> DeleteAsync(User entity)
         {
             return await _userManager.DeleteAsync(entity);
         }
@@ -49,16 +44,14 @@ namespace Identity.Infrastructure.Repositories
         }
 
         public async Task<User?> GetByCredentialsAsync(
-            string username,
-            string email,
-            string phoneNumber,
+            User creditionals,
             CancellationToken cancellationToken)
         {
             return await _userManager.Users
                     .FirstOrDefaultAsync(u =>
-                        u.Email == email
-                        || u.UserName == username
-                        || u.PhoneNumber == phoneNumber,
+                        u.Email == creditionals.Email
+                        || u.UserName == creditionals.UserName
+                        || u.PhoneNumber == creditionals.PhoneNumber,
                         cancellationToken);
         }
 
@@ -77,11 +70,16 @@ namespace Identity.Infrastructure.Repositories
             return await _userManager.FindByNameAsync(userName);
         }
 
-        public async Task<IdentityResult> UpdateAsync(
-            User entity,
-            CancellationToken cancellationToken)
+        public async Task<IdentityResult> UpdateAsync(User entity)
         {
             return await _userManager.DeleteAsync(entity);
+        }
+
+        public async Task<IdentityResult> AddToRoleAsync(
+            User user,
+            string role = Role.User)
+        {
+            return await _userManager.AddToRoleAsync(user, role);
         }
     }
 }

@@ -7,9 +7,7 @@ namespace Identity.Domain.Interfaces
     public interface IUserRepository
     {
         Task<User?> GetByCredentialsAsync(
-            string username,
-            string email,
-            string phoneNumber,
+            User creditionals,
             CancellationToken cancellationToken);
         Task<User?> GetByEmailAsync(string email);
         Task<User?> GetByUserNameAsync(string userName);
@@ -21,9 +19,9 @@ namespace Identity.Domain.Interfaces
             CancellationToken cancellationToken);
         Task<IdentityResult> CreateAsync(
             User entity,
-            string password,
-            CancellationToken cancellationToken);
-        Task<IdentityResult> UpdateAsync(User entity, CancellationToken cancellationToken);
-        Task<IdentityResult> DeleteAsync(User entity, CancellationToken cancellationToken);
+            string password);
+        Task<IdentityResult> AddToRoleAsync(User user, string role);
+        Task<IdentityResult> UpdateAsync(User entity);
+        Task<IdentityResult> DeleteAsync(User entity);
     }
 }

@@ -47,7 +47,7 @@ namespace Identity.Infrastructure.DataSeed
 
         private async Task SeedRolesAsync()
         {
-            if (!await _context.Roles.AnyAsync())
+            if(!await _context.Roles.AnyAsync())
             {
                 _context.AddRange(_roles);
 
@@ -57,9 +57,9 @@ namespace Identity.Infrastructure.DataSeed
 
         private async Task SeedUsersAsync()
         {
-            if (!await _context.Users.AnyAsync())
+            if(!await _context.Users.AnyAsync())
             {
-                _context.AddRange(_roles);
+                _context.AddRange(_users);
 
                 await _context.SaveChangesAsync();
             }
@@ -67,7 +67,7 @@ namespace Identity.Infrastructure.DataSeed
 
         private async Task SeedUserRole()
         {
-            if (!await _context.UserRoles.AnyAsync())
+            if(!await _context.UserRoles.AnyAsync())
             {
                 _context.UserRoles.AddRange(_userRole);
                 await _context.SaveChangesAsync();

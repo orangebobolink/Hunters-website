@@ -5,6 +5,7 @@ using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MR.AspNetCore.Pagination;
+using MR.EntityFrameworkCore.KeysetPagination;
 
 namespace Identity.API.Controllers
 {
@@ -19,10 +20,13 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsers(
+        public async Task<ActionResult<List<ResponseUserDto>>> GetAllUsers(
+            [FromQuery] Guid id,
+            [FromQuery] int numberTake = 10,
+            [FromQuery] KeysetPaginationDirection keysetPaginationDirection = KeysetPaginationDirection.Forward,
             CancellationToken cancellationToken = default)
         {
-            var users = await _userService.GetAllAsync(cancellationToken);
+            var users = await _userService.GetAllAsync(id, numberTake, keysetPaginationDirection, cancellationToken);
 
             return Ok(users);
         }

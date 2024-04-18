@@ -42,7 +42,8 @@ namespace Identity.Infrastructure.DataSeed
                     PasswordHash = passwordHasher.HashPassword(null, "password"),
                     SecurityStamp = Guid.NewGuid().ToString(),
                     LastName = "lastUser",
-                    FirstName = "firstUser"
+                    FirstName = "firstUser",
+                    MiddleName = "middleUser"
                 },
                 new User {
                     Id = Guid.NewGuid(),
@@ -53,7 +54,8 @@ namespace Identity.Infrastructure.DataSeed
                     PasswordHash = passwordHasher.HashPassword(null, "password"),
                     SecurityStamp = Guid.NewGuid().ToString(),
                     LastName = "lastAdmin",
-                    FirstName = "firstAdmin"
+                    FirstName = "firstAdmin",
+                    MiddleName = "middleUser"
                 },
             };
 
