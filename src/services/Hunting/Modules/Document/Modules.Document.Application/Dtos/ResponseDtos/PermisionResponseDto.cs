@@ -19,6 +19,6 @@ namespace Modules.Document.Application.Dtos.ResponseDto
         public UserResponseDto? Issued { get; set; }
         public Guid ReceivedId { get; set; }
         public UserResponseDto? Received { get; set; }
-        public List<CouponResponseDto> Coupons { get; set; }
+        public List<CouponResponseDto> Coupons { get; set; } = []
     }
 }
