@@ -3,7 +3,7 @@
 namespace Modules.Document.Domain.Interfaces
 {
     public interface IRaidRepository
-        : IRepository<Raid>
+        : IRepository<Raid>, IGetInclude<Raid>
     {
     }
 }

@@ -3,7 +3,8 @@
 namespace Modules.Document.Domain.Interfaces
 {
     public interface IPermissionForExtractionOfHuntingAnimalRepository
-        : IRepository<PermissionForExtractionOfHuntingAnimal>
+        : IRepository<PermissionForExtractionOfHuntingAnimal>,
+        IGetInclude<PermissionForExtractionOfHuntingAnimal>
     {
     }
 }

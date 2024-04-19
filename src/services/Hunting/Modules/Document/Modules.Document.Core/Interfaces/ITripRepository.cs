@@ -3,7 +3,7 @@
 namespace Modules.Document.Domain.Interfaces
 {
     public interface ITripRepository
-        : IRepository<Trip>
+        : IRepository<Trip>, IGetInclude<Trip>
     {
     }
 }

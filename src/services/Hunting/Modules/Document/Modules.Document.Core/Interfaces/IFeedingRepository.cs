@@ -3,7 +3,7 @@
 namespace Modules.Document.Domain.Interfaces
 {
     public interface IFeedingRepository
-        : IRepository<Feeding>
+        : IRepository<Feeding>, IGetInclude<Feeding>
     {
     }
 }
