@@ -4,6 +4,6 @@ namespace Identity.Services.Interfaces
 {
     public interface IRefreshTokenUtilities
     {
-        void UpdateRefreshTokenForUser(User user, string newRefreshToken);
+        void ChangeRefreshTokenForUser(User user, string newRefreshToken);
     }
 }

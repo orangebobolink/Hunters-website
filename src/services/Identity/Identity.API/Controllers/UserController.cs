@@ -4,7 +4,7 @@ using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MR.AspNetCore.Pagination;
+using MR.EntityFrameworkCore.KeysetPagination;
 
 namespace Identity.API.Controllers
 {
@@ -19,10 +19,13 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<KeysetPaginationResult<ResponseUserDto>>> GetAllUsersAsync(
+        public async Task<ActionResult<List<ResponseUserDto>>> GetAllUsers(
+            [FromQuery] Guid id,
+            [FromQuery] int numberTake = 10,
+            [FromQuery] KeysetPaginationDirection keysetPaginationDirection = KeysetPaginationDirection.Forward,
             CancellationToken cancellationToken = default)
         {
-            var users = await _userService.GetAllAsync(cancellationToken);
+            var users = await _userService.GetAllAsync(id, numberTake, keysetPaginationDirection, cancellationToken);
 
             return Ok(users);
         }
@@ -32,10 +35,23 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseUserDto>> GetUserByIdAsync(Guid id,
+        public async Task<ActionResult<ResponseUserDto>> GetUserById(Guid id,
             CancellationToken cancellationToken = default)
         {
             var user = await _userService.GetUserByIdAsync(id, cancellationToken);
+
+            return Ok(user);
+        }
+
+        [Authorize(Roles = $"{Role.Manager}, {Role.Admin}")]
+        [HttpGet("{roleName}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<ResponseUserDto>>> GetAllByRoles(string roleName,
+            CancellationToken cancellationToken = default)
+        {
+            var user = await _userService.GetALlByRoles(roleName, cancellationToken);
 
             return Ok(user);
         }
@@ -46,7 +62,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseCreateUserDto>> CreateUserAsync([FromBody] RequestUserDto requestUserDto,
+        public async Task<ActionResult<ResponseCreateUserDto>> CreateUser([FromBody] RequestUserDto requestUserDto,
                                                                                 CancellationToken cancellationToken = default)
         {
             var user = await _userService.CreateAsync(requestUserDto, cancellationToken);
@@ -60,7 +76,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUserAsync([FromQuery] Guid id,
+        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUser([FromQuery] Guid id,
                                                                          [FromBody] RequestUserDto requestUserDto,
                                                                          CancellationToken cancellationToken = default)
         {

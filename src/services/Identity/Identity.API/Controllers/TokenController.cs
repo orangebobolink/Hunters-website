@@ -1,5 +1,4 @@
-﻿using Identity.Services.Dtos;
-using Identity.Services.Interfaces;
+﻿using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +11,9 @@ namespace Identity.API.Controllers
         private readonly ITokenService _tokenService = tokenService;
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshAsync(CancellationToken cancellationToken = default)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Refresh(CancellationToken cancellationToken = default)
         {
             var response = await _tokenService.RefreshAsync(cancellationToken);
 
@@ -20,7 +21,10 @@ namespace Identity.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{id:guid}")]
+        [HttpPatch("revoke")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Revoke(CancellationToken cancellationToken = default)
         {
             await _tokenService.RevokeAsync(cancellationToken);

@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Identity.Infrastructure.Configurations;
 using MassTransit;
 
 namespace Identity.Infrastructure.Contexts
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public class ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options)
         : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
     {
+        public DbSet<HuntingLicense> HuntingLicenses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyDataSeed();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);

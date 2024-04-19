@@ -28,7 +28,7 @@ namespace Chat.Infrastructure.Repositories
         {
             return await _context.Groups
                 .AsNoTracking()
-                .Where(g => !g.IsDeleted && g.Members.Any(m => m.Id == userId))
+                .Where(g => !g.IsDeleted && g.Users.Any(m => m.Id == userId))
                 .ToListAsync();
         }
 

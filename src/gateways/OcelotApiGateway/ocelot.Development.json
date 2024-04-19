@@ -9,9 +9,51 @@
           "Port": 5165
         }
       ],
-      "UpstreamPathTemplate": "/api/identity/{everything}",
-      "UpstreamHttpMethod": [ "Post", "Put", "Get" ],
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Patch" ],
       "SwaggerKey": "identity"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5039
+        }
+      ],
+      "UpstreamPathTemplate": "/api/hunting/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Delete" ],
+      "SwaggerKey": "hunting"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5019
+        }
+      ],
+      "UpstreamPathTemplate": "/api/chat/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Delete" ],
+      "SwaggerKey": "chat"
+    },
+    {
+      "DownstreamPathTemplate": "/chat/{path}",
+      "DownstreamScheme": "ws",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Delete", "Options" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5019
+        }
+      ],
+      "UpstreamPathTemplate": "/chat/{path}",
+      "QoSOptions": {
+        "TimeoutValue": 320000
+      },
+      "Priority": 50
     }
   ],
   "SwaggerEndPoints": [
@@ -22,6 +64,26 @@
           "Name": "Identity API",
           "Version": "v1",
           "Url": "http://localhost:5165/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "hunting",
+      "Config": [
+        {
+          "Name": "Hunting API",
+          "Version": "v1",
+          "Url": "http://localhost:5039/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "chat",
+      "Config": [
+        {
+          "Name": "Chat API",
+          "Version": "v1",
+          "Url": "http://localhost:5019/swagger/v1/swagger.json"
         }
       ]
     }

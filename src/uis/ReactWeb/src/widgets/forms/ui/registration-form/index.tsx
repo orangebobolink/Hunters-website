@@ -17,7 +17,7 @@ import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectIsAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {Notice} from '@/shared/const';
 import {toastError, toastSuccess} from '@/shared/lib/utils/ToastUtils.ts';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import InputFormField from '@/features/form/input-form-field.tsx';
 import {ErrorUtils} from '@/shared/lib/utils/ErrorUtils.ts';
@@ -44,6 +44,7 @@ const formSchema = z.object({
 });
 
 export const RegistrationForm = () => {
+    const navigate = useNavigate();
     const [register, { isSuccess, isError, error }] =
         useRegisterMutation();
     const { t} = useTranslation("translation",
@@ -70,6 +71,7 @@ export const RegistrationForm = () => {
 
             if (currentRequest) currentRequest.abort();
             const data = register(request);
+
             setCurrentRequest(data);
         },
         [currentRequest, register],
@@ -78,6 +80,7 @@ export const RegistrationForm = () => {
     useEffect(() => {
         if (isSuccess) {
             toastSuccess(Notice.REGISTRATION_SUCCESSFUL);
+            navigate("/login");
         } else if (isError && ErrorUtils.isTypedError(error)) {
             toastError(error.data.message);
         } else if (isError) toastError(Notice.UNEXPECTED_ERROR);
@@ -89,8 +92,6 @@ export const RegistrationForm = () => {
         },
         [currentRequest],
     );
-
-    const isAuth = useAppSelector(selectIsAuth);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

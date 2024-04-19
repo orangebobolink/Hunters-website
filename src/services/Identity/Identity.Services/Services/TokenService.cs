@@ -4,7 +4,6 @@ using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
@@ -22,7 +21,7 @@ namespace Identity.Services.Services
         private readonly IAccessTokenUtilities _accessTokenUtilities = accessTokenUtilities;
         private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
         private readonly ILogger<TokenService> _logger = logger;
-        private readonly ThrowExceptionUtilities<TokenService> _throwExceptionUtilities = new(logger);
+        private readonly ThrowExceptionUtility<TokenService> _throwExceptionUtilities = new(logger);
 
         public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken)
         {
@@ -46,30 +45,21 @@ namespace Identity.Services.Services
 
         public async Task<ResponseAuthenticatedDto> RefreshAsync(CancellationToken cancellationToken)
         {
-            var username = _accessTokenUtilities.GetNameFromAccessToken();
-
+            var username = _accessTokenUtilities.GetUsernameFromAccessToken();
             string refreshToken = _refreshTokenCookieUtilities.ReadRefreshTokenCookie();
 
-            User user = (await _userManager.FindByNameAsync(username))
-                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(username);
-
+            var user = await FindUserByUsernameAsync(username);
             user.CheckUserRefreshToken(refreshToken, _logger);
 
             var newAccessToken = await GenerateAccessTokenAsync(user!, cancellationToken);
             var newRefreshToken = GenerateRefreshToken();
 
-            _refreshTokenUtilities.UpdateRefreshTokenForUser(user, newRefreshToken);
-
-            IdentityResult userUpdateResult = await _userManager.UpdateAsync(user);
-
-            userUpdateResult.CheckUserUpdateResult(_logger);
-
-            _refreshTokenCookieUtilities.AddRefreshTokenCookie(newRefreshToken);
+            await UpdateUserRefreshTokenAsync(user, newRefreshToken);
 
             var response = new ResponseAuthenticatedDto()
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                UserName = user.UserName!,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 AccessToken = newAccessToken,
             };
@@ -79,18 +69,11 @@ namespace Identity.Services.Services
 
         public async Task RevokeAsync(CancellationToken cancellationToken)
         {
-            var username = _accessTokenUtilities.GetNameFromAccessToken();
+            var username = _accessTokenUtilities.GetUsernameFromAccessToken();
 
-            var user = (await _userManager.FindByNameAsync(username))
-                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(username);
+            var user = await FindUserByUsernameAsync(username);
 
-            user.RefreshToken = string.Empty;
-
-            var userUpdateResult = await _userManager.UpdateAsync(user!);
-
-            userUpdateResult.CheckUserUpdateResult(_logger);
-
-            _refreshTokenCookieUtilities.DeleteRefreshTokenCookie();
+            await DeleteUserRefreshTokenAsync(user);
         }
 
         private string GetRandomNumberGeneratorRefreshToken(byte[] randomNumber)
@@ -104,6 +87,41 @@ namespace Identity.Services.Services
 
                 return refreshToken;
             }
+        }
+
+        public async Task UpdateUserRefreshTokenAsync(User user, string newRefreshToken)
+        {
+            _refreshTokenUtilities.ChangeRefreshTokenForUser(user, newRefreshToken);
+
+            var userUpdateResult = await _userManager.UpdateAsync(user);
+
+            userUpdateResult.CheckUserUpdateResult(_logger);
+
+            _refreshTokenCookieUtilities.AddRefreshTokenCookie(newRefreshToken);
+        }
+
+        public async Task DeleteUserRefreshTokenAsync(User user)
+        {
+            user.RefreshToken = string.Empty;
+
+            var userUpdateResult = await _userManager.UpdateAsync(user!);
+
+            userUpdateResult.CheckUserUpdateResult(_logger);
+
+            _refreshTokenCookieUtilities.DeleteRefreshTokenCookie();
+        }
+
+
+        private async Task<User> FindUserByUsernameAsync(string username)
+        {
+            User? user = await _userManager.FindByNameAsync(username);
+
+            if(user == null)
+            {
+                _throwExceptionUtilities.ThrowAccountNotFoundException(username);
+            }
+
+            return user!;
         }
     }
 }

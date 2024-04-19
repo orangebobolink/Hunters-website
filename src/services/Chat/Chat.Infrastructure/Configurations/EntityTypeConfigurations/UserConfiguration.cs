@@ -28,16 +28,21 @@ namespace Chat.Infrastructure.Configurations.EntityTypeConfigurations
                 .HasMaxLength(255);
 
             builder.HasMany(u => u.Groups)
-               .WithMany(g => g.Members)
-               .UsingEntity<Dictionary<string, object>>(
-                   "UserGroup",
-                   uj => uj.HasOne<Group>().WithMany(),
-                   gj => gj.HasOne<User>().WithMany(),
-                   j =>
-                   {
-                       j.HasKey("UserId", "GroupId");
-                       j.ToTable("UserGroups");
-                   });
+                    .WithMany(g => g.Users)
+                    .UsingEntity<UserGroup>(
+                        j => j
+                            .HasOne<Group>()
+                            .WithMany()
+                            .HasForeignKey("GroupId"),
+                        j => j
+                            .HasOne<User>()
+                            .WithMany()
+                            .HasForeignKey("UserId"),
+                        j =>
+                        {
+                            j.HasKey("UserId", "GroupId");
+                            j.ToTable("UserGroups");
+                        });
         }
     }
 }

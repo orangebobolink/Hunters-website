@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import { api } from '@/shared/model/store/queries/api';
 
 import authReducer from '@/shared/model/store/slices/auth';
+import {signalRSlice} from '@/shared/model/store/slices/signalr';
 
 const persistConfig = {
     key: 'root',
@@ -23,6 +24,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    signalr: signalRSlice.reducer,
     [api.reducerPath]: api.reducer,
 });
 

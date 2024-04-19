@@ -7,7 +7,7 @@ import { refreshAuthThunk } from '@/shared/model/store/slices/auth/refreshAuthTh
 import { LoginResponse } from '@/shared/model/store/queries/typing/responses/LoginResponse';
 
 type InitialState = {
-    id: number | null,
+    id: string | null,
     isAuth: boolean,
     username: string | null,
     roles: string[],
@@ -85,10 +85,10 @@ const authSlice = createSlice({
                 state.isAuth = false;
                 state.username = null;
                 state.roles = [];
-                LocaleStorageUtils.removeAccessToken();
             })
             .addCase(logoutThunk.fulfilled, (state) => {
                 setFulfilledValues(state);
+                LocaleStorageUtils.removeAccessToken();
             })
             .addCase(logoutThunk.rejected, setRejectedValues);
     },

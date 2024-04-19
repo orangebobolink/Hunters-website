@@ -9,9 +9,38 @@
           "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/api/identity/{everything}",
+      "UpstreamPathTemplate": "/api/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get", "Patch" ],
+      "SwaggerKey": "identity"
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "chat",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/chat/{everything}",
       "UpstreamHttpMethod": [ "Post", "Delete", "Get" ],
       "SwaggerKey": "identity"
+    },
+    {
+      "DownstreamPathTemplate": "/chat/{path}",
+      "DownstreamScheme": "ws",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "chat",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/chat/{path}",
+      "QoSOptions": {
+        "TimeoutValue": 320000
+      },
+      "Priority": 50
     }
   ],
   "SwaggerEndPoints": [
@@ -22,6 +51,16 @@
           "Name": "Identity API",
           "Version": "v1",
           "Url": "http://identity:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "chat",
+      "Config": [
+        {
+          "Name": "Chat API",
+          "Version": "v1",
+          "Url": "http://chat:8080/swagger/v1/swagger.json"
         }
       ]
     }

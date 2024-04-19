@@ -6,6 +6,10 @@ import { cn } from "@/shared/lib/utils/cnUtil.ts";
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from '@/shared/ui/resizable.tsx';
 import {Sidebar} from '@/features/chat/sidebar.tsx';
 import {Chat} from '@/features/chat/chat.tsx';
+import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
+import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
+import {Button} from "@/shared/ui";
+import {SignalRContext} from '@/shared/model/signalrR';
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -18,11 +22,23 @@ export function ChatLayout({
                                defaultCollapsed = false,
                                navCollapsedSize,
                            }: ChatLayoutProps) {
+    const {id, error} = useAppSelector(selectAuth);
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
     const [selectedUser, setSelectedUser] = React.useState(userData[0]);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        const fetchData = async () => {
+            const response = await SignalRContext.invoke("ReceiveMessages", id);
+            console.log("ЧТО-ТО " + JSON.stringify(response));
+        };
+
+        fetchData().catch(console.error);
+    }, []);
+
+
+    useEffect(() => {
+        console.log(id)
         const checkScreenWidth = () => {
             setIsMobile(window.innerWidth <= 768);
         };

@@ -3,16 +3,11 @@ using Chat.Interfaces.Repositories;
 
 namespace Chat.Infrastructure.Repositories
 {
-    internal abstract class BaseRepository<T>
+    internal abstract class BaseRepository<T>(ApplicationDbContext context)
         : IRepository<T>
         where T : class
     {
-        protected readonly ApplicationDbContext _context;
-
-        public BaseRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        protected readonly ApplicationDbContext _context = context;
 
         public void Create(T entity)
         {

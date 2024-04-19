@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Messages\Shared.Messages.csproj" />
+    <ProjectReference Include="..\Modules\Document\Modules.Document.API\Modules.Document.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\AnimalFeatures\Events\" />
+  </ItemGroup>
+
+</Project>

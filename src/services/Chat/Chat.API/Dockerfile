@@ -1,18 +1,21 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Chat.API/Chat.API.csproj", "Chat.API/"]
-RUN dotnet restore "./Chat.API/Chat.API.csproj"
-COPY . .
-WORKDIR "/src/Chat.API"
+COPY ["services/Chat/Chat.API/Chat.API.csproj", "services/Chat/Chat.API/"]
+COPY ["services/Chat/Chat.Services/Chat.Services.csproj", "services/Chat/Chat.Services/"]
+COPY ["services/Chat/Chat.Interfaces/Chat.Interfaces.csproj", "services/Chat/Chat.Interfaces/"]
+COPY ["services/Chat/Chat.Domain/Chat.Domain.csproj", "services/Chat/Chat.Domain/"]
+COPY ["services/Chat/Chat.Infrastructure/Chat.Infrastructure.csproj", "services/Chat/Chat.Infrastructure/"]
+COPY ["services/Shared.Messages/Shared.Messages.csproj", "services/Shared.Messages/"]
+RUN dotnet restore "services/Chat/Chat.API/Chat.API.csproj"
+COPY ./services/Chat/ ./services/Chat/
+COPY ./services/Shared.Messages/ ./services/Shared.Messages/
+WORKDIR "/src/services/Chat/Chat.API"
 RUN dotnet build "./Chat.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
