@@ -5,7 +5,7 @@ using Shared.Infrastructure.Contexts;
 namespace Modules.Document.Infrastructure.Contexts
 {
     internal class DocumentDbContext(
-        DbContextOptions options)
+        DbContextOptions<DocumentDbContext> options)
         : ModuleDbContext(options)
     {
         protected override string Schema => "Document";

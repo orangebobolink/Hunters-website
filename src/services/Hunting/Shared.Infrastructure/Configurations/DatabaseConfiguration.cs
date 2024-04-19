@@ -11,7 +11,8 @@ namespace Shared.Infrastructure.Configurations
         {
             string connectionString = configuration.GetConnectionString("DefaultConnection")!;
             services.AddDbContext<T>(options =>
-                options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
+                options.UseSqlServer(connectionString, e => e.MigrationsAssembly(typeof(T).Assembly.FullName)),
+                ServiceLifetime.Scoped);
         }
     }
 }

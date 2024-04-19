@@ -6,7 +6,9 @@ using System.Reflection;
 
 namespace Modules.Animal.Infrastructure.Contexts
 {
-    internal class ApplicationDbContext(DbContextOptions options) : ModuleDbContext(options)
+    internal class ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options)
+        : ModuleDbContext(options)
     {
         protected override string Schema => "Animal";
 

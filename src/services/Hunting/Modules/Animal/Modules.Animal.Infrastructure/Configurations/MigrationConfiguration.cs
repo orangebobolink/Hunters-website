@@ -11,23 +11,21 @@ namespace Modules.Animal.Infrastructure.Configurations
     {
         public static void MigrateDatabase(this IApplicationBuilder applicationBuilder)
         {
-            using(IServiceScope scope = applicationBuilder.ApplicationServices.CreateScope())
+            using (IServiceScope scope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                using(ApplicationDbContext appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+                using (ApplicationDbContext appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
                 {
                     try
                     {
-                        if(!appContext.Animals.Any())
-                        {
-                            appContext.Database.Migrate();
-                        }
+
+                        appContext.Database.Migrate();
 
                         var dataSeed = scope.ServiceProvider.GetRequiredService<IAnimalDataSeeder>();
 
                         dataSeed.SeedAsync().Wait();
                         dataSeed.SeedMessageAsync().Wait();
                     }
-                    catch 
+                    catch
                     {
                         throw;
                     }

@@ -14,6 +14,7 @@ namespace Modules.Document.Infrastructure.Configurations
             IConfiguration configuration)
         {
             services.AddDatabaseConfiguration<DocumentDbContext>(configuration);
+
             services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IHuntingLicenseRepository, HuntingLicenseRepository>();
             services.AddScoped<IFeedingRepository, FeedingRepository>();
