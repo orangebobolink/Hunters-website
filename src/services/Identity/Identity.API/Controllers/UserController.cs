@@ -43,6 +43,19 @@ namespace Identity.API.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = $"{Role.Manager}, {Role.Admin}")]
+        [HttpGet("{roleName}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<ResponseUserDto>>> GetAllByRoles(string roleName,
+            CancellationToken cancellationToken = default)
+        {
+            var user = await _userService.GetALlByRoles(roleName, cancellationToken);
+
+            return Ok(user);
+        }
+
         [Authorize(Roles = Role.Admin)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]

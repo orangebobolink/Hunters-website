@@ -25,6 +25,7 @@ namespace Identity.Infrastructure.Repositories
         {
             return await _context.HuntingLicenses
                 .AsNoTracking()
+                .Where(h => h.ExpiryDate < DateTime.Now)
                 .ToListAsync();
         }
 

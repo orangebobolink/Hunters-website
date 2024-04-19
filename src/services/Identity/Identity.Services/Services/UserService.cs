@@ -32,7 +32,7 @@ namespace Identity.Services.Services
                 creditionals,
                 cancellationToken);
 
-            if(existingUser is not null)
+            if (existingUser is not null)
             {
                 throw new Exception();
             }
@@ -73,6 +73,11 @@ namespace Identity.Services.Services
             _logger.LogInformation("Pagination was successfully completed.");
 
             return respons;
+        }
+
+        public Task<List<ResponseUpdateUserDto>> GetALlByRoles(string roleName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken)
