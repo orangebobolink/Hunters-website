@@ -7,7 +7,7 @@ namespace Modules.Document.Application.Interfaces
     {
         Task<FeedingProductResponseDto> UpdateAsync(Guid id, FeedingProductRequestDto request, CancellationToken cancellationToken);
         Task<FeedingProductResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
-        Task<FeedingProductResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<FeedingProductResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<List<FeedingProductResponseDto>> GetAllAsync(CancellationToken cancellationToken);
     }
 }

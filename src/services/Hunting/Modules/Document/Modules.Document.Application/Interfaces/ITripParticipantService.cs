@@ -3,7 +3,7 @@ using Modules.Document.Application.Dtos.ResponseDto;
 
 namespace Modules.Document.Application.Interfaces
 {
-    internal interface ITripParticipantService
+    public interface ITripParticipantService
     {
         Task<TripResponseDto> CreateAsync(TripRequestDto request, CancellationToken cancellationToken);
         Task<TripResponseDto> UpdateAsync(Guid id, TripRequestDto request, CancellationToken cancellationToken);
