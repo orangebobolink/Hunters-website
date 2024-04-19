@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Modules.Document.Core\Modules.Document.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

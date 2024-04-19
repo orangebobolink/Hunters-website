@@ -3,7 +3,7 @@ using Modules.Document.Application.Dtos.ResponseDto;
 
 namespace Modules.Document.Application.Interfaces
 {
-    public interface IFeedingProduct
+    public interface IFeedingProductService
     {
         Task<FeedingProductResponseDto> UpdateAsync(Guid id, FeedingProductRequestDto request, CancellationToken cancellationToken);
         Task<FeedingProductResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
