@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modules.Document.Domain.Interfaces;
 using Modules.Document.Infrastructure.Contexts;
+using System.Linq.Expressions;
 
 namespace Modules.Document.Infrastructure.Repositories
 {
@@ -19,6 +20,16 @@ namespace Modules.Document.Infrastructure.Repositories
             _context.Set<T>().Remove(entity);
         }
 
+        public async Task<IEnumerable<T>> GetAllByPredicate(
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken)
+        {
+            return await _context.Set<T>()
+                .AsNoTracking()
+                .Where(predicate)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _context.Set<T>()
@@ -26,11 +37,13 @@ namespace Modules.Document.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<T?> GetByPredicate(
+           Expression<Func<T, bool>> predicate,
+           CancellationToken cancellationToken)
         {
             return await _context.Set<T>()
-               .AsNoTracking()
-               .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(predicate, cancellationToken);
         }
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)

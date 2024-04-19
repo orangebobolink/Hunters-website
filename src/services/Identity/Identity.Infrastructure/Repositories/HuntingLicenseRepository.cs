@@ -2,6 +2,7 @@
 using Identity.Domain.Interfaces;
 using Identity.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Identity.Infrastructure.Repositories
 {
@@ -29,21 +30,25 @@ namespace Identity.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<HuntingLicense?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
-        {
-            return await _context.HuntingLicenses
-                .AsNoTracking()
-                .FirstOrDefaultAsync(h => h.Id == id && h.ExpiryDate > DateTime.Now);
-        }
-
-        public async Task<HuntingLicense?> GetByLicenseNumberAsync(
-            string licenseNumber,
-            CancellationToken cancellationToken)
+        public async Task<IEnumerable<HuntingLicense>> GetAllByPredicate(Expression<Func<HuntingLicense, bool>> predicate, CancellationToken cancellationToken)
         {
             return await _context.HuntingLicenses
                .AsNoTracking()
-               .FirstOrDefaultAsync(h => h.LicenseNumber == licenseNumber
-               && h.ExpiryDate > DateTime.Now);
+               .Where(predicate)
+               .ToListAsync(cancellationToken);
+        }
+
+        public Task<HuntingLicense?> GetByLicenseNumberAsync(string licenseNumber, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<HuntingLicense?> GetByPredicate(Expression<Func<HuntingLicense, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _context.HuntingLicenses
+              .AsNoTracking()
+              .Where(h => h.ExpiryDate > DateTime.Now)
+              .FirstOrDefaultAsync(predicate);
         }
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)

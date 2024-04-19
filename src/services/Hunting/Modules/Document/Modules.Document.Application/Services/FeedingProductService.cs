@@ -18,7 +18,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<FeedingProductResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingFeedingProduct = await _feedingProductRepository.GetByIdAsync(id, cancellationToken);
+            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingFeedingProduct is null)
             {
@@ -44,9 +44,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<FeedingProductResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<FeedingProductResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var coupon = await _feedingProductRepository.GetByIdAsync(id, cancellationToken);
+            var coupon = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (coupon is null)
             {
@@ -61,7 +61,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<FeedingProductResponseDto> UpdateAsync(Guid id, FeedingProductRequestDto request, CancellationToken cancellationToken)
         {
-            var existingFeedingProduct = await _feedingProductRepository.GetByIdAsync(id, cancellationToken);
+            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingFeedingProduct is null)
             {

@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Modules\Document\Modules.Document.API\Modules.Document.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\AnimalFeatures\Events\" />
+  </ItemGroup>
+
 </Project>

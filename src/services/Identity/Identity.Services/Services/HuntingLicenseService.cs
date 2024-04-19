@@ -21,16 +21,16 @@ namespace Identity.Services.Services
             HuntingLicenseRequestDto huntingLicenseRequest,
             CancellationToken cancellationToken)
         {
-            if(huntingLicenseRequest.IssuedDate > DateTime.Now
+            if (huntingLicenseRequest.IssuedDate > DateTime.Now
               || huntingLicenseRequest.ExpiryDate < DateTime.Now)
             {
                 throw new Exception();
             }
 
             var existingHunterLicense = await _hyntingLicenseRepository
-                .GetByLicenseNumberAsync(huntingLicenseRequest.LicenseNumber, cancellationToken);
+                .GetByPredicate(h => h.LicenseNumber == huntingLicenseRequest.LicenseNumber, cancellationToken);
 
-            if(existingHunterLicense is not null)
+            if (existingHunterLicense is not null)
             {
                 throw new Exception();
             }
@@ -56,9 +56,9 @@ namespace Identity.Services.Services
             CancellationToken cancellationToken)
         {
             var existingHunterLicense = await _hyntingLicenseRepository
-                     .GetByLicenseNumberAsync(licenseNumber, cancellationToken);
+                     .GetByPredicate(h => h.LicenseNumber == licenseNumber, cancellationToken);
 
-            if(existingHunterLicense is null)
+            if (existingHunterLicense is null)
             {
                 throw new Exception();
             }

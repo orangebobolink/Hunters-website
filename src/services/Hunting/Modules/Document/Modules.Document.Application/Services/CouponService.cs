@@ -34,9 +34,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<CouponResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<CouponResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var coupon = await _couponRepository.GetByIdAsync(id, cancellationToken);
+            var coupon = await _couponRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (coupon is null)
             {
@@ -51,7 +51,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<CouponResponseDto> UpdateIsUsedAsync(Guid id, CancellationToken cancellationToken)
         {
-            var coupon = await _couponRepository.GetByIdAsync(id, cancellationToken);
+            var coupon = await _couponRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (coupon is null)
             {
