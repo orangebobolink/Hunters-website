@@ -16,6 +16,8 @@ namespace Identity.Services.Configurations
             services.AddScoped<IRefreshTokenUtilities, RefreshTokenUtility>();
             services.AddScoped<IAccessTokenUtilities, AccessTokenUtility>();
             services.AddScoped<ICookieUtilities, CookieUtility>();
+            services.AddScoped<IVerificationService, VerificationService>();
+            services.AddScoped<IHuntingLicenseService, HuntingLicenseService>();
         }
     }
 }
