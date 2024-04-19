@@ -1,8 +1,9 @@
 ﻿using Modules.Document.Domain.Enums;
+using Modules.Document.Domain.Interfaces;
 
 namespace Modules.Document.Domain.Entities
 {
-    public class FeedingProduct
+    public class FeedingProduct : IBaseEntity
     {
         public Guid Id { get; set; }
         public Product Product { get; set; }

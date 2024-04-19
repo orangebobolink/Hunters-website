@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class PermissionForExtractionOfHuntingAnimal
+    public class PermissionForExtractionOfHuntingAnimal : IBaseEntity
     {
         public Guid Id { get; set; }
         public DateTime FromDate { get; set; }

@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class Feeding
+    public class Feeding : IBaseEntity
     {
         public Guid Id { get; set; }
         public string Number { get; set; } = string.Empty;

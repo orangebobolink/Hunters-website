@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class TripParticipant
+    public class TripParticipant : IBaseEntity
     {
         public Guid Id { get; set; }
         public Guid ParticipantId { get; set; }

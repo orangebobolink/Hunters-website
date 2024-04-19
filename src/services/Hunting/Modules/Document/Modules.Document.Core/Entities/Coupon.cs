@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class Coupon
+    public class Coupon : IBaseEntity
     {
         public Guid Id { get; set; }
         public Guid PermissionId { get; set; }

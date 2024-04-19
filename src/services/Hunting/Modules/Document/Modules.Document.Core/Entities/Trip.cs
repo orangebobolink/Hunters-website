@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class Trip
+    public class Trip : IBaseEntity
     {
         public Guid Id { get; set; }
         public DateTime FromDate { get; set; }
@@ -13,7 +15,8 @@
         public User? Issued { get; set; }
         public Guid ReceivedId { get; set; }
         public User? Received { get; set; }
-        public DateTime ReceivedDate = DateTime.Now;
+        public DateTime ReceivedDate { get; set; }
+        public DateTime EventDate { get; set; }
         public List<TripParticipant> TripParticipants { get; set; } = [];
         public DateTime ReturnedDate { get; set; }
         public bool IsReturned { get; set; } = false;

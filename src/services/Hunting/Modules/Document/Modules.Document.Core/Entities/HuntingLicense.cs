@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class HuntingLicense
+    public class HuntingLicense : IBaseEntity
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }

@@ -1,6 +1,8 @@
-﻿namespace Modules.Document.Domain.Entities
+﻿using Modules.Document.Domain.Interfaces;
+
+namespace Modules.Document.Domain.Entities
 {
-    public class User
+    public class User : IBaseEntity
     {
         public Guid Id { get; set; }
         public string Email { get; set; } = string.Empty;
