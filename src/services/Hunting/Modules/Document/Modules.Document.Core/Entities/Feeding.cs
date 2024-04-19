@@ -11,7 +11,7 @@ namespace Modules.Document.Domain.Entities
         public User? Issued { get; set; }
         public Guid ReceivedId { get; set; }
         public User? Received { get; set; }
-        public DateTime ReceivedDate = DateTime.Now;
+        public DateTime ReceivedDate { get; set; }
         public List<FeedingProduct> Products { get; set; } = [];
     }
 }
