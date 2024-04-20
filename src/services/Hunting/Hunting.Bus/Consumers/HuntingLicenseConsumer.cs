@@ -7,7 +7,10 @@ using Shared.Messages.HunterLicenseMessage;
 
 namespace Hunting.Bus.Consumers
 {
-    public class HuntingLicenseConsumer(IHuntingLicenseRepository huntingLicenseRepository, ILogger<HuntingLicenseConsumer> logger) : IConsumer<CreateHuntingLicense>
+    public class HuntingLicenseConsumer(
+        IHuntingLicenseRepository huntingLicenseRepository,
+        ILogger<HuntingLicenseConsumer> logger)
+        : IConsumer<CreateHuntingLicense>
     {
         private readonly IHuntingLicenseRepository _huntingLicenseRepository = huntingLicenseRepository;
         private readonly ILogger<HuntingLicenseConsumer> _logger = logger;

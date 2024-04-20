@@ -1,9 +1,9 @@
-﻿using Modules.Document.Application.Dtos.ResponseDto;
-using Modules.Document.Application.Interfaces;
+﻿using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Interfaces;
 using Microsoft.Extensions.Logging;
 using Mapster;
 using Shared.Helpers;
+using Modules.Document.Application.Dtos.ResponseDtos;
 
 namespace Modules.Document.Application.Services
 {

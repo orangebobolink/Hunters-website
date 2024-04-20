@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Interfaces;
 using Shared.Helpers;

@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -41,7 +41,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<LandResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingLand = await _landRepository.GetByIdAsync(id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingLand is null)
             {
@@ -69,7 +69,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<LandResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var feeding = await _landRepository.GetByIdAsync(id, cancellationToken);
+            var feeding = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (feeding is null)
             {
@@ -84,7 +84,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<LandResponseDto> UpdateAsync(Guid id, LandRequestDto request, CancellationToken cancellationToken)
         {
-            var existingLand = await _landRepository.GetByIdAsync(id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingLand is null)
             {

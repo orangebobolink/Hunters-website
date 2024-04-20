@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -38,7 +38,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<RaidResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingRaid = await _raidRepository.GetByIdAsync(id, cancellationToken);
+            var existingRaid = await _raidRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingRaid is null)
             {
@@ -73,9 +73,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<RaidResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var permission = await _raidRepository.GetByIdAsync(id, cancellationToken);
+            var permission = await _raidRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (permission is null)
             {
@@ -105,7 +105,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<RaidResponseDto> UpdateAsync(Guid id, RaidRequestDto request, CancellationToken cancellationToken)
         {
-            var existingRaid = await _raidRepository.GetByIdAsync(id, cancellationToken);
+            var existingRaid = await _raidRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingRaid is null)
             {

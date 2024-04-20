@@ -12,6 +12,7 @@ builder.Services.AddJwtAuthenticationConfiguration(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
 builder.Services.AddRedisConfiguration(builder.Configuration);
+builder.Services.AddMassTransitConfiguration(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();

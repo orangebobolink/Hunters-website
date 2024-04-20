@@ -1,4 +1,4 @@
-﻿namespace Modules.Document.Application.Dtos.ResponseDto
+﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
     public class TripParticipantResponseDto
     {

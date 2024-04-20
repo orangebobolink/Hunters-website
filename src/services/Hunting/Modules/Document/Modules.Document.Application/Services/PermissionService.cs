@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -41,7 +41,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<PermisionResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingPermission = await _permissionRepository.GetByIdAsync(id, cancellationToken);
+            var existingPermission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingPermission is null)
             {
@@ -78,7 +78,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<PermisionResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var permission = await _permissionRepository.GetByIdAsync(id, cancellationToken);
+            var permission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (permission is null)
             {
@@ -111,7 +111,7 @@ namespace Modules.Document.Application.Services
             PermisionRequestDto request,
             CancellationToken cancellationToken)
         {
-            var existingPermission = await _permissionRepository.GetByIdAsync(id, cancellationToken);
+            var existingPermission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingPermission is null)
             {

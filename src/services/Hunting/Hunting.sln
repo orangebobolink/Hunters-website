@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Redis", "..\Shared.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modules.Animal.Domain", "Modules\Animal\Modules.Animal.Domain\Modules.Animal.Domain.csproj", "{F3EDD9AD-B189-4821-BD08-B9E2E4FC049A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "..\Identity\Identity.API\Identity.API.csproj", "{45A4A310-3A1D-4FB7-8F67-882D3AC97623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{F3EDD9AD-B189-4821-BD08-B9E2E4FC049A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3EDD9AD-B189-4821-BD08-B9E2E4FC049A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3EDD9AD-B189-4821-BD08-B9E2E4FC049A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

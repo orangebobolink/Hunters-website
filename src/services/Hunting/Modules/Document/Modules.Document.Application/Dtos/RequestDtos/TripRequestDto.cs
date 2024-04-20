@@ -1,4 +1,4 @@
-﻿using Modules.Document.Application.Dtos.ResponseDto;
+﻿using Modules.Document.Application.Dtos.ResponseDtos;
 
 namespace Modules.Document.Application.Dtos.RequestDtos
 {

@@ -12,7 +12,7 @@ namespace Identity.API.Controllers
     {
         private readonly IHuntingLicenseService _huntingLicenseService = huntingLicenseService;
 
-        [HttpGet("{licenseNumber:length}")]
+        [HttpGet("{licenseNumber}")]
         public async Task<ActionResult<HuntingLicense>> GetHunterLicenseByLicenseNumber(
             string licenseNumber,
             CancellationToken cancellationToken = default)

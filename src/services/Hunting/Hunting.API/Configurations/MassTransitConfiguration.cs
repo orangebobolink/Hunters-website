@@ -1,4 +1,6 @@
-﻿using MassTransit;
+﻿using Hunting.Bus.Consumers;
+using MassTransit;
+using System.Reflection;
 
 namespace Hunting.API.Configurations
 {
@@ -8,7 +10,7 @@ namespace Hunting.API.Configurations
         {
             services.AddMassTransit(x =>
             {
-                //var assembly = Assembly.GetAssembly(typeof(CreateUserConsumer));
+                var assembly = Assembly.GetAssembly(typeof(UserDataSeedConsumer));
                 var host = config["RabbitMQ:Host"];
                 var virtualHost = config["RabbitMQ:VirtualHost"];
                 var username = config["RabbitMQ:Username"];
@@ -22,8 +24,9 @@ namespace Hunting.API.Configurations
 
                 //    o.UseBusOutbox();
                 //});
+
                 x.SetKebabCaseEndpointNameFormatter();
-                //x.AddConsumers(assembly);
+                x.AddConsumers(assembly);
 
                 x.UsingRabbitMq((context, cfg) =>
                 {

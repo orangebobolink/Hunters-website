@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -41,7 +41,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<FeedingResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingFeeding = await _feedingRepository.GetByPredicate(f => f.Id == id, cancellationToken);
 
             if (existingFeeding is null)
             {
@@ -76,9 +76,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<FeedingResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<FeedingResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var feeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var feeding = await _feedingRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (feeding is null)
             {
@@ -108,7 +108,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<FeedingResponseDto> UpdateAsync(Guid id, FeedingRequestDto request, CancellationToken cancellationToken)
         {
-            var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingFeeding = await _feedingRepository.GetByPredicate(f => f.Id == id, cancellationToken);
 
             if (existingFeeding is null)
             {

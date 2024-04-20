@@ -1,6 +1,6 @@
 ﻿using Modules.Document.Domain.Entities;
 
-namespace Modules.Document.Application.Dtos.ResponseDto
+namespace Modules.Document.Application.Dtos.ResponseDtos
 {
     public class RaidResponseDto
     {

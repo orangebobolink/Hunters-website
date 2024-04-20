@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.Document.Application.Dtos.ResponseDto
+namespace Modules.Document.Application.Dtos.ResponseDtos
 {
     public class PermisionResponseDto
     {

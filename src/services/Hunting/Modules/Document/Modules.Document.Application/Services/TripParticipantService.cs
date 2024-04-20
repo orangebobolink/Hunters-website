@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -38,7 +38,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<TripResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingTripParticipant = await _tripParticipantRepository.GetByIdAsync(id, cancellationToken);
+            var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingTripParticipant is null)
             {
@@ -57,7 +57,7 @@ namespace Modules.Document.Application.Services
 
         public async Task<TripResponseDto> UpdateAsync(Guid id, TripRequestDto request, CancellationToken cancellationToken)
         {
-            var existingTripParticipant = await _tripParticipantRepository.GetByIdAsync(id, cancellationToken);
+            var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
             if (existingTripParticipant is null)
             {
