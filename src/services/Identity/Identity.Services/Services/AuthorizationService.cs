@@ -49,6 +49,7 @@ namespace Identity.Services.Services
         {
             var userRequestDto = registrationUserDto.Adapt<RequestUserDto>();
             userRequestDto.UserName = RandomUsernameGeneratorUtility.GenerateRandomUsername();
+            userRequestDto.RoleNames = [Role.User];
 
             await _userService.CreateAsync(userRequestDto, cancellationToken);
 

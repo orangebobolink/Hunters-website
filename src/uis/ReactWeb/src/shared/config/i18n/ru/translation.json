@@ -50,6 +50,7 @@
     "forgotPassword": "Забыли пароль?",
     "firstName": "Имя",
     "lastName": "Фамилия",
+    "middleName": "Отчество",
     "dateOfBirth": "Дата рождения",
     "signUp": "Зарегестрироваться",
     "sex": "Пол",

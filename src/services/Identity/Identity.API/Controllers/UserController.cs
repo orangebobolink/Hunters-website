@@ -76,8 +76,8 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUser([FromQuery] Guid id,
-                                                                         [FromBody] RequestUserDto requestUserDto,
+        public async Task<ActionResult<ResponseUpdateUserDto>> UpdateUser([FromRoute] Guid id,
+                                                                         [FromBody] RequestUpdateUserDto requestUserDto,
                                                                          CancellationToken cancellationToken = default)
         {
             var user = await _userService.UpdateAsync(id, requestUserDto, cancellationToken);

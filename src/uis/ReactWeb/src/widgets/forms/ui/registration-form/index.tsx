@@ -13,8 +13,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import {useCallback, useEffect, useState} from 'react';
 import { format } from "date-fns"
-import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
-import {selectIsAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {Notice} from '@/shared/const';
 import {toastError, toastSuccess} from '@/shared/lib/utils/ToastUtils.ts';
 import {Link, useNavigate} from 'react-router-dom';
@@ -29,6 +27,8 @@ import {cn} from '@/shared/lib';
 import {CalendarIcon} from '@radix-ui/react-icons';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {Calendar} from '@/shared/ui/calendar.tsx';
+import {UserService} from '@/entities/user/UserService.ts';
+import {User} from '@/entities/user/user.ts';
 
 const formSchema = z.object({
     email: z.string()
@@ -61,8 +61,8 @@ export const RegistrationForm = () => {
             console.log(values)
             const request:RegisterRequest = {
                 email: values.email,
-                phoneNumber: values.phoneNumber,
                 password: values.password,
+                phoneNumber: values.phoneNumber,
                 firstName: values.firstName,
                 lastName: values.lastName,
                 dateOfBirth: values.dateOfBirth,
@@ -70,7 +70,7 @@ export const RegistrationForm = () => {
             }
 
             if (currentRequest) currentRequest.abort();
-            const data = register(request);
+            const data =register(request);
 
             setCurrentRequest(data);
         },

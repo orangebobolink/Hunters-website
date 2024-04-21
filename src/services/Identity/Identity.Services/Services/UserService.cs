@@ -10,6 +10,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using MR.EntityFrameworkCore.KeysetPagination;
 using Shared.Messages.UserMessages;
+using System.Security.Policy;
 
 namespace Identity.Services.Services
 {
@@ -42,7 +43,7 @@ namespace Identity.Services.Services
             var userCreateResult = await _userRepository.CreateAsync(user, requestUserDto.Password);
             userCreateResult.CheckUserCreateResult(_logger);
 
-            var addToRoleResult = await _userRepository.AddToRoleAsync(user, Role.User);
+            var addToRoleResult = await _userRepository.AddToRolesAsync(user, user.RoleNames);
             addToRoleResult.CheckAddToRoleResult(_logger);
 
             var message = user.Adapt<CreateUserMessage>();
@@ -67,6 +68,11 @@ namespace Identity.Services.Services
                     numberTake,
                     keysetPaginationDirection,
                     cancellationToken);
+
+            foreach (var item in usersPaginationResult)
+            {
+                item.RoleNames = await _userRepository.GetRoles(item);
+            }
 
             var respons = usersPaginationResult.Adapt<List<ResponseUserDto>>();
 
@@ -93,7 +99,7 @@ namespace Identity.Services.Services
         }
 
         public async Task<ResponseUpdateUserDto> UpdateAsync(Guid id,
-                                                            RequestUserDto user,
+                                                            RequestUpdateUserDto user,
                                                             CancellationToken cancellationToken)
         {
             var existedUser = (await _userRepository.GetByIdAsync(id))
@@ -102,7 +108,12 @@ namespace Identity.Services.Services
             User updatedUser = user.Adapt(existedUser)!;
 
             var updateResult = await _userRepository.UpdateAsync(updatedUser);
+
             updateResult.CheckUserUpdateResult(_logger);
+
+            var oldRoles = await _userRepository.GetRoles(updatedUser);
+
+            await UpdateUserRolesAsync(updatedUser, oldRoles);
 
             var message = user.Adapt<UpdateUserMessage>();
 
@@ -113,6 +124,32 @@ namespace Identity.Services.Services
             _logger.LogInformation("Updated user successfully. UserId: {UserId}", id);
 
             return response;
+        }
+
+        private async Task UpdateUserRolesAsync(User user, List<string> oldRoles)
+        {
+            var newRoles = user.RoleNames
+               .Except(oldRoles)
+               .ToList();
+            var removedRoles = oldRoles
+                .Except(user.RoleNames)
+                .ToList();
+
+            if (newRoles.Any())
+            {
+                var addToRoleResult = await _userRepository
+                    .AddToRolesAsync(user, newRoles.ToList());
+
+                addToRoleResult.CheckAddToRoleResult(_logger);
+            }
+
+            if (removedRoles.Any())
+            {
+                var removeFromRoleResult = await _userRepository
+                    .RemoveFromRolesAsync(user, removedRoles.ToList());
+
+                removeFromRoleResult.CheckAddToRoleResult(_logger);
+            }
         }
     }
 }

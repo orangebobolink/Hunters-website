@@ -50,7 +50,6 @@ namespace Identity.Infrastructure.Repositories
             return await _userManager.Users
                     .FirstOrDefaultAsync(u =>
                         u.Email == creditionals.Email
-                        || u.UserName == creditionals.UserName
                         || u.PhoneNumber == creditionals.PhoneNumber,
                         cancellationToken);
         }
@@ -72,14 +71,24 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<IdentityResult> UpdateAsync(User entity)
         {
-            return await _userManager.DeleteAsync(entity);
+            return await _userManager.UpdateAsync(entity);
         }
 
-        public async Task<IdentityResult> AddToRoleAsync(
+        public async Task<IdentityResult> AddToRolesAsync(
             User user,
-            string role = Role.User)
+            List<string> roles)
         {
-            return await _userManager.AddToRoleAsync(user, role);
+            return await _userManager.AddToRolesAsync(user, roles);
+        }
+
+        public async Task<List<string>> GetRoles(User user)
+        {
+            return (await _userManager.GetRolesAsync(user)).ToList();
+        }
+
+        public async Task<IdentityResult> RemoveFromRolesAsync(User user, List<string> roles)
+        {
+            return await _userManager.RemoveFromRolesAsync(user, roles);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Identity.Domain.Interfaces
         Task<User?> GetByEmailAsync(string email);
         Task<User?> GetByUserNameAsync(string userName);
         Task<User?> GetByIdAsync(Guid id);
+        Task<List<string>> GetRoles(User user);
         Task<List<User>> GetKeysetPaginateAsync(
             Guid id,
             int numberTake,
@@ -20,7 +21,8 @@ namespace Identity.Domain.Interfaces
         Task<IdentityResult> CreateAsync(
             User entity,
             string password);
-        Task<IdentityResult> AddToRoleAsync(User user, string role);
+        Task<IdentityResult> AddToRolesAsync(User user, List<string> role);
+        Task<IdentityResult> RemoveFromRolesAsync(User user, List<string> role);
         Task<IdentityResult> UpdateAsync(User entity);
         Task<IdentityResult> DeleteAsync(User entity);
     }

@@ -37,7 +37,7 @@ const components: { title: string; href: string; description: string }[] = [
 ]
 
 export function Head() {
-    const { isAuth } = useAppSelector(selectAuth);
+    const { isAuth, roles } = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
             keyPrefix: "header.nav"
@@ -54,31 +54,52 @@ export function Head() {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link to="/" >
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            {t("permit")}
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>
-                        {t("rent.tittle")}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
-                            {components.map((component) => (
-                                <ListItem
-                                    key={component.title}
-                                    title={t(component.title)}
-                                    href={component.href}
-                                >
-                                    {t(component.description)}
+                {roles.includes("User") || roles.length == 0
+                    ?
+                    <>
+                    <NavigationMenuItem>
+                        <Link to="/" >
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                {t("permit")}
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger>
+                            {t("rent.tittle")}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                                {components.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={t(component.title)}
+                                        href={component.href}
+                                    >
+                                        {t(component.description)}
                                     </ListItem>
-                            ))}
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
+                                ))}
+                            </ul>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    </>
+                    :<></>
+                }
+                {roles.includes("Admin")
+                 ?
+                 <>
+                     <NavigationMenuItem>
+                         <Link to="/managing" >
+                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                 {t("managing")}
+                             </NavigationMenuLink>
+                         </Link>
+                     </NavigationMenuItem>
+                 </>
+                 :<></>
+                }
+
+
             </NavigationMenuList>
             <NavigationMenuList className="w-full">
                 {
