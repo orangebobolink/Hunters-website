@@ -9,8 +9,8 @@ using Mapster;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using MR.EntityFrameworkCore.KeysetPagination;
+using Shared.Helpers;
 using Shared.Messages.UserMessages;
-using System.Security.Policy;
 
 namespace Identity.Services.Services
 {
@@ -46,9 +46,7 @@ namespace Identity.Services.Services
             var addToRoleResult = await _userRepository.AddToRolesAsync(user, user.RoleNames);
             addToRoleResult.CheckAddToRoleResult(_logger);
 
-            var message = user.Adapt<CreateUserMessage>();
-
-            await _bus.Publish(message, cancellationToken);
+            await _bus.PublishObj<User, CreateUserMessage>(user, cancellationToken);
 
             var response = user.Adapt<ResponseCreateUserDto>();
 
@@ -115,9 +113,7 @@ namespace Identity.Services.Services
 
             await UpdateUserRolesAsync(updatedUser, oldRoles);
 
-            var message = user.Adapt<UpdateUserMessage>();
-
-            await _bus.Publish(message);
+            await _bus.PublishObj<RequestUpdateUserDto, UpdateUserMessage>(user, cancellationToken);
 
             var response = updatedUser.Adapt<ResponseUpdateUserDto>();
 

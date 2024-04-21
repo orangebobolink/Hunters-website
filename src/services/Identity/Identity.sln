@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGateway", "..\..\g
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Messages", "..\Shared.Messages\Shared.Messages.csproj", "{1C25EC70-B888-46DC-8E50-0C415AF7341B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Helpers", "..\Shared.Helpers\Shared.Helpers.csproj", "{CEB8268D-8112-4F2B-AEB0-65CD214D58B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{1C25EC70-B888-46DC-8E50-0C415AF7341B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C25EC70-B888-46DC-8E50-0C415AF7341B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C25EC70-B888-46DC-8E50-0C415AF7341B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEB8268D-8112-4F2B-AEB0-65CD214D58B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB8268D-8112-4F2B-AEB0-65CD214D58B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB8268D-8112-4F2B-AEB0-65CD214D58B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB8268D-8112-4F2B-AEB0-65CD214D58B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
