@@ -25,11 +25,11 @@ const ManagingForm = ({users, increaseCount} : IProps) => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>ID</TableHead>
                             <TableHead>Имя</TableHead>
                             <TableHead>Фамилия</TableHead>
                             <TableHead>Отчество</TableHead>
                             <TableHead>Эл. почта</TableHead>
+                            <TableHead>Номер телефона</TableHead>
                             <TableHead>Роли</TableHead>
                             <TableHead>Действия</TableHead>
                         </TableRow>
@@ -38,11 +38,11 @@ const ManagingForm = ({users, increaseCount} : IProps) => {
                         {users.map((user) => (
                             user.id !== id &&
                             <TableRow key={user.id}>
-                                <TableCell>{user.id}</TableCell>
                                 <TableCell>{user.lastName}</TableCell>
                                 <TableCell>{user.firstName}</TableCell>
                                 <TableCell>{user.middleName}</TableCell>
                                 <TableCell>{user.email}</TableCell>
+                                <TableCell>{user.phoneNumber}</TableCell>
                                 <TableCell>{user.roleNames?.join(", ")}</TableCell>
                                 <TableCell>
                                     <Button

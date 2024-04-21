@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import ManagingForm from '@/widgets/forms/ui/managing-form';
 import {UserService} from '@/entities/user/UserService.ts';
 import {User} from '@/entities/user/user.ts';
@@ -25,10 +25,14 @@ const ManagingPage = () => {
     }, [count]);
 
     return (
-        <div className="h-screen flex items-center flex-col">
-            <AddUserDialog isOpen={isOpen} setIsOpen={setIsOpen} increaseCount={() => setCount(count + 1)}/>
-            <Button onClick={()=>setIsOpen(true)}>Создать юзера</Button>
+        <div className="select-none h-full flex items-center flex-col justify-start">
             <ManagingForm users={users} increaseCount={()=>setCount(count + 1)}/>
+            <div className="flex mt-[6vh] w-full flex-row justify-around">
+                <div></div>
+                <Button onClick={()=>setIsOpen(true)}>Создать юзера</Button>
+            </div>
+
+            <AddUserDialog isOpen={isOpen} setIsOpen={setIsOpen} increaseCount={() => setCount(count + 1)}/>
         </div>
     );
 };

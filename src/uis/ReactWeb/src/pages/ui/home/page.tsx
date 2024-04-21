@@ -4,7 +4,7 @@ import {Outlet} from 'react-router-dom';
 
 export const HomePage: React.FC = () => {
     return (
-        <div className="flex justify-center flex-col w-full">
+        <div className="flex justify-center h-screen flex-col w-full">
             <Head/>
             <Outlet/>
         </div>
