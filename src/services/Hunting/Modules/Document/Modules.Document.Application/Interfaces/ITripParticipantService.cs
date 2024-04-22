@@ -5,8 +5,8 @@ namespace Modules.Document.Application.Interfaces
 {
     public interface ITripParticipantService
     {
-        Task<TripResponseDto> CreateAsync(TripRequestDto request, CancellationToken cancellationToken);
-        Task<TripResponseDto> UpdateAsync(Guid id, TripRequestDto request, CancellationToken cancellationToken);
-        Task<TripResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<TripParticipantResponseDto> CreateAsync(TripParticipantRequestDto request, CancellationToken cancellationToken);
+        Task<TripParticipantResponseDto> UpdateAsync(Guid id, TripParticipantRequestDto request, CancellationToken cancellationToken);
+        Task<TripParticipantResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

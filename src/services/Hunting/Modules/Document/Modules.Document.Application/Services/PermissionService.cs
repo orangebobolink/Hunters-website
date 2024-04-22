@@ -19,22 +19,24 @@ namespace Modules.Document.Application.Services
 
         public async Task<PermissionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingPermission = await _permissionRepository.GetByPredicate(
+                p => p.Number == request.Number,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingPermission is null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingPermission));
+            }
 
-            var permision = request.Adapt<PermissionForExtractionOfHuntingAnimal>();
-            permision.Id = Guid.NewGuid();
+            var permission = request.Adapt<PermissionForExtractionOfHuntingAnimal>();
+            permission.Id = Guid.NewGuid();
 
-            _permissionRepository.Create(permision!);
+            _permissionRepository.Create(permission!);
 
             await _permissionRepository.SaveChangesAsync(cancellationToken);
 
-            var response = permision.Adapt<PermissionResponseDto>();
+            var response = permission.Adapt<PermissionResponseDto>();
 
             return response;
         }
@@ -76,7 +78,7 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<PermissionResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var permission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
@@ -91,7 +93,7 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<PermissionResponseDto?> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
         {
             var permission = await _permissionRepository.GetByIdIncludeAsync(id, cancellationToken);
 

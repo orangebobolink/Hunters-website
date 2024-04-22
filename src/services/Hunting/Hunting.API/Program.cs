@@ -3,6 +3,7 @@ using Modules.Animal.API.Configurations;
 using Modules.Animal.Infrastructure.Configurations;
 using Hunting.API.Configurations;
 using Modules.Document.API.Configurations;
+using Hunting.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
 builder.Services.AddRedisConfiguration(builder.Configuration);
 builder.Services.AddMassTransitConfiguration(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 

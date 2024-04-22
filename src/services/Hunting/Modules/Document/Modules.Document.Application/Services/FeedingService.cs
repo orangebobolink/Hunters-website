@@ -19,22 +19,24 @@ namespace Modules.Document.Application.Services
 
         public async Task<FeedingResponseDto> CreateAsync(FeedingRequestDto request, CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingFeeding = await _feedingRepository.GetByPredicate(
+                f => f.Number == request.Number,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingFeeding is null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeeding));
+            }
 
-            var fedding = request.Adapt<Feeding>();
-            fedding.Id = Guid.NewGuid();
+            var feeding = request.Adapt<Feeding>();
+            feeding.Id = Guid.NewGuid();
 
-            _feedingRepository.Create(fedding!);
+            _feedingRepository.Create(feeding!);
 
             await _feedingRepository.SaveChangesAsync(cancellationToken);
 
-            var response = fedding.Adapt<FeedingResponseDto>();
+            var response = feeding.Adapt<FeedingResponseDto>();
 
             return response;
         }
@@ -91,7 +93,7 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<FeedingResponseDto?> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<FeedingResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
         {
             var feeding = await _feedingRepository.GetByIdIncludeAsync(id, cancellationToken);
 

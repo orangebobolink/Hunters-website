@@ -18,7 +18,9 @@ namespace Modules.Document.Application.Services
 
         public async Task<FeedingProductResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (existingFeedingProduct is null)
             {

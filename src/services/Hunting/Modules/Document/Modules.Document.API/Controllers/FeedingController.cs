@@ -16,6 +16,7 @@ namespace Modules.Document.API.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
         {
             var feedings = await _feedingService.GetAllAsync(cancellationToken);
+
             return Ok(feedings);
         }
 
@@ -48,7 +49,7 @@ namespace Modules.Document.API.Controllers
         {
             var createdFeeding = await _feedingService.CreateAsync(request, cancellationToken);
 
-            return CreatedAtAction(nameof(GetById), new { id = createdFeeding.Id }, createdFeeding);
+            return Ok(createdFeeding);
         }
 
         [HttpPut("{id}")]

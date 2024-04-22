@@ -13,7 +13,7 @@ namespace Modules.Document.API.Controllers
         private readonly ITripParticipantService _tripParticipantService = tripParticipantService;
 
         [HttpPost]
-        public async Task<IActionResult> Create(TripRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create(TripParticipantRequestDto request, CancellationToken cancellationToken = default)
         {
             var createdTripParticipant = await _tripParticipantService.CreateAsync(request, cancellationToken);
 
@@ -21,7 +21,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, TripRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Update(Guid id, TripParticipantRequestDto request, CancellationToken cancellationToken = default)
         {
             var updatedTripParticipant = await _tripParticipantService.UpdateAsync(id, request, cancellationToken);
 

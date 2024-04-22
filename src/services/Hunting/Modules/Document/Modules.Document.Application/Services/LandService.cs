@@ -19,13 +19,15 @@ namespace Modules.Document.Application.Services
 
         public async Task<LandResponseDto> CreateAsync(LandRequestDto request, CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(
+                l => l.Name == request.Name,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingLand is null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingLand));
+            }
 
             var land = request.Adapt<Land>();
             land.Id = Guid.NewGuid();
@@ -67,7 +69,7 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var feeding = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 

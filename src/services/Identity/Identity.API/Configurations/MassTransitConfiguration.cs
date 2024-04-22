@@ -1,6 +1,4 @@
 ﻿using MassTransit;
-using Shared.Messages.UserMessages;
-using System.Reflection;
 using Identity.Infrastructure.Extensions;
 
 namespace Identity.API.Configurations

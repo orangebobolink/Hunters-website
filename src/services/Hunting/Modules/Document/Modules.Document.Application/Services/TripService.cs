@@ -16,13 +16,15 @@ namespace Modules.Document.Application.Services
 
         public async Task<TripResponseDto> CreateAsync(TripRequestDto request, CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingTrip = await _tripRepository.GetByPredicate(
+                t => t.Number == request.Number,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingTrip is null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingTrip));
+            }
 
             var trip = request.Adapt<Trip>();
             trip.Id = Guid.NewGuid();
@@ -88,7 +90,7 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripResponseDto?> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TripResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
         {
             var permission = await _tripRepository.GetByIdIncludeAsync(id, cancellationToken);
 

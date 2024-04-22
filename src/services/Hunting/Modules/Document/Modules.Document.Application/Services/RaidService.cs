@@ -16,13 +16,16 @@ namespace Modules.Document.Application.Services
 
         public async Task<RaidResponseDto> CreateAsync(RaidRequestDto request, CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingRaid = await _raidRepository.GetByPredicate(
+                r => r.ExitTime == request.ExitTime
+                && r.ReturnedTime == request.ReturnedTime,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingRaid is null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingRaid));
+            }
 
             var raid = request.Adapt<Raid>();
             raid.Id = Guid.NewGuid();
@@ -88,7 +91,7 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<RaidResponseDto?> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
         {
             var permission = await _raidRepository.GetByIdIncludeAsync(id, cancellationToken);
 
