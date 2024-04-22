@@ -1,6 +1,6 @@
 import {apiMap} from '@/shared/const';
 import {axiosInstance} from '@/shared/api/axiosInstance.ts';
-import {User} from '@/entities/user/user.ts';
+import {User} from '@/entities/user/User.ts';
 import {CreateUser} from '@/entities/user/CreateUser.ts';
 
 export class UserService {

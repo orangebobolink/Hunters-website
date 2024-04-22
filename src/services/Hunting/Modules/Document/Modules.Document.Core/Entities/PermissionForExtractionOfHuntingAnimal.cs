@@ -14,6 +14,8 @@ namespace Modules.Document.Domain.Entities
         public User? Issued { get; set; }
         public Guid ReceivedId { get; set; }
         public User? Received { get; set; }
-        public List<Coupon> Coupons { get; set; }
+        public ICollection<Coupon> Coupons { get; set; } = [];
+        public Guid LandId { get; set; }
+        public Land? Land { get; set; }
     }
 }

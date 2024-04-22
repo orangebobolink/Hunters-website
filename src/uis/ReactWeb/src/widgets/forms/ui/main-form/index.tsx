@@ -1,11 +1,10 @@
-import React from "react";
 import {Card, CardContent, CardHeader, CardTitle} from '@/shared/ui/card.tsx';
 import Img from '@/assets/ai-img.jpg';
 
 export const MainForm = () => {
     return (
         <div className="flex flex-col">
-            <img src={Img} className="w-screen mt-[10dvh] h-[50lvh] object-cover bottom-0 left-0 -z-10"/>
+            <img alt="Image" src={Img} className="w-screen mt-[2dvh] h-[50lvh] object-cover bottom-0 left-0 -z-10"/>
             <div className="p-8 text-center">
                 <Card>
                     <CardHeader>

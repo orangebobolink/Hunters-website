@@ -6,6 +6,8 @@ import {MainPage} from '@/pages/ui/main/page.tsx';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import ManagingPage from '@/pages/ui/managing/page.tsx';
+import Page404 from '@/pages/ui/error/page-404.tsx';
+import Trip from '@/pages/ui/trip/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -17,21 +19,36 @@ export const Router = () => {
             <Routes location={background || location}>
                      <Route path={RoutesMap.home} element={<HomePage />}>
                          <Route index={true} element={<MainPage />}/>
-                         {roles.includes("User")
-                          ? <></>
-                          :<></>
+                         {(roles.includes("User")
+                          || roles.includes("Manager")
+                           || roles.includes("Ranger"))
+                           &&  <Route path={RoutesMap.trip} element={<Trip />}/>
                          }
                          {roles.includes("Admin")
-                          ? <>
+                          && <>
                               <Route path={RoutesMap.managing} element={<ManagingPage />} />
                           </>
-                          :<></>
+                         }
+                         {roles.includes("Manager")
+                             && <>
+                                 <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                             </>
+                         }
+                         {roles.includes("Ranger")
+                             && <>
+                                 <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                             </>
+                         }
+                         {(roles.includes("Manager") || roles.includes("Director"))
+                             && <>
+                                 <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                             </>
                          }
                          <Route path={RoutesMap.chat} element={<ChatPage />}/>
                      </Route>
                 <Route path={RoutesMap.singIn} element={<SignInPage />} />
                 <Route path={RoutesMap.singUp} element={<SignUpPage />} />
-                <Route path={"*"} element={<div>ERROR 404</div>} />
+                <Route path={"*"} element={<Page404/>} />
             </Routes>
         </>
     )

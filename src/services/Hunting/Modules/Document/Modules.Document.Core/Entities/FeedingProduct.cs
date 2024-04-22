@@ -9,6 +9,6 @@ namespace Modules.Document.Domain.Entities
         public Product Product { get; set; }
         public int Quantity { get; set; }
         public string UnitOfMeasurement { get; set; } = string.Empty;
-        public List<Feeding> Feedings { get; set; } = [];
+        public ICollection<Feeding> Feedings { get; set; } = [];
     }
 }

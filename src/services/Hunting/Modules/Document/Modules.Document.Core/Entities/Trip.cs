@@ -17,7 +17,7 @@ namespace Modules.Document.Domain.Entities
         public User? Received { get; set; }
         public DateTime ReceivedDate { get; set; }
         public DateTime EventDate { get; set; }
-        public List<TripParticipant> TripParticipants { get; set; } = [];
+        public ICollection<TripParticipant> TripParticipants { get; set; } = [];
         public DateTime ReturnedDate { get; set; }
         public bool IsReturned { get; set; } = false;
         public Guid AcceptedId { get; set; }

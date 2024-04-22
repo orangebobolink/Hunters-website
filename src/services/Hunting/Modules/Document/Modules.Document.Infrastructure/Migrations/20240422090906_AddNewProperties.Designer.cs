@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Modules.Document.Infrastructure.Contexts;
 
@@ -11,9 +12,11 @@ using Modules.Document.Infrastructure.Contexts;
 namespace Modules.Document.Infrastructure.Migrations
 {
     [DbContext(typeof(DocumentDbContext))]
-    partial class DocumentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240422090906_AddNewProperties")]
+    partial class AddNewProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -393,7 +396,7 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<DateTime>("ExitTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("LandId")
+                    b.Property<Guid>("LandId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Note")
@@ -631,7 +634,9 @@ namespace Modules.Document.Infrastructure.Migrations
                 {
                     b.HasOne("Modules.Document.Domain.Entities.Land", "Land")
                         .WithMany()
-                        .HasForeignKey("LandId");
+                        .HasForeignKey("LandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Land");
                 });

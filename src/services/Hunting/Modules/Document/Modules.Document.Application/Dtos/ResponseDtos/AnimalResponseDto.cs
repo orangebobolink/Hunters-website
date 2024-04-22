@@ -1,9 +1,9 @@
 ﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class AnimalResponseDto
+    public record class AnimalResponseDto
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Type { get; set; } = string.Empty;
+        public Guid Id { get; init; }
+        public string Name { get; init; } = string.Empty;
+        public string Type { get; init; } = string.Empty;
     }
 }

@@ -8,7 +8,7 @@ import {UserService} from '@/entities/user/UserService.ts';
 import {Button, Form, FormControl, FormField, FormItem, FormLabel} from '@/shared/ui';
 import {ToggleGroup, ToggleGroupItem} from '@/shared/ui/toggle-group.tsx';
 import {useToast} from '@/shared/ui/use-toast.ts';
-import {User} from '@/entities/user/user.ts';
+import {User} from '@/entities/user/User.ts';
 
 const formSchema = z.object({
     roleNames: z.string().array().nonempty("Роли обязательны")

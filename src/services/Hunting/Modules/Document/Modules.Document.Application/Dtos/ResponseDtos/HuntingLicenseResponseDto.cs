@@ -1,10 +1,10 @@
 ﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class HuntingLicenseResponseDto
+    public record class HuntingLicenseResponseDto
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public UserResponseDto? User { get; set; }
-        public string LicenseNumber { get; set; } = string.Empty;
+        public Guid Id { get; init; }
+        public Guid UserId { get; init; }
+        public UserResponseDto? User { get; init; }
+        public string LicenseNumber { get; init; } = string.Empty;
     }
 }

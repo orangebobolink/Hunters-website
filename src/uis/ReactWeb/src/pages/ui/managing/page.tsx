@@ -1,14 +1,19 @@
 import {useEffect, useState} from 'react';
 import ManagingForm from '@/widgets/forms/ui/managing-form';
 import {UserService} from '@/entities/user/UserService.ts';
-import {User} from '@/entities/user/user.ts';
+import {User} from '@/entities/user/User.ts';
 import AddUserDialog from '@/features/form/add-user-dialog.tsx';
 import {Button} from '@/shared/ui';
+import {useTranslation} from 'react-i18next';
 
 const ManagingPage = () => {
     const [users, setUsers] = useState<User[]>([])
     const [isOpen, setIsOpen] = useState(false);
     const [count, setCount] = useState(0);
+    const { t} = useTranslation("translation",
+        {
+            keyPrefix: "managing"
+        });
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -26,13 +31,15 @@ const ManagingPage = () => {
 
     return (
         <div className="select-none h-full flex items-center flex-col justify-start">
-            <ManagingForm users={users} increaseCount={()=>setCount(count + 1)}/>
+            <ManagingForm users={users}/>
             <div className="flex mt-[6vh] w-full flex-row justify-around">
                 <div></div>
-                <Button onClick={()=>setIsOpen(true)}>Создать юзера</Button>
+                <Button onClick={()=>setIsOpen(true)}>{t("createUser")}</Button>
             </div>
 
-            <AddUserDialog isOpen={isOpen} setIsOpen={setIsOpen} increaseCount={() => setCount(count + 1)}/>
+            <AddUserDialog isOpen={isOpen}
+                           setIsOpen={setIsOpen}
+                           increaseCount={() => setCount(count + 1)}/>
         </div>
     );
 };

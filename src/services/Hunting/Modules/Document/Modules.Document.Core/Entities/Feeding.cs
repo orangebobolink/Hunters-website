@@ -12,6 +12,8 @@ namespace Modules.Document.Domain.Entities
         public Guid ReceivedId { get; set; }
         public User? Received { get; set; }
         public DateTime ReceivedDate { get; set; }
-        public List<FeedingProduct> Products { get; set; } = [];
+        public ICollection<FeedingProduct> Products { get; set; } = [];
+        public Guid LandId { get; set; }
+        public Land? Land { get; set; }
     }
 }

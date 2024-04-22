@@ -5,12 +5,12 @@ namespace Modules.Document.Application.Interfaces
 {
     public interface IPermissionService
     {
-        Task<PermisionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken);
-        Task<PermisionResponseDto> UpdateAsync(Guid id, PermisionRequestDto request, CancellationToken cancellationToken);
-        Task<PermisionResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
-        Task<PermisionResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<List<PermisionResponseDto>> GetAllAsync(CancellationToken cancellationToken);
-        public Task<PermisionResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken);
-        public Task<List<PermisionResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken);
+        Task<PermissionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken);
+        Task<PermissionResponseDto> UpdateAsync(Guid id, PermisionRequestDto request, CancellationToken cancellationToken);
+        Task<PermissionResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<PermissionResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<List<PermissionResponseDto>> GetAllAsync(CancellationToken cancellationToken);
+        public Task<PermissionResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken);
+        public Task<List<PermissionResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken);
     }
 }

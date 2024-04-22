@@ -3,7 +3,7 @@ import {MainForm} from '@/widgets/forms/ui/main-form';
 
 export const MainPage: React.FC = () => {
     return (
-        <div className="h-screen flex items-center justify-center flex-col">
+        <div className="h-full flex items-center justify-center flex-col">
             <MainForm/>
         </div>
     )

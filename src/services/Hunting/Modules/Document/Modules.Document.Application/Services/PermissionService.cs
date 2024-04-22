@@ -17,7 +17,7 @@ namespace Modules.Document.Application.Services
         private readonly IPermissionForExtractionOfHuntingAnimalRepository _permissionRepository = permissionRepository;
         private readonly ILogger<PermissionService> _logger = logger;
 
-        public async Task<PermisionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken)
         {
             //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
 
@@ -34,12 +34,12 @@ namespace Modules.Document.Application.Services
 
             await _permissionRepository.SaveChangesAsync(cancellationToken);
 
-            var response = permision.Adapt<PermisionResponseDto>();
+            var response = permision.Adapt<PermissionResponseDto>();
 
             return response;
         }
 
-        public async Task<PermisionResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var existingPermission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
@@ -53,30 +53,30 @@ namespace Modules.Document.Application.Services
 
             await _permissionRepository.SaveChangesAsync(cancellationToken);
 
-            var response = existingPermission.Adapt<PermisionResponseDto>();
+            var response = existingPermission.Adapt<PermissionResponseDto>();
 
             return response;
         }
 
-        public async Task<List<PermisionResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<PermissionResponseDto>> GetAllAsync(CancellationToken cancellationToken)
         {
             var permissions = await _permissionRepository.GetAllAsync(cancellationToken);
 
-            var response = permissions.Adapt<List<PermisionResponseDto>>();
+            var response = permissions.Adapt<List<PermissionResponseDto>>();
 
             return response;
         }
 
-        public async Task<List<PermisionResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken)
+        public async Task<List<PermissionResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken)
         {
             var permissions = await _permissionRepository.GetAllIncludeAsync(cancellationToken);
 
-            var response = permissions.Adapt<List<PermisionResponseDto>>();
+            var response = permissions.Adapt<List<PermissionResponseDto>>();
 
             return response;
         }
 
-        public async Task<PermisionResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var permission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
@@ -86,12 +86,12 @@ namespace Modules.Document.Application.Services
                 ThrowHelper.ThrowKeyNotFoundException(nameof(id));
             }
 
-            var response = permission.Adapt<PermisionResponseDto>();
+            var response = permission.Adapt<PermissionResponseDto>();
 
             return response;
         }
 
-        public async Task<PermisionResponseDto?> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto?> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
         {
             var permission = await _permissionRepository.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -101,12 +101,12 @@ namespace Modules.Document.Application.Services
                 ThrowHelper.ThrowKeyNotFoundException(nameof(id));
             }
 
-            var response = permission.Adapt<PermisionResponseDto>();
+            var response = permission.Adapt<PermissionResponseDto>();
 
             return response;
         }
 
-        public async Task<PermisionResponseDto> UpdateAsync(
+        public async Task<PermissionResponseDto> UpdateAsync(
             Guid id,
             PermisionRequestDto request,
             CancellationToken cancellationToken)
@@ -125,7 +125,7 @@ namespace Modules.Document.Application.Services
 
             await _permissionRepository.SaveChangesAsync(cancellationToken);
 
-            var response = existingPermission.Adapt<PermisionResponseDto>();
+            var response = existingPermission.Adapt<PermissionResponseDto>();
 
             return response;
         }

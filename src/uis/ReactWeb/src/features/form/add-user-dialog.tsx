@@ -1,14 +1,14 @@
 import {useCallback, useEffect, useState} from 'react';
 import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {useTranslation} from 'react-i18next';
-import {string, z} from 'zod';
+import {z} from 'zod';
 import {Sex} from '@/shared/model/store/queries/typing/requests/Sex.ts';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {UserService} from '@/entities/user/UserService.ts';
 import {CreateUser} from '@/entities/user/CreateUser.ts';
 import InputFormField from '@/features/form/input-form-field.tsx';
-import {Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Label} from '@/shared/ui';
+import {Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {cn} from '@/shared/lib';
 import {format} from 'date-fns';
@@ -17,7 +17,6 @@ import {Calendar} from '@/shared/ui/calendar.tsx';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/shared/ui/select.tsx';
 import {ToggleGroup, ToggleGroupItem} from '@/shared/ui/toggle-group.tsx';
 import {useToast} from '@/shared/ui/use-toast.ts';
-import axios, {AxiosError} from 'axios';
 
 const formSchema = z.object({
     email: z.string()
@@ -44,10 +43,7 @@ interface IProps
 
 const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
     const { toast } = useToast()
-    const { t} = useTranslation("translation",
-        {
-            keyPrefix: "registration"
-        });
+    const { t} = useTranslation("translation");
 
     const [currentRequest, setCurrentRequest] = useState<{
         abort: () => void;
@@ -60,13 +56,6 @@ const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
         { label: "Директор", value: "Director" },
         { label: "Администратор", value: "Admin" },
     ];
-
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([
-    ]);
-
-    const handleSelectionChange = (newValues:string[]) => {
-        setSelectedOptions(newValues);
-    };
 
     const onSubmit = useCallback(
         async (values:  z.infer<typeof formSchema>) => {
@@ -141,30 +130,30 @@ const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
                                 <div>
                                     <InputFormField form={form} t={t}
                                                     name="email"
-                                                    lang="email"
+                                                    lang="registration.email"
                                                     type="email"/>
                                     <InputFormField form={form} t={t}
                                                     name="phoneNumber"
-                                                    lang="phone"
+                                                    lang="registration.phone"
                                                     type="phone"/>
                                     <InputFormField form={form} t={t}
                                                     name="userName"
-                                                    lang="userName"/>
+                                                    lang="registration.userName"/>
                                     <InputFormField form={form} t={t}
                                                     name="password"
-                                                    lang="password"
+                                                    lang="registration.password"
                                                     type="password"/>
                                 </div>
                                 <div>
                                     <InputFormField form={form} t={t}
                                                     name="firstName"
-                                                    lang="firstName"/>
+                                                    lang="registration.firstName"/>
                                     <InputFormField form={form} t={t}
                                                     name="lastName"
-                                                    lang="lastName"/>
+                                                    lang="registration.lastName"/>
                                     <InputFormField form={form} t={t}
                                                     name="middleName"
-                                                    lang="middleName"/>
+                                                    lang="registration.middleName"/>
                                     <FormField
                                         control={form.control}
                                         name="dateOfBirth"
@@ -208,7 +197,7 @@ const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-green-500">
-                                                    {t("sex")}
+                                                    {t("registration.sex")}
                                                 </FormLabel>
                                                 <FormControl className="border-black/50">
                                                     <Select onValueChange={field.onChange} defaultValue={field.value}>

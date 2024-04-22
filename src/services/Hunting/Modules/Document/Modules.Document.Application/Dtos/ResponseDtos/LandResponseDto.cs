@@ -1,8 +1,8 @@
 ﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class LandResponseDto
+    public record class LandResponseDto
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public Guid Id { get; init; }
+        public string Name { get; init; } = string.Empty;
     }
 }

@@ -54,40 +54,37 @@ export function Head() {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
-                {roles.includes("User") || roles.length == 0
-                    ?
+                {(roles.includes("User") || roles.length == 0)
+                    &&
                     <>
-                    <NavigationMenuItem>
-                        <Link to="/" >
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                {t("permit")}
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>
-                            {t("rent.tittle")}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
-                                {components.map((component) => (
-                                    <ListItem
-                                        key={component.title}
-                                        title={t(component.title)}
-                                        href={component.href}
-                                    >
-                                        {t(component.description)}
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("permit")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>
+                                {t("rent.tittle")}
+                            </NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
+                                    {components.map((component) => (
+                                        <ListItem
+                                            key={component.title}
+                                            title={t(component.title)}
+                                            href={component.href}
+                                        >
+                                            {t(component.description)}
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
                     </>
-                    :<></>
                 }
-                {roles.includes("Admin")
-                 ?
-                 <>
+                {roles.includes("Admin") &&
                      <NavigationMenuItem>
                          <Link to="/managing" >
                              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -95,11 +92,82 @@ export function Head() {
                              </NavigationMenuLink>
                          </Link>
                      </NavigationMenuItem>
-                 </>
-                 :<></>
                 }
-
-
+                {roles.includes("Manager") &&
+                    <>
+                        <NavigationMenuItem>
+                            <Link to="/trip" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("trip")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/permission" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("permission")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/feeding" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("feeding")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/animal" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("animal")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/reporting" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("reporting")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                    </>
+                }
+                {roles.includes("Ranger") &&
+                    <>
+                        <NavigationMenuItem>
+                            <Link to="/trip" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("trip")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/raid" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("raid")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/feeding" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("feeding")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                    </>
+                }
+                {roles.includes("Director") &&
+                    <>
+                        <NavigationMenuItem>
+                            <Link to="/reporting" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("reporting")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                    </>
+                }
             </NavigationMenuList>
             <NavigationMenuList className="w-full">
                 {

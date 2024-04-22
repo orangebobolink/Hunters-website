@@ -27,8 +27,6 @@ import {cn} from '@/shared/lib';
 import {CalendarIcon} from '@radix-ui/react-icons';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {Calendar} from '@/shared/ui/calendar.tsx';
-import {UserService} from '@/entities/user/UserService.ts';
-import {User} from '@/entities/user/user.ts';
 
 const formSchema = z.object({
     email: z.string()
@@ -105,8 +103,6 @@ export const RegistrationForm = () => {
             sex:"",
         },
     })
-
-    //if (isAuth) return null;
 
     return (
         <div className="flex flex-col items-center border-[1px] border-gray-600/30 p-5 w-1/3

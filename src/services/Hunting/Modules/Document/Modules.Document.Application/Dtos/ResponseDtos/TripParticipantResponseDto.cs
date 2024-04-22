@@ -1,13 +1,13 @@
 ﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class TripParticipantResponseDto
+    public record class TripParticipantResponseDto
     {
-        public Guid Id { get; set; }
-        public Guid ParticipantId { get; set; }
-        public UserResponseDto? Participant { get; set; }
-        public Guid HuntingLicenseId { get; set; }
-        public HuntingLicenseResponseDto? HuntingLicense { get; set; }
-        public Guid TripId { get; set; }
-        public TripResponseDto? Trip { get; set; }
+        public Guid Id { get; init; }
+        public Guid ParticipantId { get; init; }
+        public UserResponseDto? Participant { get; init; }
+        public Guid HuntingLicenseId { get; init; }
+        public HuntingLicenseResponseDto? HuntingLicense { get; init; }
+        public Guid TripId { get; init; }
+        public TripResponseDto? Trip { get; init; }
     }
 }
