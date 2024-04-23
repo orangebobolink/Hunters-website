@@ -5,5 +5,6 @@ export const RoutesMap = {
     singUp: '/registration',
     chat: '/chat',
     managing: '/managing',
-    trip: '/trip'
+    trip: '/trip',
+    animal: '/animal',
 };

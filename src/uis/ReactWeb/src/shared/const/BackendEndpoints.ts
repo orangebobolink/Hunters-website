@@ -5,4 +5,5 @@ export enum BackendEndpoints {
      REGISTER = 'auth/authorization/registration',
      REFRESH = 'auth/token/refresh',
      LOGOUT = 'auth/token/revoke',
+     GET_ANIMALS = 'hunting/animal',
 }

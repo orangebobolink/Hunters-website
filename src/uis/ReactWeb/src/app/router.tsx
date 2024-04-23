@@ -8,6 +8,7 @@ import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import ManagingPage from '@/pages/ui/managing/page.tsx';
 import Page404 from '@/pages/ui/error/page-404.tsx';
 import Trip from '@/pages/ui/trip/page.tsx';
+import AnimalPage from "@/pages/ui/animal/page.tsx";
 
 export const Router = () => {
     const location = useLocation();
@@ -32,6 +33,7 @@ export const Router = () => {
                          {roles.includes("Manager")
                              && <>
                                  <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                                 <Route path={RoutesMap.animal} element={<AnimalPage />} />
                              </>
                          }
                          {roles.includes("Ranger")

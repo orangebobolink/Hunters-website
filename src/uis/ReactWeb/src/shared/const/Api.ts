@@ -14,4 +14,5 @@ export const apiMap = {
     LOGIN: `${BASE_API_URL}/${BackendEndpoints.LOGIN}`,
     REFRESH: `${BASE_API_URL}/${BackendEndpoints.REFRESH}`,
     LOGOUT: `${BASE_API_URL}/${BackendEndpoints.LOGOUT}`,
+    GET_ANIMALS: `${BASE_API_URL}/${BackendEndpoints.GET_ANIMALS}`,
 };
