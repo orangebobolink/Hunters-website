@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320122527_AddRoles")]
-    partial class AddRoles
+    [Migration("20240423074528_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,32 @@ namespace Identity.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Identity.Domain.Entities.HuntingLicense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("IssuedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LicenseNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HuntingLicenses");
+                });
 
             modelBuilder.Entity("Identity.Domain.Entities.User", b =>
                 {
@@ -65,6 +91,10 @@ namespace Identity.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -113,52 +143,6 @@ namespace Identity.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("7876810d-5aa4-44c5-be14-0950178d7c24"),
-                            AccessFailedCount = 0,
-                            AvatarUrl = "",
-                            ConcurrencyStamp = "f6a87075-8d7a-4beb-a46b-eca964c561a1",
-                            DateOfBirth = new DateTime(2024, 3, 20, 15, 25, 26, 700, DateTimeKind.Local).AddTicks(8637),
-                            Email = "user@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "",
-                            LastName = "",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@GMAIL.COM",
-                            NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA99uELp7XNebIqLJwFYkKjsc980wAbocJvwpfvTxajT9ejRQuymEJe8OzCL1u1OLQ==",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "bde40745-ec66-4b70-92ee-6a668a4f7058",
-                            Sex = 0,
-                            TwoFactorEnabled = false,
-                            UserName = "user"
-                        },
-                        new
-                        {
-                            Id = new Guid("4a60a841-858a-49cc-a886-5892e23deae9"),
-                            AccessFailedCount = 0,
-                            AvatarUrl = "",
-                            ConcurrencyStamp = "598a7395-2016-4d43-86bd-04cae9ae9cdb",
-                            DateOfBirth = new DateTime(2024, 3, 20, 15, 25, 26, 768, DateTimeKind.Local).AddTicks(3128),
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "",
-                            LastName = "",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOh2MVj+iT77i+mXOq5zQrU0YlzkHxL/3murh2CCE8YsFwx3I0XkGvY9TkDvduGHyA==",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "8938e320-6cb7-4c83-a37e-b70ce0ca55f2",
-                            Sex = 0,
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
@@ -359,38 +343,6 @@ namespace Identity.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("709afd80-0b6f-4017-b683-293676bde297"),
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = new Guid("71792062-3af3-4cb4-a020-f10641e11260"),
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = new Guid("51cfba0b-005f-422e-a355-6a7253c81d8f"),
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = new Guid("2703de74-ce58-45d1-8216-3b58dc1d7fd9"),
-                            Name = "Director",
-                            NormalizedName = "DIRECTOR"
-                        },
-                        new
-                        {
-                            Id = new Guid("da6e59fe-8f04-42dc-839c-dffba914d7a6"),
-                            Name = "Ranger",
-                            NormalizedName = "RANGER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -475,18 +427,6 @@ namespace Identity.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("7876810d-5aa4-44c5-be14-0950178d7c24"),
-                            RoleId = new Guid("71792062-3af3-4cb4-a020-f10641e11260")
-                        },
-                        new
-                        {
-                            UserId = new Guid("4a60a841-858a-49cc-a886-5892e23deae9"),
-                            RoleId = new Guid("709afd80-0b6f-4017-b683-293676bde297")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -506,6 +446,17 @@ namespace Identity.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.HuntingLicense", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

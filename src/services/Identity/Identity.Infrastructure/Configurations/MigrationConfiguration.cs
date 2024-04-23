@@ -16,11 +16,8 @@ namespace Identity.API.Configurations
                 {
                     try
                     {
-                        if(!appContext.Users.Any())
-                        {
-                            appContext.Database.Migrate();
-                        }
-
+                        appContext.Database.Migrate();
+                        
                         IDataSeeder dataSeed = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
 
                         dataSeed.SeedAsync().Wait();

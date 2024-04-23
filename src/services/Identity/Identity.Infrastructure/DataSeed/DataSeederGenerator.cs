@@ -57,6 +57,30 @@ namespace Identity.Infrastructure.DataSeed
                     FirstName = "firstAdmin",
                     MiddleName = "middleUser"
                 },
+                new User {
+                    Id = Guid.NewGuid(),
+                    UserName = "manager",
+                    NormalizedUserName = "MANAGER",
+                    Email = "manager@gmail.com",
+                    NormalizedEmail = "MANAGER@GMAIL.COM",
+                    PasswordHash = passwordHasher.HashPassword(null, "password"),
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    LastName = "lastManager",
+                    FirstName = "firstManager",
+                    MiddleName = "middleManager"
+                },
+                new User {
+                    Id = Guid.NewGuid(),
+                    UserName = "ranger",
+                    NormalizedUserName = "RANGER",
+                    Email = "ranger@gmail.com",
+                    NormalizedEmail = "RANGER@GMAIL.COM",
+                    PasswordHash = passwordHasher.HashPassword(null, "password"),
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    LastName = "lastRanger",
+                    FirstName = "firstRanger",
+                    MiddleName = "middleRanger"
+                },
             };
 
             return users;
@@ -75,6 +99,16 @@ namespace Identity.Infrastructure.DataSeed
                 {
                     UserId = users[1].Id,
                     RoleId = roles.First(q => q.Name == Role.Admin).Id
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = users[2].Id,
+                    RoleId = roles.First(q => q.Name == Role.Manager).Id
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = users[3].Id,
+                    RoleId = roles.First(q => q.Name == Role.Ranger).Id
                 }
             };
 

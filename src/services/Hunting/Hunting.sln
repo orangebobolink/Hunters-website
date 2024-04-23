@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "..\Identity
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{501971B0-871D-4960-B4A2-BC33EC9E823C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Services", "..\Identity\Identity.Services\Identity.Services.csproj", "{DFB21D48-D86B-427E-8D36-163960C12513}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45A4A310-3A1D-4FB7-8F67-882D3AC97623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB21D48-D86B-427E-8D36-163960C12513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB21D48-D86B-427E-8D36-163960C12513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB21D48-D86B-427E-8D36-163960C12513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB21D48-D86B-427E-8D36-163960C12513}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
