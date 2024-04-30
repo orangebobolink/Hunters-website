@@ -5,12 +5,15 @@ import {Button} from '@/shared/ui';
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from '@/shared/ui/command.tsx';
 import {cn} from '@/shared/lib';
 import {useEffect, useState} from 'react';
-import {AnimalService} from '@/entities/animal/AnimalService.ts';
 import {UserService} from '@/entities/user/UserService.ts';
 import {User} from '@/entities/user/User.ts';
 
-export function RangerCombobox() {
-    const [rangers, serRangers] = useState<User[]>([])
+interface IProps{
+    setSelectedRanger: (ranger:User) => void;
+}
+
+export function RangerCombobox({setSelectedRanger}:IProps) {
+    const [rangers, setRangers] = useState<User[]>([])
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
 
@@ -18,7 +21,7 @@ export function RangerCombobox() {
         const fetchUsers = async () => {
             try {
                 const response = await UserService.getAllRangers();
-                serRangers(response.data);
+                setRangers(response.data);
                 console.log(response.data)
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -35,22 +38,20 @@ export function RangerCombobox() {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="w-[300px] justify-between"
                 >
                     {value
-                     ? rangers.find((ranger) => ranger.id === value)?.firstName
-                     : "Select framework..."}
+                     ? UserService.getFullName(rangers.find((ranger) => ranger.id === value))
+                     : "Выберите егеря..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="w-[300px] p-0">
                 <Command>
                     <CommandInput placeholder="Search framework..." />
                     <CommandList>
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>Такой егерь отсуствует</CommandEmpty>
                         <CommandGroup>
-
-
                             {rangers.map((ranger) => (
                                 <CommandItem
                                     key={ranger.id}
@@ -58,6 +59,7 @@ export function RangerCombobox() {
                                     onSelect={(currentValue) => {
                                         setValue(currentValue === value ? "" : currentValue)
                                         setOpen(false)
+                                        setSelectedRanger(ranger)
                                     }}
                                 >
                                     <Check
@@ -66,7 +68,7 @@ export function RangerCombobox() {
                                             value === ranger.id ? "opacity-100" : "opacity-0"
                                         )}
                                     />
-                                    {ranger.firstName}
+                                    {UserService.getFullName(ranger)}
                                 </CommandItem>
                             ))}
 

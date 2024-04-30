@@ -18,4 +18,5 @@ export const apiMap = {
     GET_HUNTINGSEASSON: `${BASE_API_URL}/${BackendEndpoints.GET_HUNTINGSEASSON}`,
     GET_FEEDING: `${BASE_API_URL}/${BackendEndpoints.GET_FEEDING}`,
     GET_RANGERS: `${BASE_API_URL}/${BackendEndpoints.GET_RANGERS}`,
+    GET_LANDS: `${BASE_API_URL}/${BackendEndpoints.GET_LANDS}`,
 };

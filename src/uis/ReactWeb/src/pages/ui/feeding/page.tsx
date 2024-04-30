@@ -36,8 +36,6 @@ const FeedingPage = () => {
                 <FeedingTable feedings={feedings}/>
             </div>
             <Button>Создать отчет</Button>
-            <RangerCombobox/>
-            <LandCombobox/>
         </div>
     );
 };

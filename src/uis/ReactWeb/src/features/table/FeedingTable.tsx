@@ -22,7 +22,6 @@ const FeedingTable = ({feedings}:IProps) => {
             </TableHeader>
             <TableBody>
                 {feedings.map((feeding) => (
-
                     <TableRow key={feeding.id}>
                         <TableCell>
                             {feeding.number}

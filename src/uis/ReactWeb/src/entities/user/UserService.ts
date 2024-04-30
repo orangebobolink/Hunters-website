@@ -20,4 +20,8 @@ export class UserService {
         const url = `${apiMap.UPDATE_USER}/${user.id}`;
         return await axiosInstance.put(url, user);
     }
+
+    static getFullName(user?:User) {
+        return `${user?.lastName} ${user?.firstName} ${user?.middleName}`.trim();
+    }
 }
