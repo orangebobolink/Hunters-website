@@ -17,5 +17,12 @@ namespace Modules.Animal.Domain.Helpers
 
             return key;
         }
+
+        public static string GetCacheKeyForAllAnimalsWithFullInformation()
+        {
+            var key = nameof(AnimalInfo) + "full";
+
+            return key;
+        }
     }
 }

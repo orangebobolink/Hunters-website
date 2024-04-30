@@ -9,10 +9,6 @@
         public Guid PermissionId { get; init; }
         public PermissionResponseDto? Permission { get; init; }
         public string SpecialConditions { get; init; } = string.Empty;
-        public Guid IssuedId { get; init; }
-        public UserResponseDto? Issued { get; init; }
-        public Guid ReceivedId { get; init; }
-        public UserResponseDto? Received { get; init; }
         public DateTime ReceivedDate { get; init; }
         public DateTime EventDate { get; init; }
         public List<TripParticipantResponseDto> TripParticipants { get; init; } = [];
@@ -21,5 +17,6 @@
         public Guid AcceptedId { get; init; }
         public UserResponseDto? Accepted { get; init; }
         public decimal AmountOfFee { get; init; }
+        public string Status { get; set; } = string.Empty;
     }
 }

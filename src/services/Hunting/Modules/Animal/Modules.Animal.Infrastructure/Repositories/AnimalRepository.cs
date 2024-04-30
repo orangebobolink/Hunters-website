@@ -28,6 +28,7 @@ namespace Modules.Animal.Infrastructure.Repositories
         {
             return await _context.Animals
                 .AsNoTracking()
+                .Include(a => a.HuntingSeasons)
                 .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
         }
 
@@ -35,6 +36,7 @@ namespace Modules.Animal.Infrastructure.Repositories
         {
             return await _context.Animals
                 .AsNoTracking()
+                .Include(a => a.HuntingSeasons)
                 .FirstOrDefaultAsync(g => g.Name == name, cancellationToken);
         }
     }

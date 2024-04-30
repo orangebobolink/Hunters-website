@@ -3,7 +3,7 @@ import {Button} from "@/shared/ui";
 import {Animal} from "@/entities/animal/Animal.ts";
 import {logo} from "../../../../assets/wolf.jpg"
 import {Avatar, AvatarFallback, AvatarImage} from "@/shared/ui/avatar.tsx";
-import AnimalInfoDialog from "@/features/form/animalinfo-dialog.tsx";
+import AnimalInfoDialog from "@/features/dialog/animalinfo-dialog.tsx";
 import {useState} from "react";
 
 interface IProps{
@@ -17,45 +17,46 @@ const AnimalForm = ({animals, handleClick}:IProps) => {
 
     return (
         <div className="w-1/2 flex justify-center">
-        <Table className="justify-center">
-            <TableHeader>
-                <TableRow>
-                    <TableHead></TableHead>
-                    <TableHead>Название</TableHead>
-                    <TableHead>Тип</TableHead>
-                    <TableHead></TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {animals.map((animal) => (
-
-                      <TableRow key={animal.id}>
-                        <TableCell>
-                            <Avatar className="size-[2rem]">
-                                <AvatarImage src={animal.imageUrl} />
-                                <AvatarFallback>A</AvatarFallback>
-                            </Avatar>
-                        </TableCell>
-                        <TableCell>{
-                            animal.name
-                         }</TableCell>
-                        <TableCell>{animal.type}</TableCell>
-                        <TableCell>
-                            <Button
-                                variant="ghost"
-                                onClick={() => {
-                                    setSelectedAnimal(animal)
-                                    setIsOpen(true)
-                                }}
-                            >
-                                Подробнее
-                            </Button>
-                        </TableCell>
+            <Table className="justify-center">
+                <TableHeader>
+                    <TableRow>
+                        <TableHead></TableHead>
+                        <TableHead>Название</TableHead>
+                        <TableHead>Тип</TableHead>
+                        <TableHead></TableHead>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-        <AnimalInfoDialog animal={selectedAnimal} isOpen={isOpen} setIsOpen={setIsOpen}/>
+                </TableHeader>
+                <TableBody>
+                    {animals.map((animal) => (
+
+                          <TableRow key={animal.id}>
+                            <TableCell>
+                                <Avatar className="size-[2rem]">
+                                    <AvatarImage src={animal.imageUrl} />
+                                    <AvatarFallback>A</AvatarFallback>
+                                </Avatar>
+                            </TableCell>
+                            <TableCell>{
+                                animal.name
+                             }</TableCell>
+                            <TableCell>{animal.type}</TableCell>
+                            <TableCell>
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => {
+                                        setSelectedAnimal(animal)
+                                        setIsOpen(true)
+                                    }}
+                                >
+                                    Подробнее
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+                { Object.keys(selectedAnimal).length !== 0 &&
+                    <AnimalInfoDialog animal={selectedAnimal} isOpen={isOpen} setIsOpen={setIsOpen}/>}
         </div>
     );
 };

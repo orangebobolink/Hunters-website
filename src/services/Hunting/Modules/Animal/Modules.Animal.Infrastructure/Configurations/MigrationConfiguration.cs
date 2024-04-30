@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Animal.Infrastructure.Contexts;
 using Modules.Animal.Infrastructure.Interfaces;
-using Shared.Infrastructure.Interfaces;
 
 namespace Modules.Animal.Infrastructure.Configurations
 {

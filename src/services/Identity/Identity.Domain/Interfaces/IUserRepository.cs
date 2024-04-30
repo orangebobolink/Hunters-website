@@ -25,5 +25,6 @@ namespace Identity.Domain.Interfaces
         Task<IdentityResult> RemoveFromRolesAsync(User user, List<string> role);
         Task<IdentityResult> UpdateAsync(User entity);
         Task<IdentityResult> DeleteAsync(User entity);
+        Task<List<User>> GetAllByRole(string roleName);
     }
 }

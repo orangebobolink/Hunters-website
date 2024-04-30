@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {User} from '@/entities/user/User.ts';
-import UpdateUserDialog from '@/features/form/update-user-dialog.tsx';
+import UpdateUserDialog from '@/features/dialog/update-user-dialog.tsx';
 import UserTableForm from '@/features/form/user-table-form.tsx';
 
 interface IProps

@@ -14,8 +14,9 @@ namespace Modules.Document.Infrastructure.Repositories
         {
             return _context.Trips
                 .Include(t => t.Permission)
-                .Include(t => t.Issued)
-                .Include(t => t.Received)
+                    .ThenInclude(p => p.Issued)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Received)
                 .Include(t => t.Accepted)
                 .Include(t => t.TripParticipants)
                     .ThenInclude(tp => tp.Participant)
@@ -26,8 +27,9 @@ namespace Modules.Document.Infrastructure.Repositories
         {
             return _context.Trips
                 .Include(t => t.Permission)
-                .Include(t => t.Issued)
-                .Include(t => t.Received)
+                    .ThenInclude(p => p.Issued)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Received)
                 .Include(t => t.Accepted)
                 .Include(t => t.TripParticipants)
                     .ThenInclude(tp => tp.Participant)

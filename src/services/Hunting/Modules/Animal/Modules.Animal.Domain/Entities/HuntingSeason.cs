@@ -1,9 +1,12 @@
-﻿namespace Modules.Animal.Domain.Entities
+﻿using Newtonsoft.Json;
+
+namespace Modules.Animal.Domain.Entities
 {
     public class HuntingSeason
     {
         public Guid Id { get; set; }
         public Guid AnimalId { get; set; }
+        [JsonIgnore]
         public AnimalInfo? Animal { get; set; }
         public DateTime StartDate { get; set; } = DateTime.MinValue;
         public DateTime EndDate { get; set; } = DateTime.MinValue;

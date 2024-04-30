@@ -5,7 +5,7 @@ using Modules.Animal.Application.Dtos.RequestDtos;
 using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalCreate;
 using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalDelete;
 using Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpdate;
-using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimals;
+using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimalsWithFullInformation;
 using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAnimalById;
 
 namespace Modules.Animal.API.Controllers
@@ -20,7 +20,7 @@ namespace Modules.Animal.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAnimals(CancellationToken cancellationToken = default)
         {
-            var query = new GetAllAnimalsQuery();
+            var query = new GetAllAnimalsWithFullInformationQuery();
             var result = await _mediator.Send(query, cancellationToken);
 
             return Ok(result);

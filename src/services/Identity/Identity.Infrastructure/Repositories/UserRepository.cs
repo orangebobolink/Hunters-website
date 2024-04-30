@@ -90,5 +90,10 @@ namespace Identity.Infrastructure.Repositories
         {
             return await _userManager.RemoveFromRolesAsync(user, roles);
         }
+
+        public async Task<List<User>> GetAllByRole(string roleName)
+        {
+            return (await _userManager.GetUsersInRoleAsync(roleName)).ToList();
+        }
     }
 }

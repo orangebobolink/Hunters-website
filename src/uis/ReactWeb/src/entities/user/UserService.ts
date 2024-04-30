@@ -8,6 +8,10 @@ export class UserService {
         return await axiosInstance.get<User[]>(apiMap.GET_USERS);
     }
 
+    static async getAllRangers() {
+        return await axiosInstance.get<User[]>(apiMap.GET_RANGERS);
+    }
+
     static async create(user:CreateUser) {
         return await axiosInstance.post(apiMap.CREATE_USER, user);
     }

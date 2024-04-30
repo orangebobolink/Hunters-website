@@ -1,4 +1,5 @@
-﻿using Modules.Document.Domain.Interfaces;
+﻿using Modules.Document.Domain.Enums;
+using Modules.Document.Domain.Interfaces;
 
 namespace Modules.Document.Domain.Entities
 {
@@ -11,17 +12,12 @@ namespace Modules.Document.Domain.Entities
         public Guid PermissionId { get; set; }
         public PermissionForExtractionOfHuntingAnimal? Permission { get; set; }
         public string SpecialConditions { get; set; } = string.Empty;
-        public Guid IssuedId { get; set; }
-        public User? Issued { get; set; }
-        public Guid ReceivedId { get; set; }
-        public User? Received { get; set; }
-        public DateTime ReceivedDate { get; set; }
         public DateTime EventDate { get; set; }
         public ICollection<TripParticipant> TripParticipants { get; set; } = [];
         public DateTime ReturnedDate { get; set; }
-        public bool IsReturned { get; set; } = false;
         public Guid AcceptedId { get; set; }
         public User? Accepted { get; set; }
         public decimal AmountOfFee { get; set; }
+        public Status Status { get; set; } = Status.Compiled;
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Modules.Animal.Application.Dtos.RequestDtos;
 using Modules.Animal.Application.Features.HuntingSeasonFeatures.Commands.HuntingSeasonCreate;
+using Modules.Animal.Application.Features.HuntingSeasonFeatures.Commands.HuntingSeasonDelete;
 using Modules.Animal.Application.Features.HuntingSeasonFeatures.Queries.GetAllHutningSeasons;
 
 namespace Modules.Animal.API.Controllers
@@ -17,10 +18,22 @@ namespace Modules.Animal.API.Controllers
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(
-            HuntingSeasonRequestDto request, 
+            HuntingSeasonRequestDto request,
             CancellationToken cancellationToken = default)
         {
             var command = new HuntingSeasonCreateCommand(request);
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(
+            Guid id,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new HuntingSeasonDeleteCommand(id);
             var result = await _mediator.Send(command, cancellationToken);
 
             return Ok(result);

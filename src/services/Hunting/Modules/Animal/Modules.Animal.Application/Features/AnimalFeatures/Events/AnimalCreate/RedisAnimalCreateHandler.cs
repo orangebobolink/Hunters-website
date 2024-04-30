@@ -14,8 +14,10 @@ namespace Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate
             CancellationToken cancellationToken)
         {
             var cacheKey = CacheHelper.GetCacheKeyForAllAnimals();
+            var cacheFullKey = CacheHelper.GetCacheKeyForAllAnimalsWithFullInformation();
 
             await _cacheService.RemoveDataAsync(cacheKey, cancellationToken);
+            await _cacheService.RemoveDataAsync(cacheFullKey, cancellationToken);
         }
     }
 }

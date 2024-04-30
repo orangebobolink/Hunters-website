@@ -9,5 +9,6 @@
         public string Note { get; init; } = string.Empty;
         public Guid LandId { get; init; }
         public LandResponseDto? Land { get; init; }
+        public string Status { get; set; } = string.Empty;
     }
 }

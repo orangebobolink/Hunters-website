@@ -11,17 +11,20 @@ namespace Modules.Animal.Infrastructure.Repositories
 
         public void Create(T entity)
         {
-            _context.Add(entity);
+            _context.Set<T>()
+                .Add(entity);
         }
 
         public void Delete(T entity)
         {
-            _context.Remove(entity);
+            _context.Set<T>()
+                .Remove(entity);
         }
 
         public void Update(T entity)
         {
-            _context.Update(entity);
+            _context.Set<T>()
+                .Update(entity);
         }
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)

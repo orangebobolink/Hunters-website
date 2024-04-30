@@ -24,7 +24,7 @@ namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnima
             GetAllAnimalsWithFullInformationQuery request,
             CancellationToken cancellationToken)
         {
-            var animals = await _cacheService.GetAsync(CacheHelper.GetCacheKeyForAllAnimals(),
+            var animals = await _cacheService.GetAsync(CacheHelper.GetCacheKeyForAllAnimalsWithFullInformation(),
                 async () => await GetAnimalsThroughRepository(cancellationToken),
                 cancellationToken);
 

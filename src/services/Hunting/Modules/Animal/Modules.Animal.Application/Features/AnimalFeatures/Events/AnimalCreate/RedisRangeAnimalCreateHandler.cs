@@ -20,7 +20,7 @@ namespace Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate
                 cacheKey,
                 cancellationToken);
 
-            if(animals is null or { Count: 0 })
+            if (animals is null or { Count: 0 })
             {
                 await _cacheService.SetDataAsync(cacheKey,
                        notification.Animals,

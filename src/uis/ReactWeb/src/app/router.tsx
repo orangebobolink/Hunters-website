@@ -9,6 +9,7 @@ import ManagingPage from '@/pages/ui/managing/page.tsx';
 import Page404 from '@/pages/ui/error/page-404.tsx';
 import Trip from '@/pages/ui/trip/page.tsx';
 import AnimalPage from "@/pages/ui/animal/page.tsx";
+import FeedingPage from '@/pages/ui/feeding/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -30,20 +31,20 @@ export const Router = () => {
                               <Route path={RoutesMap.managing} element={<ManagingPage />} />
                           </>
                          }
-                         {roles.includes("Manager")
+                         {(roles.includes("Manager") || roles.includes("Ranger"))
                              && <>
-                                 <Route path={RoutesMap.managing} element={<ManagingPage />} />
-                                 <Route path={RoutesMap.animal} element={<AnimalPage />} />
+                                 <Route path={RoutesMap.raid} element={<ManagingPage />} />
+                                 <Route path={RoutesMap.feeding} element={<FeedingPage />} />
                              </>
                          }
-                         {roles.includes("Ranger")
+                         {roles.includes("Manager")
                              && <>
-                                 <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                                 <Route path={RoutesMap.animal} element={<AnimalPage />} />
                              </>
                          }
                          {(roles.includes("Manager") || roles.includes("Director"))
                              && <>
-                                 <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                                 <Route path={RoutesMap.reporting} element={<ManagingPage />} />
                              </>
                          }
                          <Route path={RoutesMap.chat} element={<ChatPage />}/>

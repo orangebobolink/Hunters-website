@@ -12,5 +12,6 @@
         public Guid ReceivedId { get; set; }
         public UserRequestDto? Received { get; set; }
         public List<CouponRequestDto> Coupons { get; set; } = [];
+        public string Status { get; set; } = string.Empty;
     }
 }

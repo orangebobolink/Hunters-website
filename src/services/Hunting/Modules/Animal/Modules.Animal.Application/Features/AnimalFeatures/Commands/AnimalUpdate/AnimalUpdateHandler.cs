@@ -11,9 +11,9 @@ using Shared.Helpers;
 namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpdate
 {
     internal class AnimalUpdateHandler(
-        IAnimalRepository animalRepository, 
-        ILogger<AnimalCreateHandler> logger, 
-        IPublisher publisher) 
+        IAnimalRepository animalRepository,
+        ILogger<AnimalCreateHandler> logger,
+        IPublisher publisher)
         : IRequestHandler<AnimalUpdateCommand, AnimalInfoResponseDto>
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;
@@ -27,7 +27,7 @@ namespace Modules.Animal.Application.Features.AnimalFeatures.Commands.AnimalUpda
 
             var existingAnimal = await _animalRepository.GetByIdAsync(id, cancellationToken);
 
-            if(existingAnimal is null)
+            if (existingAnimal is null)
             {
                 _logger.LogWarning($"An animal with id {id} not found in the database.");
                 ThrowHelper.ThrowKeyNotFoundException(ErrorMessageHelper.AnimalNotFound(id));

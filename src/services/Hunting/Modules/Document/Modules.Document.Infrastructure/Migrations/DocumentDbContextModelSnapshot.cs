@@ -276,6 +276,9 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<Guid>("ReceivedId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IssuedId");
@@ -368,6 +371,9 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<Guid>("ReceivedId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
 
@@ -393,7 +399,7 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<DateTime>("ExitTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("LandId")
+                    b.Property<Guid>("LandId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Note")
@@ -402,6 +408,9 @@ namespace Modules.Document.Infrastructure.Migrations
 
                     b.Property<DateTime>("ReturnedTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -428,23 +437,11 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("IssuedId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("PermissionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ReceivedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ReceivedId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ReturnedDate")
@@ -454,6 +451,9 @@ namespace Modules.Document.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
 
@@ -461,11 +461,7 @@ namespace Modules.Document.Infrastructure.Migrations
 
                     b.HasIndex("AcceptedId");
 
-                    b.HasIndex("IssuedId");
-
                     b.HasIndex("PermissionId");
-
-                    b.HasIndex("ReceivedId");
 
                     b.ToTable("Trips", "Document");
                 });
@@ -631,7 +627,9 @@ namespace Modules.Document.Infrastructure.Migrations
                 {
                     b.HasOne("Modules.Document.Domain.Entities.Land", "Land")
                         .WithMany()
-                        .HasForeignKey("LandId");
+                        .HasForeignKey("LandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Land");
                 });
@@ -644,31 +642,15 @@ namespace Modules.Document.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Modules.Document.Domain.Entities.User", "Issued")
-                        .WithMany()
-                        .HasForeignKey("IssuedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Modules.Document.Domain.Entities.PermissionForExtractionOfHuntingAnimal", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Modules.Document.Domain.Entities.User", "Received")
-                        .WithMany()
-                        .HasForeignKey("ReceivedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Accepted");
 
-                    b.Navigation("Issued");
-
                     b.Navigation("Permission");
-
-                    b.Navigation("Received");
                 });
 
             modelBuilder.Entity("Modules.Document.Domain.Entities.TripParticipant", b =>

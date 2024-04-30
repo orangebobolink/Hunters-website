@@ -3,7 +3,8 @@ import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Animal} from "@/entities/animal/Animal.ts";
 import {AnimalService} from "@/entities/animal/AnimalService.ts";
-import translate from "google-translate-api-x";
+import {Button} from '@/shared/ui';
+import AddAnimalDialog from '@/features/dialog/add-animal-dialog.tsx';
 
 const AnimalPage = () => {
     const [animals, setAnimals] = useState<Animal[]>([])
@@ -17,7 +18,6 @@ const AnimalPage = () => {
         const fetchUsers = async () => {
             try {
                 const response = await AnimalService.getAll();
-
                 setAnimals(response.data);
                 console.log(response.data)
             } catch (error) {
@@ -31,6 +31,8 @@ const AnimalPage = () => {
     return (
         <div className="select-none h-full w-full flex items-center flex-col justify-center">
             <AnimalForm animals={animals} handleClick={(animal:Animal) => {}}/>
+            <Button onClick={()=>{setIsOpen(true)}}>Добавить животное</Button>
+            <AddAnimalDialog isOpen={isOpen} setIsOpen={setIsOpen}/>
         </div>
     );
 };

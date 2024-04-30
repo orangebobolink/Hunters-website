@@ -7,4 +7,7 @@ export const RoutesMap = {
     managing: '/managing',
     trip: '/trip',
     animal: '/animal',
+    feeding: '/feeding',
+    reporting: '/reporting',
+    raid: '/raid',
 };

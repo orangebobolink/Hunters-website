@@ -79,9 +79,20 @@ namespace Identity.Services.Services
             return respons;
         }
 
-        public Task<List<ResponseUpdateUserDto>> GetALlByRoles(string roleName, CancellationToken cancellationToken)
+        public async Task<List<ResponseUserDto>> GetALlByRoles(
+            string roleName,
+            CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var users = await _userRepository.GetAllByRole(roleName);
+
+            if (users is { Count: 0 })
+            {
+                ThrowHelper.ThrowKeyNotFoundException(roleName);
+            }
+
+            var response = users.Adapt<List<ResponseUserDto>>();
+
+            return response;
         }
 
         public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken)

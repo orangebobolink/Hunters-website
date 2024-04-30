@@ -15,5 +15,6 @@
         public List<CouponResponseDto> Coupons { get; init; } = [];
         public Guid LandId { get; init; }
         public LandResponseDto? Land { get; init; }
+        public string Status { get; set; } = string.Empty;
     }
 }

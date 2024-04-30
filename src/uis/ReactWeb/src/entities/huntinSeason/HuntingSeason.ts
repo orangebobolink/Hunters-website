@@ -1,5 +1,5 @@
 export interface HuntingSeason {
-    id: string;
+    id?: string;
     animalId: string;
     startDate: Date;
     endDate: Date;
