@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import {FormControl, FormField, FormItem, FormLabel, FormMessage, Input} from '@/shared/ui';
 import {TFunction} from 'i18next';
 import {UseFormReturn} from 'react-hook-form';

@@ -45,7 +45,7 @@ const AnimalInfoDialog = ({animal, isOpen, setIsOpen}:IProps) => {
     const { t} = useTranslation("translation");
 
     const handleRemove = async (id:string)=>{
-        animal.huntingSeasons = animal.huntingSeasons.filter((h)=> h.id != id);
+        animal.huntingSeasons = animal.huntingSeasons?.filter((h)=> h.id != id);
         await HuntingService.remove(id);
     }
 
@@ -53,14 +53,14 @@ const AnimalInfoDialog = ({animal, isOpen, setIsOpen}:IProps) => {
         async (values:  z.infer<typeof formSchema>) => {
             console.log(values)
             const request:HuntingSeason = {
-                animalId: animal.id,
+                animalId: animal.id!,
                 startDate: values.startDate,
                 endDate: values.endDate,
                 note: values.note,
                 wayOfHunting: values.wayOfHunting,
                 weapon: values.weapon,
             }
-            animal.huntingSeasons.push(request);
+            animal.huntingSeasons?.push(request);
 
             try {
                 const data = await HuntingService.create(request);
@@ -127,14 +127,14 @@ const AnimalInfoDialog = ({animal, isOpen, setIsOpen}:IProps) => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {animal.huntingSeasons.map((huntingSeason: HuntingSeason)=> (
+                                {animal.huntingSeasons?.map((huntingSeason: HuntingSeason)=> (
                                     <TableRow key={huntingSeason.id}>
                                         <TableCell className="font-medium">{format(huntingSeason.startDate, "MM/dd/yyyy")}</TableCell>
                                         <TableCell>{format(huntingSeason.endDate, "MM/dd/yyyy")}</TableCell>
                                         <TableCell>{huntingSeason.weapon}</TableCell>
                                         <TableCell className="text-right">{huntingSeason.note}</TableCell>
                                         <TableCell className="text-right">
-                                            <Button onClick={()=>{handleRemove(huntingSeason.id)}}>Удалить</Button>
+                                            <Button onClick={()=>{handleRemove(huntingSeason.id!)}}>Удалить</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}

@@ -11,10 +11,12 @@ namespace Modules.Document.Application.Services
 {
     internal class FeedingService(
         IFeedingRepository feedingRepository,
+        IFeedingProductRepository feedingProductRepository,
         ILogger<FeedingService> logger)
         : IFeedingService
     {
         private readonly IFeedingRepository _feedingRepository = feedingRepository;
+        private readonly IFeedingProductRepository _feedingProductRepository = feedingProductRepository;
         private readonly ILogger<FeedingService> _logger = logger;
 
         public async Task<FeedingResponseDto> CreateAsync(FeedingRequestDto request, CancellationToken cancellationToken)
@@ -23,7 +25,7 @@ namespace Modules.Document.Application.Services
                 f => f.Number == request.Number,
                 cancellationToken);
 
-            if (existingFeeding is null)
+            if (existingFeeding is not null)
             {
                 _logger.LogWarning("id is null");
                 ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeeding));
@@ -33,6 +35,11 @@ namespace Modules.Document.Application.Services
             feeding.Id = Guid.NewGuid();
 
             _feedingRepository.Create(feeding!);
+
+            foreach(var item in feeding.Products)
+            {
+                _feedingProductRepository.Create(item);
+            }
 
             await _feedingRepository.SaveChangesAsync(cancellationToken);
 

@@ -9,6 +9,7 @@ import ManagingPage from '@/pages/ui/managing/page.tsx';
 import Page404 from '@/pages/ui/error/page-404.tsx';
 import Trip from '@/pages/ui/trip/page.tsx';
 import AnimalPage from "@/pages/ui/animal/page.tsx";
+import RaidPage from '@/pages/ui/raid/page.tsx';
 import FeedingPage from '@/pages/ui/feeding/page.tsx';
 
 export const Router = () => {
@@ -31,9 +32,15 @@ export const Router = () => {
                               <Route path={RoutesMap.managing} element={<ManagingPage />} />
                           </>
                          }
+                         {
+                             (roles.includes("Ranger")
+                                 && <>
+                                     <Route path={RoutesMap.raid} element={<RaidPage />} />
+                                 </>
+                             )
+                         }
                          {(roles.includes("Manager") || roles.includes("Ranger"))
                              && <>
-                                 <Route path={RoutesMap.raid} element={<ManagingPage />} />
                                  <Route path={RoutesMap.feeding} element={<FeedingPage />} />
                              </>
                          }

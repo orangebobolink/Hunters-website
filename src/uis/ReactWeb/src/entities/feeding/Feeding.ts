@@ -1,5 +1,4 @@
 import {FeedingProduct} from '@/entities/feedingProduct/FeedingProduct.ts';
-import {Status} from '@/entities/status/Status.ts';
 import {Land} from '@/entities/land/Land.ts';
 
 export interface Feeding {
@@ -10,6 +9,7 @@ export interface Feeding {
     receivedId: string;
     receivedDate: Date;
     products: FeedingProduct[];
+    landId: string;
     land:Land;
-    status: Status;
+    status: string;
 }

@@ -47,7 +47,7 @@ export function LandCombobox({form, name}:IProps) {
                                     variant="outline"
                                     role="combobox"
                                     className={cn(
-                                        "w-[200px] justify-between",
+                                        "w-full justify-between",
                                         !field.value && "text-muted-foreground"
                                     )}
                                 >
@@ -60,7 +60,7 @@ export function LandCombobox({form, name}:IProps) {
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
+                        <PopoverContent className="w-full p-0">
                             <Command>
                                 <CommandInput
                                     placeholder="Поиск локаций..."
@@ -93,9 +93,6 @@ export function LandCombobox({form, name}:IProps) {
                             </Command>
                         </PopoverContent>
                     </Popover>
-                    <FormDescription>
-                        This is the language that will be used in the dashboard.
-                    </FormDescription>
                     <FormMessage />
                 </FormItem>
             )}

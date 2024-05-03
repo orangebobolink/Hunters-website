@@ -6,8 +6,9 @@
       "feeding": "Подкормка диких животных",
       "raid": "Рейды",
       "animal": "Животные",
+      "reporting": "Просмотр отчетов",
       "managing": "Управление пользоавтелями",
-      "webname": "Охота",
+      "webname": "HuntingBY",
       "permit": "Путевка",
       "rent":
       {
@@ -75,5 +76,26 @@
     "manager": "Охотовед",
     "director": "Директор",
     "user": "Пользователь"
+  },
+  "feeding": {
+    "createReport": "Создать отчет",
+    "table": {
+      "number": "Номер",
+      "feedingDate": "Дата подкормки",
+      "location": "Локация",
+      "status": "Статус",
+      "act": "Действия",
+      "moreInf": "Подробнее"
+    },
+    "create": {
+      "number": "Номер",
+      "feedingDate": "Дата подкормки",
+      "location": "Локация",
+      "name": "Название",
+      "unitOfMeasurement": "Еденица измерения",
+      "quantity": "Количество",
+      "add": "Добавть",
+      "cancel": "Закрыть"
+    }
   }
 }

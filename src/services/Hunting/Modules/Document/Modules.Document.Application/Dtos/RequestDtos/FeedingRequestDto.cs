@@ -1,6 +1,4 @@
-﻿using Modules.Document.Domain.Enums;
-
-namespace Modules.Document.Application.Dtos.RequestDtos
+﻿namespace Modules.Document.Application.Dtos.RequestDtos
 {
     public class FeedingRequestDto
     {
@@ -13,5 +11,6 @@ namespace Modules.Document.Application.Dtos.RequestDtos
         public DateTime ReceivedDate = DateTime.Now;
         public List<FeedingProductRequestDto> Products { get; set; } = [];
         public string Status { get; set; } = string.Empty;
+        public Guid LandId { get; init; }
     }
 }

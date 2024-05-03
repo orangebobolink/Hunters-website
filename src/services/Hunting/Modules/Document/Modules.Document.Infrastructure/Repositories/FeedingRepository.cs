@@ -15,6 +15,7 @@ namespace Modules.Document.Infrastructure.Repositories
                 .Include(f => f.Issued)
                 .Include(f => f.Issued)
                 .Include(f => f.Products)
+                .Include(f => f.Land)
                 .ToListAsync(cancellationToken);
         }
 
@@ -25,6 +26,7 @@ namespace Modules.Document.Infrastructure.Repositories
                 .Include(f => f.Issued)
                 .Include(f => f.Received)
                 .Include(f => f.Products)
+                .Include(f => f.Land)
                 .FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
         }
     }

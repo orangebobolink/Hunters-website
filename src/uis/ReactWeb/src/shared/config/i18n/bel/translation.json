@@ -1,8 +1,14 @@
 {
   "header": {
     "nav": {
+      "trip": "Падарожжы",
+      "permission": "Дазволы",
+      "feeding": "Дадавання корму дзыкім жывотным",
+      "raid": "Рэйды",
+      "animal": "Жывотныя",
+      "reporting": "Прагляд зветоў",
       "managing": "Кіраванне карыстальнікамі",
-      "webname": "Паляванне",
+      "webname": "HuntingBY",
       "permit": "Пуцёўка",
       "rent": {
         "tittle": "Арэнда",
@@ -68,5 +74,26 @@
     "manager": "Менеджэр",
     "director": "Дырэктар",
     "user": "Карыстальнік"
+  },
+  "feeding": {
+    "createReport": "Стварыць звет",
+    "table": {
+      "number": "Номер",
+      "feedingDate": "Дата дадавання корму",
+      "location": "Лакацыя",
+      "status": "Стан",
+      "act": "Дзеянні",
+      "moreInf": "Больш інформацыі"
+    },
+    "create": {
+      "number": "Номер",
+      "feedingDate": "Дата дадавання корму",
+      "location": "Лакацыя",
+      "name": "Назва",
+      "unitOfMeasurement": "Адзінка вымярэння",
+      "quantity": "Колькасць",
+      "add": "Дадаць",
+      "cancel": "Зачыніць"
+    }
   }
 }
