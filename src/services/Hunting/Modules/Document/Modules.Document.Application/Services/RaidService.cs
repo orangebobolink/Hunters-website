@@ -9,7 +9,10 @@ using Shared.Helpers;
 
 namespace Modules.Document.Application.Services
 {
-    internal class RaidService(IRaidRepository raidRepository, ILogger<RaidService> logger) : IRaidService
+    internal class RaidService(
+        IRaidRepository raidRepository,
+        ILogger<RaidService> logger)
+        : IRaidService
     {
         private readonly IRaidRepository _raidRepository = raidRepository;
         private readonly ILogger<RaidService> _logger = logger;
@@ -102,6 +105,21 @@ namespace Modules.Document.Application.Services
             }
 
             var response = permission.Adapt<RaidResponseDto>();
+
+            return response;
+        }
+
+        public async Task<List<RaidResponseDto>> GetRaidsByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var raids = await _raidRepository.GetRaidsByIdAsync(id, cancellationToken);
+
+            if (raids is { Count: 0 })
+            {
+                _logger.LogWarning("Id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(id));
+            }
+
+            var response = raids.Adapt<List<RaidResponseDto>>();
 
             return response;
         }

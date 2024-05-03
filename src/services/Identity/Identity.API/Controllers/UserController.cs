@@ -43,7 +43,7 @@ namespace Identity.API.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = $"{Role.Manager}, {Role.Admin}")]
+        [Authorize(Roles = $"{Role.Manager}, {Role.Ranger}, {Role.Admin}")]
         [HttpGet("{roleName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

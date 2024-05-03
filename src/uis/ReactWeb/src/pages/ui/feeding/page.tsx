@@ -9,7 +9,6 @@ import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 
 const FeedingPage = () => {
-
     const [feedings, setFeedings] = useState<Feeding[]>([])
     const [isOpen, setIsOpen] = useState(false);
     const {roles, id} = useAppSelector(selectAuth);

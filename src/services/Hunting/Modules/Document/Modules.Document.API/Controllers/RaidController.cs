@@ -19,9 +19,9 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetRaidsById(Guid id, CancellationToken cancellationToken = default)
         {
-            var raid = await _raidService.GetByIdAsync(id, cancellationToken);
+            var raid = await _raidService.GetRaidsByIdAsync(id, cancellationToken);
 
             return Ok(raid);
         }
@@ -47,7 +47,7 @@ namespace Modules.Document.API.Controllers
         {
             var createdRaid = await _raidService.CreateAsync(request, cancellationToken);
 
-            return CreatedAtAction(nameof(GetById), new { id = createdRaid.Id }, createdRaid);
+            return Ok(createdRaid);
         }
 
         [HttpPut("{id}")]

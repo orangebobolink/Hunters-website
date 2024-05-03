@@ -20,4 +20,5 @@ export const apiMap = {
     GET_RANGERS: `${BASE_API_URL}/${BackendEndpoints.GET_RANGERS}`,
     GET_LANDS: `${BASE_API_URL}/${BackendEndpoints.GET_LANDS}`,
     GET_PRODUCTS: `${BASE_API_URL}/${BackendEndpoints.GET_PRODUCTS}`,
+    GET_RAIDS: `${BASE_API_URL}/${BackendEndpoints.GET_RAIDS}`,
 };

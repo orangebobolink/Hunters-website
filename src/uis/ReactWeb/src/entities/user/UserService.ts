@@ -25,6 +25,10 @@ export class UserService {
         return `${user?.lastName} ${user?.firstName} ${user?.middleName}`.trim();
     }
 
+    static getLastAndFirstName(user?:User) {
+        return `${user?.lastName} ${user?.firstName}`.trim();
+    }
+
     static async getById(id:string) {
         const url = `${apiMap.GET_USERS}/${id}`;
         return await axiosInstance.get(url);

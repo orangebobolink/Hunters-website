@@ -5,8 +5,9 @@ using Modules.Document.Infrastructure.Contexts;
 
 namespace Modules.Document.Infrastructure.Repositories
 {
-    internal class RaidRepository(DocumentDbContext context)
-                : BaseRepository<Raid>(context), IRaidRepository
+    internal class RaidRepository(
+        DocumentDbContext context)
+        : BaseRepository<Raid>(context), IRaidRepository
     {
         public Task<List<Raid>> GetAllIncludeAsync(CancellationToken cancellationToken)
         {
@@ -20,6 +21,15 @@ namespace Modules.Document.Infrastructure.Repositories
             return _context.Raids
                 .Include(r => r.Participants)
                 .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        }
+
+        public Task<List<Raid>> GetRaidsByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return _context.Raids
+                .Include(r => r.Participants)
+                .Where(r => r.Participants
+                            .Any(u => u.Id == id))
+                .ToListAsync(cancellationToken);
         }
     }
 }

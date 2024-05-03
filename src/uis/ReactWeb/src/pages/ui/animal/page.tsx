@@ -1,6 +1,5 @@
 import AnimalForm from "@/widgets/forms/ui/animal-form";
 import {useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
 import {Animal} from "@/entities/animal/Animal.ts";
 import {AnimalService} from "@/entities/animal/AnimalService.ts";
 import {Button} from '@/shared/ui';
@@ -9,10 +8,6 @@ import AddAnimalDialog from '@/features/dialog/add-animal-dialog.tsx';
 const AnimalPage = () => {
     const [animals, setAnimals] = useState<Animal[]>([])
     const [isOpen, setIsOpen] = useState(false);
-    const { t} = useTranslation("translation",
-        {
-            keyPrefix: "animal"
-        });
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -30,7 +25,7 @@ const AnimalPage = () => {
 
     return (
         <div className="select-none h-full w-full flex items-center flex-col justify-center">
-            <AnimalForm animals={animals} handleClick={(animal:Animal) => {}}/>
+            <AnimalForm animals={animals} handleClick={(animal:Animal) => {console.log(animal)}}/>
             <Button onClick={()=>{setIsOpen(true)}}>Добавить животное</Button>
             <AddAnimalDialog isOpen={isOpen} setIsOpen={setIsOpen}/>
         </div>
