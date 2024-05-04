@@ -13,6 +13,7 @@ namespace Modules.Document.Infrastructure.Repositories
         {
             return _context.Raids
                 .Include(r => r.Participants)
+                .Include(r => r.Land)
                 .ToListAsync(cancellationToken);
         }
 
@@ -20,6 +21,7 @@ namespace Modules.Document.Infrastructure.Repositories
         {
             return _context.Raids
                 .Include(r => r.Participants)
+                .Include(r => r.Land)
                 .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
         }
 
@@ -27,6 +29,7 @@ namespace Modules.Document.Infrastructure.Repositories
         {
             return _context.Raids
                 .Include(r => r.Participants)
+                .Include(r => r.Land)
                 .Where(r => r.Participants
                             .Any(u => u.Id == id))
                 .ToListAsync(cancellationToken);

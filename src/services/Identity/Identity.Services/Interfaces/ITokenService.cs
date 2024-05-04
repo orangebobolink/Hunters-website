@@ -1,5 +1,4 @@
 ﻿using Identity.Domain.Entities;
-using Identity.Services.Dtos;
 using Identity.Services.Dtos.ResponseDtos;
 
 namespace Identity.Services.Interfaces

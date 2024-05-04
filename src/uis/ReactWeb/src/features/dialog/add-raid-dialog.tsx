@@ -4,28 +4,22 @@ import {toast} from '@/shared/ui/use-toast.ts';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {Land} from '@/entities/land/Land.ts';
-import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
-import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {Status} from '@/entities/status/Status.ts';
-import {FeedingService} from '@/entities/feeding/FeedingService.ts';
 import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {Button, Form} from '@/shared/ui';
 import InputFormField from '@/features/form/input-form-field.tsx';
 import {useTranslation} from 'react-i18next';
 import DatePicker from '@/features/form/date-picker.tsx';
-import {RangerCombobox} from '@/features/combobox/ranger-combobox.tsx';
 import {LandCombobox} from '@/features/combobox/land-combobox.tsx';
-import FeedingProductDrawer from '@/features/drawer/feeding-product-drawet.tsx';
-import {Textarea} from '@/shared/ui/textarea.tsx';
 import {Raid} from '@/entities/raid/Raid.ts';
-import {User} from '@/entities/user/User.ts';
-import {UserService} from '@/entities/user/UserService.ts';
 import MultyRangerCombobox from '@/features/combobox/multy-ranger-combobox.tsx';
+import {RaidService} from '@/entities/raid/RaidService.ts';
+import {User} from '@/entities/user/User.ts';
 
 const formSchema = z.object({
     exitTime: z.date(),
     returnedTime: z.date(),
-    participants: z.string(),
+    participant: z.array(z.object({})),
     landId: z.string(),
     note: z.string(),
 });
@@ -37,18 +31,16 @@ interface IProps
 }
 
 const AddRaidDialog = ({isOpen, setIsOpen}:IProps) => {
-    const { id } = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
             keyPrefix: "feeding.create"
         });
     const [participants, setParticipants] = useState<User[]>([]);
-    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
     const onSubmit = useCallback(
         async (values:  z.infer<typeof formSchema>) => {
             const status = Status.Completed.toString()
-
+            console.log(participants)
             const request:Raid = {
                 exitTime: values.exitTime,
                 returnedTime: values.returnedTime,
@@ -60,7 +52,7 @@ const AddRaidDialog = ({isOpen, setIsOpen}:IProps) => {
             }
 
             try {
-                const data = await FeedingService.create(request);
+                const data = await RaidService.create(request);
 
                 if(data.status >= 200 && data.status <= 300)
                 {
@@ -77,7 +69,7 @@ const AddRaidDialog = ({isOpen, setIsOpen}:IProps) => {
                 })
             }
         },
-        [],
+        [participants],
     );
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -90,9 +82,6 @@ const AddRaidDialog = ({isOpen, setIsOpen}:IProps) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                         <div className="flex flex-col justify-around space-y-2">
-                            <InputFormField form={form} t={t}
-                                            name="number"
-                                            lang="number"/>
                             <DatePicker form={form}
                                         t={t}
                                         label="Выберите дату подкормки"
@@ -107,14 +96,17 @@ const AddRaidDialog = ({isOpen, setIsOpen}:IProps) => {
                                         name="returnedTime"
                                         disabled= {(date: Date) => form.getValues().exitTime < date && date < new Date()}
                                         time={true}/>
-
-                            <Textarea value={participants.map(f=> UserService.getFullName(f))}
-                                      disabled
-                                      className="resize-none"/>
                             <MultyRangerCombobox form={form}
-                                                 name="Егря"/>
+                                                 t={t}
+                                                 lang="rangers"
+                                                 name="participant"
+                                                 setParticipant={setParticipants}
+                                                />
                             <LandCombobox form={form}
                                           name="landId"/>
+                            <InputFormField form={form} t={t}
+                                            name="note"
+                                            lang="note"/>
                         </div>
                         <Button type="submit" className="w-full">
                             Добавить

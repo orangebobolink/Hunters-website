@@ -11,26 +11,35 @@ namespace Modules.Document.Application.Services
 {
     internal class RaidService(
         IRaidRepository raidRepository,
+        IUserRepository userRepository,
         ILogger<RaidService> logger)
         : IRaidService
     {
         private readonly IRaidRepository _raidRepository = raidRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogger<RaidService> _logger = logger;
 
         public async Task<RaidResponseDto> CreateAsync(RaidRequestDto request, CancellationToken cancellationToken)
         {
+            if (request.Participants.Count == 0)
+            {
+                _logger.LogWarning("participants is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(request));
+            }
+
             var existingRaid = await _raidRepository.GetByPredicate(
                 r => r.ExitTime == request.ExitTime
                 && r.ReturnedTime == request.ReturnedTime,
                 cancellationToken);
 
-            if (existingRaid is null)
+            if (existingRaid is not null)
             {
                 _logger.LogWarning("id is null");
                 ThrowHelper.ThrowKeyNotFoundException(nameof(existingRaid));
             }
 
             var raid = request.Adapt<Raid>();
+            raid.Participants = await _userRepository.GetAllExistsUsers(raid.Participants.ToList());
             raid.Id = Guid.NewGuid();
 
             _raidRepository.Create(raid!);

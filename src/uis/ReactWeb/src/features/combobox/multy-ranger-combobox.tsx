@@ -1,6 +1,6 @@
-import { Listbox, Transition } from '@headlessui/react';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
-import {Fragment, useEffect, useState} from 'react';
+import {Listbox, Transition} from '@headlessui/react';
+import {CaretSortIcon, CheckIcon} from '@radix-ui/react-icons';
+import {Dispatch, Fragment, SetStateAction, useEffect, useState} from 'react';
 import {FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
 import {TFunction} from 'i18next';
 import {UseFormReturn} from 'react-hook-form';
@@ -11,24 +11,33 @@ import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 
 
 interface IProps {
-    t?: TFunction,
+    t: TFunction,
     form:UseFormReturn<any>,
     name: string,
-    lang?: string,
+    lang: string,
+    setParticipant: Dispatch<SetStateAction<User[]>>
 }
 
-const MultyRangerCombobox = ({t, form, name, lang}:IProps) => {
+const MultyRangerCombobox = ({
+                                 t,
+                                 form,
+                                 name,
+                                 lang, setParticipant
+}:IProps) => {
+    const {id} = useAppSelector(selectAuth);
     const [selected, setSelected] = useState<User[]>([]);
     const [options, setOptions] = useState<User[]>([]);
-    const {id} = useAppSelector(selectAuth);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const rangers = await UserService.getAllRangers();
                 setOptions(rangers.data);
-                setSelected(rangers.data.filter(u=> u.id == id))
-
+                setSelected(prev => [...prev, ...rangers.data.filter(u=> u.id == id)!])
+                setParticipant((prev) => [
+                    ...prev,
+                    ...rangers.data.filter((u) => u.id === id)!
+                ]);
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
@@ -37,13 +46,18 @@ const MultyRangerCombobox = ({t, form, name, lang}:IProps) => {
         fetchUsers();
     }, []);
 
+    useEffect(() => {
+        form.setValue(name, selected);
+        setParticipant(selected);
+    }, [selected]);
+
     return (
         <FormField
             control={form.control}
             name={name}
             render={({ field }) => (
                 <FormItem className="flex flex-col">
-                    <FormLabel>Егеря</FormLabel>
+                    <FormLabel>{t(lang)}</FormLabel>
                     <Listbox
                         value={selected}
                         onChange={setSelected}
@@ -54,7 +68,9 @@ const MultyRangerCombobox = ({t, form, name, lang}:IProps) => {
                             ring-offset-background placeholder:text-muted-foreground focus:outline-none
                             focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50'>
                                 <span className='block truncate'>
-                                    {selected?.map(option => UserService.getLastAndFirstName(option)).join(', ')}
+                                    {
+                                        selected?.map(option => UserService.getLastAndFirstName(option)).join(', ')
+                                    }
                                 </span>
                                 <CaretSortIcon className='h-4 w-4 opacity-50' />
                             </Listbox.Button>

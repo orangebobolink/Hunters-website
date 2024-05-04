@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import { LocaleStorageUtils } from '@/shared/lib/utils';
-import { loginThunk } from '@/shared/model/store/slices/auth/loginThunk';
-import { logoutThunk } from '@/shared/model/store/slices/auth/logoutThunk';
-import { refreshAuthThunk } from '@/shared/model/store/slices/auth/refreshAuthThunk';
-import { LoginResponse } from '@/shared/model/store/queries/typing/responses/LoginResponse';
+import {LocaleStorageUtils} from '@/shared/lib/utils';
+import {loginThunk} from '@/shared/model/store/slices/auth/loginThunk';
+import {logoutThunk} from '@/shared/model/store/slices/auth/logoutThunk';
+import {refreshAuthThunk} from '@/shared/model/store/slices/auth/refreshAuthThunk';
+import {LoginResponse} from '@/shared/model/store/queries/typing/responses/LoginResponse';
 
 type InitialState = {
     id: string | null,
@@ -72,7 +72,6 @@ const authSlice = createSlice({
             .addCase(refreshAuthThunk.fulfilled, (state, { payload }: PayloadAction<LoginResponse>) => {
                 state.id = payload.id;
                 state.username = payload.username
-                state.roles = payload.roles;
                 state.roles = payload.roles;
                 state.isAuth = true;
                 LocaleStorageUtils.setAccessToken(payload.accessToken);
