@@ -1,4 +1,4 @@
-import {Route, Routes, useLocation } from "react-router-dom";
+import {Route, Routes, useLocation} from 'react-router-dom';
 import {LocationState} from '@/shared/types';
 import {RoutesMap} from '@/shared/const';
 import {ChatPage, HomePage, SignInPage, SignUpPage} from '@/pages/ui';
@@ -8,9 +8,10 @@ import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import ManagingPage from '@/pages/ui/managing/page.tsx';
 import Page404 from '@/pages/ui/error/page-404.tsx';
 import Trip from '@/pages/ui/trip/page.tsx';
-import AnimalPage from "@/pages/ui/animal/page.tsx";
+import AnimalPage from '@/pages/ui/animal/page.tsx';
 import RaidPage from '@/pages/ui/raid/page.tsx';
 import FeedingPage from '@/pages/ui/feeding/page.tsx';
+import PermissionPage from '@/pages/ui/permission/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -42,6 +43,7 @@ export const Router = () => {
                          {(roles.includes("Manager") || roles.includes("Ranger"))
                              && <>
                                  <Route path={RoutesMap.feeding} element={<FeedingPage />} />
+                                 <Route path={RoutesMap.permission} element={<PermissionPage />} />
                              </>
                          }
                          {roles.includes("Manager")

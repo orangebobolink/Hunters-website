@@ -10,7 +10,6 @@ import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
 import InputFormField from '@/features/form/input-form-field.tsx';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/shared/ui/select.tsx';
-import {Sex} from '@/shared/model/store/queries/typing/requests/Sex.ts';
 
 enum AnimalType
 {

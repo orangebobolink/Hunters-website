@@ -10,10 +10,9 @@ interface IProps
 
 const RaidTable = ({raids}:IProps) => {
     const { t} = useTranslation("translation",
-        {
-            keyPrefix: "raid.table"
-        });
-
+    {
+        keyPrefix: "raid.table"
+    });
 
     const content = (raid:Raid) => (
         <TableRow key={raid.id}>

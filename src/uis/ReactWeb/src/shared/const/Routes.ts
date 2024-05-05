@@ -10,4 +10,5 @@ export const RoutesMap = {
     feeding: '/feeding',
     reporting: '/reporting',
     raid: '/raid',
+    permission: '/permission',
 };

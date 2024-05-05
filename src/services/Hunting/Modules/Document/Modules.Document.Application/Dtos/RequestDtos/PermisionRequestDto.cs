@@ -11,7 +11,7 @@
         public UserRequestDto? Issued { get; set; }
         public Guid ReceivedId { get; set; }
         public UserRequestDto? Received { get; set; }
-        public List<CouponRequestDto> Coupons { get; set; } = [];
+        public int NumberOfCoupons {  get; set; }
         public string Status { get; set; } = string.Empty;
         public Guid LandId { get; set; }
     }
