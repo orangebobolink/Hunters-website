@@ -17,7 +17,6 @@ namespace Modules.Document.Infrastructure.Repositories
                     .ThenInclude(p => p.Issued)
                 .Include(t => t.Permission)
                     .ThenInclude(p => p.Received)
-                .Include(t => t.Buyer)
                 .Include(t => t.TripParticipants)
                     .ThenInclude(tp => tp.Participant)
                 .ToListAsync(cancellationToken);
@@ -30,7 +29,10 @@ namespace Modules.Document.Infrastructure.Repositories
                     .ThenInclude(p => p.Issued)
                 .Include(t => t.Permission)
                     .ThenInclude(p => p.Received)
-                .Include(t => t.Buyer)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Land)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Animal)
                 .Include(t => t.TripParticipants)
                     .ThenInclude(tp => tp.Participant)
                 .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);

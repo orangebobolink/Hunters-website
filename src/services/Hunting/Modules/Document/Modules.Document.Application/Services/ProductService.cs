@@ -5,7 +5,8 @@ namespace Modules.Document.Application.Services
 {
     internal class ProductService : IProductService
     {
-        public Task<List<string>> GetAllAsync(CancellationToken cancellationToken)
+        public Task<List<string>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             return Task.FromResult(
                 Enum.GetValues<Product>()

@@ -9,12 +9,17 @@ using Shared.Helpers;
 
 namespace Modules.Document.Application.Services
 {
-    internal class TripService(ITripRepository tripRepository, ILogger<TripService> logger) : ITripService
+    internal class TripService(
+        ITripRepository tripRepository,
+        ILogger<TripService> logger)
+        : ITripService
     {
         private readonly ITripRepository _tripRepository = tripRepository;
         private readonly ILogger<TripService> _logger = logger;
 
-        public async Task<TripResponseDto> CreateAsync(TripRequestDto request, CancellationToken cancellationToken)
+        public async Task<TripResponseDto> CreateAsync(
+            TripRequestDto request,
+            CancellationToken cancellationToken)
         {
             var existingTrip = await _tripRepository.GetByPredicate(
                 t => t.Number == request.Number,
@@ -38,9 +43,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TripResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingTrip = await _tripRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingTrip = await _tripRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingTrip is null)
             {
@@ -57,7 +65,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<TripResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<TripResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             var permissions = await _tripRepository.GetAllAsync(cancellationToken);
 
@@ -66,7 +75,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<TripResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken)
+        public async Task<List<TripResponseDto>> GetAllIncludeAsync(
+            CancellationToken cancellationToken)
         {
             var permissions = await _tripRepository.GetAllIncludeAsync(cancellationToken);
 
@@ -75,9 +85,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TripResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var permission = await _tripRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var permission = await _tripRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (permission is null)
             {
@@ -90,7 +103,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TripResponseDto> GetByIdIncludeAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var permission = await _tripRepository.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -105,9 +120,32 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripResponseDto> UpdateAsync(Guid id, TripRequestDto request, CancellationToken cancellationToken)
+        public async Task<TripResponseDto> GetByParticipantId(
+            Guid participantId,
+            CancellationToken cancellationToken)
         {
-            var existingTrip = await _tripRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var permission = await _tripRepository.GetByPredicate(
+                e => e.TripParticipants.Any(p => p.Id == participantId),
+                cancellationToken);
+
+            if (permission is null)
+            {
+                _logger.LogWarning("Id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(participantId));
+            }
+
+            var response = permission.Adapt<TripResponseDto>();
+
+            return response;
+        }
+
+        public async Task<TripResponseDto> UpdateAsync(
+            Guid id,
+            TripRequestDto request,
+            CancellationToken cancellationToken)
+        {
+            var existingTrip = await _tripRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingTrip is null)
             {

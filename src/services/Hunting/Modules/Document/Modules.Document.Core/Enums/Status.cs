@@ -5,6 +5,7 @@
         Compiled,
         Given,
         Recived,
+        Buyed,
         Completed
     }
 }

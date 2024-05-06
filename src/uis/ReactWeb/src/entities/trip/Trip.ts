@@ -19,7 +19,7 @@ export interface Trip {
     tripParticipants: TripParticipant[];
     returnedDate: Date;
     isReturned: boolean;
-    acceptedId: string;
-    accepted?: User | null;
+    buyerId: string;
+    buyer?: User | null;
     amountOfFee: number;
 }

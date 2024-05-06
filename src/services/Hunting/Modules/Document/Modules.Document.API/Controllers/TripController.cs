@@ -1,5 +1,4 @@
-﻿using MassTransit.Mediator;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Modules.Document.Application.Dtos.RequestDtos;
 using Modules.Document.Application.Interfaces;
 
@@ -23,6 +22,14 @@ namespace Modules.Document.API.Controllers
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
         {
             var trip = await _tripService.GetByIdAsync(id, cancellationToken);
+
+            return Ok(trip);
+        }
+
+        [HttpGet("user/{id:guid}")]
+        public async Task<IActionResult> GetByParticipantId(Guid id, CancellationToken cancellationToken = default)
+        {
+            var trip = await _tripService.GetByParticipantId(id, cancellationToken);
 
             return Ok(trip);
         }

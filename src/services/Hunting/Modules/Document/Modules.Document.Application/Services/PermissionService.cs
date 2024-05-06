@@ -23,7 +23,9 @@ namespace Modules.Document.Application.Services
         private readonly ICouponRepository _couponRepository = couponRepository;
         private readonly ILogger<PermissionService> _logger = logger;
 
-        public async Task<PermissionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> CreateAsync(
+            PermisionRequestDto request,
+            CancellationToken cancellationToken)
         {
             var existingPermission = await _permissionRepository.GetByPredicate(
                 p => p.Number == request.Number,
@@ -46,7 +48,10 @@ namespace Modules.Document.Application.Services
             }
 
             permission.Coupons = Enumerable.Range(0, request.NumberOfCoupons)
-                                .Select(i => new Coupon { AnimalName = permission.Animal?.Name! })
+                                .Select(i => new Coupon
+                                {
+                                    AnimalName = permission.Animal?.Name!
+                                })
                                 .ToList();
             permission.Animal = null;
             _permissionRepository.Create(permission!);
@@ -58,9 +63,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<PermissionResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingPermission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingPermission = await _permissionRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingPermission is null)
             {
@@ -77,9 +85,11 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<PermissionResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<PermissionResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
-            var permissions = await _permissionRepository.GetAllAsync(cancellationToken);
+            var permissions = await _permissionRepository.GetAllAsync(
+                cancellationToken);
 
             var response = permissions.Adapt<List<PermissionResponseDto>>();
 
@@ -93,9 +103,11 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<PermissionResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken)
+        public async Task<List<PermissionResponseDto>> GetAllIncludeAsync(
+            CancellationToken cancellationToken)
         {
-            var permissions = await _permissionRepository.GetAllIncludeAsync(cancellationToken);
+            var permissions = await _permissionRepository.GetAllIncludeAsync(
+                cancellationToken);
 
             var response = permissions.Adapt<List<PermissionResponseDto>>();
 
@@ -109,9 +121,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<PermissionResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var permission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var permission = await _permissionRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (permission is null)
             {
@@ -124,9 +139,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<PermissionResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> GetByIdIncludeAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var permission = await _permissionRepository.GetByIdIncludeAsync(id, cancellationToken);
+            var permission = await _permissionRepository.GetByIdIncludeAsync(
+                id, cancellationToken);
 
             if (permission is null)
             {
@@ -144,7 +162,8 @@ namespace Modules.Document.Application.Services
             PermisionRequestDto request,
             CancellationToken cancellationToken)
         {
-            var existingPermission = await _permissionRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingPermission = await _permissionRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingPermission is null)
             {

@@ -7,11 +7,11 @@ import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import ManagingPage from '@/pages/ui/managing/page.tsx';
 import Page404 from '@/pages/ui/error/page-404.tsx';
-import Trip from '@/pages/ui/trip/page.tsx';
 import AnimalPage from '@/pages/ui/animal/page.tsx';
 import RaidPage from '@/pages/ui/raid/page.tsx';
 import FeedingPage from '@/pages/ui/feeding/page.tsx';
 import PermissionPage from '@/pages/ui/permission/page.tsx';
+import TripPage from '@/pages/ui/trip/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -26,7 +26,7 @@ export const Router = () => {
                          {(roles.includes("User")
                           || roles.includes("Manager")
                            || roles.includes("Ranger"))
-                           &&  <Route path={RoutesMap.trip} element={<Trip />}/>
+                           &&  <Route path={RoutesMap.trip} element={<TripPage />}/>
                          }
                          {roles.includes("Admin")
                           && <>

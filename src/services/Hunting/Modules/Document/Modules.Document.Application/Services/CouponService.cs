@@ -14,7 +14,8 @@ namespace Modules.Document.Application.Services
         private readonly ICouponRepository _couponRepository = couponRepository;
         private readonly ILogger<CouponService> _logger = logger;
 
-        public async Task<List<CouponResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<CouponResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             var coupons = await _couponRepository.GetAllAsync(cancellationToken);
 
@@ -23,7 +24,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<CouponResponseDto>> GetAllOnlyIsNotUsedAsync(CancellationToken cancellationToken)
+        public async Task<List<CouponResponseDto>> GetAllOnlyIsNotUsedAsync(
+            CancellationToken cancellationToken)
         {
             var coupons = await _couponRepository.GetAllAsync(cancellationToken);
 
@@ -34,9 +36,13 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<CouponResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<CouponResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var coupon = await _couponRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var coupon = await _couponRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (coupon is null)
             {
@@ -49,9 +55,13 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<CouponResponseDto> UpdateIsUsedAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<CouponResponseDto> UpdateIsUsedAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var coupon = await _couponRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var coupon = await _couponRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (coupon is null)
             {

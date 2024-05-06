@@ -14,10 +14,13 @@ namespace Modules.Document.Application.Services
         ILogger<TripParticipantService> logger)
         : ITripParticipantService
     {
-        private readonly ITripParticipantRepository _tripParticipantRepository = tripParticipantRepository;
+        private readonly ITripParticipantRepository _tripParticipantRepository
+            = tripParticipantRepository;
         private readonly ILogger<TripParticipantService> _logger = logger;
 
-        public async Task<TripParticipantResponseDto> CreateAsync(TripParticipantRequestDto request, CancellationToken cancellationToken)
+        public async Task<TripParticipantResponseDto> CreateAsync(
+            TripParticipantRequestDto request,
+            CancellationToken cancellationToken)
         {
             var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(
                 t => t.TripId == request.TripId
@@ -42,7 +45,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripParticipantResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TripParticipantResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(
                 e => e.Id == id,

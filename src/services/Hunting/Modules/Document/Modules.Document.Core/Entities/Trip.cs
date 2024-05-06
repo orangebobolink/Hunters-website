@@ -14,10 +14,7 @@ namespace Modules.Document.Domain.Entities
         public string SpecialConditions { get; set; } = string.Empty;
         public DateTime EventDate { get; set; }
         public ICollection<TripParticipant> TripParticipants { get; set; } = [];
-        public DateTime ReturnedDate { get; set; }
-        public Guid BuyerId { get; set; }
-        public User? Buyer { get; set; }
-        public decimal AmountOfFee { get; set; }
+        public decimal Price { get; set; }
         public Status Status { get; set; } = Status.Compiled;
     }
 }

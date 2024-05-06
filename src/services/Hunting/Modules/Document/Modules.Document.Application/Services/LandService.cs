@@ -17,7 +17,9 @@ namespace Modules.Document.Application.Services
         private readonly ILandRepository _landRepository = landRepository;
         private readonly ILogger<LandService> _logger = logger;
 
-        public async Task<LandResponseDto> CreateAsync(LandRequestDto request, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> CreateAsync(
+            LandRequestDto request,
+            CancellationToken cancellationToken)
         {
             var existingLand = await _landRepository.GetByPredicate(
                 l => l.Name == request.Name,
@@ -41,9 +43,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingLand = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingLand is null)
             {
@@ -60,7 +65,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<LandResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<LandResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             var feedings = await _landRepository.GetAllAsync(cancellationToken);
 
@@ -69,9 +75,11 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> GetByIdAsync(
+            Guid id, CancellationToken cancellationToken)
         {
-            var feeding = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var feeding = await _landRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (feeding is null)
             {
@@ -84,9 +92,13 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto> UpdateAsync(Guid id, LandRequestDto request, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> UpdateAsync(
+            Guid id,
+            LandRequestDto request,
+            CancellationToken cancellationToken)
         {
-            var existingLand = await _landRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingLand is null)
             {

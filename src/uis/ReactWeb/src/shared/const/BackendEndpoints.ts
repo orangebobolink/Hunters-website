@@ -12,5 +12,6 @@ export enum BackendEndpoints {
      GET_LANDS = 'hunting/land',
      GET_PRODUCTS = 'hunting/product',
      GET_RAIDS = 'hunting/raid',
-     GET_PERMISSION = 'hunting/permission'
+     GET_PERMISSION = 'hunting/permission',
+     GET_TRIP = 'hunting/trip'
 }

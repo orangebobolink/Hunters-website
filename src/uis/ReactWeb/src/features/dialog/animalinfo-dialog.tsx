@@ -7,7 +7,7 @@ import {format} from 'date-fns';
 import {Button, Form, FormControl, FormField, FormLabel} from '@/shared/ui';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/shared/ui/tabs.tsx';
 import {z} from 'zod';
-import React, {useCallback} from 'react';
+import {useCallback} from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import InputFormField from '@/features/form/input-form-field.tsx';

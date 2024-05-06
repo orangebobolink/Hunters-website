@@ -19,7 +19,9 @@ namespace Modules.Document.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogger<RaidService> _logger = logger;
 
-        public async Task<RaidResponseDto> CreateAsync(RaidRequestDto request, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> CreateAsync(
+            RaidRequestDto request,
+            CancellationToken cancellationToken)
         {
             if (request.Participants.Count == 0)
             {
@@ -39,7 +41,8 @@ namespace Modules.Document.Application.Services
             }
 
             var raid = request.Adapt<Raid>();
-            raid.Participants = await _userRepository.GetAllExistsUsers(raid.Participants.ToList());
+            raid.Participants = await _userRepository.GetAllExistsUsers(
+                raid.Participants.ToList());
             raid.Id = Guid.NewGuid();
 
             _raidRepository.Create(raid!);
@@ -51,7 +54,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<RaidResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var existingRaid = await _raidRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
@@ -70,7 +75,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<RaidResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<RaidResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             var permissions = await _raidRepository.GetAllAsync(cancellationToken);
 
@@ -79,7 +85,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<RaidResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken)
+        public async Task<List<RaidResponseDto>> GetAllIncludeAsync(
+            CancellationToken cancellationToken)
         {
             var permissions = await _raidRepository.GetAllIncludeAsync(cancellationToken);
 
@@ -88,7 +95,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<RaidResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var permission = await _raidRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
@@ -103,7 +112,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<RaidResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> GetByIdIncludeAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var permission = await _raidRepository.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -118,7 +129,9 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<RaidResponseDto>> GetRaidsByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<List<RaidResponseDto>> GetRaidsByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var raids = await _raidRepository.GetRaidsByIdAsync(id, cancellationToken);
 
@@ -133,7 +146,10 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<RaidResponseDto> UpdateAsync(Guid id, RaidRequestDto request, CancellationToken cancellationToken)
+        public async Task<RaidResponseDto> UpdateAsync(
+            Guid id,
+            RaidRequestDto request,
+            CancellationToken cancellationToken)
         {
             var existingRaid = await _raidRepository.GetByPredicate(e => e.Id == id, cancellationToken);
 
