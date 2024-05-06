@@ -5,7 +5,9 @@ import {useTranslation} from 'react-i18next';
 import {Permission} from '@/entities/permision/Permision.ts';
 import {PermissionService} from '@/entities/permision/PermissionService.ts';
 import PermissionTable from '@/features/table/PermissionTable.tsx';
-import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
+import {Dialog, DialogContent, DialogTrigger} from '@/shared/ui/dialog.tsx';
+import {Button} from '@/shared/ui';
+import CreatePermissionForm from '@/entities/permision/ui/create-permission-form.tsx';
 
 const PermissionPage = () => {
     const [permissions, setPermissions] = useState<Permission[]>([])
@@ -40,8 +42,12 @@ const PermissionPage = () => {
             <div className="w-2/3 flex justify-center">
                 <PermissionTable permissions={permissions}/>
             </div>
-            <Dialog open={isOpen} onOpenChange={()=>setIsOpen(false)}>
+            <Dialog onOpenChange={()=>setIsOpen(false)}>
+                <DialogTrigger asChild>
+                    <Button onClick={()=>setIsOpen(true)} variant="outline">Edit Profile</Button>
+                </DialogTrigger>
                 <DialogContent>
+                    <CreatePermissionForm/>
                 </DialogContent>
             </Dialog>
         </div>

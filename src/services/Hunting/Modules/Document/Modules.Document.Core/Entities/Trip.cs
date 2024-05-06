@@ -15,8 +15,8 @@ namespace Modules.Document.Domain.Entities
         public DateTime EventDate { get; set; }
         public ICollection<TripParticipant> TripParticipants { get; set; } = [];
         public DateTime ReturnedDate { get; set; }
-        public Guid AcceptedId { get; set; }
-        public User? Accepted { get; set; }
+        public Guid BuyerId { get; set; }
+        public User? Buyer { get; set; }
         public decimal AmountOfFee { get; set; }
         public Status Status { get; set; } = Status.Compiled;
     }

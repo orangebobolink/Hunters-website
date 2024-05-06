@@ -12,12 +12,20 @@ namespace Modules.Document.Infrastructure.Repositories
 
         public void Create(T entity)
         {
-            _context.Set<T>().Add(entity);
+            _context.Set<T>()
+                .Add(entity);
+        }
+
+        public async Task CreateRange(List<T> entity)
+        {
+            await _context.Set<T>()
+                .AddRangeAsync(entity);
         }
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            _context.Set<T>()
+                .Remove(entity);
         }
 
         public async Task<IEnumerable<T>> GetAllByPredicate(

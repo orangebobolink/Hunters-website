@@ -13,6 +13,7 @@
         public Guid ReceivedId { get; init; }
         public UserResponseDto? Received { get; init; }
         public List<CouponResponseDto> Coupons { get; init; } = [];
+        public int NumberOfCoupons { get; set; } = 0;
         public Guid LandId { get; init; }
         public LandResponseDto? Land { get; init; }
         public string Status { get; set; } = string.Empty;

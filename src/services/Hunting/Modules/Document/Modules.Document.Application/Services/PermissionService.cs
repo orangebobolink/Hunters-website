@@ -6,15 +6,21 @@ using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
 using Shared.Helpers;
+using System.Linq;
 
 namespace Modules.Document.Application.Services
 {
     internal class PermissionService(
         IPermissionForExtractionOfHuntingAnimalRepository permissionRepository,
+        IAnimalRepository animalRepository,
+        ICouponRepository couponRepository,
         ILogger<PermissionService> logger)
         : IPermissionService
     {
-        private readonly IPermissionForExtractionOfHuntingAnimalRepository _permissionRepository = permissionRepository;
+        private readonly IPermissionForExtractionOfHuntingAnimalRepository _permissionRepository
+            = permissionRepository;
+        private readonly IAnimalRepository _animalRepository = animalRepository;
+        private readonly ICouponRepository _couponRepository = couponRepository;
         private readonly ILogger<PermissionService> _logger = logger;
 
         public async Task<PermissionResponseDto> CreateAsync(PermisionRequestDto request, CancellationToken cancellationToken)
@@ -23,7 +29,7 @@ namespace Modules.Document.Application.Services
                 p => p.Number == request.Number,
                 cancellationToken);
 
-            if (existingPermission is null)
+            if (existingPermission is not null)
             {
                 _logger.LogWarning("id is null");
                 ThrowHelper.ThrowKeyNotFoundException(nameof(existingPermission));
@@ -32,6 +38,17 @@ namespace Modules.Document.Application.Services
             var permission = request.Adapt<PermissionForExtractionOfHuntingAnimal>();
             permission.Id = Guid.NewGuid();
 
+            if (request.Animal is null)
+            {
+                permission.Animal = await _animalRepository.GetByPredicate(
+                    a => a.Id == request.AnimalId,
+                    cancellationToken);
+            }
+
+            permission.Coupons = Enumerable.Range(0, request.NumberOfCoupons)
+                                .Select(i => new Coupon { AnimalName = permission.Animal?.Name! })
+                                .ToList();
+            permission.Animal = null;
             _permissionRepository.Create(permission!);
 
             await _permissionRepository.SaveChangesAsync(cancellationToken);
@@ -66,6 +83,13 @@ namespace Modules.Document.Application.Services
 
             var response = permissions.Adapt<List<PermissionResponseDto>>();
 
+            foreach (var item in response)
+            {
+                item.NumberOfCoupons = item.Coupons
+                    .Where(c => !c.IsUsed)
+                    .Count();
+            }
+
             return response;
         }
 
@@ -74,6 +98,13 @@ namespace Modules.Document.Application.Services
             var permissions = await _permissionRepository.GetAllIncludeAsync(cancellationToken);
 
             var response = permissions.Adapt<List<PermissionResponseDto>>();
+
+            foreach (var item in response)
+            {
+                item.NumberOfCoupons = item.Coupons
+                    .Where(c => !c.IsUsed)
+                    .Count();
+            }
 
             return response;
         }

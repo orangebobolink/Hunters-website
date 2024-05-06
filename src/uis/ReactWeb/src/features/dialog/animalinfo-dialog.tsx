@@ -1,15 +1,13 @@
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/shared/ui/dialog.tsx';
 import {AspectRatio} from '@/shared/ui/aspect-ratio.tsx';
-import {Animal} from "@/entities/animal/Animal.ts";
+import {Animal} from '@/entities/animal/Animal.ts';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
 import {HuntingSeason} from '@/entities/huntinSeason/HuntingSeason.ts';
-import { format } from "date-fns";
+import {format} from 'date-fns';
 import {Button, Form, FormControl, FormField, FormLabel} from '@/shared/ui';
-import {AnimalService} from '@/entities/animal/AnimalService.ts';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/shared/ui/tabs.tsx';
 import {z} from 'zod';
 import React, {useCallback} from 'react';
-import {UserService} from '@/entities/user/UserService.ts';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import InputFormField from '@/features/form/input-form-field.tsx';

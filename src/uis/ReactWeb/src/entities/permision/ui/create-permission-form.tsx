@@ -7,7 +7,6 @@ import {Status} from '@/entities/status/Status.ts';
 import {Land} from '@/entities/land/Land.ts';
 import {toast} from '@/shared/ui/use-toast.ts';
 import {Permission} from '@/entities/permision/Permision.ts';
-import {Animal} from '@/entities/animal/Animal.ts';
 import {PermissionService} from '@/entities/permision/PermissionService.ts';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -25,7 +24,7 @@ const formSchema = z.object({
     receivedId: z.string(),
     landId: z.string(),
     animalId: z.string(),
-    couponsNumber: z.number()
+    couponsNumber: z.number().int().gte(0).lte(25)
 });
 
 const CreatePermissionForm = () => {
@@ -46,7 +45,6 @@ const CreatePermissionForm = () => {
                 toDate:values.toDate,
                 receivedId: values.receivedId,
                 animalId: values.animalId,
-                animal: {id:values.animalId} as Animal,
                 landId: values.landId,
                 land:{id: values.landId} as Land,
                 numberOfCoupons: values.couponsNumber,

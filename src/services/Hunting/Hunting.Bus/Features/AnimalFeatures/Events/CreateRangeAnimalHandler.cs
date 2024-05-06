@@ -6,7 +6,7 @@ using Modules.Document.Domain.Interfaces;
 
 namespace Hunting.Bus.Features.AnimalFeatures.Events
 {
-    internal class CreateRangeAnimalHandler(
+    public class CreateRangeAnimalHandler(
         IAnimalRepository animalRepository)
         : INotificationHandler<AnimalCreateRangeEvent>
     {

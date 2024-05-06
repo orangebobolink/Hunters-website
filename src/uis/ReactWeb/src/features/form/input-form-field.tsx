@@ -22,7 +22,15 @@ const InputFormField : FC<IProps> = ({t, form, name, lang, type}) => {
                         {t(lang)}
                     </FormLabel>
                     <FormControl>
-                        <Input type={type} {...field} />
+                        {type === "number" ?
+                         <Input type={type}
+                                {...field}
+                                onChange={event => field.onChange(+event.target.value)} />
+                        :
+                         <Input type={type}
+                                {...field}/>
+                        }
+
                     </FormControl>
                     <FormMessage />
                 </FormItem>

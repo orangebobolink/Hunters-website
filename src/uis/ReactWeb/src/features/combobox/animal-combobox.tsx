@@ -94,6 +94,6 @@ const AnimalCombobox = (({t, form, name, lang}:IProps) => {
             )}
         />
     );
-};
+})
 
 export default AnimalCombobox;

@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
 import {format} from 'date-fns';
 import {Button} from '@/shared/ui';
+import PermissionInfoDialog from '@/features/dialog/permission-info-dialog.tsx';
 
 interface IProps
 {
@@ -12,7 +13,7 @@ interface IProps
 
 const PermissionTable = ({permissions}:IProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedFeeding, setSelectedFeeding] = useState<Permission>();
+    const [selectedPermission, setSelectedPermission] = useState<Permission>();
     const { t} = useTranslation("translation",
     {
         keyPrefix: "feeding.table"
@@ -36,7 +37,7 @@ const PermissionTable = ({permissions}:IProps) => {
                 {permission.land.name}
             </TableCell>
             <TableCell>
-                {permission.coupons.length}
+                {permission.numberOfCoupons}
             </TableCell>
             <TableCell>
                 {permission.status.toString()}
@@ -45,7 +46,7 @@ const PermissionTable = ({permissions}:IProps) => {
                 <Button
                     variant="ghost"
                     onClick={() => {
-                        setSelectedFeeding(permission)
+                        setSelectedPermission(permission)
                         setIsOpen(true)
                     }}
                 >
@@ -74,6 +75,7 @@ const PermissionTable = ({permissions}:IProps) => {
                     {permissions?.map((feeding) => content(feeding) )}
                 </TableBody>
             </Table>
+            {selectedPermission && <PermissionInfoDialog permission={selectedPermission} isOpen={isOpen} setIsOpen={setIsOpen}/>}
         </>
     );
 };

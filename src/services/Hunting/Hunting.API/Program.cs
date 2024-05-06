@@ -4,10 +4,12 @@ using Modules.Animal.Infrastructure.Configurations;
 using Hunting.API.Configurations;
 using Modules.Document.API.Configurations;
 using Hunting.API.Middleware;
+using Bus.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAnimalModuleConfiguration(builder.Configuration);
+builder.Services.AddMediatRConfiguration();
 builder.Services.AddDocumentModuleConfiguration(builder.Configuration);
 builder.Services.AddJwtAuthenticationConfiguration(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
