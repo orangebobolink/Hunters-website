@@ -12,6 +12,7 @@ import RaidPage from '@/pages/ui/raid/page.tsx';
 import FeedingPage from '@/pages/ui/feeding/page.tsx';
 import PermissionPage from '@/pages/ui/permission/page.tsx';
 import TripPage from '@/pages/ui/trip/page.tsx';
+import PaymantPage from '@/pages/ui/paymant/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -32,6 +33,14 @@ export const Router = () => {
                           && <>
                               <Route path={RoutesMap.managing} element={<ManagingPage />} />
                           </>
+                         }
+                         {
+                             (roles.includes("User")
+                                 && <>
+                                     <Route path={RoutesMap.paymantFee} element={<PaymantPage />} />
+                                     <Route path={RoutesMap.checkHuntingLicense} element={<RaidPage />} />
+                                 </>
+                             )
                          }
                          {
                              (roles.includes("Ranger")

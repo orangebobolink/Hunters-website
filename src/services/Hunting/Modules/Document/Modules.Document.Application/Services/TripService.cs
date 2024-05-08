@@ -25,7 +25,7 @@ namespace Modules.Document.Application.Services
                 t => t.Number == request.Number,
                 cancellationToken);
 
-            if (existingTrip is null)
+            if (existingTrip is not null)
             {
                 _logger.LogWarning("id is null");
                 ThrowHelper.ThrowKeyNotFoundException(nameof(existingTrip));

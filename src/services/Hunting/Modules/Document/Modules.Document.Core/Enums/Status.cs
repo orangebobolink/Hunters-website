@@ -6,6 +6,8 @@
         Given,
         Recived,
         Buyed,
+        Assigned,
+        Held,
         Completed
     }
 }

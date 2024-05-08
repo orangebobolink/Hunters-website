@@ -11,7 +11,7 @@ type InitialState = {
     isAuth: boolean,
     username: string | null,
     roles: string[],
-
+    isPaid: boolean,
     isLoading: boolean,
     isSuccess: boolean,
     error: string | null
@@ -23,6 +23,7 @@ const initialState: InitialState = {
     username: null,
     roles: [],
 
+    isPaid: false,
     isLoading: false,
     isSuccess: false,
     error: null,
@@ -74,6 +75,7 @@ const authSlice = createSlice({
                 state.username = payload.username
                 state.roles = payload.roles;
                 state.isAuth = true;
+                state.isPaid = payload.isPaid;
                 LocaleStorageUtils.setAccessToken(payload.accessToken);
 
                 setFulfilledValues(state);

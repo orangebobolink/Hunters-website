@@ -23,4 +23,5 @@ export const apiMap = {
     GET_RAIDS: `${BASE_API_URL}/${BackendEndpoints.GET_RAIDS}`,
     GET_PERMISSION: `${BASE_API_URL}/${BackendEndpoints.GET_PERMISSION}`,
     GET_TRIP: `${BASE_API_URL}/${BackendEndpoints.GET_TRIP}`,
+    GET_HUNTINGLICENSE: `${BASE_API_URL}/${BackendEndpoints.GET_HUNTINGLICENSE}`,
 };

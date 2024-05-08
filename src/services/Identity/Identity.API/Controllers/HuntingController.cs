@@ -22,5 +22,16 @@ namespace Identity.API.Controllers
 
             return Ok(respons);
         }
+
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<HuntingLicense>> GetByUserId(
+            Guid id,
+            CancellationToken cancellationToken = default)
+        {
+            var respons = await _huntingLicenseService
+                .GetByUserIdAsync(id, cancellationToken);
+
+            return Ok(respons);
+        }
     }
 }

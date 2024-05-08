@@ -11,4 +11,6 @@ export const RoutesMap = {
     reporting: '/reporting',
     raid: '/raid',
     permission: '/permission',
+    paymantFee: '/paymantFee',
+    checkHuntingLicense: '/checkHuntingLicense',
 };

@@ -38,11 +38,6 @@ namespace Identity.Infrastructure.Repositories
                .ToListAsync(cancellationToken);
         }
 
-        public Task<HuntingLicense?> GetByLicenseNumberAsync(string licenseNumber, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<HuntingLicense?> GetByPredicate(Expression<Func<HuntingLicense, bool>> predicate, CancellationToken cancellationToken)
         {
             return await _context.HuntingLicenses

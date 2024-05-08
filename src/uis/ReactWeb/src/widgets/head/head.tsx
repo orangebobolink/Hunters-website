@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-    NavigationMenu, NavigationMenuContent,
-    NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList, navigationMenuLogoTriggerStyle,
-    NavigationMenuTrigger, navigationMenuTriggerStyle
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    navigationMenuLogoTriggerStyle,
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle
 } from '@/shared/ui/navigation-menu.tsx';
 import {cn} from '@/shared/lib';
 import {Link} from 'react-router-dom';
@@ -58,9 +62,23 @@ export function Head() {
                     &&
                     <>
                         <NavigationMenuItem>
-                            <Link to="/" >
+                            <Link to="/trip" >
                                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                    {t("permit")}
+                                    {t("trip")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/paymantFee" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("paymantFee")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/checkHuntingLicense" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("checkHuntingLicense")}
                                 </NavigationMenuLink>
                             </Link>
                         </NavigationMenuItem>

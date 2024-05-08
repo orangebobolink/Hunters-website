@@ -7,15 +7,28 @@ import {TripService} from '@/entities/trip/TripService.ts';
 import {Dialog, DialogContent, DialogTrigger} from '@/shared/ui/dialog.tsx';
 import {Button} from '@/shared/ui';
 import TripTable from '@/features/table/trip-table.tsx';
+import CreateTripForm from '@/entities/trip/ui/create-trip-form.tsx';
+import {toast} from '@/shared/ui/use-toast.ts';
 
 const TripPage = () => {
     const [trips, setTrips] = useState<Trip[]>([])
     const [isOpen, setIsOpen] = useState(false);
-    const {roles, id} = useAppSelector(selectAuth);
+    const {roles, id, isPaid} = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
             keyPrefix: "feeding"
         });
+
+    useEffect(() => {
+        if(roles.includes("User") && !isPaid)
+        {
+            toast({
+                variant: "destructive",
+                title: "Требуется оплатить пошлины",
+                description: "Перейдите в раздел 'Оплата пошлин' и оплатите пошлины по вашей охотничьей лицензии"
+            })
+        }
+    }, [isPaid]);
 
     useEffect(() => {
         const fetchPermissions = async () => {
@@ -24,7 +37,7 @@ const TripPage = () => {
 
                 if(roles.includes("Ranger"))
                 {
-                    response.data = response.data.filter((f) => f.receivedId == id)
+                    response.data = response.data.filter((f) => f.permission?.receivedId == id)
                 }
 
                 setTrips(response.data);
@@ -49,7 +62,7 @@ const TripPage = () => {
                                 variant="outline">Добавить путевку</Button>
                     </DialogTrigger>
                     <DialogContent>
-                       
+                       <CreateTripForm/>
                     </DialogContent>
                 </Dialog>
             }

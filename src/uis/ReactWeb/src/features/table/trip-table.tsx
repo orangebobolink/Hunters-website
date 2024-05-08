@@ -36,7 +36,7 @@ const TripTable = ({trips}:IProps) => {
                 {trip.permission?.animal?.name}
             </TableCell>
             <TableCell>
-                {trip.amountOfFee}
+                {trip.price}
             </TableCell>
             <TableCell>
                 {roles.includes("User") &&
@@ -50,7 +50,9 @@ const TripTable = ({trips}:IProps) => {
                         {t("buy")}
                     </Button>
                 }
-                {(roles.includes("Manager") || roles.includes("Ranger")) &&
+
+                {
+                    (roles.includes("Manager") || roles.includes("Ranger")) &&
                     <Button
                         variant="ghost"
                         onClick={() => {

@@ -68,6 +68,24 @@ namespace Identity.Services.Services
             return response;
         }
 
+        public async Task<HuntingLicenseResponseDto> GetByUserIdAsync(
+            Guid userId, 
+            CancellationToken cancellationToken)
+        {
+            var existingHunterLicense = await _hyntingLicenseRepository.GetByPredicate(
+                h => h.UserId == userId, 
+                cancellationToken);
+
+            if (existingHunterLicense is null)
+            {
+                throw new Exception();
+            }
+
+            var response = existingHunterLicense.Adapt<HuntingLicenseResponseDto>();
+
+            return response;
+        }
+
         public Task<HuntingLicenseResponseDto> GetFromAnotherServiceAsync(
             string licenseNumber,
             CancellationToken cancellationToken)

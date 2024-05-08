@@ -13,10 +13,15 @@ namespace Modules.Document.Infrastructure.Repositories
         public Task<List<Trip>> GetAllIncludeAsync(CancellationToken cancellationToken)
         {
             return _context.Trips
+                .AsSplitQuery()
                 .Include(t => t.Permission)
                     .ThenInclude(p => p.Issued)
                 .Include(t => t.Permission)
                     .ThenInclude(p => p.Received)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Animal)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Land)
                 .Include(t => t.TripParticipants)
                     .ThenInclude(tp => tp.Participant)
                 .ToListAsync(cancellationToken);
