@@ -13,6 +13,7 @@ import FeedingPage from '@/pages/ui/feeding/page.tsx';
 import PermissionPage from '@/pages/ui/permission/page.tsx';
 import TripPage from '@/pages/ui/trip/page.tsx';
 import PaymantPage from '@/pages/ui/paymant/page.tsx';
+import HuntingLicensePage from '@/pages/ui/hyntingLicense/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -38,7 +39,7 @@ export const Router = () => {
                              (roles.includes("User")
                                  && <>
                                      <Route path={RoutesMap.paymantFee} element={<PaymantPage />} />
-                                     <Route path={RoutesMap.checkHuntingLicense} element={<RaidPage />} />
+                                     <Route path={RoutesMap.checkHuntingLicense} element={<HuntingLicensePage />} />
                                  </>
                              )
                          }

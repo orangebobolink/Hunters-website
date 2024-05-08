@@ -14,5 +14,5 @@ export enum BackendEndpoints {
      GET_RAIDS = 'hunting/raid',
      GET_PERMISSION = 'hunting/permission',
      GET_TRIP = 'hunting/trip',
-     GET_HUNTINGLICENSE = 'hunting/hunting',
+     GET_HUNTINGLICENSE = 'auth/hunting',
 }

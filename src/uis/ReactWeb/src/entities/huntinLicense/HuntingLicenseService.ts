@@ -8,7 +8,7 @@ export class HuntingLicenseService {
     }
 
     static async getByUserId(id:string) {
-        const url = `${apiMap.GET_HUNTINGLICENSE}/${id}`;
+        const url = `${apiMap.GET_HUNTINGLICENSE}/user/${id}`;
         return await axiosInstance.get<HuntingLicense>(url);
     }
 

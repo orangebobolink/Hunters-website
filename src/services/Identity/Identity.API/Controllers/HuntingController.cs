@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Entities;
+using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,17 @@ namespace Identity.API.Controllers
         {
             var respons = await _huntingLicenseService
                 .GetByUserIdAsync(id, cancellationToken);
+
+            return Ok(respons);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<HuntingLicense>> Create(
+            HuntingLicenseRequestDto huntingLicenseRequestDto,
+            CancellationToken cancellationToken = default)
+        {
+            var respons = await _huntingLicenseService
+                .CreateAsync(huntingLicenseRequestDto, cancellationToken);
 
             return Ok(respons);
         }
