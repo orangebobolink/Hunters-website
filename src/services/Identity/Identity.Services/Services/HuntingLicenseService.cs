@@ -40,7 +40,7 @@ namespace Identity.Services.Services
 
             await _hyntingLicenseRepository.SaveChangesAsync(cancellationToken);
 
-            var message = huntingLicense.Adapt<CreateHuntingLicense>();
+            var message = huntingLicense.Adapt<CreateHuntingLicenseMessage>();
 
             await _bus.Publish(message);
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {HuntingLicense} from '@/entities/huntinLicense/HuntingLicense.ts';
@@ -8,7 +8,7 @@ import CreateHuntingLicenseForm from '@/entities/huntinLicense/ui/create-hunting
 const HuntingLicensePage = () => {
     const {id, isPaid} = useAppSelector(selectAuth);
     const [huntingLicense, setHuntingLicense] = useState<HuntingLicense>();
-    const [changeRender, setChangeRender] = useState<booelan>();
+    const [changeRender, setChangeRender] = useState<boolean>();
 
     useEffect(() => {
         const fetchPermissions = async () => {
@@ -24,7 +24,7 @@ const HuntingLicensePage = () => {
         }
 
         fetchPermissions();
-    }, [isPaid]);
+    }, [isPaid, changeRender]);
 
     return (
         <div className="select-none w-full flex items-center flex-col justify-center space-y-10">

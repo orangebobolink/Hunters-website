@@ -6,20 +6,46 @@ import {format} from 'date-fns';
 import {Button} from '@/shared/ui';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
+import {TripService} from '@/entities/trip/TripService.ts';
+import {TripParticipant} from '@/entities/tripParticipant/TripParticipant.ts';
+import {TripParticipantService} from '@/entities/tripParticipant/TripParticipantService.ts';
+import TripInfoDialog from '@/features/dialog/trip-info-dialog.tsx';
 
 interface IProps
 {
     trips: Trip[];
+    setChangeRender: (flag: boolean) => void;
 }
 
-const TripTable = ({trips}:IProps) => {
+const TripTable = ({trips, setChangeRender}:IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedTrip, setSelectedTrip] = useState<Trip>();
     const { t} = useTranslation("translation",
         {
             keyPrefix: "feeding.table"
         });
-    const {roles, id} = useAppSelector(selectAuth);
+    const {roles, id, huntingLicenseId} = useAppSelector(selectAuth);
+
+    const handlerPay = async (number:string, tripId:string) => {
+        var response = await TripService.payTrip(number)
+
+        if(response.data)
+        {
+            const participant : TripParticipant = {
+                participantId: id!,
+                huntingLicenseId: huntingLicenseId,
+                tripId: tripId
+            }
+
+            const responseParticipant = await TripParticipantService.create(participant);
+
+            setChangeRender(true)
+        }
+        else
+        {
+
+        }
+    }
 
     const content = (trip:Trip) => (
         <TableRow key={trip.id}>
@@ -40,15 +66,16 @@ const TripTable = ({trips}:IProps) => {
             </TableCell>
             <TableCell>
                 {roles.includes("User") &&
-                    <Button
-                        variant="ghost"
-                        onClick={() => {
-                            setSelectedTrip(trip)
-                            setIsOpen(true)
-                        }}
-                    >
-                        {t("buy")}
-                    </Button>
+                    (!trip.tripParticipants?.some(p => p.participantId == id!)
+                    ?
+                        <Button
+                            variant="ghost"
+                            onClick={()=>{handlerPay(trip.number, trip.id!)}}
+                        >
+                            {t("buy")}
+                        </Button>
+                    :
+                    <div>Оплачена</div>)
                 }
 
                 {
@@ -81,9 +108,19 @@ const TripTable = ({trips}:IProps) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {trips?.map((trip) => content(trip) )}
+                    {
+                        trips.length == 0 ?
+                        <TableRow>
+                            <TableCell colSpan={6} className="text-center">
+                                Данных нет
+                            </TableCell>
+                        </TableRow>
+                        :
+                        trips?.map((trip) => content(trip) )
+                    }
                 </TableBody>
             </Table>
+            {selectedTrip && <TripInfoDialog trip={selectedTrip!} isOpen={isOpen} setIsOpen={setIsOpen}/>}
         </>
     );
 };

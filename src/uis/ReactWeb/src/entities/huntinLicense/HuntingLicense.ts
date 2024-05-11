@@ -5,4 +5,5 @@ export interface HuntingLicense {
     userId: string;
     user?: User | null;
     licenseNumber: string;
+    isPaid?: boolean;
 }

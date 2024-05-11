@@ -7,6 +7,7 @@ import {Calendar} from '@/shared/ui/calendar.tsx';
 import {UseFormReturn} from 'react-hook-form';
 import {TFunction} from 'i18next';
 import {format} from 'date-fns';
+import {Matcher} from 'react-day-picker';
 
 interface IProps {
     t: TFunction,
@@ -14,7 +15,7 @@ interface IProps {
     name: string,
     lang: string,
     label:string,
-    disabled?: (date: Date) =>boolean,
+    disabled?: Matcher | Matcher[] | undefined,
     time?:boolean
 }
 

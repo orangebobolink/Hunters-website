@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messages.HunterLicenseMessage
 {
-    public class CreateHuntingLicense
+    public class CreateHuntingLicenseMessage
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }

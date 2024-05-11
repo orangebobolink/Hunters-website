@@ -1,5 +1,7 @@
 using Shared.Infrastructure.Extensions;
 using Modules.Animal.API.Configurations;
+using Payment.API.Configurations;
+using Rent.API.Configurations;
 using Modules.Animal.Infrastructure.Configurations;
 using Hunting.API.Configurations;
 using Modules.Document.API.Configurations;
@@ -9,8 +11,10 @@ using Bus.Configurations;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAnimalModuleConfiguration(builder.Configuration);
+builder.Services.AddPaymentModuleConfiguration();
 builder.Services.AddMediatRConfiguration();
 builder.Services.AddDocumentModuleConfiguration(builder.Configuration);
+builder.Services.AddRentModuleConfiguration(builder.Configuration);
 builder.Services.AddJwtAuthenticationConfiguration(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);

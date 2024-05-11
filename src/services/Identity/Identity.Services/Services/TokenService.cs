@@ -74,17 +74,24 @@ namespace Identity.Services.Services
 
             var huntingLicense = await _hyntingLicenseRepository.GetByPredicate(
                 hl => hl.UserId == user.Id
-                    && hl.ExpiryDate < DateTime.Now,
+                    && hl.ExpiryDate > DateTime.Now,
                 cancellationToken);
 
-            var isPaid = huntingLicense is not null;
+            if(huntingLicense is null)
+            {
+                huntingLicense = new HuntingLicense()
+                {
+                    IsPaid = false
+                };
+            }
 
             var response = new ResponseAuthenticatedDto()
             {
                 Id = user.Id,
                 UserName = user.UserName!,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
-                IsPaid = isPaid,
+                IsPaid = huntingLicense!.IsPaid,
+                HuntingLicenseId = huntingLicense!.Id,
                 AccessToken = newAccessToken,
             };
 

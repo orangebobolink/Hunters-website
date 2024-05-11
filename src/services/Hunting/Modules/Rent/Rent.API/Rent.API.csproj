@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rent.Application\Rent.Application.csproj" />
+    <ProjectReference Include="..\Rent.Infrastructure\Rent.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -21,6 +21,11 @@ export class HuntingLicenseService {
         return await axiosInstance.put(url, huntingLicense);
     }
 
+    static async payFee(licenseNumber: string) {
+        const url = `${apiMap.PAYMENT}/huntingLicense/${licenseNumber}`;
+        return await axiosInstance.post<boolean>(url);
+    }
+
     static async delete(id:string) {
         const url = `${apiMap.GET_HUNTINGLICENSE}/${id}`;
         return await axiosInstance.delete(url);

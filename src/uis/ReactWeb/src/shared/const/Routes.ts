@@ -13,4 +13,6 @@ export const RoutesMap = {
     permission: '/permission',
     paymantFee: '/paymantFee',
     checkHuntingLicense: '/checkHuntingLicense',
+    profile: '/profile',
+    myTrips: '/profile/myTrips',
 };

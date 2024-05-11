@@ -10,12 +10,12 @@ namespace Hunting.Bus.Consumers
     public class HuntingLicenseConsumer(
         IHuntingLicenseRepository huntingLicenseRepository,
         ILogger<HuntingLicenseConsumer> logger)
-        : IConsumer<CreateHuntingLicense>
+        : IConsumer<CreateHuntingLicenseMessage>
     {
         private readonly IHuntingLicenseRepository _huntingLicenseRepository = huntingLicenseRepository;
         private readonly ILogger<HuntingLicenseConsumer> _logger = logger;
 
-        public async Task Consume(ConsumeContext<CreateHuntingLicense> context)
+        public async Task Consume(ConsumeContext<CreateHuntingLicenseMessage> context)
         {
             var huntingLicense = context.Message
                 .Adapt<HuntingLicense>();

@@ -3,7 +3,7 @@ import {Trip} from '@/entities/trip/Trip.ts';
 import {HuntingLicense} from '@/entities/huntinLicense/HuntingLicense.ts';
 
 export interface TripParticipant {
-    id: string;
+    id?: string;
     participantId: string;
     participant?: User | null;
     huntingLicenseId: string;

@@ -120,21 +120,16 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<TripResponseDto> GetByParticipantId(
+        public async Task<IEnumerable<TripResponseDto>> GetByParticipantId(
             Guid participantId,
             CancellationToken cancellationToken)
         {
-            var permission = await _tripRepository.GetByPredicate(
-                e => e.TripParticipants.Any(p => p.Id == participantId),
+            var permission = await _tripRepository
+                .GetByParticipantIdIncludeAsync(
+                participantId,
                 cancellationToken);
 
-            if (permission is null)
-            {
-                _logger.LogWarning("Id is null");
-                ThrowHelper.ThrowKeyNotFoundException(nameof(participantId));
-            }
-
-            var response = permission.Adapt<TripResponseDto>();
+            var response = permission.Adapt<IEnumerable<TripResponseDto>>();
 
             return response;
         }
@@ -153,6 +148,8 @@ namespace Modules.Document.Application.Services
                 ThrowHelper.ThrowKeyNotFoundException(nameof(existingTrip));
             }
 
+            request.Permission = null;
+            request.TripParticipants = null;
             var permission = request.Adapt(existingTrip);
 
             _tripRepository.Update(permission!);

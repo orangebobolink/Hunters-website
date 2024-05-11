@@ -68,6 +68,19 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
+        public async Task<TripParticipantResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
+        {
+            var participan = await _tripParticipantRepository.GetByIdIncludeAsync(
+                id,
+                cancellationToken);
+
+            var response = participan.Adapt<TripParticipantResponseDto>();
+
+            return response;
+        }
+
         public async Task<TripParticipantResponseDto> UpdateAsync(
             Guid id,
             TripParticipantRequestDto request,

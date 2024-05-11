@@ -14,8 +14,9 @@ namespace Payment.Application.Services
             string huntingLicense,
             CancellationToken cancellationToken)
         {
-            var message = new PaymentHuntingLicense
+            var message = new PaymentHuntingLicenseMessage
             {
+                LicenseNumber = huntingLicense,
                 IsPaid = true
             };
 

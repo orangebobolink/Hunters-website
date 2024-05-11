@@ -9,10 +9,12 @@ import {Button} from '@/shared/ui';
 import TripTable from '@/features/table/trip-table.tsx';
 import CreateTripForm from '@/entities/trip/ui/create-trip-form.tsx';
 import {toast} from '@/shared/ui/use-toast.ts';
+import {Status} from '@/entities/status/Status.ts';
 
 const TripPage = () => {
     const [trips, setTrips] = useState<Trip[]>([])
     const [isOpen, setIsOpen] = useState(false);
+    const [changeRender, setChangeRender] = useState(false);
     const {roles, id, isPaid} = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
@@ -37,7 +39,10 @@ const TripPage = () => {
 
                 if(roles.includes("Ranger"))
                 {
-                    response.data = response.data.filter((f) => f.permission?.receivedId == id)
+                    console.log(response.data)
+                    console.log(id)
+                    response.data = response.data.filter((f) => f.permission?.receivedId == id
+                        && f.status != Status[Status.Completed])
                 }
 
                 setTrips(response.data);
@@ -53,7 +58,7 @@ const TripPage = () => {
     return (
         <div className="select-none h-full w-full flex items-center flex-col justify-center space-y-5">
             <div className="w-2/3 flex justify-center">
-                <TripTable trips={trips}/>
+                <TripTable trips={trips} setChangeRender={setChangeRender}/>
             </div>
             {roles.includes("Manager") &&
                 <Dialog onOpenChange={() => setIsOpen(false)}>

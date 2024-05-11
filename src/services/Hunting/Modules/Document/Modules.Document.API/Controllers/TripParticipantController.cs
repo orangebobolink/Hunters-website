@@ -12,16 +12,31 @@ namespace Modules.Document.API.Controllers
     {
         private readonly ITripParticipantService _tripParticipantService = tripParticipantService;
 
-        [HttpPost]
-        public async Task<IActionResult> Create(TripParticipantRequestDto request, CancellationToken cancellationToken = default)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
         {
-            var createdTripParticipant = await _tripParticipantService.CreateAsync(request, cancellationToken);
+            var trip = await _tripParticipantService.GetByIdAsync(id, cancellationToken);
+
+            return Ok(trip);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            TripParticipantRequestDto request,
+            CancellationToken cancellationToken = default)
+        {
+            var createdTripParticipant = await _tripParticipantService.CreateAsync(
+                request,
+                cancellationToken);
 
             return Ok(createdTripParticipant);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, TripParticipantRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Update(
+            Guid id,
+            TripParticipantRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var updatedTripParticipant = await _tripParticipantService.UpdateAsync(id, request, cancellationToken);
 

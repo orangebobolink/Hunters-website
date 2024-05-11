@@ -2,6 +2,7 @@
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
 using Modules.Document.Infrastructure.Contexts;
+using System.Linq;
 
 namespace Modules.Document.Infrastructure.Repositories
 {
@@ -43,5 +44,23 @@ namespace Modules.Document.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
         }
 
+        public Task<List<Trip>> GetByParticipantIdIncludeAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return _context.Trips
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Issued)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Received)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Land)
+                .Include(t => t.Permission)
+                    .ThenInclude(p => p.Animal)
+                .Include(t => t.TripParticipants)
+                    .ThenInclude(tp => tp.Participant)
+                .Where(
+                    e => e.TripParticipants.Any(
+                        p => p.ParticipantId == id))
+                .ToListAsync(cancellationToken);
+        }
     }
 }

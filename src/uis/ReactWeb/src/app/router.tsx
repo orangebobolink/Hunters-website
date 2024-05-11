@@ -14,6 +14,8 @@ import PermissionPage from '@/pages/ui/permission/page.tsx';
 import TripPage from '@/pages/ui/trip/page.tsx';
 import PaymantPage from '@/pages/ui/paymant/page.tsx';
 import HuntingLicensePage from '@/pages/ui/hyntingLicense/page.tsx';
+import ProfilePage from '@/pages/ui/profile/page.tsx';
+import MyTripsPage from '@/pages/ui/myTrips/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -67,6 +69,9 @@ export const Router = () => {
                              </>
                          }
                          <Route path={RoutesMap.chat} element={<ChatPage />}/>
+                         <Route path={RoutesMap.profile} element={<ProfilePage />}>
+                             <Route path={RoutesMap.myTrips} element={<MyTripsPage />}/>
+                         </Route>
                      </Route>
                 <Route path={RoutesMap.singIn} element={<SignInPage />} />
                 <Route path={RoutesMap.singUp} element={<SignUpPage />} />

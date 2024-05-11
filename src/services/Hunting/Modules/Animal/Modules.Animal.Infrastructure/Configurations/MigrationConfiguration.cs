@@ -16,7 +16,6 @@ namespace Modules.Animal.Infrastructure.Configurations
                 {
                     try
                     {
-
                         appContext.Database.Migrate();
 
                         var dataSeed = scope.ServiceProvider.GetRequiredService<IAnimalDataSeeder>();

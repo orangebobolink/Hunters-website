@@ -8,6 +8,5 @@
         public Guid HuntingLicenseId { get; init; }
         public HuntingLicenseResponseDto? HuntingLicense { get; init; }
         public Guid TripId { get; init; }
-        public TripResponseDto? Trip { get; init; }
     }
 }

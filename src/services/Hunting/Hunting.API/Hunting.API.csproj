@@ -27,6 +27,8 @@
     <ProjectReference Include="..\Hunting.Bus\Hunting.Bus.csproj" />
     <ProjectReference Include="..\Modules\Animal\Modules.Animal.API\Modules.Animal.API.csproj" />
     <ProjectReference Include="..\Modules\Document\Modules.Document.API\Modules.Document.API.csproj" />
+    <ProjectReference Include="..\Modules\Payment\Payment.API\Payment.API.csproj" />
+    <ProjectReference Include="..\Modules\Rent\Rent.API\Rent.API.csproj" />
     <ProjectReference Include="..\Shared.Infrastructure\Shared.Infrastructure.csproj" />
   </ItemGroup>
 
