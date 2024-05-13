@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Modules.Document.Infrastructure.Contexts;
 using Rent.Domain.Interfaces;
+using Rent.Infrastructure.Extenstions;
+using System;
 using System.Linq.Expressions;
 
 namespace Rent.Infrastructure.Repositories
@@ -30,16 +32,6 @@ namespace Rent.Infrastructure.Repositories
                 .Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllByPredicate(
-            Expression<Func<T, bool>> predicate,
-            CancellationToken cancellationToken)
-        {
-            return await _context.Set<T>()
-                .AsNoTracking()
-                .Where(predicate)
-                .ToListAsync(cancellationToken);
-        }
-
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             await _context.SaveChangesAsync(cancellationToken);
@@ -56,18 +48,12 @@ namespace Rent.Infrastructure.Repositories
             bool exceptIncludes = false,
             bool trackChanges = true)
         {
-            var query = _context.Set<T>()
-                        .Where(predicate)
-                        .AsSplitQuery()
-                        .AsNoTracking();
-
-            var projectedQuery =
-              exceptIncludes
-              ? query.ProjectToType<T>()
-              : query as IQueryable<T>;
-
-            return await projectedQuery!
-                .FirstOrDefaultAsync(cancellationToken);
+            return await _context.Set<T>()
+                            .Where(predicate)
+                            .AsSplitQuery()
+                            .TrackChanges(trackChanges)
+                            .ExceptIncludes(exceptIncludes)
+                            .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<T>> GetAllByPredicate(
@@ -76,18 +62,12 @@ namespace Rent.Infrastructure.Repositories
             bool exceptIncludes = false,
             bool trackChanges = true)
         {
-            var query = _context.Set<T>()
-                        .Where(predicate)
-                        .AsSplitQuery()
-                        .AsNoTracking();
-
-            var projectedQuery =
-              exceptIncludes
-              ? query.ProjectToType<T>()
-              : query as IQueryable<T>;
-
-            return await projectedQuery!
-              .ToListAsync(cancellationToken);
+            return await _context.Set<T>()
+                            .Where(predicate)
+                            .AsSplitQuery()
+                            .TrackChanges(exceptIncludes)
+                            .ExceptIncludes(exceptIncludes)
+                            .ToListAsync(cancellationToken);
         }
 
         public async Task<List<T>> GetAllAsync(
@@ -95,17 +75,11 @@ namespace Rent.Infrastructure.Repositories
             bool exceptIncludes = false,
             bool trackChanges = true)
         {
-            var query = _context.Set<T>()
-                        .AsSplitQuery()
-                        .AsNoTracking();
-
-            var projectedQuery =
-                exceptIncludes
-                ? query.ProjectToType<T>()
-                : query as IQueryable<T>;
-
-            return await projectedQuery!
-               .ToListAsync(cancellationToken);
+            return await _context.Set<T>()
+                            .AsSplitQuery()
+                            .TrackChanges(exceptIncludes)
+                            .ExceptIncludes(exceptIncludes)
+                            .ToListAsync(cancellationToken);
         }
     }
 }

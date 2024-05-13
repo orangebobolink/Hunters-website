@@ -17,6 +17,7 @@ namespace Rent.Infrastructure.Configurations
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRentProductRepository, RentProductRepository>();
         }
     }
 }

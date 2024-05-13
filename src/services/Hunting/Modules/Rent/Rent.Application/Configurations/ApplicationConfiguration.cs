@@ -10,6 +10,7 @@ namespace Rent.Application.Configurations
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IRentProductService, RentProductService>();
         }
     }
 }

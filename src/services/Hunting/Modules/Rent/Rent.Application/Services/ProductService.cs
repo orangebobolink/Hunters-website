@@ -33,6 +33,7 @@ namespace Rent.Application.Services
 
             var product = request.Adapt<Product>();
             product.Id = Guid.NewGuid();
+            product.CreatedAt = DateTime.Now;
 
             _productRepository.Create(product!);
 
@@ -82,6 +83,11 @@ namespace Rent.Application.Services
                 cancellationToken,
                 true);
 
+            if (product is null)
+            {
+                ThrowHelper.ThrowKeyNotFoundException(id.ToString());
+            }
+
             var response = product.Adapt<ProductResponseDto>();
 
             return response;
@@ -99,7 +105,10 @@ namespace Rent.Application.Services
             return response;
         }
 
-        public async Task<ProductResponseDto> UpdateAsync(Guid id, ProductRequestDto request, CancellationToken cancellationToken)
+        public async Task<ProductResponseDto> UpdateAsync(
+            Guid id,
+            ProductRequestDto request,
+            CancellationToken cancellationToken)
         {
             var existingProduct = await _productRepository.GetByPredicate(
                 t => t.Id == id,
@@ -112,8 +121,9 @@ namespace Rent.Application.Services
             }
 
             var product = request.Adapt(existingProduct);
+            product!.UpdatedAt = DateTime.UtcNow;
 
-            _productRepository.Delete(product!);
+            _productRepository.Update(product!);
 
             await _productRepository.SaveChangesAsync(cancellationToken);
 
