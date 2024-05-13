@@ -1,12 +1,12 @@
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from 'react';
+import {useEffect, useState} from 'react';
+import {Check, ChevronsUpDown} from 'lucide-react';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {Button, FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from '@/shared/ui/command.tsx';
 import {cn} from '@/shared/lib';
-import {useEffect, useState} from 'react';
-import {UserService} from '@/entities/user/UserService.ts';
-import {User} from '@/entities/user/User.ts';
+import {UserService} from '@/entities/user/api/UserService.ts';
+import {User} from '@/entities/user/models/User.ts';
 import {TFunction} from 'i18next';
 import {UseFormReturn} from 'react-hook-form';
 

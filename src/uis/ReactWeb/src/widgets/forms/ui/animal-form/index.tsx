@@ -1,10 +1,9 @@
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/shared/ui/table.tsx";
-import {Button} from "@/shared/ui";
-import {Animal} from "@/entities/animal/Animal.ts";
-import {logo} from "../../../../assets/wolf.jpg"
-import {Avatar, AvatarFallback, AvatarImage} from "@/shared/ui/avatar.tsx";
-import AnimalInfoDialog from "@/features/dialog/animalinfo-dialog.tsx";
-import {useState} from "react";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
+import {Button} from '@/shared/ui';
+import {Animal} from '@/entities/animal/models/Animal.ts';
+import {Avatar, AvatarFallback, AvatarImage} from '@/shared/ui/avatar.tsx';
+import AnimalInfoDialog from '@/features/dialog/animalinfo-dialog.tsx';
+import {useState} from 'react';
 
 interface IProps{
     animals: Animal[],

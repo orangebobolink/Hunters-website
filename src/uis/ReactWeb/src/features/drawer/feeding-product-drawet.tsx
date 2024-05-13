@@ -1,18 +1,14 @@
 import {useCallback, useEffect, useState} from 'react';
-import {
-    Drawer, DrawerClose,
-    DrawerContent, DrawerFooter,
-    DrawerTrigger
-} from '@/shared/ui/drawer.tsx';
+import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger} from '@/shared/ui/drawer.tsx';
 import {Button, Form} from '@/shared/ui';
 import InputFormField from '@/features/form/input-form-field.tsx';
 import {useForm, UseFormReturn} from 'react-hook-form';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {FeedingProduct} from '@/entities/feedingProduct/FeedingProduct.ts';
+import {FeedingProduct} from '@/entities/feeding/models/FeedingProduct.ts';
 import {useTranslation} from 'react-i18next';
 import SelectForm from '@/features/form/select-form.tsx';
-import {ProductService} from '@/entities/feedingProduct/ProductService.ts';
+import {ProductService} from '@/entities/feeding/api/ProductService.ts';
 
 const formSchema = z.object({
     name: z.string().min(1, "Номер дожен быть юольше 1 символов"),

@@ -1,7 +1,7 @@
-import AnimalForm from "@/widgets/forms/ui/animal-form";
-import {useEffect, useState} from "react";
-import {Animal} from "@/entities/animal/Animal.ts";
-import {AnimalService} from "@/entities/animal/AnimalService.ts";
+import AnimalForm from '@/widgets/forms/ui/animal-form';
+import {useEffect, useState} from 'react';
+import {Animal} from '@/entities/animal/models/Animal.ts';
+import {AnimalService} from '@/entities/animal/api/AnimalService.ts';
 import {Button} from '@/shared/ui';
 import AddAnimalDialog from '@/features/dialog/add-animal-dialog.tsx';
 

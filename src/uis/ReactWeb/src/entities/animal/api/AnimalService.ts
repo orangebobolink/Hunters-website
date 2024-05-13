@@ -1,6 +1,6 @@
 import {apiMap} from '@/shared/const';
 import {axiosInstance} from '@/shared/api/axiosInstance.ts';
-import {Animal} from "@/entities/animal/Animal.ts";
+import {Animal} from '@/entities/animal/models/Animal.ts';
 
 export class AnimalService {
     static async getAll() {

@@ -1,4 +1,4 @@
-import {FeedingProduct} from '@/entities/feedingProduct/FeedingProduct.ts';
+import {FeedingProduct} from '@/entities/feeding/models/FeedingProduct.ts';
 import {Land} from '@/entities/land/Land.ts';
 
 export interface Feeding {

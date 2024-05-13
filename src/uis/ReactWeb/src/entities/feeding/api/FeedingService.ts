@@ -1,6 +1,6 @@
 import {apiMap} from '@/shared/const';
 import {axiosInstance} from '@/shared/api/axiosInstance.ts';
-import {Feeding} from '@/entities/feeding/Feeding.ts';
+import {Feeding} from '@/entities/feeding/models/Feeding.ts';
 
 export class FeedingService {
     static async getAll() {

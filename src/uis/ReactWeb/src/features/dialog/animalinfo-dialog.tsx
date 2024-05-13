@@ -1,8 +1,8 @@
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '@/shared/ui/dialog.tsx';
 import {AspectRatio} from '@/shared/ui/aspect-ratio.tsx';
-import {Animal} from '@/entities/animal/Animal.ts';
+import {Animal} from '@/entities/animal/models/Animal.ts';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
-import {HuntingSeason} from '@/entities/huntinSeason/HuntingSeason.ts';
+import {HuntingSeason} from '@/entities/animal/models/HuntingSeason.ts';
 import {format} from 'date-fns';
 import {Button, Form, FormControl, FormField, FormLabel} from '@/shared/ui';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/shared/ui/tabs.tsx';
@@ -17,7 +17,7 @@ import {CalendarIcon} from '@radix-ui/react-icons';
 import {Calendar} from '@/shared/ui/calendar.tsx';
 import {useTranslation} from 'react-i18next';
 import {toast} from '@/shared/ui/use-toast.ts';
-import {HuntingService} from '@/entities/huntinSeason/HuntingSeasonService.ts';
+import {HuntingService} from '@/entities/animal/api/HuntingSeasonService.ts';
 
 interface IProps
 {

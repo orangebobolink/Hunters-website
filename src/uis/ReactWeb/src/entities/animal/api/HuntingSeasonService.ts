@@ -1,6 +1,6 @@
 import {apiMap} from '@/shared/const';
 import {axiosInstance} from '@/shared/api/axiosInstance.ts';
-import {HuntingSeason} from '@/entities/huntinSeason/HuntingSeason.ts';
+import {HuntingSeason} from '@/entities/animal/models/HuntingSeason.ts';
 
 export class HuntingService {
     static async create(huntingSeason:HuntingSeason) {

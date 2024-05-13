@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {TFunction} from 'i18next';
 import {UseFormReturn} from 'react-hook-form';
-import {AnimalService} from '@/entities/animal/AnimalService.ts';
-import {Animal} from '@/entities/animal/Animal.ts';
+import {AnimalService} from '@/entities/animal/api/AnimalService.ts';
+import {Animal} from '@/entities/animal/models/Animal.ts';
 import {Button, FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {cn} from '@/shared/lib';

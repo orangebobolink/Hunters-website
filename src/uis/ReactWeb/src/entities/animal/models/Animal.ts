@@ -1,4 +1,4 @@
-import {HuntingSeason} from "@/entities/huntinSeason/HuntingSeason.ts";
+import {HuntingSeason} from '@/entities/animal/models/HuntingSeason.ts';
 
 export interface Animal {
     id?: string;

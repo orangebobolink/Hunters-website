@@ -1,7 +1,7 @@
 import {apiMap} from '@/shared/const';
 import {axiosInstance} from '@/shared/api/axiosInstance.ts';
-import {User} from '@/entities/user/User.ts';
-import {CreateUser} from '@/entities/user/CreateUser.ts';
+import {User} from '@/entities/user/models/User.ts';
+import {CreateUser} from '@/entities/user/models/CreateUser.ts';
 
 export class UserService {
     static async getAll() {

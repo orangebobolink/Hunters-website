@@ -1,4 +1,4 @@
-import {TripParticipant} from '@/entities/tripParticipant/TripParticipant.ts';
+import {TripParticipant} from '@/entities/trip/models/TripParticipant.ts';
 import {Permission} from '@/entities/permision/Permision.ts';
 
 export interface Trip {

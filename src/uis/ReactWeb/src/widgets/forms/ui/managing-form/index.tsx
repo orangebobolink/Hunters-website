@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {User} from '@/entities/user/User.ts';
+import {User} from '@/entities/user/models/User.ts';
 import UpdateUserDialog from '@/features/dialog/update-user-dialog.tsx';
 import UserTableForm from '@/features/form/user-table-form.tsx';
 

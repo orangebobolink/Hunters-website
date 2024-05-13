@@ -1,6 +1,6 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
 import {Button} from '@/shared/ui';
-import {User} from '@/entities/user/User.ts';
+import {User} from '@/entities/user/models/User.ts';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {useTranslation} from 'react-i18next';

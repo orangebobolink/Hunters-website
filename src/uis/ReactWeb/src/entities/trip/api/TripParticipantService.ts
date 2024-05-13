@@ -1,6 +1,6 @@
 import {apiMap} from '@/shared/const';
 import {axiosInstance} from '@/shared/api/axiosInstance.ts';
-import {TripParticipant} from '@/entities/tripParticipant/TripParticipant.ts';
+import {TripParticipant} from '@/entities/trip/models/TripParticipant.ts';
 
 export class TripParticipantService {
     static async getAll() {

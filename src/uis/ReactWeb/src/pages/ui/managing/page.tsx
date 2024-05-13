@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import ManagingForm from '@/widgets/forms/ui/managing-form';
-import {UserService} from '@/entities/user/UserService.ts';
-import {User} from '@/entities/user/User.ts';
+import {UserService} from '@/entities/user/api/UserService.ts';
+import {User} from '@/entities/user/models/User.ts';
 import AddUserDialog from '@/features/dialog/add-user-dialog.tsx';
 import {Button} from '@/shared/ui';
 import {useTranslation} from 'react-i18next';

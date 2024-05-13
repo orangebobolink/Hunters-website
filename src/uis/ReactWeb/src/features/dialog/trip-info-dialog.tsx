@@ -2,8 +2,8 @@ import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {format} from 'date-fns';
-import {UserService} from '@/entities/user/UserService.ts';
-import {Trip} from '@/entities/trip/Trip.ts';
+import {UserService} from '@/entities/user/api/UserService.ts';
+import {Trip} from '@/entities/trip/models/Trip.ts';
 import {Button} from '@/shared/ui';
 import {ScrollArea} from '@/shared/ui/scroll-area.tsx';
 import {Separator} from '@radix-ui/react-select';
@@ -11,7 +11,7 @@ import AddDataEventForm from '@/entities/trip/ui/add-data-event-form.tsx';
 import {AxiosResponse} from 'axios';
 import {toast} from '@/shared/ui/use-toast.ts';
 import {Status} from '@/entities/status/Status.ts';
-import {TripService} from '@/entities/trip/TripService.ts';
+import {TripService} from '@/entities/trip/api/TripService.ts';
 
 interface IProps {
     trip: Trip,

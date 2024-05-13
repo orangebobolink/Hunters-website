@@ -4,8 +4,8 @@ import {Dispatch, Fragment, SetStateAction, useEffect, useState} from 'react';
 import {FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
 import {TFunction} from 'i18next';
 import {UseFormReturn} from 'react-hook-form';
-import {User} from '@/entities/user/User.ts';
-import {UserService} from '@/entities/user/UserService.ts';
+import {User} from '@/entities/user/models/User.ts';
+import {UserService} from '@/entities/user/api/UserService.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 

@@ -1,6 +1,6 @@
-import {Animal} from '@/entities/animal/Animal.ts';
-import {User} from '@/entities/user/User.ts';
-import {Coupon} from '@/entities/coupon/Coupon.ts';
+import {Animal} from '@/entities/animal/models/Animal.ts';
+import {User} from '@/entities/user/models/User.ts';
+import {Coupon} from '@/entities/feeding/models/Coupon.ts';
 import {Land} from '@/entities/land/Land.ts';
 
 export interface Permission  {

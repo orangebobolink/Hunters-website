@@ -16,6 +16,7 @@ import PaymantPage from '@/pages/ui/paymant/page.tsx';
 import HuntingLicensePage from '@/pages/ui/hyntingLicense/page.tsx';
 import ProfilePage from '@/pages/ui/profile/page.tsx';
 import MyTripsPage from '@/pages/ui/myTrips/page.tsx';
+import RentPage from '@/pages/ui/rent/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -42,6 +43,7 @@ export const Router = () => {
                                  && <>
                                      <Route path={RoutesMap.paymantFee} element={<PaymantPage />} />
                                      <Route path={RoutesMap.checkHuntingLicense} element={<HuntingLicensePage />} />
+                                     <Route path={RoutesMap.rent} element={<RentPage />} />
                                  </>
                              )
                          }
@@ -61,6 +63,7 @@ export const Router = () => {
                          {roles.includes("Manager")
                              && <>
                                  <Route path={RoutesMap.animal} element={<AnimalPage />} />
+                                 <Route path={RoutesMap.rent} element={<RentPage />} />
                              </>
                          }
                          {(roles.includes("Manager") || roles.includes("Director"))

@@ -15,11 +15,11 @@ import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {useNavigate} from 'react-router-dom';
 
 const ProfileAvatarNavigate = () => {
-    const { logout, resetStatuses } = useActions();
+    const { logout } = useActions();
     const {roles} = useAppSelector(selectAuth);
     const navigate = useNavigate();
 
-    const { t, i18n } = useTranslation("translation",
+    const { t } = useTranslation("translation",
         {
             keyPrefix: "header.profile"
         });

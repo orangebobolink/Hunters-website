@@ -1,20 +1,24 @@
-import React, {Dispatch, SetStateAction} from 'react';
-import {TFunction} from 'i18next';
-import {User} from '@/entities/user/models/User.ts';
+import React, {Dispatch, SetStateAction, useState} from 'react';
+import {Type} from '@/entities/rent/models/Type.ts';
 
 interface IProps {
-    t: TFunction,
-    name: string,
-    lang: string,
-    setParticipant: Dispatch<SetStateAction<User[]>>
+    setProductTypes: Dispatch<SetStateAction<Type[]>>
 }
 
-const ProductTypeCombobox = () => {
-    return (
-        <div>
+function getEnumValues<T>(enumObj: T): T[keyof T][] {
+    return Object.keys(enumObj)
+        .filter(key => isNaN(Number(key)))
+        .map(key => enumObj[key]);
+}
 
-        </div>
-    );
+const MultyProductTypeCombobox = ({
+                                      setProductTypes
+                                  }:IProps) => {
+    const [value, setValue] = useState<Type[]>()
+
+    return (
+        <div></div>
+    )
 };
 
-export default ProductTypeCombobox;
+export default MultyProductTypeCombobox;

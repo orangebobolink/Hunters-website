@@ -1,12 +1,10 @@
 import React from 'react';
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
     navigationMenuLogoTriggerStyle,
-    NavigationMenuTrigger,
     navigationMenuTriggerStyle
 } from '@/shared/ui/navigation-menu.tsx';
 import {cn} from '@/shared/lib';
@@ -14,31 +12,12 @@ import {Link} from 'react-router-dom';
 import logo from '@/assets/logo.png';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import ProfileAvatarNavigate from '@/entities/profile/ui/profile-avatar-navigate.tsx';
+import ProfileAvatarNavigate from '@/entities/user/ui/profile-avatar-navigate.tsx';
 import AuthNavButtons from '@/entities/(auth)/ui/auth-nav-buttons.tsx';
 import LanguageNavItem from '@/shared/ui/custom/language-nav-item.tsx';
 import ThemeNavItem from '@/shared/ui/custom/theme-nav-item.tsx';
 import ChatNavItem from '@/entities/chat/ui/chat-nav-item.tsx';
 import {useTranslation} from 'react-i18next';
-
-const components: { title: string; href: string; description: string }[] = [
-    {
-        title: "rent.ammunition.tittle",
-        href: "/docs/primitives/alert-dialog",
-        description: "rent.ammunition.description",
-    },
-    {
-        title: "rent.gun.tittle",
-        href: "/docs/primitives/hover-card",
-        description: "rent.gun.description",
-    },
-    {
-        title: "rent.car.tittle",
-        href: "/docs/primitives/progress",
-        description:"rent.car.description",
-    },
-
-]
 
 export function Head() {
     const { isAuth, roles } = useAppSelector(selectAuth);
@@ -83,22 +62,11 @@ export function Head() {
                             </Link>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                            <NavigationMenuTrigger>
-                                {t("rent.tittle")}
-                            </NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px] ">
-                                    {components.map((component) => (
-                                        <ListItem
-                                            key={component.title}
-                                            title={t(component.title)}
-                                            href={component.href}
-                                        >
-                                            {t(component.description)}
-                                        </ListItem>
-                                    ))}
-                                </ul>
-                            </NavigationMenuContent>
+                            <Link to="/rent" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("rent.tittle")}
+                                </NavigationMenuLink>
+                            </Link>
                         </NavigationMenuItem>
                     </>
                 }
@@ -131,6 +99,13 @@ export function Head() {
                             <Link to="/feeding" >
                                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                     {t("feeding")}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <Link to="/rent" >
+                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                    {t("rent.tittle")}
                                 </NavigationMenuLink>
                             </Link>
                         </NavigationMenuItem>

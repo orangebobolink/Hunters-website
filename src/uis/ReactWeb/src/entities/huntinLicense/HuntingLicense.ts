@@ -1,4 +1,4 @@
-import {User} from '@/entities/user/User.ts';
+import {User} from '@/entities/user/models/User.ts';
 
 export interface HuntingLicense {
     id?: string;

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Trip} from '@/entities/trip/Trip.ts';
-import {TripService} from '@/entities/trip/TripService.ts';
+import {Trip} from '@/entities/trip/models/Trip.ts';
+import {TripService} from '@/entities/trip/api/TripService.ts';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import TripTable from '@/features/table/trip-table.tsx';

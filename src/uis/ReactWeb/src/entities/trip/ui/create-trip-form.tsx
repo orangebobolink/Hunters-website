@@ -7,8 +7,8 @@ import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import InputFormField from '@/features/form/input-form-field.tsx';
 import {Button, Form} from '@/shared/ui';
-import {Trip} from '@/entities/trip/Trip.ts';
-import {TripService} from '@/entities/trip/TripService.ts';
+import {Trip} from '@/entities/trip/models/Trip.ts';
+import {TripService} from '@/entities/trip/api/TripService.ts';
 import PermissionCombobox from '@/features/combobox/permission-combobox.tsx';
 
 const formSchema = z.object({

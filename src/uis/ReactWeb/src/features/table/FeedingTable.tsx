@@ -1,6 +1,6 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
 import {Button} from '@/shared/ui';
-import {Feeding} from '@/entities/feeding/Feeding.ts';
+import {Feeding} from '@/entities/feeding/models/Feeding.ts';
 import {useState} from 'react';
 import FeedingInfoDialog from '@/features/dialog/feeding-info-dialog.tsx';
 import {format} from 'date-fns';

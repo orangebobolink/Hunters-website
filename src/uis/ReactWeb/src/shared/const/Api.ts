@@ -26,4 +26,6 @@ export const apiMap = {
     GET_HUNTINGLICENSE: `${BASE_API_URL}/${BackendEndpoints.GET_HUNTINGLICENSE}`,
     PAYMENT: `${BASE_API_URL}/${BackendEndpoints.PAYMENT}`,
     GET_TRIP_PARTICIPANT: `${BASE_API_URL}/${BackendEndpoints.GET_TRIP_PARTICIPANT}`,
+    GET_PRODUCT: `${BASE_API_URL}/${BackendEndpoints.GET_PRODUCT}`,
+    GET_RENT_PRODUCT: `${BASE_API_URL}/${BackendEndpoints.GET_RENT_PRODUCT}`,
 };

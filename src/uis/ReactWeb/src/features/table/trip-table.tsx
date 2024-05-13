@@ -1,14 +1,14 @@
-import {Trip} from '@/entities/trip/Trip.ts';
-import React, {useState} from 'react';
+import {Trip} from '@/entities/trip/models/Trip.ts';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table.tsx';
 import {format} from 'date-fns';
 import {Button} from '@/shared/ui';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import {TripService} from '@/entities/trip/TripService.ts';
-import {TripParticipant} from '@/entities/tripParticipant/TripParticipant.ts';
-import {TripParticipantService} from '@/entities/tripParticipant/TripParticipantService.ts';
+import {TripService} from '@/entities/trip/api/TripService.ts';
+import {TripParticipant} from '@/entities/trip/models/TripParticipant.ts';
+import {TripParticipantService} from '@/entities/trip/api/TripParticipantService.ts';
 import TripInfoDialog from '@/features/dialog/trip-info-dialog.tsx';
 
 interface IProps

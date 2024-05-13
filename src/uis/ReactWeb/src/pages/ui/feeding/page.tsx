@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Feeding} from '@/entities/feeding/Feeding.ts';
-import {FeedingService} from '@/entities/feeding/FeedingService.ts';
+import {Feeding} from '@/entities/feeding/models/Feeding.ts';
+import {FeedingService} from '@/entities/feeding/api/FeedingService.ts';
 import FeedingTable from '@/features/table/FeedingTable.tsx';
 import {Button} from '@/shared/ui';
 import AddFeedingDialog from '@/features/dialog/add-feeding-dialog.tsx';

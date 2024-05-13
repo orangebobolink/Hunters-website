@@ -1,10 +1,10 @@
-import {Feeding} from '@/entities/feeding/Feeding.ts';
+import {Feeding} from '@/entities/feeding/models/Feeding.ts';
 import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {useEffect, useState} from 'react';
-import {UserService} from '@/entities/user/UserService.ts';
-import {User} from '@/entities/user/User.ts';
+import {UserService} from '@/entities/user/api/UserService.ts';
+import {User} from '@/entities/user/models/User.ts';
 import {Button} from '@/shared/ui';
-import {FeedingService} from '@/entities/feeding/FeedingService.ts';
+import {FeedingService} from '@/entities/feeding/api/FeedingService.ts';
 import {toast} from '@/shared/ui/use-toast.ts';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';

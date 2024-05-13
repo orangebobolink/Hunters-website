@@ -14,7 +14,7 @@ import {LandCombobox} from '@/features/combobox/land-combobox.tsx';
 import {Raid} from '@/entities/raid/Raid.ts';
 import MultyRangerCombobox from '@/features/combobox/multy-ranger-combobox.tsx';
 import {RaidService} from '@/entities/raid/RaidService.ts';
-import {User} from '@/entities/user/User.ts';
+import {User} from '@/entities/user/models/User.ts';
 
 const formSchema = z.object({
     exitTime: z.date(),

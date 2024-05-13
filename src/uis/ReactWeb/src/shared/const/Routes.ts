@@ -15,4 +15,5 @@ export const RoutesMap = {
     checkHuntingLicense: '/checkHuntingLicense',
     profile: '/profile',
     myTrips: '/profile/myTrips',
+    rent: '/rent',
 };

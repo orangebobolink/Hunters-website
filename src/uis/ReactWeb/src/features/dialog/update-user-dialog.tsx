@@ -1,14 +1,14 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
 import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {useTranslation} from 'react-i18next';
 import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {UserService} from '@/entities/user/UserService.ts';
+import {UserService} from '@/entities/user/api/UserService.ts';
 import {Button, Form, FormControl, FormField, FormItem, FormLabel} from '@/shared/ui';
 import {ToggleGroup, ToggleGroupItem} from '@/shared/ui/toggle-group.tsx';
 import {useToast} from '@/shared/ui/use-toast.ts';
-import {User} from '@/entities/user/User.ts';
+import {User} from '@/entities/user/models/User.ts';
 
 const formSchema = z.object({
     roleNames: z.string().array().nonempty("Роли обязательны")
