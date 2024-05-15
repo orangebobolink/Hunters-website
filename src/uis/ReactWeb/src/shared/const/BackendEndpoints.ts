@@ -19,4 +19,6 @@ export enum BackendEndpoints {
      GET_TRIP_PARTICIPANT = 'hunting/TripParticipant',
      GET_PRODUCT = 'hunting/rent/product',
      GET_RENT_PRODUCT = 'hunting/rent/RentProduct',
+     GET_REPORT_PRODUCT_POPULAR = 'hunting/Report/products-by-popular',
+     GET_REPORT_PRODUCT_REVENUE = 'hunting/Report/products-revenue',
 }

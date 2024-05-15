@@ -26,8 +26,7 @@ namespace Rent.Application.Services
         {
             var existingProduct = await _productRepository.GetByPredicate(
                t => t.Id == request.ProductId,
-               cancellationToken,
-               true);
+               cancellationToken);
 
             if (existingProduct is null)
             {
@@ -35,15 +34,25 @@ namespace Rent.Application.Services
                 ThrowHelper.ThrowKeyNotFoundException(nameof(existingProduct));
             }
 
+            var existingUser = await _rentProductRepository.GetByPredicate(
+              t => t.UserId == request.UserId
+              && t.ProductId == request.ProductId
+              && t.Status == RentStatus.Rented,
+              cancellationToken);
+
+            if (existingUser is not null)
+            {
+                _logger.LogWarning("Rented is forbidden");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingUser));
+            }
+
             var rentProduct = request.Adapt<RentProduct>();
             rentProduct.Id = Guid.NewGuid();
             rentProduct.Status = RentStatus.Pending;
-            existingProduct!.RentProducts
-                .Add(rentProduct);
 
-            _productRepository.Update(existingProduct);
+            _rentProductRepository.Create(rentProduct);
 
-            await _productRepository.SaveChangesAsync(cancellationToken);
+            await _rentProductRepository.SaveChangesAsync(cancellationToken);
 
             var response = rentProduct.Adapt<RentProductResponseDto>();
 

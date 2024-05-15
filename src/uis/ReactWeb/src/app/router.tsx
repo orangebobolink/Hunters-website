@@ -17,6 +17,7 @@ import HuntingLicensePage from '@/pages/ui/hyntingLicense/page.tsx';
 import ProfilePage from '@/pages/ui/profile/page.tsx';
 import MyTripsPage from '@/pages/ui/myTrips/page.tsx';
 import RentPage from '@/pages/ui/rent/page.tsx';
+import ReportPage from '@/pages/ui/report/page.tsx';
 
 export const Router = () => {
     const location = useLocation();
@@ -26,56 +27,58 @@ export const Router = () => {
     return(
         <>
             <Routes location={background || location}>
-                     <Route path={RoutesMap.home} element={<HomePage />}>
-                         <Route index={true} element={<MainPage />}/>
-                         {(roles.includes("User")
-                          || roles.includes("Manager")
-                           || roles.includes("Ranger"))
-                           &&  <Route path={RoutesMap.trip} element={<TripPage />}/>
-                         }
-                         {roles.includes("Admin")
-                          && <>
-                              <Route path={RoutesMap.managing} element={<ManagingPage />} />
-                          </>
-                         }
-                         {
-                             (roles.includes("User")
-                                 && <>
-                                     <Route path={RoutesMap.paymantFee} element={<PaymantPage />} />
-                                     <Route path={RoutesMap.checkHuntingLicense} element={<HuntingLicensePage />} />
-                                     <Route path={RoutesMap.rent} element={<RentPage />} />
-                                 </>
-                             )
-                         }
-                         {
-                             (roles.includes("Ranger")
-                                 && <>
-                                     <Route path={RoutesMap.raid} element={<RaidPage />} />
-                                 </>
-                             )
-                         }
-                         {(roles.includes("Manager") || roles.includes("Ranger"))
+                 <Route path={RoutesMap.home} element={<HomePage />}>
+                     <Route index={true} element={<MainPage />}/>
+                     {(roles.includes("User")
+                      || roles.includes("Manager")
+                       || roles.includes("Ranger"))
+                       &&  <Route path={RoutesMap.trip} element={<TripPage />}/>
+                     }
+                     {roles.includes("Admin")
+                      && <>
+                          <Route path={RoutesMap.managing} element={<ManagingPage />} />
+                             <Route path={RoutesMap.rent} element={<RentPage />} />
+                      </>
+                     }
+                     {
+                         (roles.includes("User")
                              && <>
-                                 <Route path={RoutesMap.feeding} element={<FeedingPage />} />
-                                 <Route path={RoutesMap.permission} element={<PermissionPage />} />
-                             </>
-                         }
-                         {roles.includes("Manager")
-                             && <>
-                                 <Route path={RoutesMap.animal} element={<AnimalPage />} />
+                                 <Route path={RoutesMap.paymantFee} element={<PaymantPage />} />
+                                 <Route path={RoutesMap.checkHuntingLicense} element={<HuntingLicensePage />} />
                                  <Route path={RoutesMap.rent} element={<RentPage />} />
                              </>
-                         }
-                         {(roles.includes("Manager") || roles.includes("Director"))
+                         )
+                     }
+                     {
+                         (roles.includes("Ranger")
                              && <>
-                                 <Route path={RoutesMap.reporting} element={<ManagingPage />} />
+                                 <Route path={RoutesMap.raid} element={<RaidPage />} />
                              </>
-                         }
-                         <Route path={RoutesMap.chat} element={<ChatPage />}/>
-                         <Route path={RoutesMap.profile} element={<ProfilePage />}>
-                             <Route path={RoutesMap.myTrips} element={<MyTripsPage />}/>
-                         </Route>
+                         )
+                     }
+                     {(roles.includes("Manager") || roles.includes("Ranger"))
+                         && <>
+                             <Route path={RoutesMap.feeding} element={<FeedingPage />} />
+                             <Route path={RoutesMap.permission} element={<PermissionPage />} />
+                         </>
+                     }
+                     {roles.includes("Manager")
+                         && <>
+                             <Route path={RoutesMap.animal} element={<AnimalPage />} />
+                             <Route path={RoutesMap.rent} element={<RentPage />} />
+                         </>
+                     }
+                     {(roles.includes("Manager") || roles.includes("Director"))
+                         && <>
+                             <Route path={RoutesMap.reporting} element={<ReportPage />} />
+                         </>
+                     }
+                     <Route path={RoutesMap.chat} element={<ChatPage />}/>
+                     <Route path={RoutesMap.profile} element={<ProfilePage />}>
+                         <Route path={RoutesMap.myTrips} element={<MyTripsPage />}/>
                      </Route>
+                     <Route path={"*"} element={<Page404/>} />
+                 </Route>
                 <Route path={RoutesMap.singIn} element={<SignInPage />} />
                 <Route path={RoutesMap.singUp} element={<SignUpPage />} />
                 <Route path={"*"} element={<Page404/>} />

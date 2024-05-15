@@ -12,7 +12,6 @@ namespace Rent.API.Controllers
     {
         private readonly IRentProductService _rentProductService = rentProductService;
 
-
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(
             Guid id,

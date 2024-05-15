@@ -62,6 +62,7 @@
     "react-signalr": "^0.2.19",
     "react-tailwindcss-select": "^1.8.5",
     "react-toastify": "^10.0.4",
+    "recharts": "^2.12.7",
     "redux-persist": "^6.0.0",
     "redux-signalr": "^1.2.0",
     "semantic-ui-css": "^2.5.0",

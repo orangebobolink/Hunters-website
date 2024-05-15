@@ -16,6 +16,7 @@ import {toast} from '@/shared/ui/use-toast.ts';
 import {User} from '@/entities/user/models/User.ts';
 import {RentProduct} from '@/entities/rent/models/RentProduct.ts';
 import {RentProductService} from '@/entities/rent/api/RentProductService.ts';
+import ManagerView from '@/widgets/rentProduct/manager-view.tsx';
 
 const RentPage = () => {
     const [products, setProducts] = useState<Product[]>([])
@@ -69,10 +70,9 @@ const RentPage = () => {
             const rentProduct: RentProduct = {
                 userId:id!,
                 productId:product.id!,
-
             }
 
-            const data = await RentProductService.update(rentProduct);
+            const data = await RentProductService.create(rentProduct);
 
             if (data.status >= 200 && data.status <= 300) {
                 toast({
@@ -94,9 +94,7 @@ const RentPage = () => {
             {
                 roles.includes("Manager")
                 ?
-                <div>
-
-                </div>
+                 <ManagerView/>
                 :
                 <>
                     <div className="w-1/5 mx-5">
@@ -119,8 +117,8 @@ const RentPage = () => {
                         </Command>
                     </div>
                     <div className="flex gap-4 mx-5">
-                        <ScrollArea>
-                            <div className='flex flex-row p-4'>
+                        <ScrollArea className="h-[85dvh] w-[75dvw] rounded-md border">
+                            <div className='flex flex-wrap flex-row p-4'>
                                 {products
                                     .map((product) => (
                                         <div key={product.id}
@@ -132,12 +130,13 @@ const RentPage = () => {
                                             />
                                             <div className='flex flex-col'>
                                                 <h3 className='font-semibold text-lg mt-2'>{product.name}</h3>
-                                                <p className='text-sm text-[#555]'>Price: ${product.price}</p>
+                                                <p className='text-sm text-[#555]'>Цена: {product.price} бел. руб</p>
                                                 <p className='text-sm text-[#555]'>
-                                                    In stock: {product.quantityInStock}
+                                                    На складе: {product.quantityInStock}
                                                 </p>
                                             </div>
-                                            {roles.includes("User") &&
+                                            {(roles.includes("User")
+                                                    && product.quantityInStock > 0) &&
                                                 <Button className="m-3" onClick={() => {handleRent(product)}}>Арендовать</Button>
                                             }
                                             {roles.includes("Admin") &&
