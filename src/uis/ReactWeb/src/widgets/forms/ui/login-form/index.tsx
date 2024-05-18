@@ -74,7 +74,7 @@ export const LoginForm = () => {
     if (isAuth) return null;
 
     return (
-        <div className="flex flex-col items-center border-[1px] border-gray-600/30 p-5 w-1/4
+        <div className="flex flex-col items-center border-[1px] border-gray-600/30 p-5 w-1/4 min-w-[330px]
                         backdrop-blur-xl bg-green-700/60 rounded-2xl">
             <img src={logo} className="size-[7rem]" alt="logo"/>
             <Form {...form}>

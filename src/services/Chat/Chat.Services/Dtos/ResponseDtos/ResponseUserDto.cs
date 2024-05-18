@@ -8,5 +8,6 @@
         public string LastName { get; set; } = string.Empty;
         public string AvatarUrl { get; set; } = string.Empty;
         public List<ResponseMessageDto> Messages { get; set; } = [];
+        public Guid GroupId { get; set; }
     }
 }

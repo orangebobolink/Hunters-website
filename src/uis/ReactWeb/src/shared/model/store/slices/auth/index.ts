@@ -9,6 +9,7 @@ import {LoginResponse} from '@/shared/model/store/queries/typing/responses/Login
 type InitialState = {
     id: string | null,
     isAuth: boolean,
+    avatarUrl: string,
     username: string | null,
     roles: string[],
     huntingLicenseId: string,
@@ -23,6 +24,7 @@ const initialState: InitialState = {
     isAuth: false,
     username: null,
     roles: [],
+    avatarUrl: "",
 
     huntingLicenseId: "",
     isPaid: false,

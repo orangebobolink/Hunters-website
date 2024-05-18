@@ -85,7 +85,11 @@
       "location": "Локация",
       "status": "Статус",
       "act": "Действия",
-      "moreInf": "Подробнее"
+      "moreInf": "Подробнее",
+      "fromDate": "C",
+      "toDate": "По",
+      "animalName": "Животное",
+      "couponLength": "Количсевто купонов"
     },
     "create": {
       "number": "Номер",
@@ -97,5 +101,47 @@
       "add": "Добавть",
       "cancel": "Закрыть"
     }
+  },
+  "trip": {
+    "addTrip": "Создать путевку",
+    "create": {
+      "number":"Номер",
+      "specialConditions": "Специальные условия",
+      "price": "Цена",
+      "add": "Создать"
+    },
+    "table":{
+      "location": "Локация",
+      "fromDate": "C",
+      "toDate": "По",
+      "animal": "Животное",
+      "amountOfFee": "Пошлина",
+      "emptyTable": "Данных нет",
+      "moreInfo": "Подробнее"
+    }
+  },
+  "rent": {
+    "table": {
+      "fullName": "Полное имя",
+      "productName": "Имя проодукта",
+      "fromDate": "C",
+      "toDate": "По",
+      "status": "Статус"
+    },
+    "create": {
+      "name": "Название",
+      "description": "Описание",
+      "price": "Цена",
+      "quantityInStock": "Количсевто на складе",
+      "imageUrl": "URL изображения",
+      "type": "Тип"
+    },
+    "noResult": "Нет результатов",
+    "delete": "Удалить",
+    "update": "Обновить",
+    "typeOfProduct": "Тип продукта",
+    "price": "Цена",
+    "onStock": "На складе",
+    "rent": "Арендавать"
   }
 }

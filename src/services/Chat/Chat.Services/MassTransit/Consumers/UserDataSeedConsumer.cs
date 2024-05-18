@@ -15,8 +15,7 @@ namespace Chat.Services.MassTransit.Consumers
 
         public async Task Consume(ConsumeContext<UserDataSeedMessage> context)
         {
-            // TODO: Add method to repos that will find ANY
-            if(!(await _userRepository.GetAllAsync()).Any())
+            if (!(await _userRepository.GetAllAsync()).Any())
             {
                 var users = context.Message.Users
                     .Adapt<List<User>>();

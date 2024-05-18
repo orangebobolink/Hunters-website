@@ -26,7 +26,7 @@ const RentPage = () => {
     const {roles, id} = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding"
+            keyPrefix: "rent"
         });
     const [selectedProduct, setProduct] = useState<Product>()
 
@@ -101,11 +101,11 @@ const RentPage = () => {
                         <Command>
                             <CommandInput placeholder="Поиск по фильтрам..." />
                             <CommandList>
-                                <CommandEmpty>No results found.</CommandEmpty>
+                                <CommandEmpty>{t("noResult")}</CommandEmpty>
                                 <CommandGroup heading="Фильтры">
                                     <CommandItem className="flex flex-col">
                                         <div>
-                                            Тип продукта
+                                            {t("typeOfProduct")}
                                         </div>
                                         <div>
                                             <MultyProductTypeCombobox
@@ -130,14 +130,16 @@ const RentPage = () => {
                                             />
                                             <div className='flex flex-col'>
                                                 <h3 className='font-semibold text-lg mt-2'>{product.name}</h3>
-                                                <p className='text-sm text-[#555]'>Цена: {product.price} бел. руб</p>
+                                                <p className='text-sm text-[#555]'>{t("price")}: {product.price} бел. руб</p>
                                                 <p className='text-sm text-[#555]'>
-                                                    На складе: {product.quantityInStock}
+                                                    {t("onStock")}: {product.quantityInStock}
                                                 </p>
                                             </div>
                                             {(roles.includes("User")
                                                     && product.quantityInStock > 0) &&
-                                                <Button className="m-3" onClick={() => {handleRent(product)}}>Арендовать</Button>
+                                                <Button className="m-3" onClick={() => {handleRent(product)}}>
+                                                    {t("rent")}
+                                                </Button>
                                             }
                                             {roles.includes("Admin") &&
                                                 <>
@@ -148,9 +150,12 @@ const RentPage = () => {
                                                                 setIsUpdateOpen(true)
                                                             }}
                                                     >
-                                                        Обновить
+                                                        {t("update")}
                                                     </Button>
-                                                    <Button className="m-3" onClick={()=> {handleDelete(product.id)}}>Удалить</Button>
+                                                    <Button className="m-3"
+                                                            onClick={()=> {handleDelete(product.id!)}}>
+                                                        {t("delete")}
+                                                    </Button>
                                                 </>
                                             }
                                         </div>
@@ -175,14 +180,12 @@ const RentPage = () => {
                                             </DialogContent>
                                         </Dialog>
                                     </>
-
                                 }
                             </div>
                         </ScrollArea>
                     </div>
                 </>
             }
-
         </div>
     );
 };

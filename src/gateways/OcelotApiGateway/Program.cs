@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotApiGateway.Configurations;
@@ -11,7 +12,10 @@ builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Services.AddCorsConfiguration(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSignalRSwaggerGen();
+});
 
 var app = builder.Build();
 

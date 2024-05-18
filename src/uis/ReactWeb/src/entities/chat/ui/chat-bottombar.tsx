@@ -8,13 +8,15 @@ import {
 } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Message, loggedInUserData } from "@/widgets/chat/data.tsx";
 import { EmojiPicker } from "@/features/chat/emoji-picker.tsx";
 import {Link} from 'react-router-dom';
 import {cn} from '@/shared/lib';
 import {buttonVariants} from '@/shared/ui';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {Textarea} from '@/shared/ui/textarea.tsx';
+import { Message } from "../entities/Message";
+import { selectAuth } from "@/shared/model/store/selectors/auth.selectors";
+import { useAppSelector } from "@/shared/lib/hooks/redux-hooks";
 
 interface ChatBottombarProps {
     sendMessage: (newMessage: Message) => void;
@@ -28,6 +30,7 @@ export default function ChatBottombar({
                                       }: ChatBottombarProps) {
     const [message, setMessage] = useState("");
     const inputRef = useRef<HTMLTextAreaElement>(null);
+    const {id,avatarUrl} = useAppSelector(selectAuth);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(event.target.value);
@@ -35,10 +38,8 @@ export default function ChatBottombar({
 
     const handleThumbsUp = () => {
         const newMessage: Message = {
-            id: message.length + 1,
-            name: loggedInUserData.name,
-            avatar: loggedInUserData.avatar,
-            message: "👍",
+            userId: id,
+            content: "👍",
         };
         sendMessage(newMessage);
         setMessage("");
@@ -47,10 +48,8 @@ export default function ChatBottombar({
     const handleSend = () => {
         if (message.trim()) {
             const newMessage: Message = {
-                id: message.length + 1,
-                name: loggedInUserData.name,
-                avatar: loggedInUserData.avatar,
-                message: message.trim(),
+                userId: id,
+                content: message.trim(),
             };
             sendMessage(newMessage);
             setMessage("");

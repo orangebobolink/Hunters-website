@@ -61,15 +61,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Modules\Paym
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rent", "Rent", "{98AEAF07-B752-448E-B720-D2AAEA4D8E0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.Domain", "Modules\Rent\Rent.Domain\Rent.Domain.csproj", "{561435B0-8095-4A1B-BD62-650D98154ABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rent.Domain", "Modules\Rent\Rent.Domain\Rent.Domain.csproj", "{561435B0-8095-4A1B-BD62-650D98154ABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.Infrastructure", "Modules\Rent\Rent.Infrastructure\Rent.Infrastructure.csproj", "{757D8675-EAE6-4ECC-948C-CB295B300A73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rent.Infrastructure", "Modules\Rent\Rent.Infrastructure\Rent.Infrastructure.csproj", "{757D8675-EAE6-4ECC-948C-CB295B300A73}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A7F2860E-CDBF-4751-B19B-EA7DF6CA1704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.Application", "Modules\Rent\Rent.Application\Rent.Application.csproj", "{0AEB7316-CC36-448B-A31C-06988501EA09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rent.Application", "Modules\Rent\Rent.Application\Rent.Application.csproj", "{0AEB7316-CC36-448B-A31C-06988501EA09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.API", "Modules\Rent\Rent.API\Rent.API.csproj", "{CE9BB191-8620-4B70-8D33-205D311DB169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rent.API", "Modules\Rent\Rent.API\Rent.API.csproj", "{CE9BB191-8620-4B70-8D33-205D311DB169}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.API", "..\Chat\Chat.API\Chat.API.csproj", "{C69055AD-FE0D-4012-9CFF-4CC56CCD53A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,6 +175,10 @@ Global
 		{CE9BB191-8620-4B70-8D33-205D311DB169}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9BB191-8620-4B70-8D33-205D311DB169}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9BB191-8620-4B70-8D33-205D311DB169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69055AD-FE0D-4012-9CFF-4CC56CCD53A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69055AD-FE0D-4012-9CFF-4CC56CCD53A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69055AD-FE0D-4012-9CFF-4CC56CCD53A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69055AD-FE0D-4012-9CFF-4CC56CCD53A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

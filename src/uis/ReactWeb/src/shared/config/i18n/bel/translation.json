@@ -76,24 +76,70 @@
     "user": "Карыстальнік"
   },
   "feeding": {
-    "createReport": "Стварыць звет",
+    "createReport": "Стварыць справаздачу",
     "table": {
-      "number": "Номер",
-      "feedingDate": "Дата дадавання корму",
-      "location": "Лакацыя",
-      "status": "Стан",
+      "number": "Нумар",
+      "feedingDate": "Дата харчавання",
+      "location": "Месца",
+      "status": "Статус",
       "act": "Дзеянні",
-      "moreInf": "Больш інформацыі"
+      "moreInf": "Падрабязна",
+      "fromDate": "З",
+      "toDate": "Да",
+      "animalName": "Жывёлі",
+      "couponLength": "Колькасць купонаў"
     },
     "create": {
-      "number": "Номер",
-      "feedingDate": "Дата дадавання корму",
-      "location": "Лакацыя",
+      "number": "Нумар",
+      "feedingDate": "Дата харчавання",
+      "location": "Месца",
       "name": "Назва",
-      "unitOfMeasurement": "Адзінка вымярэння",
+      "unitOfMeasurement": "Адзінка меры",
       "quantity": "Колькасць",
       "add": "Дадаць",
-      "cancel": "Зачыніць"
+      "cancel": "Закрыць"
     }
+  },
+  "trip": {
+    "addTrip": "Стварыць путёўку",
+    "create": {
+      "number":"Нумар",
+      "specialConditions": "Спецыяльныя ўмовы",
+      "price": "Цана",
+      "add": "Стварыць"
+    },
+    "table":{
+      "location": "Месца",
+      "fromDate": "З",
+      "toDate": "Да",
+      "animal": "Жывёлі",
+      "amountOfFee": "Пошліна",
+      "emptyTable": "Няма дадзеных",
+      "moreInfo": "Падрабязнасці"
+    }
+  },
+  "rent": {
+    "table": {
+      "fullName": "Поўнае імя",
+      "productName": "Імя прадукту",
+      "fromDate": "З",
+      "toDate": "Да",
+      "status": "Статус"
+    },
+    "create": {
+      "name": "Назва",
+      "description": "Апісанне",
+      "price": "Цана",
+      "quantityInStock": "Колькасць на складзе",
+      "imageUrl": "URL малюнка",
+      "type": "Тып"
+    },
+    "noResult": "Няма вынікаў",
+    "delete": "Выдаліць",
+    "update": "Абнавіць",
+    "typeOfProduct": "Тып прадукту",
+    "price": "Цана",
+    "onStock": "На складзе",
+    "rent": "Арэндаваць"
   }
 }

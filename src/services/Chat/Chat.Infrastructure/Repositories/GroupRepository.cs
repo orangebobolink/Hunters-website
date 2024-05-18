@@ -27,8 +27,11 @@ namespace Chat.Infrastructure.Repositories
         public async Task<List<Group>> GetGroupsByUserIdAsync(Guid userId)
         {
             return await _context.Groups
+                .Include(g => g.Messages)
+                .Include(g => g.Users)
+                .ThenInclude(g => g.User)
                 .AsNoTracking()
-                .Where(g => !g.IsDeleted && g.Users.Any(m => m.Id == userId))
+                .Where(g => !g.IsDeleted && g.Users.Any(m => m.UserId == userId))
                 .ToListAsync();
         }
 

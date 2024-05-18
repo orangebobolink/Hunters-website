@@ -12,11 +12,13 @@ function App() {
         <ReduxProvider>
             <AuthProvider>
                 <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                    <SignalRProvider>
                         <TranslateProvider>
                             <BrowserRouter>
                                 <Router/>
                             </BrowserRouter>
                         </TranslateProvider>
+                    </SignalRProvider>
                 </ThemeProvider>
             </AuthProvider>
             <Toaster />

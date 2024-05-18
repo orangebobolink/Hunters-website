@@ -1,20 +1,20 @@
 "use client";
 
 import { MoreHorizontal, SquarePen } from "lucide-react";
-import { Message } from "@/widgets/chat/data.tsx";
 import {cn} from '@/shared/lib';
 import {buttonVariants} from '@/shared/ui';
 import {Link} from 'react-router-dom';
 import {Avatar, AvatarImage} from '@/shared/ui/avatar.tsx';
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/shared/ui/tooltip.tsx';
-import {ScrollArea} from '@/shared/ui/scroll-area.tsx';
+import { Message } from "@/entities/chat/entities/Message";
 
 interface SidebarProps {
     isCollapsed: boolean;
     links: {
-        name: string;
+        firstName: string;
+        lastName: string;
         messages: Message[];
-        avatar: string;
+        avatarUrl: string;
         variant: "grey" | "ghost";
     }[];
     onClick?: () => void;
@@ -74,21 +74,21 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
                                             >
                                                 <Avatar className="flex justify-center items-center">
                                                     <AvatarImage
-                                                        src={link.avatar}
-                                                        alt={link.avatar}
+                                                        src={link.avatarUrl}
+                                                        alt={link.avatarUrl}
                                                         width={6}
                                                         height={6}
                                                         className="w-10 h-10 "
                                                     />
                                                 </Avatar>{" "}
-                                                <span className="sr-only">{link.name}</span>
+                                                <span className="sr-only">{link.firstName + " " + link.lastName}</span>
                                             </Link>
                                         </TooltipTrigger>
                                         <TooltipContent
                                             side="right"
                                             className="flex items-center gap-4"
                                         >
-                                            {link.name}
+                                           {link.firstName + " " + link.lastName}
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
@@ -105,19 +105,19 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
                                 >
                                     <Avatar className="flex justify-center items-center">
                                         <AvatarImage
-                                            src={link.avatar}
-                                            alt={link.avatar}
+                                            src={link.avatarUrl}
+                                            alt={link.avatarUrl}
                                             width={6}
                                             height={6}
                                             className="w-10 h-10 "
                                         />
                                     </Avatar>
                                     <div className="flex flex-col max-w-28">
-                                        <span>{link.name}</span>
+                                        <span>{link.firstName + " " + link.lastName}</span>
                                         {link.messages.length > 0 && (
                                             <span className="text-zinc-300 text-xs truncate ">
-                            {link.messages[link.messages.length - 1].name.split(" ")[0]}
-                                            : {link.messages[link.messages.length - 1].message}
+                            {link.messages[link.messages.length - 1].userId}
+                                            : {link.messages[link.messages.length - 1].content}
                                         </span>
                                         )}
                                     </div>

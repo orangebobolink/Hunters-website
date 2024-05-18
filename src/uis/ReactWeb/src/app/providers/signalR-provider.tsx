@@ -4,7 +4,7 @@ import {SignalRContext} from '@/shared/model/signalrR';
 import {LogLevel} from '@microsoft/signalr';
 
 const SignalRProvider = ({ children }: { children: ReactNode })  => {
-    const [token, setToken] = useState<string>(() => LocaleStorageUtils.getAccessToken()!);
+    const [token] = useState<string>(() => LocaleStorageUtils.getAccessToken()!);
 
     return (
         <SignalRContext.Provider
@@ -12,7 +12,7 @@ const SignalRProvider = ({ children }: { children: ReactNode })  => {
             accessTokenFactory={() => token}
             dependencies={[token]}
             url={"http://localhost:5019/chat"}
-            automaticReconnect={true}
+            automaticReconnect={false}
             logger={LogLevel.Information}
         >
             {children}

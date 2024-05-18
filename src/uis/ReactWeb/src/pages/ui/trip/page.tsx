@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import {useTranslation} from 'react-i18next';
 import {Trip} from '@/entities/trip/models/Trip.ts';
 import {TripService} from '@/entities/trip/api/TripService.ts';
 import {Dialog, DialogContent, DialogTrigger} from '@/shared/ui/dialog.tsx';
@@ -10,6 +9,7 @@ import TripTable from '@/features/table/trip-table.tsx';
 import CreateTripForm from '@/entities/trip/ui/create-trip-form.tsx';
 import {toast} from '@/shared/ui/use-toast.ts';
 import {Status} from '@/entities/status/Status.ts';
+import {useTranslation} from 'react-i18next';
 
 const TripPage = () => {
     const [trips, setTrips] = useState<Trip[]>([])
@@ -18,7 +18,7 @@ const TripPage = () => {
     const {roles, id, isPaid} = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding"
+            keyPrefix: "trip"
         });
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const TripPage = () => {
                 description: "Перейдите в раздел 'Оплата пошлин' и оплатите пошлины по вашей охотничьей лицензии"
             })
         }
-    }, [isPaid]);
+    }, [isPaid, changeRender]);
 
     useEffect(() => {
         const fetchPermissions = async () => {
@@ -53,7 +53,7 @@ const TripPage = () => {
         };
 
         fetchPermissions();
-    }, [isOpen]);
+    }, [isOpen, changeRender]);
 
     return (
         <div className="select-none h-full w-full flex items-center flex-col justify-center space-y-5">
@@ -64,7 +64,7 @@ const TripPage = () => {
                 <Dialog onOpenChange={() => setIsOpen(false)}>
                     <DialogTrigger asChild>
                         <Button onClick={() => setIsOpen(true)}
-                                variant="outline">Добавить путевку</Button>
+                                variant="outline">{t("addTrip")}</Button>
                     </DialogTrigger>
                     <DialogContent>
                        <CreateTripForm/>

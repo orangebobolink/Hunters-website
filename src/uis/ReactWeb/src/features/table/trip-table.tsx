@@ -22,7 +22,7 @@ const TripTable = ({trips, setChangeRender}:IProps) => {
     const [selectedTrip, setSelectedTrip] = useState<Trip>();
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding.table"
+            keyPrefix: "trip.table"
         });
     const {roles, id, huntingLicenseId} = useAppSelector(selectAuth);
 
@@ -37,7 +37,7 @@ const TripTable = ({trips, setChangeRender}:IProps) => {
                 tripId: tripId
             }
 
-            const responseParticipant = await TripParticipantService.create(participant);
+            await TripParticipantService.create(participant);
 
             setChangeRender(true)
         }
@@ -112,7 +112,7 @@ const TripTable = ({trips, setChangeRender}:IProps) => {
                         trips.length == 0 ?
                         <TableRow>
                             <TableCell colSpan={6} className="text-center">
-                                Данных нет
+                                {t("emptyTable")}
                             </TableCell>
                         </TableRow>
                         :

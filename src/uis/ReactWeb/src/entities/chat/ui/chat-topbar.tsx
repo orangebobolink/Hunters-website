@@ -4,9 +4,10 @@ import {Avatar, AvatarImage} from '@/shared/ui/avatar.tsx';
 import {Link} from 'react-router-dom';
 import {cn} from '@/shared/lib';
 import {buttonVariants} from '@/shared/ui';
+import { ChatUser } from '@/entities/user/models/ChatUser';
 
 interface ChatTopbarProps {
-    selectedUser: UserData;
+    selectedUser: ChatUser;
 }
 
 export const TopbarIcons = [{ icon: Phone }, { icon: Video }, { icon: Info }];
@@ -18,15 +19,15 @@ export default function ChatTopbar({selectedUser}: ChatTopbarProps) {
             <div className="flex items-center gap-2">
                 <Avatar className="flex justify-center items-center">
                     <AvatarImage
-                        src={selectedUser.avatar}
-                        alt={selectedUser.name}
+                        src={selectedUser.avatarUrl}
+                        alt={selectedUser.avatarUrl}
                         width={6}
                         height={6}
                         className="w-10 h-10 "
                     />
                 </Avatar>
                 <div className="flex flex-col">
-                    <span className="font-medium">{selectedUser.name}</span>
+                    <span className="font-medium">{selectedUser.firstName + " " + selectedUser.lastName}</span>
                     <span className="text-xs">Active 2 mins ago</span>
                 </div>
             </div>

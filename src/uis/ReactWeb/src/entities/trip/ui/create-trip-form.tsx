@@ -21,7 +21,7 @@ const formSchema = z.object({
 const CreateTripForm = () => {
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding.create"
+            keyPrefix: "trip.create"
         });
 
     const onSubmit = useCallback(
@@ -79,7 +79,7 @@ const CreateTripForm = () => {
                                     type="number"/>
                 </div>
                 <Button type="submit" className="w-full">
-                    Добавить
+                    {t("add")}
                 </Button>
             </form>
         </Form>

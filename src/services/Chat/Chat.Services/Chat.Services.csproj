@@ -13,11 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared.Messages\Shared.Messages.csproj" />
-    <ProjectReference Include="..\Chat.Interfaces\Chat.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dtos\RequestDtos\" />
+    <ProjectReference Include="..\Chat.Domain\Chat.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,14 +1,17 @@
-import { Message, UserData } from "@/widgets/chat/data.tsx";
 import React, { useRef } from "react";
 import ChatBottombar from "./chat-bottombar";
 import { AnimatePresence, motion } from "framer-motion";
 import {Avatar, AvatarImage} from '@/shared/ui/avatar.tsx';
 import {cn} from '@/shared/lib';
 import {ScrollArea} from '@/shared/ui/scroll-area.tsx';
+import { ChatUser } from "@/entities/user/models/ChatUser";
+import { Message } from "../entities/Message";
+import { selectAuth } from "@/shared/model/store/selectors/auth.selectors";
+import { useAppSelector } from "@/shared/lib/hooks/redux-hooks";
 
 interface ChatListProps {
     messages?: Message[];
-    selectedUser: UserData;
+    selectedUser: ChatUser;
     sendMessage: (newMessage: Message) => void;
     isMobile: boolean;
 }
@@ -20,6 +23,7 @@ export function ChatList({
                              isMobile
                          }: ChatListProps) {
     const messagesContainerRef = useRef<HTMLDivElement>(null);
+    const {avatarUrl} = useAppSelector(selectAuth);
 
     React.useEffect(() => {
         if (messagesContainerRef.current) {
@@ -27,6 +31,9 @@ export function ChatList({
                 messagesContainerRef.current.scrollHeight;
         }
     }, [messages]);
+
+    console.log(messages)
+    console.log(selectedUser)
 
     return (
         <div className="w-full overflow-y-auto overflow-x-hidden h-screen flex flex-col">
@@ -57,28 +64,28 @@ export function ChatList({
                                 }}
                                 className={cn(
                                     "flex flex-col gap-2 p-4 whitespace-pre-wrap",
-                                    message.name !== selectedUser.name ? "items-end" : "items-start"
+                                    message.userId !== selectedUser.id ? "items-end" : "items-start"
                                 )}
                             >
                                 <div className="flex gap-3 items-center">
-                                    {message.name === selectedUser.name && (
+                                    {message.userId === selectedUser.id && (
                                         <Avatar className="flex justify-center items-center">
                                             <AvatarImage
-                                                src={message.avatar}
-                                                alt={message.name}
+                                                src={selectedUser.avatarUrl}
+                                                alt={selectedUser.avatarUrl}
                                                 width={6}
                                                 height={6}
                                             />
                                         </Avatar>
                                     )}
                                     <span className=" bg-accent p-3 rounded-md max-w-xs">
-                      {message.message}
-                    </span>
-                                    {message.name !== selectedUser.name && (
+                                        {message.content}
+                                    </span>
+                                    {message.userId !== selectedUser.id && (
                                         <Avatar className="flex justify-center items-center">
                                             <AvatarImage
-                                                src={message.avatar}
-                                                alt={message.name}
+                                                src={avatarUrl}
+                                                alt={avatarUrl}
                                                 width={6}
                                                 height={6}
                                             />
