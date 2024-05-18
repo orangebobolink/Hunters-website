@@ -1,17 +1,9 @@
-import { UserData } from '@/widgets/chat/data.tsx';
-import { Info, Phone, Video } from 'lucide-react';
 import {Avatar, AvatarImage} from '@/shared/ui/avatar.tsx';
-import {Link} from 'react-router-dom';
-import {cn} from '@/shared/lib';
-import {buttonVariants} from '@/shared/ui';
 import { ChatUser } from '@/entities/user/models/ChatUser';
 
 interface ChatTopbarProps {
     selectedUser: ChatUser;
 }
-
-export const TopbarIcons = [{ icon: Phone }, { icon: Video }, { icon: Info }];
-
 
 export default function ChatTopbar({selectedUser}: ChatTopbarProps) {
     return (
@@ -28,24 +20,7 @@ export default function ChatTopbar({selectedUser}: ChatTopbarProps) {
                 </Avatar>
                 <div className="flex flex-col">
                     <span className="font-medium">{selectedUser.firstName + " " + selectedUser.lastName}</span>
-                    <span className="text-xs">Active 2 mins ago</span>
                 </div>
-            </div>
-
-            <div>
-                {TopbarIcons.map((icon, index) => (
-                    <Link
-                        key={index}
-                        to="#"
-                        className={cn(
-                            buttonVariants({ variant: "ghost", size: "icon" }),
-                            "h-9 w-9",
-                            "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                        )}
-                    >
-                        <icon.icon size={20} className="text-muted-foreground" />
-                    </Link>
-                ))}
             </div>
         </div>
     )

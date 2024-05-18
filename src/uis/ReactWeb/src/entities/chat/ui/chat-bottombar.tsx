@@ -1,8 +1,4 @@
 import {
-    FileImage,
-    Mic,
-    Paperclip,
-    PlusCircle,
     SendHorizontal,
     ThumbsUp,
 } from "lucide-react";
@@ -12,7 +8,6 @@ import { EmojiPicker } from "@/features/chat/emoji-picker.tsx";
 import {Link} from 'react-router-dom';
 import {cn} from '@/shared/lib';
 import {buttonVariants} from '@/shared/ui';
-import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
 import {Textarea} from '@/shared/ui/textarea.tsx';
 import { Message } from "../entities/Message";
 import { selectAuth } from "@/shared/model/store/selectors/auth.selectors";
@@ -22,15 +17,13 @@ interface ChatBottombarProps {
     sendMessage: (newMessage: Message) => void;
     isMobile: boolean;
 }
-
-export const BottombarIcons = [{ icon: FileImage }, { icon: Paperclip }];
-
+ 
 export default function ChatBottombar({
                                           sendMessage, isMobile,
                                       }: ChatBottombarProps) {
     const [message, setMessage] = useState("");
     const inputRef = useRef<HTMLTextAreaElement>(null);
-    const {id,avatarUrl} = useAppSelector(selectAuth);
+    const {id} = useAppSelector(selectAuth);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(event.target.value);
@@ -73,83 +66,7 @@ export default function ChatBottombar({
     };
 
     return (
-        <div className="p-2 flex justify-between w-full items-center gap-2">
-            <div className="flex">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Link
-                            to="#"
-                            className={cn(
-                                buttonVariants({ variant: "ghost", size: "icon" }),
-                                "h-9 w-9",
-                                "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                            )}
-                        >
-                            <PlusCircle size={20} className="text-muted-foreground" />
-                        </Link>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        side="top"
-                        className="w-full p-2">
-                        {message.trim() || isMobile ? (
-                            <div className="flex gap-2">
-                                <Link
-                                    to="#"
-                                    className={cn(
-                                        buttonVariants({ variant: "ghost", size: "icon" }),
-                                        "h-9 w-9",
-                                        "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                                    )}
-                                >
-                                    <Mic size={20} className="text-muted-foreground" />
-                                </Link>
-                                {BottombarIcons.map((icon, index) => (
-                                    <Link
-                                        key={index}
-                                        to="#"
-                                        className={cn(
-                                            buttonVariants({ variant: "ghost", size: "icon" }),
-                                            "h-9 w-9",
-                                            "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                                        )}
-                                    >
-                                        <icon.icon size={20} className="text-muted-foreground" />
-                                    </Link>
-                                ))}
-                            </div>
-                        ) : (
-                             <Link
-                                 to="#"
-                                 className={cn(
-                                     buttonVariants({ variant: "ghost", size: "icon" }),
-                                     "h-9 w-9",
-                                     "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                                 )}
-                             >
-                                 <Mic size={20} className="text-muted-foreground" />
-                             </Link>
-                         )}
-                    </PopoverContent>
-                </Popover>
-                {!message.trim() && !isMobile && (
-                    <div className="flex">
-                        {BottombarIcons.map((icon, index) => (
-                            <Link
-                                key={index}
-                                to="#"
-                                className={cn(
-                                    buttonVariants({ variant: "ghost", size: "icon" }),
-                                    "h-9 w-9",
-                                    "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                                )}
-                            >
-                                <icon.icon size={20} className="text-muted-foreground" />
-                            </Link>
-                        ))}
-                    </div>
-                )}
-            </div>
-
+        <div className="p-2 flex justify-between w-full items-center gap-2">      
             <AnimatePresence initial={false}>
                 <motion.div
                     key="input"

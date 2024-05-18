@@ -10,6 +10,8 @@
       "managing": "Управление пользоавтелями",
       "webname": "HuntingBY",
       "permit": "Путевка",
+      "paymantFee":"Плата пошлин",
+      "checkHuntingLicense":"Проверка лицензии",
       "rent":
       {
         "tittle": "Аренда",
@@ -36,7 +38,8 @@
       "tittle": "Профиль",
       "information": "Информация",
       "settings": "Настройки",
-      "signOut": "Выйти"
+      "signOut": "Выйти",
+      "myTrips":"Мои путевки"
     },
     "auth": {
       "signIn": "Вход",

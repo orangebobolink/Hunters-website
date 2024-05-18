@@ -10,6 +10,8 @@
       "managing": "Кіраванне карыстальнікамі",
       "webname": "HuntingBY",
       "permit": "Пуцёўка",
+      "payment Fee":"Плата пошлін",
+      "check Hunting License":"Праверка ліцэнзіі",
       "rent": {
         "tittle": "Арэнда",
         "ammunition": {
@@ -35,7 +37,8 @@
       "tittle": "Профіль",
       "information": "Інфармацыя",
       "settings": "Налады",
-      "signOut": "Выйсці"
+      "signOut": "Выйсці",
+      "myTrips":"Маи путевки"
     },
     "auth": {
       "signIn": "Уваход",
