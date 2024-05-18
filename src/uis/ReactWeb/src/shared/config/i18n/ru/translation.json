@@ -1,8 +1,17 @@
 {
   "header": {
     "nav": {
-      "webname": "Охота",
+      "trip": "Путевки",
+      "permission": "Разрешения",
+      "feeding": "Подкормка диких животных",
+      "raid": "Рейды",
+      "animal": "Животные",
+      "reporting": "Просмотр отчетов",
+      "managing": "Управление пользоавтелями",
+      "webname": "HuntingBY",
       "permit": "Путевка",
+      "paymantFee":"Плата пошлин",
+      "checkHuntingLicense":"Проверка лицензии",
       "rent":
       {
         "tittle": "Аренда",
@@ -29,7 +38,8 @@
       "tittle": "Профиль",
       "information": "Информация",
       "settings": "Настройки",
-      "signOut": "Выйти"
+      "signOut": "Выйти",
+      "myTrips":"Мои путевки"
     },
     "auth": {
       "signIn": "Вход",
@@ -50,9 +60,91 @@
     "forgotPassword": "Забыли пароль?",
     "firstName": "Имя",
     "lastName": "Фамилия",
+    "middleName": "Отчество",
     "dateOfBirth": "Дата рождения",
     "signUp": "Зарегестрироваться",
     "sex": "Пол",
-    "alreadyHaveAccount": "Уже есть аккаунт"
+    "alreadyHaveAccount": "Уже есть аккаунт",
+    "roles": "Роли пользователя",
+    "act": "Действия"
+  },
+  "managing": {
+    "createUser": "Создать пользователя",
+    "updateUser": "Обновить пользователя",
+    "edit": "Редактировать"
+  },
+  "roles": {
+    "admin": "Администратор",
+    "ranger": "Егерь",
+    "manager": "Охотовед",
+    "director": "Директор",
+    "user": "Пользователь"
+  },
+  "feeding": {
+    "createReport": "Создать отчет",
+    "table": {
+      "number": "Номер",
+      "feedingDate": "Дата подкормки",
+      "location": "Локация",
+      "status": "Статус",
+      "act": "Действия",
+      "moreInf": "Подробнее",
+      "fromDate": "C",
+      "toDate": "По",
+      "animalName": "Животное",
+      "couponLength": "Количсевто купонов"
+    },
+    "create": {
+      "number": "Номер",
+      "feedingDate": "Дата подкормки",
+      "location": "Локация",
+      "name": "Название",
+      "unitOfMeasurement": "Еденица измерения",
+      "quantity": "Количество",
+      "add": "Добавть",
+      "cancel": "Закрыть"
+    }
+  },
+  "trip": {
+    "addTrip": "Создать путевку",
+    "create": {
+      "number":"Номер",
+      "specialConditions": "Специальные условия",
+      "price": "Цена",
+      "add": "Создать"
+    },
+    "table":{
+      "location": "Локация",
+      "fromDate": "C",
+      "toDate": "По",
+      "animal": "Животное",
+      "amountOfFee": "Пошлина",
+      "emptyTable": "Данных нет",
+      "moreInfo": "Подробнее"
+    }
+  },
+  "rent": {
+    "table": {
+      "fullName": "Полное имя",
+      "productName": "Имя проодукта",
+      "fromDate": "C",
+      "toDate": "По",
+      "status": "Статус"
+    },
+    "create": {
+      "name": "Название",
+      "description": "Описание",
+      "price": "Цена",
+      "quantityInStock": "Количсевто на складе",
+      "imageUrl": "URL изображения",
+      "type": "Тип"
+    },
+    "noResult": "Нет результатов",
+    "delete": "Удалить",
+    "update": "Обновить",
+    "typeOfProduct": "Тип продукта",
+    "price": "Цена",
+    "onStock": "На складе",
+    "rent": "Арендавать"
   }
 }

@@ -1,16 +1,20 @@
 ﻿using MassTransit;
-using Shared.Messages.UserMessages;
-using System.Reflection;
 using Identity.Infrastructure.Extensions;
+using System.Reflection;
+using Identity.Services.Consumers;
 
 namespace Identity.API.Configurations
 {
     internal static class MassTransitConfiguration
     {
-        public static void AddMassTransitConfiguration(this IServiceCollection services, ConfigurationManager config)
+        public static void AddMassTransitConfiguration(
+            this IServiceCollection services,
+            ConfigurationManager config)
         {
             services.AddMassTransit(x =>
             {
+                var assembly = Assembly.GetAssembly(
+                    typeof(PaymentHuntingLicenseConsumer));
                 var host = config["RabbitMQ:Host"];
                 var virtualHost = config["RabbitMQ:VirtualHost"];
                 var username = config["RabbitMQ:Username"];
@@ -18,6 +22,7 @@ namespace Identity.API.Configurations
 
                 x.AddEntityFrameworkOutboxPattern();
                 x.SetKebabCaseEndpointNameFormatter();
+                x.AddConsumers(assembly);
 
                 x.UsingRabbitMq((context, cfg) =>
                 {

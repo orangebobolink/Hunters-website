@@ -1,17 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import { LocaleStorageUtils } from '@/shared/lib/utils';
-import { loginThunk } from '@/shared/model/store/slices/auth/loginThunk';
-import { logoutThunk } from '@/shared/model/store/slices/auth/logoutThunk';
-import { refreshAuthThunk } from '@/shared/model/store/slices/auth/refreshAuthThunk';
-import { LoginResponse } from '@/shared/model/store/queries/typing/responses/LoginResponse';
+import {LocaleStorageUtils} from '@/shared/lib/utils';
+import {loginThunk} from '@/shared/model/store/slices/auth/loginThunk';
+import {logoutThunk} from '@/shared/model/store/slices/auth/logoutThunk';
+import {refreshAuthThunk} from '@/shared/model/store/slices/auth/refreshAuthThunk';
+import {LoginResponse} from '@/shared/model/store/queries/typing/responses/LoginResponse';
 
 type InitialState = {
     id: string | null,
     isAuth: boolean,
+    avatarUrl: string,
     username: string | null,
     roles: string[],
-
+    huntingLicenseId: string,
+    isPaid: boolean,
     isLoading: boolean,
     isSuccess: boolean,
     error: string | null
@@ -22,7 +24,10 @@ const initialState: InitialState = {
     isAuth: false,
     username: null,
     roles: [],
+    avatarUrl: "",
 
+    huntingLicenseId: "",
+    isPaid: false,
     isLoading: false,
     isSuccess: false,
     error: null,
@@ -73,8 +78,9 @@ const authSlice = createSlice({
                 state.id = payload.id;
                 state.username = payload.username
                 state.roles = payload.roles;
-                state.roles = payload.roles;
                 state.isAuth = true;
+                state.huntingLicenseId = payload.huntingLicenseId;
+                state.isPaid = payload.isPaid;
                 LocaleStorageUtils.setAccessToken(payload.accessToken);
 
                 setFulfilledValues(state);

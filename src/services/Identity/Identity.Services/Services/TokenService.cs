@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Extensions;
 using Identity.Services.Interfaces;
@@ -10,22 +11,36 @@ using System.Security.Cryptography;
 
 namespace Identity.Services.Services
 {
-    public class TokenService(UserManager<User> userManager,
+    public class TokenService(
+        UserManager<User> userManager,
         ILogger<TokenService> logger,
+        IHyntingLicenseRepository hyntingLicenseRepository,
         IAccessTokenUtilities accessTokenUtilities,
         IRefreshTokenUtilities refreshTokenUtilities,
-        IRefreshTokenCookie refreshTokenCookieUtilities) : ITokenService
+        IRefreshTokenCookie refreshTokenCookieUtilities)
+        : ITokenService
     {
         private readonly UserManager<User> _userManager = userManager;
-        private readonly IRefreshTokenCookie _refreshTokenCookieUtilities = refreshTokenCookieUtilities;
-        private readonly IAccessTokenUtilities _accessTokenUtilities = accessTokenUtilities;
-        private readonly IRefreshTokenUtilities _refreshTokenUtilities = refreshTokenUtilities;
+        private readonly IHyntingLicenseRepository _hyntingLicenseRepository
+            = hyntingLicenseRepository;
+        private readonly IRefreshTokenCookie _refreshTokenCookieUtilities
+            = refreshTokenCookieUtilities;
+        private readonly IAccessTokenUtilities _accessTokenUtilities
+            = accessTokenUtilities;
+        private readonly IRefreshTokenUtilities _refreshTokenUtilities
+            = refreshTokenUtilities;
         private readonly ILogger<TokenService> _logger = logger;
-        private readonly ThrowExceptionUtility<TokenService> _throwExceptionUtilities = new(logger);
+        private readonly ThrowExceptionUtility<TokenService> _throwExceptionUtilities
+            = new(logger);
 
-        public async Task<string> GenerateAccessTokenAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GenerateAccessTokenAsync(
+            User user,
+            CancellationToken cancellationToken)
         {
-            JwtSecurityToken tokenOptions = await _accessTokenUtilities.GetTokenOptionsAsync(user, cancellationToken);
+            JwtSecurityToken tokenOptions = await _accessTokenUtilities.GetTokenOptionsAsync(
+                user,
+                cancellationToken);
+
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             _logger.LogInformation("Access token was created successfully");
@@ -43,7 +58,8 @@ namespace Identity.Services.Services
             return refreshToken;
         }
 
-        public async Task<ResponseAuthenticatedDto> RefreshAsync(CancellationToken cancellationToken)
+        public async Task<ResponseAuthenticatedDto> RefreshAsync(
+            CancellationToken cancellationToken)
         {
             var username = _accessTokenUtilities.GetUsernameFromAccessToken();
             string refreshToken = _refreshTokenCookieUtilities.ReadRefreshTokenCookie();
@@ -56,11 +72,26 @@ namespace Identity.Services.Services
 
             await UpdateUserRefreshTokenAsync(user, newRefreshToken);
 
+            var huntingLicense = await _hyntingLicenseRepository.GetByPredicate(
+                hl => hl.UserId == user.Id
+                    && hl.ExpiryDate > DateTime.Now,
+                cancellationToken);
+
+            if(huntingLicense is null)
+            {
+                huntingLicense = new HuntingLicense()
+                {
+                    IsPaid = false
+                };
+            }
+
             var response = new ResponseAuthenticatedDto()
             {
                 Id = user.Id,
                 UserName = user.UserName!,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
+                IsPaid = huntingLicense!.IsPaid,
+                HuntingLicenseId = huntingLicense!.Id,
                 AccessToken = newAccessToken,
             };
 
@@ -76,9 +107,10 @@ namespace Identity.Services.Services
             await DeleteUserRefreshTokenAsync(user);
         }
 
-        private string GetRandomNumberGeneratorRefreshToken(byte[] randomNumber)
+        private string GetRandomNumberGeneratorRefreshToken(
+            byte[] randomNumber)
         {
-            using(var rng = RandomNumberGenerator.Create())
+            using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(randomNumber);
                 string refreshToken = Convert.ToBase64String(randomNumber);
@@ -89,7 +121,9 @@ namespace Identity.Services.Services
             }
         }
 
-        public async Task UpdateUserRefreshTokenAsync(User user, string newRefreshToken)
+        public async Task UpdateUserRefreshTokenAsync(
+            User user,
+            string newRefreshToken)
         {
             _refreshTokenUtilities.ChangeRefreshTokenForUser(user, newRefreshToken);
 
@@ -116,7 +150,7 @@ namespace Identity.Services.Services
         {
             User? user = await _userManager.FindByNameAsync(username);
 
-            if(user == null)
+            if (user == null)
             {
                 _throwExceptionUtilities.ThrowAccountNotFoundException(username);
             }

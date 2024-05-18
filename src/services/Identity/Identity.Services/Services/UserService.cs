@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Extensions;
@@ -6,21 +7,19 @@ using Identity.Services.Interfaces;
 using Identity.Services.Utilities;
 using Mapster;
 using MassTransit;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MR.AspNetCore.Pagination;
+using MR.EntityFrameworkCore.KeysetPagination;
+using Shared.Helpers;
 using Shared.Messages.UserMessages;
 
 namespace Identity.Services.Services
 {
-    internal class UserService(UserManager<User> userManager,
-        IPaginationService paginationService,
+    internal class UserService(
+        IUserRepository userRepository,
         IBus bus,
         ILogger<UserService> logger) : IUserService
     {
-        private readonly UserManager<User> _userManager = userManager;
-        private readonly IPaginationService _paginationService = paginationService;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogger<UserService> _logger = logger;
         private readonly IBus _bus = bus;
         private readonly ThrowExceptionUtility<UserService> _throwExceptionUtilities = new(logger);
@@ -28,27 +27,26 @@ namespace Identity.Services.Services
         public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
                                                             CancellationToken cancellationToken)
         {
-            var existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == requestUserDto.Email
-                                                                || u.UserName == requestUserDto.UserName
-                                                                || u.PhoneNumber == requestUserDto.PhoneNumber,
-                                                                cancellationToken);
+            var creditionals = requestUserDto.Adapt<User>();
 
-            if(existingUser is not null)
+            var existingUser = await _userRepository.GetByCredentialsAsync(
+                creditionals,
+                cancellationToken);
+
+            if (existingUser is not null)
             {
                 throw new Exception();
             }
 
             var user = requestUserDto.Adapt<User>();
 
-            var userCreateResult = await _userManager.CreateAsync(user, requestUserDto.Password);
+            var userCreateResult = await _userRepository.CreateAsync(user, requestUserDto.Password);
             userCreateResult.CheckUserCreateResult(_logger);
 
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, Role.User);
+            var addToRoleResult = await _userRepository.AddToRolesAsync(user, user.RoleNames);
             addToRoleResult.CheckAddToRoleResult(_logger);
 
-            var message = user.Adapt<CreateUserMessage>();
-
-            await _bus.Publish(message, cancellationToken);
+            await _bus.PublishObj<User, CreateUserMessage>(user, cancellationToken);
 
             var response = user.Adapt<ResponseCreateUserDto>();
 
@@ -57,18 +55,49 @@ namespace Identity.Services.Services
             return response;
         }
 
-        public async Task<KeysetPaginationResult<ResponseUserDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<ResponseUserDto>> GetAllAsync(
+            Guid id,
+            int numberTake,
+            KeysetPaginationDirection keysetPaginationDirection,
+            CancellationToken cancellationToken)
         {
-            var usersPaginationResult = await GetKeysetPaginateAsync(cancellationToken);
+            var usersPaginationResult = await _userRepository.GetKeysetPaginateAsync(
+                    id,
+                    numberTake,
+                    keysetPaginationDirection,
+                    cancellationToken);
+
+            foreach (var item in usersPaginationResult)
+            {
+                item.RoleNames = await _userRepository.GetRoles(item);
+            }
+
+            var respons = usersPaginationResult.Adapt<List<ResponseUserDto>>();
 
             _logger.LogInformation("Pagination was successfully completed.");
 
-            return usersPaginationResult;
+            return respons;
+        }
+
+        public async Task<List<ResponseUserDto>> GetALlByRoles(
+            string roleName,
+            CancellationToken cancellationToken)
+        {
+            var users = await _userRepository.GetAllByRole(roleName);
+
+            if (users is { Count: 0 })
+            {
+                ThrowHelper.ThrowKeyNotFoundException(roleName);
+            }
+
+            var response = users.Adapt<List<ResponseUserDto>>();
+
+            return response;
         }
 
         public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = (await _userManager.FindByIdAsync(id.ToString()))
+            var user = (await _userRepository.GetByIdAsync(id))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
             var userDto = user.Adapt<ResponseUserDto>();
@@ -79,20 +108,23 @@ namespace Identity.Services.Services
         }
 
         public async Task<ResponseUpdateUserDto> UpdateAsync(Guid id,
-                                                            RequestUserDto user,
+                                                            RequestUpdateUserDto user,
                                                             CancellationToken cancellationToken)
         {
-            var existedUser = (await _userManager.FindByIdAsync(id.ToString()))
+            var existedUser = (await _userRepository.GetByIdAsync(id))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
             User updatedUser = user.Adapt(existedUser)!;
 
-            var updateResult = await _userManager.UpdateAsync(updatedUser);
+            var updateResult = await _userRepository.UpdateAsync(updatedUser);
+
             updateResult.CheckUserUpdateResult(_logger);
 
-            var message = user.Adapt<UpdateUserMessage>();
+            var oldRoles = await _userRepository.GetRoles(updatedUser);
 
-            await _bus.Publish(message);
+            await UpdateUserRolesAsync(updatedUser, oldRoles);
+
+            await _bus.PublishObj<RequestUpdateUserDto, UpdateUserMessage>(user, cancellationToken);
 
             var response = updatedUser.Adapt<ResponseUpdateUserDto>();
 
@@ -101,25 +133,30 @@ namespace Identity.Services.Services
             return response;
         }
 
-        private async Task<KeysetPaginationResult<ResponseUserDto>> GetKeysetPaginateAsync(CancellationToken cancellationToken)
+        private async Task UpdateUserRolesAsync(User user, List<string> oldRoles)
         {
-            var usersPaginationResult = await _paginationService.KeysetPaginateAsync(
-               _userManager.Users,
-               b => b.Descending(x => x.UserName!).Descending(x => x.Id),
-               async id => await GetReferenceAsync(id, cancellationToken),
-               query => query.Select(user => user.Adapt<ResponseUserDto>()));
+            var newRoles = user.RoleNames
+               .Except(oldRoles)
+               .ToList();
+            var removedRoles = oldRoles
+                .Except(user.RoleNames)
+                .ToList();
 
-            return usersPaginationResult;
-        }
+            if (newRoles.Any())
+            {
+                var addToRoleResult = await _userRepository
+                    .AddToRolesAsync(user, newRoles.ToList());
 
-        private async Task<User> GetReferenceAsync(string id, CancellationToken cancellationToken)
-        {
-            var guidId = Guid.Parse(id);
-            var user = (await _userManager.Users.FirstOrDefaultAsync(user => user.Id == guidId,
-                                                                        cancellationToken))
-                                    ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
+                addToRoleResult.CheckAddToRoleResult(_logger);
+            }
 
-            return user!;
+            if (removedRoles.Any())
+            {
+                var removeFromRoleResult = await _userRepository
+                    .RemoveFromRolesAsync(user, removedRoles.ToList());
+
+                removeFromRoleResult.CheckAddToRoleResult(_logger);
+            }
         }
     }
 }

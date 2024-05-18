@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Messages\Shared.Messages.csproj" />
+    <ProjectReference Include="..\Modules\Animal\Modules.Animal.Application\Modules.Animal.Application.csproj" />
+    <ProjectReference Include="..\Modules\Animal\Modules.Animal.Domain\Modules.Animal.Domain.csproj" />
+    <ProjectReference Include="..\Modules\Animal\Modules.Animal.Infrastructure\Modules.Animal.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Document\Modules.Document.API\Modules.Document.API.csproj" />
+    <ProjectReference Include="..\Modules\Rent\Rent.API\Rent.API.csproj" />
+    <ProjectReference Include="..\Modules\Rent\Rent.Infrastructure\Rent.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

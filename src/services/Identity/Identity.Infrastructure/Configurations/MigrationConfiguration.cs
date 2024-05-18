@@ -1,4 +1,5 @@
 ﻿using Identity.Infrastructure.Contexts;
+using Identity.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,10 +16,12 @@ namespace Identity.API.Configurations
                 {
                     try
                     {
-                        if(!appContext.Users.Any())
-                        {
-                            appContext.Database.Migrate();
-                        }
+                        appContext.Database.Migrate();
+                        
+                        IDataSeeder dataSeed = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+
+                        dataSeed.SeedAsync().Wait();
+                        dataSeed.SeedMessageAsync().Wait();
                     }
                     catch 
                     {

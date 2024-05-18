@@ -8,8 +8,8 @@ namespace Identity.UnitTests.Data.BogusData
         private Faker<RequestLoginUserDto> GenerateFakeRequestLoginUserDto()
         {
             return new Faker<RequestLoginUserDto>()
-                .RuleFor(requestLoginUserDto => requestLoginUserDto.UserName,
-                    faker => faker.Person.UserName)
+                .RuleFor(requestLoginUserDto => requestLoginUserDto.Email,
+                    faker => faker.Person.Email)
                 .RuleFor(requestLoginUserDto => requestLoginUserDto.Password,
                     faker => faker.Internet.Password());
         }

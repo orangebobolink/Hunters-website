@@ -46,6 +46,7 @@ namespace Identity.API.Middleware
             BadRequestException => HttpStatusCode.BadRequest,
             NotFoundException => HttpStatusCode.NotFound,
             NotImplementedException => HttpStatusCode.NotImplemented,
+            KeyNotFoundException => HttpStatusCode.NotFound,
             InvalidOperationException => HttpStatusCode.InternalServerError,
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             _ => HttpStatusCode.InternalServerError,

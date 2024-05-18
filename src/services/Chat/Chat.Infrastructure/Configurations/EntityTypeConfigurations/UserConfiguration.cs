@@ -26,23 +26,6 @@ namespace Chat.Infrastructure.Configurations.EntityTypeConfigurations
             builder.Property(x => x.AvatarUrl)
                 .IsRequired()
                 .HasMaxLength(255);
-
-            builder.HasMany(u => u.Groups)
-                    .WithMany(g => g.Users)
-                    .UsingEntity<UserGroup>(
-                        j => j
-                            .HasOne<Group>()
-                            .WithMany()
-                            .HasForeignKey("GroupId"),
-                        j => j
-                            .HasOne<User>()
-                            .WithMany()
-                            .HasForeignKey("UserId"),
-                        j =>
-                        {
-                            j.HasKey("UserId", "GroupId");
-                            j.ToTable("UserGroups");
-                        });
         }
     }
 }

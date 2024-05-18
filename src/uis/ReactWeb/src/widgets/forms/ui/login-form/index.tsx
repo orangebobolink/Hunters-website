@@ -21,6 +21,7 @@ import {Notice} from '@/shared/const';
 import {toastError, toastSuccess} from '@/shared/lib/utils/ToastUtils.ts';
 import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
+import InputFormField from '@/features/form/input-form-field.tsx';
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -73,57 +74,35 @@ export const LoginForm = () => {
     if (isAuth) return null;
 
     return (
-        <div className="flex flex-col items-center border-[1px] border-gray-600/30 p-5 w-1/4
-                        backdrop-blur-xl bg-green-500/40 rounded-2xl">
+        <div className="flex flex-col items-center border-[1px] border-gray-600/30 p-5 w-1/4 min-w-[330px]
+                        backdrop-blur-xl bg-green-700/60 rounded-2xl">
             <img src={logo} className="size-[7rem]" alt="logo"/>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-green-500">
-                                    {t("email")}
-                                </FormLabel>
-                                <FormControl className="border-black/50">
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flex flex-col items-center">
+                    <div className="w-full">
+                        <InputFormField form={form} t={t}
+                                        name="email"
+                                        lang="email"
+                                        type="email"/>
 
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-black">
-                                    {t("password")}
-                                </FormLabel>
-                                <FormControl className="border-black/50">
-                                    <Input type="password" {...field} />
-                                </FormControl>
-                                <FormDescription>
-                                    <Button variant="link">
-                                        {t("forgotPassword")}
-                                    </Button>
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <Button type="submit" className="w-full">
-                        {t("signIn")}
-                    </Button>
+                        <InputFormField form={form} t={t}
+                                        name="password"
+                                        lang="password"
+                                        type="password"/>
+                    </div>
+                    <div className="w-full flex flex-col">
+                        <Button type="submit" className="w-full">
+                            {t("signIn")}
+                        </Button>
+                        <Button variant="link">
+                            <Link to="/registration">
+                                {t("signUp")}
+                            </Link>
+                        </Button>
+                    </div>
                 </form>
             </Form>
-            <Button variant="link">
-                <Link to="/registration">
-                    {t("signUp")}
-                </Link>
-            </Button>
+
         </div>
     );
 };

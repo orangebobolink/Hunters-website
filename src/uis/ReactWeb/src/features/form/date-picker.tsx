@@ -1,50 +1,89 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
-import {Button, FormControl} from '@/shared/ui';
+import {Button, FormControl, FormField, FormItem, FormLabel, FormMessage, Input} from '@/shared/ui';
 import {cn} from '@/shared/lib';
-import {format} from 'date-fns';
 import {CalendarIcon} from '@radix-ui/react-icons';
 import {Calendar} from '@/shared/ui/calendar.tsx';
-import {ControllerRenderProps, FieldValues} from 'react-hook-form';
+import {UseFormReturn} from 'react-hook-form';
+import {TFunction} from 'i18next';
+import {format} from 'date-fns';
+import {Matcher} from 'react-day-picker';
 
-interface IProps
-{
-    field: ControllerRenderProps<FieldValues, string>
+interface IProps {
+    t: TFunction,
+    form:UseFormReturn<any>,
+    name: string,
+    lang: string,
+    label:string,
+    disabled?: Matcher | Matcher[] | undefined,
+    time?:boolean
 }
 
-const DatePicker : FC<IProps> = ({field}) => {
+const DatePicker : FC<IProps> = ({form, t, name, lang, label, disabled, time = false}:IProps) => {
+
     return (
-        <Popover>
-            <PopoverTrigger asChild>
-                <FormControl>
-                    <Button
-                        variant={"outline"}
-                        className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                        )}
-                    >
-                        {field.value ? (
-                            format(field.value, "PPP")
-                        ) : (
-                             <span>Pick a date</span>
-                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                />
-            </PopoverContent>
-        </Popover>
+        <FormField
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+                <FormItem className="flex flex-col">
+                    <FormLabel>{label}</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <FormControl>
+                                <Button
+                                    variant="outline"
+                                    className={cn(
+                                        'w-full pl-3 text-left font-normal',
+                                        !field.value && 'text-muted-foreground',
+                                    )}
+                                >
+                                    {field.value ? (
+                                        time ? `${format(field.value, "dd.MM.yyyy HH:mm")}`
+                                              :`${format(field.value, "dd.MM.yyyy")}`
+                                    ) : (
+                                         <span>{t(lang)}</span>
+                                     )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="center">
+                            <Calendar
+                                className="p-0"
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={disabled}
+                                initialFocus
+                            />
+                            {
+                                time &&
+                                <Input
+                                    type="time"
+                                    className="mt-2"
+                                    value={field.value?.toLocaleTimeString([], {
+                                        hourCycle: 'h23',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    })}
+                                    onChange={(selectedTime:any) => {
+                                        const currentTime = field.value;
+                                        currentTime.setHours(
+                                            parseInt(selectedTime.target.value.split(':')[0]),
+                                            parseInt(selectedTime.target.value.split(':')[1]),
+                                            0,
+                                        );
+                                        field.onChange(currentTime);
+                                    }}
+                                />
+                            }
+                        </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
     );
 };
 

@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Configurations
+﻿namespace OcelotApiGateway.Configurations
 {
     public static class CorsPolicyConfiguration
     {

@@ -1,15 +1,13 @@
-"use client";
-
-import { userData } from "./data";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/utils/cnUtil.ts";
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from '@/shared/ui/resizable.tsx';
 import {Sidebar} from '@/features/chat/sidebar.tsx';
 import {Chat} from '@/features/chat/chat.tsx';
 import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
 import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import {Button} from "@/shared/ui";
 import {SignalRContext} from '@/shared/model/signalrR';
+import { ChatUser } from "@/entities/user/models/ChatUser";
+import { ReceiveMessage } from "@/entities/chat/entities/ReceiveMessage";
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -23,33 +21,61 @@ export function ChatLayout({
                                navCollapsedSize,
                            }: ChatLayoutProps) {
     const {id, error} = useAppSelector(selectAuth);
-    const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
-    const [selectedUser, setSelectedUser] = React.useState(userData[0]);
+    const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+    const [selectedUser, setSelectedUser] = useState<ChatUser>({
+        firstName:"",
+        lastName:"",
+        messages:[],
+        avatarUrl:"",
+        
+    });
+    const [users, setUsers] = useState<ChatUser[]>([]);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await SignalRContext.invoke("ReceiveMessages", id);
-            console.log("ЧТО-ТО " + JSON.stringify(response));
+            console.log("start")
+            const response:ChatUser[] = await SignalRContext.invoke("ReceiveMessages", id)!;
+            console.log(response)
+            setSelectedUser(response[0])
+            setUsers([...response])
         };
 
-        fetchData().catch(console.error);
+        fetchData()
+            .catch(console.error);
     }, []);
+
+    SignalRContext.useSignalREffect(
+        "NewMessage",  
+        (...args) => {
+            const message = args[0];
+            console.log("hi")
+            console.log(message)
+            if(id == message.toUserId)
+            {
+                if(selectedUser.id == message.userId) {
+                    selectedUser.messages.push(message)
+                    setSelectedUser(selectedUser)
+                }
+                users.map(u => {
+                    if(u.id == message.userId) {
+                        u.messages.push(message)
+                    }
+                })
+            }
+        }, 
+        []);
 
 
     useEffect(() => {
-        console.log(id)
         const checkScreenWidth = () => {
             setIsMobile(window.innerWidth <= 768);
         };
 
-        // Initial check
         checkScreenWidth();
 
-        // Event listener for screen width changes
         window.addEventListener("resize", checkScreenWidth);
 
-        // Cleanup the event listener on component unmount
         return () => {
             window.removeEventListener("resize", checkScreenWidth);
         };
@@ -89,11 +115,13 @@ export function ChatLayout({
             >
                 <Sidebar
                     isCollapsed={isCollapsed || isMobile}
-                    links={userData.map((user) => ({
-                        name: user.name,
+                    links={users.map((user) => ({
+                        firstName: user.firstName,
+                        lastName: user.lastName,
                         messages: user.messages ?? [],
-                        avatar: user.avatar,
-                        variant: selectedUser.name === user.name ? "grey" : "ghost",
+                        avatarUrl: user.avatarUrl,
+                        variant: selectedUser?.firstName
+                        === user.firstName ? "grey" : "ghost",
                     }))}
                     isMobile={isMobile}
                 />
@@ -101,8 +129,7 @@ export function ChatLayout({
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
                 <Chat
-                    messages={selectedUser.messages}
-                    selectedUser={selectedUser}
+                    selectedUser={selectedUser!}
                     isMobile={isMobile}
                 />
             </ResizablePanel>

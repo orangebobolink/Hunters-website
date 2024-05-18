@@ -9,6 +9,7 @@ namespace Chat.Services.Configurations
         public static void AddServicesConfiguration(this IServiceCollection services)
         {
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
     }
 }

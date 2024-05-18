@@ -13,7 +13,7 @@ COPY ["services/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj"
 COPY ["services/Shared.Messages/Shared.Messages.csproj", "services/Shared.Messages/"]
 RUN dotnet restore "services/Identity/Identity.API/Identity.API.csproj"
 COPY ./services/Identity/ ./services/Identity/
-COPY ./services/Shared/ ./services/Shared/
+COPY ./services/Shared.Messages/ ./services/Shared.Messages/
 WORKDIR "/src/services/Identity/Identity.API"
 RUN dotnet build "./Identity.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
