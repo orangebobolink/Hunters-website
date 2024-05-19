@@ -77,7 +77,7 @@ namespace Identity.Services.Services
                     && hl.ExpiryDate > DateTime.Now,
                 cancellationToken);
 
-            if(huntingLicense is null)
+            if (huntingLicense is null)
             {
                 huntingLicense = new HuntingLicense()
                 {
@@ -144,7 +144,6 @@ namespace Identity.Services.Services
 
             _refreshTokenCookieUtilities.DeleteRefreshTokenCookie();
         }
-
 
         private async Task<User> FindUserByUsernameAsync(string username)
         {

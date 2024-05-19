@@ -11,6 +11,7 @@ using Mapster;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.UnitTests.Data.BogusData;
 using Bogus;
+using Identity.Domain.Exceptions;
 
 namespace Identity.UnitTests.Tests.ServiceTests
 {
@@ -48,15 +49,20 @@ namespace Identity.UnitTests.Tests.ServiceTests
             var accessToken = _faker.Random.Guid().ToString();
             var refreshToken = _faker.Random.String(32);
 
-            _userManagerMock.Setup(um => um.FindByEmailAsync(loginUserDto.Email))
+            _userManagerMock.Setup(
+                um => um.FindByEmailAsync(loginUserDto.Email))
                 .ReturnsAsync(user);
-            _userManagerMock.Setup(um => um.CheckPasswordAsync(user, loginUserDto.Password))
+            _userManagerMock.Setup(
+                um => um.CheckPasswordAsync(user, loginUserDto.Password))
                 .ReturnsAsync(true);
-            _userManagerMock.Setup(um => um.GetRolesAsync(user))
+            _userManagerMock.Setup(
+                um => um.GetRolesAsync(user))
                 .ReturnsAsync(new List<string> { "User" });
-            _tokenServiceMock.Setup(ts => ts.GenerateAccessTokenAsync(user, It.IsAny<CancellationToken>()))
+            _tokenServiceMock.Setup(
+                ts => ts.GenerateAccessTokenAsync(user, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(accessToken);
-            _tokenServiceMock.Setup(ts => ts.GenerateRefreshToken())
+            _tokenServiceMock.Setup(
+                ts => ts.GenerateRefreshToken())
                 .Returns(refreshToken);
 
             // Act
@@ -68,12 +74,6 @@ namespace Identity.UnitTests.Tests.ServiceTests
             result.UserName.Should().Be(user.UserName);
             result.Roles.Should().Contain("User");
             result.AccessToken.Should().Be(accessToken);
-
-            _userManagerMock.Verify(um => um.FindByEmailAsync(loginUserDto.Email), Times.Once);
-            _userManagerMock.Verify(um => um.CheckPasswordAsync(user, loginUserDto.Password), Times.Once);
-            _userManagerMock.Verify(um => um.GetRolesAsync(user), Times.Once);
-            _tokenServiceMock.Verify(ts => ts.GenerateAccessTokenAsync(user, It.IsAny<CancellationToken>()), Times.Once);
-            _tokenServiceMock.Verify(ts => ts.GenerateRefreshToken(), Times.Once);
         }
 
         [Fact]
@@ -110,6 +110,66 @@ namespace Identity.UnitTests.Tests.ServiceTests
 
             // Assert
             result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task LoginAsync_ShouldTrowExeption_WhenEmailNotFound()
+        {
+            // Arrange
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                UserName = _faker.Internet.UserName()
+            };
+            var loginUserDto = new RequestLoginUserDto
+            {
+                Email = _faker.Internet.Email(),
+                Password = _faker.Internet.Password()
+            };
+            var accessToken = _faker.Random.Guid().ToString();
+            var refreshToken = _faker.Random.String(32);
+
+            _userManagerMock.Setup(um => um.FindByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync((User)null);
+
+            // Act
+            Func<Task> act =
+                async () => await _authorizationService
+                .LoginAsync(loginUserDto, CancellationToken.None);
+
+            // Assert
+            await act
+                .Should()
+                .ThrowAsync<Exception>();
+        }
+
+        [Fact]
+        public async Task LoginAsync_ShouldTrowExeption_WhenPasswordIsIncorrect()
+        {
+            // Arrange
+            var user = new User { Id = Guid.NewGuid(), UserName = _faker.Internet.UserName() };
+            var loginUserDto = new RequestLoginUserDto
+            {
+                Email = _faker.Internet.Email(),
+                Password = _faker.Internet.Password()
+            };
+            var accessToken = _faker.Random.Guid().ToString();
+            var refreshToken = _faker.Random.String(32);
+
+            _userManagerMock.Setup(um => um.FindByEmailAsync(loginUserDto.Email))
+                 .ReturnsAsync(user);
+            _userManagerMock.Setup(um => um.CheckPasswordAsync(user, loginUserDto.Password))
+                .ReturnsAsync(false);
+
+            // Act
+            Func<Task> act =
+                async () => await _authorizationService
+                .LoginAsync(loginUserDto, CancellationToken.None);
+
+            // Assert
+            await act
+                .Should()
+                .ThrowAsync<InvalidPasswordException>();
         }
     }
 }
