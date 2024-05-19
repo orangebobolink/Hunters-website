@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Bogus;
 using Identity.Services.Services;
 using Identity.Domain.Entities;
 using Identity.Services.Dtos.RequestDtos;
@@ -10,32 +9,30 @@ using FluentAssertions;
 using Identity.Services.Utilities;
 using Mapster;
 using Identity.Services.Dtos.ResponseDtos;
+using Identity.UnitTests.Data.BogusData;
+using Bogus;
 
 namespace Identity.UnitTests.Tests.ServiceTests
 {
     public class AuthorizationServiceTest
     {
         private readonly Mock<UserManager<User>> _userManagerMock;
-        private readonly Mock<ITokenService> _tokenServiceMock;
-        private readonly Mock<IUserService> _userServiceMock;
-        private readonly Mock<ILogger<AuthorizationService>> _loggerMock;
+        private readonly Mock<ITokenService> _tokenServiceMock = new();
+        private readonly Mock<IUserService> _userServiceMock = new();
+        private readonly Mock<ILogger<AuthorizationService>> _loggerMock = new();
         private readonly AuthorizationService _authorizationService;
-        private readonly Faker _faker;
+        private readonly RequestRegistrationUserDtoFaker _fakerRequestRegistrationUserDto = new();
+        private readonly Faker _faker = new();
 
         public AuthorizationServiceTest()
         {
             _userManagerMock = new Mock<UserManager<User>>(
-                Mock.Of<IUserStore<User>>(),
-                null, null, null, null, null, null, null, null);
-            _tokenServiceMock = new Mock<ITokenService>();
-            _userServiceMock = new Mock<IUserService>();
-            _loggerMock = new Mock<ILogger<AuthorizationService>>();
+                Mock.Of<IUserStore<User>>(), null, null, null, null, null, null, null, null);
             _authorizationService = new AuthorizationService(
                 _userManagerMock.Object,
                 _tokenServiceMock.Object,
                 _userServiceMock.Object,
                 _loggerMock.Object);
-            _faker = new Faker();
         }
 
         [Fact]
@@ -83,17 +80,8 @@ namespace Identity.UnitTests.Tests.ServiceTests
         public async Task RegistrationAsync_ShouldReturnTrue_WhenRegistrationIsSuccessful()
         {
             // Arrange
-            var registrationUserDto = new RequestRegistrationUserDto
-            {
-                Email = _faker.Internet.Email(),
-                PhoneNumber = _faker.Phone.PhoneNumber(),
-                Password = _faker.Internet.Password(),
-                FirstName = _faker.Name.FirstName(),
-                MiddleName = _faker.Name.FirstName(),
-                LastName = _faker.Name.LastName(),
-                DateOfBirth = _faker.Date.Past(20, DateTime.Now.AddYears(-18)),
-                Sex = _faker.PickRandom(new[] { "Male", "Female" })
-            };
+            var registrationUserDto = _fakerRequestRegistrationUserDto
+                .GenerateFakeOneValidRequestRegistrationUserDto();
             var userRequestDto = registrationUserDto.Adapt<RequestUserDto>();
             userRequestDto.UserName = RandomUsernameGeneratorUtility.GenerateRandomUsername();
             userRequestDto.RoleNames = new List<string> { Role.User };
@@ -106,8 +94,7 @@ namespace Identity.UnitTests.Tests.ServiceTests
                 FirstName = userRequestDto.FirstName,
                 MiddleName = userRequestDto.MiddleName,
                 LastName = userRequestDto.LastName,
-                RoleNames = userRequestDto.RoleNames,
-                AvatarUrl = _faker.Internet.Avatar()
+                RoleNames = userRequestDto.RoleNames
             };
 
             _userServiceMock.Setup(

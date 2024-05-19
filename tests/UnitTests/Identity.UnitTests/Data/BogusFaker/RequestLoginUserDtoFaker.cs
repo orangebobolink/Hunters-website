@@ -3,7 +3,7 @@ using Bogus;
 
 namespace Identity.UnitTests.Data.BogusData
 {
-    public class RequestLoginUserDtoBogusData
+    public class RequestLoginUserDtoFaker
     {
         private Faker<RequestLoginUserDto> GenerateFakeRequestLoginUserDto()
         {
