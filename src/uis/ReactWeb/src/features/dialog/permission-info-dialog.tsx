@@ -10,6 +10,7 @@ import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
 import {PermissionService} from '@/entities/permision/PermissionService.ts';
 import {Status} from '@/entities/status/Status.ts';
 import {AxiosResponse} from 'axios';
+import { EnumService } from '../statusTranslate';
 
 interface IProps {
     permission: Permission,
@@ -77,7 +78,7 @@ const PermissionInfoDialog = ({permission, isOpen, setIsOpen}: IProps) => {
                     <p className="font-bold">Дата подкормки: <span className="font-normal">{format(permission.toDate, "MM/dd/yyyy")}</span></p>
                     <p className="font-bold">Составитель: <span className="font-normal">{UserService.getFullName(permission.issued!)}</span></p>
                     <p className="font-bold">Выданно егерю: <span className="font-normal">{UserService.getFullName(permission.received!)}</span></p>
-                    <p className="font-bold">Состояние: <span className="font-normal">{permission.status}</span></p>
+                    <p className="font-bold">Состояние: <span className="font-normal">{EnumService.statysTranslate(permission.status)}</span></p>
                     <p className="font-bold">Локация: <span className="font-normal">{permission.land?.name}</span></p>
                     <p className="font-bold">Имя животного: <span className="font-normal">{permission.animal?.name}</span></p>
                 </div>

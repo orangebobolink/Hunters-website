@@ -12,12 +12,30 @@ import SelectForm from '@/features/form/select-form.tsx';
 import {Type} from '@/entities/rent/models/Type.ts';
 
 const formSchema = z.object({
-    name: z.string(),
-    price: z.number(),
-    description: z.string(),
-    quantityInStock: z.number(),
-    imageUrl: z.string(),
-    type:z.string(),
+    name: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    price: z.number({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть цифрой",
+      })
+    .gte(0, {message:"Стоимость не может быть ниже чем 0"}) ,
+    description: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    quantityInStock: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    imageUrl:  z.string({
+        required_error: "Поле обязательно",
+      }).url({message:"Невалидный URL"}).optional().or(z.literal('')),
+    type: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
 });
 
 function stringToMyEnum(value: string): Type {
@@ -32,7 +50,7 @@ interface IProps {
 const RentForm = ({selectedProduct, type="add"} : IProps) => {
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding.create"
+            keyPrefix: "rent.create"
         });
 
     const [product, setProduct] = useState<Product>(
@@ -63,6 +81,8 @@ const RentForm = ({selectedProduct, type="add"} : IProps) => {
                     imageUrl: values.imageUrl,
                     type: stringToMyEnum(values.type)
                 }
+
+                console.log(request)
 
                 try {
                     const data = await ProductService.create(request);
@@ -118,14 +138,14 @@ const RentForm = ({selectedProduct, type="add"} : IProps) => {
             quantityInStock: selectedProduct?.quantityInStock,
             description: selectedProduct?.description,
             imageUrl: "",
-            type:selectedProduct?.type.toString()
+            type: Type[selectedProduct?.type!]
         },
     })
 
     const options = [
-        Type[Type.Car],
-        Type[Type.Ammunition],
-        Type[Type.Gun]
+        {key:Type[Type.Car], value: "Машина"},
+        {key:Type[Type.Ammunition], value: "Амуниция"},
+        {key:Type[Type.Gun], value: "Оружие"},
     ]
 
     return (
@@ -149,7 +169,7 @@ const RentForm = ({selectedProduct, type="add"} : IProps) => {
                     <InputFormField form={form} t={t}
                                     name="imageUrl"
                                     lang="imageUrl"
-                                    type="file"/>
+                                    />
                     <SelectForm t={t}
                                 form={form}
                                 name="type"

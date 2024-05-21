@@ -9,9 +9,9 @@ using FluentAssertions;
 using Identity.Services.Utilities;
 using Mapster;
 using Identity.Services.Dtos.ResponseDtos;
-using Identity.UnitTests.Data.BogusData;
 using Bogus;
 using Identity.Domain.Exceptions;
+using Identity.UnitTests.Helpers.BogusFaker;
 
 namespace Identity.UnitTests.Tests.ServiceTests
 {
@@ -22,7 +22,7 @@ namespace Identity.UnitTests.Tests.ServiceTests
         private readonly Mock<IUserService> _userServiceMock = new();
         private readonly Mock<ILogger<AuthorizationService>> _loggerMock = new();
         private readonly AuthorizationService _authorizationService;
-        private readonly RequestRegistrationUserDtoFaker _fakerRequestRegistrationUserDto = new();
+        private readonly RequestRegistrationUserDtoFakerHelper _fakerRequestRegistrationUserDto = new();
         private readonly Faker _faker = new();
 
         public AuthorizationServiceTest()

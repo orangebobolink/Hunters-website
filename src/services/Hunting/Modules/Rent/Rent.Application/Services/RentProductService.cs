@@ -49,6 +49,8 @@ namespace Rent.Application.Services
             var rentProduct = request.Adapt<RentProduct>();
             rentProduct.Id = Guid.NewGuid();
             rentProduct.Status = RentStatus.Pending;
+            rentProduct.FromDate = DateTime.Now;
+            rentProduct.ToDate = DateTime.Now.AddDays(10);
 
             _rentProductRepository.Create(rentProduct);
 
@@ -94,7 +96,7 @@ namespace Rent.Application.Services
         public async Task<RentProductResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var rentsProduct = await _rentProductRepository.GetByPredicate(
-                p => p.Id == id,
+                p => p.Id == id && (p.Status == RentStatus.Rented || p.Status == RentStatus.Pending),
                 cancellationToken,
                 true);
 
@@ -104,6 +106,18 @@ namespace Rent.Application.Services
             }
 
             var response = rentsProduct.Adapt<RentProductResponseDto>();
+
+            return response;
+        }
+
+        public async Task<IEnumerable<RentProductResponseDto>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+        {
+            var rentProducts = await _rentProductRepository.GetAllByPredicate(
+                p => p.UserId == userId,
+                cancellationToken,
+                true);
+
+            var response = rentProducts.Adapt<IEnumerable<RentProductResponseDto>>();
 
             return response;
         }

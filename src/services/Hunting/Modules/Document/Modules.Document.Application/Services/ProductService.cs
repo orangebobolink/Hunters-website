@@ -10,7 +10,7 @@ namespace Modules.Document.Application.Services
         {
             return Task.FromResult(
                 Enum.GetValues<Product>()
-                    .Select(p => nameof(p))
+                    .Select(p =>p.ToString())
                     .ToList()
                 );
         }

@@ -44,7 +44,7 @@ const PermissionPage = () => {
             </div>
             <Dialog onOpenChange={()=>setIsOpen(false)}>
                 <DialogTrigger asChild>
-                    <Button onClick={()=>setIsOpen(true)} variant="outline">Edit Profile</Button>
+                    <Button onClick={()=>setIsOpen(true)}>Создать разрешение</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <CreatePermissionForm/>

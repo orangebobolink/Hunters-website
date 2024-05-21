@@ -49,14 +49,17 @@ export function ChatLayout({
         "NewMessage",  
         (...args) => {
             const message = args[0];
-            console.log("hi")
-            console.log(message)
+            
             if(id == message.toUserId)
             {
-                if(selectedUser.id == message.userId) {
-                    selectedUser.messages.push(message)
-                    setSelectedUser(selectedUser)
-                }
+                if (selectedUser.id === message.userId) {
+                    console.log("hi");
+                    const newSelectedUser = {
+                      ...selectedUser,
+                      messages: [...selectedUser.messages, message]
+                    };
+                    setSelectedUser(newSelectedUser);
+                  }
                 users.map(u => {
                     if(u.id == message.userId) {
                         u.messages.push(message)

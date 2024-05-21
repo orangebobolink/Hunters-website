@@ -28,7 +28,7 @@ export function Head() {
         });
 
     return (
-        <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 select-none">
+        <header className="flex h-20 w-full shrink-0 items-center z-10 px-4 md:px-6 select-none">
             <div className="flex flex-row w-full fixed top-0 left-0 right-0 z-10 m-2">
                 <Sheet>
                     <SheetTrigger asChild>
@@ -148,7 +148,7 @@ export function Head() {
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>
-            <div className="flex flex-row fixed top-0 left-0 right-0 mt-2 z-10 shadow-md">
+            <div className="flex flex-row fixed top-0 left-0 right-0 mt-2 z-10 shadow-md pb-2">
                 <NavigationMenu className="hidden lg:flex lg:justify-between lg:mx-5">
                     <NavigationMenuList>
                         <NavigationMenuLink className={navigationMenuLogoTriggerStyle()}>

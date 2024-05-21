@@ -1,14 +1,14 @@
 ﻿using FluentValidation.TestHelper;
 using Identity.Domain.Helpers;
 using Identity.Services.Validators;
-using Identity.UnitTests.Data.BogusData;
+using Identity.UnitTests.Helpers.BogusFaker;
 
 namespace Identity.UnitTests.Tests.ValidatorsTests
 {
     public class RequestLoginUserDtoValidatorTest
     {
         private readonly RequestLoginUserDtoValidator _validator = new();
-        private readonly RequestLoginUserDtoFaker _faker = new();
+        private readonly RequestLoginUserDtoFakerHelper _faker = new();
 
         [Fact]
         public void RequestLoginUserDtoValidator_ShouldPassValidation_WhenDtoIsValid()

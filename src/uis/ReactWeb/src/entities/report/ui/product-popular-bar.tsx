@@ -65,7 +65,6 @@ const ProductPopularBar = () => {
                              activeBar={<Rectangle fill='pink'
                                                    stroke='blue'/>}
                          />
-                         <Legend/>
                      </BarChart>
                  )}
             </ResponsiveContainer>

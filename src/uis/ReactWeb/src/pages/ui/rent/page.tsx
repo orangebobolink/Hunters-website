@@ -13,13 +13,14 @@ import {Button} from '@/shared/ui';
 import {PlusIcon} from '@radix-ui/react-icons';
 import RentForm from '@/entities/rent/ui/rent-form.tsx';
 import {toast} from '@/shared/ui/use-toast.ts';
-import {User} from '@/entities/user/models/User.ts';
 import {RentProduct} from '@/entities/rent/models/RentProduct.ts';
 import {RentProductService} from '@/entities/rent/api/RentProductService.ts';
 import ManagerView from '@/widgets/rentProduct/manager-view.tsx';
+import { RentStatus } from '@/entities/rent/models/RentStatus';
 
 const RentPage = () => {
     const [products, setProducts] = useState<Product[]>([])
+    const [userProducts, setUserProducts] = useState<RentProduct[]>([])
     const [filterTypes, setFilterTypes] = useState<Type[]>([])
     const [isOpen, setIsOpen] = useState(false);
     const [isUpdateOpen, setIsUpdateOpen] = useState(false);
@@ -34,9 +35,12 @@ const RentPage = () => {
         const fetchPermissions = async () => {
             try {
                 const response = await ProductService.getAll();
-
                 setProducts(response.data);
-                console.log(response.data)
+
+                if(roles.includes("User")) {
+                    const userRentProduts = await RentProductService.getByUserId(id!);
+                    setUserProducts(userRentProduts.data);
+                }
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
@@ -88,9 +92,11 @@ const RentPage = () => {
             })
         }
     }
+    
+    console.log(RentStatus[RentStatus.Pending])
 
     return (
-        <div className="flex flex-row w-full mt-10">
+        <div className="flex flex-row w-full mt-8">
             {
                 roles.includes("Manager")
                 ?
@@ -135,11 +141,26 @@ const RentPage = () => {
                                                     {t("onStock")}: {product.quantityInStock}
                                                 </p>
                                             </div>
-                                            {(roles.includes("User")
-                                                    && product.quantityInStock > 0) &&
-                                                <Button className="m-3" onClick={() => {handleRent(product)}}>
-                                                    {t("rent")}
-                                                </Button>
+                                            {
+                                                userProducts.some((userProduct) => 
+                                                    (userProduct.productId === product.id && 
+                                                        (userProduct.status == RentStatus[RentStatus.Pending] || userProduct.status == RentStatus[RentStatus.Rented]))) ?
+                                                (
+                                                    userProducts.some((userProduct) => 
+                                                        (userProduct.productId === product.id && userProduct.status == RentStatus[RentStatus.Pending])) 
+                                                    ?<div>Ваша заявка на аренду рассматривается</div>
+                                                    :<div>Вы уже арендуете данный товар</div>
+                                                     
+                                                )
+                                                     
+                                                :
+                                            (roles.includes("User") && product.quantityInStock > 0) &&
+                                                    (
+                                                   
+                                                    <Button className="m-3" onClick={() => {handleRent(product)}}>
+                                                        {t("rent")}
+                                                    </Button>
+                                                    )
                                             }
                                             {roles.includes("Admin") &&
                                                 <>

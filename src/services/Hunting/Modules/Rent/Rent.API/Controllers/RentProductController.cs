@@ -22,6 +22,16 @@ namespace Rent.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("user/{userId:guid}")]
+        public async Task<IActionResult> GetByUserId(
+          Guid userId,
+          CancellationToken cancellationToken = default)
+        {
+            var response = await _rentProductService.GetByUserIdAsync(userId, cancellationToken);
+
+            return Ok(response);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll(
             CancellationToken cancellationToken = default)

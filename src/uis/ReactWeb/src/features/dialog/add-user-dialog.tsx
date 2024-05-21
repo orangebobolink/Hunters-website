@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {Dialog, DialogContent} from '@/shared/ui/dialog.tsx';
 import {useTranslation} from 'react-i18next';
-import {z} from 'zod';
+import {date, z} from 'zod';
 import {Sex} from '@/shared/model/store/queries/typing/requests/Sex.ts';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -9,28 +9,48 @@ import {UserService} from '@/entities/user/api/UserService.ts';
 import {CreateUser} from '@/entities/user/models/CreateUser.ts';
 import InputFormField from '@/features/form/input-form-field.tsx';
 import {Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/shared/ui';
-import {Popover, PopoverContent, PopoverTrigger} from '@/shared/ui/popover.tsx';
-import {cn} from '@/shared/lib';
-import {format} from 'date-fns';
-import {CalendarIcon} from '@radix-ui/react-icons';
-import {Calendar} from '@/shared/ui/calendar.tsx';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/shared/ui/select.tsx';
 import {ToggleGroup, ToggleGroupItem} from '@/shared/ui/toggle-group.tsx';
 import {useToast} from '@/shared/ui/use-toast.ts';
+import DatePicker from '../form/date-picker';
 
 const formSchema = z.object({
-    email: z.string()
-        .email("This is not a valid email."),
-    phoneNumber: z.string(),
-    password: z.string(),
-    userName: z.string(),
-    firstName: z.string().min(2).max(50),
-    lastName: z.string().min(2).max(50),
-    middleName: z.string().min(2).max(50),
+    email:  z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      })
+        .email("Данная строка не явялется электронной почтой"),
+    phoneNumber:  z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    password:z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    userName: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    firstName: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }).min(2, {message:"Имя меньше чем 2 буквы"}).max(50),
+    lastName: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+    }).min(2, {message:"Фамилия меньше чем 2 буквы"}).max(50),
+    middleName:z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+    }).min(2, {message:"Отчество меньше чем 2 буквы"}).max(50),
     dateOfBirth: z.date({
-        required_error: "A date of birth is required.",
+        required_error: "День рождения обязателен.",
     }),
-    sex:z.string().min(2).max(50),
+    sex:z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+    }).min(2, {message:"Пол меньше чем 2 буквы"}).max(50),
     roleNames: z.string().array().nonempty("Роли обязательны")
 });
 
@@ -108,15 +128,7 @@ const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            phoneNumber: "",
-            userName: "",
-            password: "",
-            firstName: "",
-            lastName: "",
-            middleName: "",
             dateOfBirth: new Date(),
-            sex:"",
             roleNames: []
         },
     })
@@ -154,49 +166,19 @@ const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
                                     <InputFormField form={form} t={t}
                                                     name="middleName"
                                                     lang="registration.middleName"/>
-                                    <FormField
-                                        control={form.control}
+                                    <DatePicker form={form}
+                                        t={t}
+                                        label="Дата пождения"
+                                        lang="dateOfBirth"
                                         name="dateOfBirth"
-                                        render={({ field }) => (
-                                            <Popover>
-                                                <PopoverTrigger asChild>
-                                                    <FormControl>
-                                                        <Button
-                                                            variant={"outline"}
-                                                            className={cn(
-                                                                "w-[240px] pl-3 text-left font-normal",
-                                                                !field.value && "text-muted-foreground"
-                                                            )}
-                                                        >
-                                                            {field.value ? (
-                                                                format(field.value, "PPP")
-                                                            ) : (
-                                                                 <span>Pick a date</span>
-                                                             )}
-                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                        </Button>
-                                                    </FormControl>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-auto p-0" align="start">
-                                                    <Calendar
-                                                        mode="single"
-                                                        selected={field.value}
-                                                        onSelect={field.onChange}
-                                                        disabled={(date) =>
-                                                            date > new Date() || date < new Date("1900-01-01")
-                                                        }
-                                                        initialFocus
-                                                    />
-                                                </PopoverContent>
-                                            </Popover>
-                                        )}
-                                    />
+                                        disabled= {(date:Date)=> date > new Date() || date < new Date("1900-01-01")}/>
+                                  
                                     <FormField
                                         control={form.control}
                                         name="sex"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-green-500">
+                                                <FormLabel  >
                                                     {t("registration.sex")}
                                                 </FormLabel>
                                                 <FormControl className="border-black/50">
@@ -222,7 +204,7 @@ const AddUserDialog = ({isOpen, setIsOpen, increaseCount}:IProps) => {
                                     name="roleNames"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-green-500">
+                                            <FormLabel>
                                                 Роли
                                             </FormLabel>
                                             <FormControl>

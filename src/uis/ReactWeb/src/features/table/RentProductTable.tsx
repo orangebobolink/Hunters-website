@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {RentStatus} from '@/entities/rent/models/RentStatus.ts';
 import {RentProductService} from '@/entities/rent/api/RentProductService.ts';
 import {toast} from '@/shared/ui/use-toast.ts';
+import { EnumService, StatusTranslateService } from '../statusTranslate';
 
 interface IProps
 {
@@ -17,7 +18,7 @@ interface IProps
 const RentProductTable = ({rentProducts, setRentProducts}:IProps) => {
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding.table"
+            keyPrefix: "rent.table"
         });
 
     const handle = async (rentProduct:RentProduct) => {
@@ -70,7 +71,7 @@ const RentProductTable = ({rentProducts, setRentProducts}:IProps) => {
                 {format(rentProduct.toDate!, "dd.MM.yyyy")}
             </TableCell>
             <TableCell>
-                {rentProduct.status}
+                {EnumService.statysTranslate(rentProduct.status?.toString())}
             </TableCell>
             <TableCell>
                 {

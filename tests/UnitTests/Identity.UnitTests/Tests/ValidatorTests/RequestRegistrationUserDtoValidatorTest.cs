@@ -1,13 +1,13 @@
 ﻿using FluentValidation.TestHelper;
 using Identity.Domain.Helpers;
 using Identity.Services.Validators;
-using Identity.UnitTests.Data.BogusData;
+using Identity.UnitTests.Helpers.BogusFaker;
 
 namespace Identity.UnitTests.Tests.ValidatorTests
 {
     public class RequestRegistrationUserDtoValidatorTest
     {
-        private readonly RequestRegistrationUserDtoFaker _faker = new();
+        private readonly RequestRegistrationUserDtoFakerHelper _faker = new();
         private readonly RequestRegistrationUserDtoValidator _validator = new();
 
         [Fact]

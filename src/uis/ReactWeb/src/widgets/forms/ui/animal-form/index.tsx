@@ -4,6 +4,7 @@ import {Animal} from '@/entities/animal/models/Animal.ts';
 import {Avatar, AvatarFallback, AvatarImage} from '@/shared/ui/avatar.tsx';
 import AnimalInfoDialog from '@/features/dialog/animalinfo-dialog.tsx';
 import {useState} from 'react';
+import { EnumService } from '@/features/statusTranslate';
 
 interface IProps{
     animals: Animal[],
@@ -38,7 +39,7 @@ const AnimalForm = ({animals, handleClick}:IProps) => {
                             <TableCell>{
                                 animal.name
                              }</TableCell>
-                            <TableCell>{animal.type}</TableCell>
+                            <TableCell>{EnumService.animalTranslate(animal.type)}</TableCell>
                             <TableCell>
                                 <Button
                                     variant="ghost"

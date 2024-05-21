@@ -12,6 +12,7 @@ import {AxiosResponse} from 'axios';
 import {toast} from '@/shared/ui/use-toast.ts';
 import {Status} from '@/entities/status/Status.ts';
 import {TripService} from '@/entities/trip/api/TripService.ts';
+import { EnumService } from '../statusTranslate';
 
 interface IProps {
     trip: Trip,
@@ -58,7 +59,7 @@ const TripInfoDialog = ({trip, isOpen, setIsOpen}: IProps) => {
                     <p className="font-bold">Дата подкормки: <span className="font-normal">{format(trip.permission!.toDate, "MM/dd/yyyy")}</span></p>
                     <p className="font-bold">Составитель: <span className="font-normal">{UserService.getFullName(trip.permission!.issued!)}</span></p>
                     <p className="font-bold">Выданно егерю: <span className="font-normal">{UserService.getFullName(trip.permission!.received!)}</span></p>
-                    <p className="font-bold">Состояние: <span className="font-normal">{trip.status}</span></p>
+                    <p className="font-bold">Состояние: <span className="font-normal">{EnumService.statysTranslate(trip.status.toString())}</span></p>
                     <p className="font-bold">Локация: <span className="font-normal">{trip.permission!.land?.name}</span></p>
                     <p className="font-bold">Имя животного: <span className="font-normal">{trip.permission!.animal?.name}</span></p>
                     <p className="font-bold">

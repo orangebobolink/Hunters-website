@@ -1,9 +1,9 @@
 ﻿using Identity.Services.Dtos.RequestDtos;
 using Bogus;
 
-namespace Identity.UnitTests.Data.BogusData
+namespace Identity.UnitTests.Helpers.BogusFaker
 {
-    public class RequestLoginUserDtoFaker
+    public class RequestLoginUserDtoFakerHelper
     {
         private Faker<RequestLoginUserDto> GenerateFakeRequestLoginUserDto()
         {

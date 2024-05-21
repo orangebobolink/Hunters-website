@@ -5,6 +5,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/s
 import {format} from 'date-fns';
 import {Button} from '@/shared/ui';
 import PermissionInfoDialog from '@/features/dialog/permission-info-dialog.tsx';
+import { EnumService } from '../statusTranslate';
 
 interface IProps
 {
@@ -40,7 +41,7 @@ const PermissionTable = ({permissions}:IProps) => {
                 {permission.numberOfCoupons}
             </TableCell>
             <TableCell>
-                {permission.status.toString()}
+                {EnumService.statysTranslate(permission.status.toString())}
             </TableCell>
             <TableCell>
                 <Button

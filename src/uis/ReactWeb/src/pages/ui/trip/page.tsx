@@ -22,7 +22,7 @@ const TripPage = () => {
         });
 
     useEffect(() => {
-        if(roles.includes("User") && !isPaid)
+        if(roles.includes("User") && isPaid)
         {
             toast({
                 variant: "destructive",
@@ -61,13 +61,13 @@ const TripPage = () => {
                 <TripTable trips={trips} setChangeRender={setChangeRender}/>
             </div>
             {roles.includes("Manager") &&
-                <Dialog onOpenChange={() => setIsOpen(false)}>
+                <Dialog open={isOpen} onOpenChange={() => isOpen && setIsOpen(false)}>
                     <DialogTrigger asChild>
                         <Button onClick={() => setIsOpen(true)}
                                 variant="outline">{t("addTrip")}</Button>
                     </DialogTrigger>
                     <DialogContent>
-                       <CreateTripForm/>
+                       <CreateTripForm setIsOpen={setIsOpen}/>
                     </DialogContent>
                 </Dialog>
             }

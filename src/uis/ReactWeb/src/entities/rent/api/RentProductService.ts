@@ -7,6 +7,11 @@ export class RentProductService {
         return await axiosInstance.get<RentProduct[]>(apiMap.GET_RENT_PRODUCT);
     }
 
+    static async getByUserId(id:string) {
+        const url = `${apiMap.GET_RENT_PRODUCT}/user/${id}`;
+        return await axiosInstance.get<RentProduct[]>(url);
+    }
+
     static async create(product:RentProduct) {
         return await axiosInstance.post(apiMap.GET_RENT_PRODUCT, product);
     }

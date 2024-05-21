@@ -21,10 +21,22 @@ import FeedingProductDrawer from '@/features/drawer/feeding-product-drawet.tsx';
 import {Textarea} from '@/shared/ui/textarea.tsx';
 
 const formSchema = z.object({
-    number: z.string().min(5, "Номер дожен быть юольше 5 символов"),
-    feedingDate: z.date(),
-    receivedId: z.string(),
-    landId: z.string(),
+    number: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }).min(5, "Номер дожен быть юольше 5 символов"),
+    feedingDate: z.date({
+        required_error: "Дата обязательна",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    receivedId: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
+    landId: z.string({
+        required_error: "Поле обязательно",
+        invalid_type_error: "Поле обязано быть строкой",
+      }),
 });
 
 interface IProps
@@ -99,9 +111,9 @@ const AddFeedingDialog = ({isOpen, setIsOpen}:IProps) => {
                                         lang="feedingDate"
                                         name="feedingDate"
                                         disabled= {(date: Date) => date < new Date()}/>
-                            <Textarea value={feedingProducts.map(f=> f.product)}
+                            <Textarea value={feedingProducts.map(f=> f.product == "Seed" ? "Пшеница" : "Овес")}
                                       disabled
-                                      className="resize-none"/>
+                                      className="resize-none text-black"/>
                             <FeedingProductDrawer feedingProducts={feedingProducts}
                                                   setFeedingProducts={setFeedingProducts}
                                                   isOpen={isDrawerOpen}

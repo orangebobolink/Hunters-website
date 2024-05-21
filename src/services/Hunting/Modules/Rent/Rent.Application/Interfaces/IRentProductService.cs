@@ -20,5 +20,8 @@ namespace Rent.Application.Interfaces
         Task<RentProductResponseDto> DeleteAsync(
             Guid id,
             CancellationToken cancellationToken);
+        Task<IEnumerable<RentProductResponseDto>> GetByUserIdAsync(
+          Guid userId,
+          CancellationToken cancellationToken);
     }
 }

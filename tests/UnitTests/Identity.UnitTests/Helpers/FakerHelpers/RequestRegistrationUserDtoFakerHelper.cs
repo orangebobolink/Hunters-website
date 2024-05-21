@@ -3,9 +3,9 @@ using Identity.UnitTests.Extensions;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Domain.Enums;
 
-namespace Identity.UnitTests.Data.BogusData
+namespace Identity.UnitTests.Helpers.BogusFaker
 {
-    internal class RequestRegistrationUserDtoFaker
+    internal class RequestRegistrationUserDtoFakerHelper
     {
         private Faker<RequestRegistrationUserDto> GenerateFakeRRequestRegistrationUserDto()
         {
