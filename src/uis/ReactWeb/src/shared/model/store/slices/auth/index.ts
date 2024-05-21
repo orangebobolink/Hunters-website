@@ -68,6 +68,8 @@ const authSlice = createSlice({
                 state.username = payload.username
                 state.roles = payload.roles;
                 state.isAuth = true;
+                state.isPaid = payload.isPaid;
+                state.huntingLicenseId = payload.huntingLicenseId;
                 LocaleStorageUtils.setAccessToken(payload.accessToken);
 
                 setFulfilledValues(state);
@@ -75,6 +77,7 @@ const authSlice = createSlice({
             .addCase(loginThunk.rejected, setRejectedValues)
             .addCase(refreshAuthThunk.pending, setPendingStatuses)
             .addCase(refreshAuthThunk.fulfilled, (state, { payload }: PayloadAction<LoginResponse>) => {
+                console.log(payload)
                 state.id = payload.id;
                 state.username = payload.username
                 state.roles = payload.roles;

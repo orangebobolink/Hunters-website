@@ -22,7 +22,9 @@ const TripPage = () => {
         });
 
     useEffect(() => {
-        if(roles.includes("User") && isPaid)
+        console.log(roles)
+        console.log(isPaid)
+        if(roles.includes("User") && !isPaid)
         {
             toast({
                 variant: "destructive",
@@ -36,7 +38,7 @@ const TripPage = () => {
         const fetchPermissions = async () => {
             try {
                 const response = await TripService.getAll();
-
+                
                 if(roles.includes("Ranger"))
                 {
                     console.log(response.data)
