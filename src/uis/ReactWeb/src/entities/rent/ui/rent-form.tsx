@@ -90,7 +90,7 @@ const RentForm = ({selectedProduct, type="add"} : IProps) => {
                     if (data.status >= 200 && data.status <= 300) {
                         toast({
                             variant: "success",
-                            title: "Продукт созданна успешно",
+                            title: "Продукт создан успешно",
                         })
                     }
                 } catch {

@@ -23,7 +23,7 @@ const CreateHuntingLicenseForm = ({setChangeRender}:IProps) => {
     const {id} = useAppSelector(selectAuth);
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding.create"
+            keyPrefix: "huntingLicense.create"
         });
 
     const onSubmit = useCallback(

@@ -51,7 +51,7 @@ const AddAnimalDialog = ({isOpen, setIsOpen}:IProps) => {
                 {
                     toast({
                         variant: "success",
-                        title: "Сезон охоты добавлен успешно",
+                        title: "Животное добавленно успешно",
                     })
                     setIsOpen(false)
                 }

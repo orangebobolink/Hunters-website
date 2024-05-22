@@ -60,7 +60,7 @@ const TripPage = () => {
     return (
         <div className="select-none h-full w-full flex items-center flex-col justify-center space-y-5">
             <div className="w-2/3 flex justify-center">
-                <TripTable trips={trips} setChangeRender={setChangeRender}/>
+                <TripTable changeRender={changeRender} trips={trips} setChangeRender={setChangeRender}/>
             </div>
             {roles.includes("Manager") &&
                 <Dialog open={isOpen} onOpenChange={() => isOpen && setIsOpen(false)}>

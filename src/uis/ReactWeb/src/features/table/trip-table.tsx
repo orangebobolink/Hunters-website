@@ -10,14 +10,16 @@ import {TripService} from '@/entities/trip/api/TripService.ts';
 import {TripParticipant} from '@/entities/trip/models/TripParticipant.ts';
 import {TripParticipantService} from '@/entities/trip/api/TripParticipantService.ts';
 import TripInfoDialog from '@/features/dialog/trip-info-dialog.tsx';
+import { toast } from '@/shared/ui/use-toast';
 
 interface IProps
 {
     trips: Trip[];
+    changeRender:boolean;
     setChangeRender: (flag: boolean) => void;
 }
 
-const TripTable = ({trips, setChangeRender}:IProps) => {
+const TripTable = ({trips, changeRender, setChangeRender}:IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedTrip, setSelectedTrip] = useState<Trip>();
     const { t} = useTranslation("translation",
@@ -31,15 +33,31 @@ const TripTable = ({trips, setChangeRender}:IProps) => {
 
         if(response.data)
         {
+            console.log(huntingLicenseId)
             const participant : TripParticipant = {
                 participantId: id!,
                 huntingLicenseId: huntingLicenseId,
                 tripId: tripId
             }
 
-            await TripParticipantService.create(participant);
+            try {
+            const tripResponse = await TripParticipantService.create(participant);
 
-            setChangeRender(true)
+                if(tripResponse.data.status >= 200 && tripResponse.data.status <= 300)
+                {
+                    toast({
+                        variant: "success",
+                        title: "Путевка купленна успешно",
+                    })
+
+                    setChangeRender(!changeRender)
+                }
+            }catch {
+                toast({
+                    variant: "destructive",
+                    title: "Что-то пошло не так",
+                })
+            }
         }
         else
         {

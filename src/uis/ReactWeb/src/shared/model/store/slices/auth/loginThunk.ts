@@ -4,6 +4,7 @@ import { AuthService } from '@/shared/api/services/AuthService';
 import { Notice } from '@/shared/const';
 import { ErrorUtils } from '@/shared/lib/utils/ErrorUtils';
 import type { LoginRequest } from '@/shared/model/store/queries/typing/requests/LoginRequest';
+import { toast } from '@/shared/ui/use-toast';
 
 export const loginThunk = createAsyncThunk(
     'identity/authorization/login',
@@ -13,8 +14,14 @@ export const loginThunk = createAsyncThunk(
 
             return response.data;
         } catch (error: any) {
-            console.log(error);
-            if (ErrorUtils.isTypedErrorFromAxios(error)) return rejectWithValue(error.response.data.message);
+            toast({
+                variant: "destructive",
+                title: error.response.data.error,
+            })
+            if (ErrorUtils.isTypedErrorFromAxios(error)) {
+                 
+                return rejectWithValue(error.response.data.message);
+            }
             return rejectWithValue(Notice.UNEXPECTED_ERROR);
         }
     },

@@ -58,7 +58,7 @@ const AddRaidDialog = ({isOpen, setIsOpen}:IProps) => {
                 {
                     toast({
                         variant: "success",
-                        title: "Подкормка созданна успешно",
+                        title: "Рейд создан успешно",
                     })
                     setIsOpen(false)
                 }

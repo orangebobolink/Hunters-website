@@ -126,7 +126,8 @@
       "number":"Номер",
       "specialConditions": "Специальные условия",
       "price": "Цена",
-      "add": "Создать"
+      "add": "Создать",
+      "eventData":"Дата охоты"
     },
     "table":{
       "buy":"Купить путевку",
@@ -162,5 +163,10 @@
     "price": "Цена",
     "onStock": "На складе",
     "rent": "Арендавать"
+  },
+  "huntingLicense": {
+    "create":{
+      "licenseNumber":"Номер лицезнии"
+    }
   }
 }

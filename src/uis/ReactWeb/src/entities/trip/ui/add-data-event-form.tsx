@@ -20,7 +20,7 @@ interface IProps {
 const AddDataEventForm = ({trip} : IProps) => {
     const { t} = useTranslation("translation",
         {
-            keyPrefix: "feeding.create"
+            keyPrefix: "trip.create"
         });
 
     const onSubmit = useCallback(
@@ -34,7 +34,7 @@ const AddDataEventForm = ({trip} : IProps) => {
                 {
                     toast({
                         variant: "success",
-                        title: "Путевка созданна успешно",
+                        title: "Дата добавленна успешно",
                     })
                 }
             }catch {
@@ -60,7 +60,7 @@ const AddDataEventForm = ({trip} : IProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                 <div className="flex flex-col justify-around space-y-2">
                     <DatePicker form={form} t={t}
-                                    label="eventData"
+                                    label="Дата охоты"
                                     name="eventData"
                                     lang="eventData"
                                     disabled={(date:Date) => date < new Date(fromDate) || date > new Date(toDate)}/>

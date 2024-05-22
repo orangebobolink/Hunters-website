@@ -39,7 +39,7 @@ const PaymantPage = () => {
         }
 
         fetchPermissions();
-    }, [isPaid, changeRender]);
+    }, [isPaid, changeRender, huntingLicense]);
 
     const handlerPayment = async () => {
         try {
@@ -53,6 +53,7 @@ const PaymantPage = () => {
                 })
 
                 setChangeRender(!changeRender)
+                setHuntingLicense({...huntingLicense, isPaid: true})
             }
             else
             {

@@ -148,7 +148,7 @@ export function Head() {
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>
-            <div className="flex flex-row fixed top-0 left-0 right-0 mt-2 z-10 shadow-md pb-2">
+            <div className="flex flex-row fixed top-0 left-0 right-0 lg:mt-2 z-10 shadow-md lg:pb-2">
                 <NavigationMenu className="hidden lg:flex lg:justify-between lg:mx-5">
                     <NavigationMenuList>
                         <NavigationMenuLink className={navigationMenuLogoTriggerStyle()}>
