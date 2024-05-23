@@ -42,7 +42,7 @@ namespace Identity.Services.Services
 
             var message = huntingLicense.Adapt<CreateHuntingLicenseMessage>();
 
-            await _bus.Publish(message);
+            await _bus.Publish(message, cancellationToken);
 
             var response = huntingLicense.Adapt<HuntingLicenseResponseDto>();
 

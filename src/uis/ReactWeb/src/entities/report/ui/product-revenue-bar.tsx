@@ -43,7 +43,7 @@ const ProductRevenueBar = () => {
     }, [period]);
 
     return (
-        <div className=' flex flex-col justify-center items-center  min-w-[350px]  mt-4 w-[20dvw] h-[250px]'>
+        <div className=' flex flex-col justify-center items-center  min-w-[350px]  mt-4 w-full h-[250px]'>
             <PeriodSelect period={period}
                           setPeriod={setPeriod}/>
             <ResponsiveContainer width='100%'

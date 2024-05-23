@@ -58,7 +58,7 @@ const CreatePermissionForm = () => {
                 {
                     toast({
                         variant: "success",
-                        title: "Подкормка созданна успешно",
+                        title: "Разрешение созданно успешно",
                     })
                 }
             }catch {

@@ -17,7 +17,8 @@ namespace Identity.Services.Services
     internal class UserService(
         IUserRepository userRepository,
         IBus bus,
-        ILogger<UserService> logger) : IUserService
+        ILogger<UserService> logger)
+        : IUserService
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogger<UserService> _logger = logger;
@@ -95,7 +96,9 @@ namespace Identity.Services.Services
             return response;
         }
 
-        public async Task<ResponseUserDto> GetUserByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ResponseUserDto> GetUserByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
             var user = (await _userRepository.GetByIdAsync(id))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
@@ -107,9 +110,10 @@ namespace Identity.Services.Services
             return userDto;
         }
 
-        public async Task<ResponseUpdateUserDto> UpdateAsync(Guid id,
-                                                            RequestUpdateUserDto user,
-                                                            CancellationToken cancellationToken)
+        public async Task<ResponseUpdateUserDto> UpdateAsync(
+            Guid id,
+            RequestUpdateUserDto user,
+            CancellationToken cancellationToken)
         {
             var existedUser = (await _userRepository.GetByIdAsync(id))
                 ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
@@ -133,6 +137,25 @@ namespace Identity.Services.Services
             return response;
         }
 
+        public async Task<ResponseUpdateUserDto> UpdatePasswordAsync(
+            Guid id,
+            UserChangePasswordRequestDto user,
+            CancellationToken cancellationToken)
+        {
+            var existedUser = (await _userRepository.GetByIdAsync(id))
+               ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
+
+            await _userRepository.UpdatePasswordAsync(existedUser, user.Password);
+
+            await _bus.PublishObj<UserChangePasswordRequestDto, UpdateUserMessage>(user, cancellationToken);
+
+            var response = existedUser.Adapt<ResponseUpdateUserDto>();
+
+            _logger.LogInformation("Updated user successfully. UserId: {UserId}", id);
+
+            return response;
+        }
+
         private async Task UpdateUserRolesAsync(User user, List<string> oldRoles)
         {
             var newRoles = user.RoleNames
@@ -142,18 +165,18 @@ namespace Identity.Services.Services
                 .Except(user.RoleNames)
                 .ToList();
 
-            if (newRoles.Any())
+            if (newRoles.Count != 0)
             {
                 var addToRoleResult = await _userRepository
-                    .AddToRolesAsync(user, newRoles.ToList());
+                    .AddToRolesAsync(user, [.. newRoles]);
 
                 addToRoleResult.CheckAddToRoleResult(_logger);
             }
 
-            if (removedRoles.Any())
+            if (removedRoles.Count != 0)
             {
                 var removeFromRoleResult = await _userRepository
-                    .RemoveFromRolesAsync(user, removedRoles.ToList());
+                    .RemoveFromRolesAsync(user, [.. removedRoles]);
 
                 removeFromRoleResult.CheckAddToRoleResult(_logger);
             }

@@ -31,7 +31,9 @@ namespace Identity.Infrastructure.Repositories
             CancellationToken cancellationToken)
         {
             var reference = await _userManager.Users
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
 
             var keysetContext = _userManager.Users.KeysetPaginate(
                 b => b.Descending(x => x.UserName!).Descending(x => x.Id),
@@ -40,7 +42,7 @@ namespace Identity.Infrastructure.Repositories
 
             return await keysetContext.Query
                 .Take(numberTake)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<User?> GetByCredentialsAsync(
@@ -83,7 +85,7 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<List<string>> GetRoles(User user)
         {
-            return (await _userManager.GetRolesAsync(user)).ToList();
+            return [.. (await _userManager.GetRolesAsync(user))];
         }
 
         public async Task<IdentityResult> RemoveFromRolesAsync(User user, List<string> roles)
@@ -93,7 +95,16 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<List<User>> GetAllByRole(string roleName)
         {
-            return (await _userManager.GetUsersInRoleAsync(roleName)).ToList();
+            return [.. (await _userManager.GetUsersInRoleAsync(roleName))];
+        }
+
+        public async Task UpdatePasswordAsync(User user, string newPassword)
+        {
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            IdentityResult passwordChangeResult = await _userManager.ResetPasswordAsync(
+                user,
+                resetToken,
+                newPassword);
         }
     }
 }
