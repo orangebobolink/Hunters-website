@@ -98,13 +98,12 @@ namespace Identity.Infrastructure.Repositories
             return [.. (await _userManager.GetUsersInRoleAsync(roleName))];
         }
 
-        public async Task UpdatePasswordAsync(User user, string newPassword)
+        public async Task<IdentityResult> UpdatePasswordAsync(
+            User user,
+            string currentPassword,
+            string newPassword)
         {
-            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            IdentityResult passwordChangeResult = await _userManager.ResetPasswordAsync(
-                user,
-                resetToken,
-                newPassword);
+            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         }
     }
 }

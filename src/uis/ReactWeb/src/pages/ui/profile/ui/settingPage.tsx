@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 const formSchema = z.object({
+    currentPassword: z.string(),
     password: z.string().min(5, 'Номер дожен быть юольше 5 символов'),
 });
 
@@ -23,7 +24,7 @@ const SettingPage = () => {
 
     const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
         try {
-            const data = await UserService.updatePassword(id, values.password);
+            const data = await UserService.updatePassword(id!,values.currentPassword, values.password);
 
             if (data.status >= 200 && data.status <= 300) {
                 toast({
@@ -52,6 +53,13 @@ const SettingPage = () => {
                         className='space-y-8 w-full'
                     >
                         <div className='flex flex-col justify-around space-y-2'>
+                            <InputFormField
+                                form={form}
+                                t={t}
+                                name='currentPassword'
+                                lang='currentPassword'
+                                type='password'
+                            />
                             <InputFormField
                                 form={form}
                                 t={t}

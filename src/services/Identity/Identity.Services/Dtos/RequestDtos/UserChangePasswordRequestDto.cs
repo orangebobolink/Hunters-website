@@ -2,5 +2,6 @@
 {
     public record class UserChangePasswordRequestDto(
         Guid Id,
-        string Password);
+        string CurrentPassword,
+        string NewPassword);
 }

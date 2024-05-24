@@ -1,7 +1,6 @@
 ﻿using Chat.Services.Dtos.RequestDtos;
 using Chat.Services.Dtos.ResponseDtos;
 using Chat.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 

@@ -21,9 +21,17 @@ export class UserService {
         return await axiosInstance.put(url, user);
     }
 
-    static async updatePassword(id: string, password: string) {
+    static async updatePassword(
+        id: string,
+        currentPassword: string,
+        password: string
+    ) {
         const url = `${apiMap.UPDATE_USER}/password/${id}`;
-        return await axiosInstance.put(url, { id: id, password: password });
+        return await axiosInstance.put(url, {
+            id: id,
+            currentPassword: currentPassword,
+            newPassword: password,
+        });
     }
 
     static getFullName(user?: User) {

@@ -29,7 +29,6 @@ interface SidebarProps {
         variant: 'grey' | 'ghost';
     }[];
     onClick?: () => void;
-    isMobile: boolean;
     setUsers: (user: ChatUser[]) => void;
     users: ChatUser[];
     setSelectedUser: (user: ChatUser) => void;

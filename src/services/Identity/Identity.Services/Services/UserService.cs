@@ -25,8 +25,9 @@ namespace Identity.Services.Services
         private readonly IBus _bus = bus;
         private readonly ThrowExceptionUtility<UserService> _throwExceptionUtilities = new(logger);
 
-        public async Task<ResponseCreateUserDto> CreateAsync(RequestUserDto requestUserDto,
-                                                            CancellationToken cancellationToken)
+        public async Task<ResponseCreateUserDto> CreateAsync(
+            RequestUserDto requestUserDto,
+            CancellationToken cancellationToken)
         {
             var creditionals = requestUserDto.Adapt<User>();
 
@@ -145,7 +146,12 @@ namespace Identity.Services.Services
             var existedUser = (await _userRepository.GetByIdAsync(id))
                ?? _throwExceptionUtilities.ThrowAccountNotFoundException(id);
 
-            await _userRepository.UpdatePasswordAsync(existedUser, user.Password);
+            var result = await _userRepository.UpdatePasswordAsync(
+                existedUser,
+                user.CurrentPassword,
+                user.NewPassword);
+
+            result.CheckUserUpdateResult(logger);
 
             await _bus.PublishObj<UserChangePasswordRequestDto, UpdateUserMessage>(user, cancellationToken);
 
