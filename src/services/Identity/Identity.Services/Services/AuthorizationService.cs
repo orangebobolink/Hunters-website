@@ -48,7 +48,8 @@ namespace Identity.Services.Services
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 AccessToken = accessToken,
                 HuntingLicenseId = huntingLicense?.Id,
-                IsPaid = huntingLicense?.IsPaid
+                IsPaid = huntingLicense?.IsPaid,
+                AvatarUrl = user.AvatarUrl
             };
 
             return response;

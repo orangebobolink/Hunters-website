@@ -1,61 +1,67 @@
-import {NavigationMenuItem, navigationMenuTriggerStyle} from '@/shared/ui';
+import { NavigationMenuItem, navigationMenuTriggerStyle } from '@/shared/ui';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu.tsx';
-import {Avatar, AvatarFallback, AvatarImage} from '@/shared/ui/avatar.tsx';
-import {useTranslation} from 'react-i18next';
-import {useActions} from '@/shared/lib/hooks/useActions.ts';
-import {useAppSelector} from '@/shared/lib/hooks/redux-hooks.ts';
-import {selectAuth} from '@/shared/model/store/selectors/auth.selectors.ts';
-import {useNavigate} from 'react-router-dom';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar.tsx';
+import { useTranslation } from 'react-i18next';
+import { useActions } from '@/shared/lib/hooks/useActions.ts';
+import { useAppSelector } from '@/shared/lib/hooks/redux-hooks.ts';
+import { selectAuth } from '@/shared/model/store/selectors/auth.selectors.ts';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileAvatarNavigate = () => {
     const { logout } = useActions();
-    const {roles} = useAppSelector(selectAuth);
+    const { roles, avatarUrl } = useAppSelector(selectAuth);
     const navigate = useNavigate();
 
-    const { t } = useTranslation("translation",
-        {
-            keyPrefix: "header.profile"
-        });
+    const { t } = useTranslation('translation', {
+        keyPrefix: 'header.profile',
+    });
 
     const myTrips = () => {
-        navigate("/profile")
-    }
+        navigate('/profile/myTrips');
+    };
+
+    const setting = () => {
+        navigate('/profile/settings');
+    };
+
+    const info = () => {
+        navigate('/profile/inform');
+    };
 
     return (
         <NavigationMenuItem className={navigationMenuTriggerStyle()}>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Avatar className="size-[2rem]">
-                        <AvatarImage src="https://github.com/shadcn.png" />
+                    <Avatar className='size-[2rem]'>
+                        <AvatarImage src={avatarUrl} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-9 flex flex-col mr-9">
-                    <DropdownMenuLabel className="select-none">
-                        {t("tittle")}
+                <DropdownMenuContent className='w-9 flex flex-col mr-9'>
+                    <DropdownMenuLabel className='select-none'>
+                        {t('tittle')}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        {t("information")}
+                    <DropdownMenuItem onClick={info}>
+                        {t('information')}
                     </DropdownMenuItem>
-                    {
-                        roles.includes("User") &&
+                    {roles.includes('User') && (
                         <DropdownMenuItem onClick={myTrips}>
-                            {t("myTrips")}
+                            {t('myTrips')}
                         </DropdownMenuItem>
-                    }
-                    <DropdownMenuItem>
-                        {t("settings")}
+                    )}
+                    <DropdownMenuItem onClick={setting}>
+                        {t('settings')}
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={logout}>
-                        {t("signOut")}
+                        {t('signOut')}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

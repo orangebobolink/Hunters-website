@@ -8,5 +8,6 @@
         public Guid? HuntingLicenseId { get; set; }
         public bool? IsPaid { get; set; } = false;
         public string? AccessToken { get; set; }
+        public string AvatarUrl { get; set; } = string.Empty;
     }
 }

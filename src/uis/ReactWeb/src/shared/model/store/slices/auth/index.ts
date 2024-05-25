@@ -5,6 +5,8 @@ import { loginThunk } from '@/shared/model/store/slices/auth/loginThunk';
 import { logoutThunk } from '@/shared/model/store/slices/auth/logoutThunk';
 import { refreshAuthThunk } from '@/shared/model/store/slices/auth/refreshAuthThunk';
 import { LoginResponse } from '@/shared/model/store/queries/typing/responses/LoginResponse';
+import { stat } from 'fs';
+import { isPaidThunk } from './isPaidThunk';
 
 type InitialState = {
     id: string | null;
@@ -74,6 +76,7 @@ const authSlice = createSlice({
                     state.roles = payload.roles;
                     state.isAuth = true;
                     state.isPaid = payload.isPaid;
+                    state.avatarUrl = payload.avatarUrl;
                     state.huntingLicenseId = payload.huntingLicenseId;
                     LocaleStorageUtils.setAccessToken(payload.accessToken);
 
@@ -90,6 +93,7 @@ const authSlice = createSlice({
                     state.username = payload.username;
                     state.roles = payload.roles;
                     state.isAuth = true;
+                    state.avatarUrl = payload.avatarUrl;
                     state.huntingLicenseId = payload.huntingLicenseId;
                     state.isPaid = payload.isPaid;
                     LocaleStorageUtils.setAccessToken(payload.accessToken);
@@ -108,7 +112,12 @@ const authSlice = createSlice({
                 setFulfilledValues(state);
                 LocaleStorageUtils.removeAccessToken();
             })
-            .addCase(logoutThunk.rejected, setRejectedValues);
+            .addCase(logoutThunk.rejected, setRejectedValues)
+            .addCase(isPaidThunk.pending, setPendingStatuses)
+            .addCase(isPaidThunk.fulfilled, (state, action) => {
+                state.isPaid = action.payload;
+                setFulfilledValues(state);
+            });
     },
 });
 
