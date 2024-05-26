@@ -34,7 +34,7 @@ interface IProps {
 const CreatePermissionForm = ({ setIsOpen }: IProps) => {
     const { id } = useAppSelector(selectAuth);
     const { t } = useTranslation('translation', {
-        keyPrefix: 'feeding.create',
+        keyPrefix: 'permission.create',
     });
 
     const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {

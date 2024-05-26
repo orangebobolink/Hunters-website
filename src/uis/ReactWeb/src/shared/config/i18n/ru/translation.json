@@ -53,7 +53,13 @@
       "returnedTime":"Время возвращения",
       "status":"Статус"
     },
-    "createReport":"Создать отчет"
+    "createReport":"Создать отчет",
+    "create": {
+      "exitTime": "Дата выхода в рейд",
+      "returnedTime":"Время возвращения",
+      "rangers": "Участники",
+      "note":"Итог рейда"
+    }
   },
   "login": {
     "email": "Электронная почта",
@@ -169,9 +175,21 @@
       "licenseNumber":"Номер лицезнии"
     }
   },
-
   "settings": {
     "currentPassword": "Действующий пароль",
     "newPassword": "Новый пароль"
+  },
+  "permission": {
+    "create": {
+      "number": "Номер",
+      "fromDate": "Дата начало",
+      "toDate": "Дата окончания",
+      "couponsNumber": "Количсетво купонов",
+      "description": "Описание",
+      "price": "Цена",
+      "quantityInStock": "Количсевто на складе",
+      "imageUrl": "URL изображения",
+      "type": "Тип"
+    }
   }
 }
