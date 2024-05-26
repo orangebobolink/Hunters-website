@@ -168,5 +168,10 @@
     "create":{
       "licenseNumber":"Номер лицезнии"
     }
+  },
+
+  "settings": {
+    "currentPassword": "Действующий пароль",
+    "newPassword": "Новый пароль"
   }
 }

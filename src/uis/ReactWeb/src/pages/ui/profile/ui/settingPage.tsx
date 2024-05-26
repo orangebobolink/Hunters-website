@@ -19,12 +19,16 @@ const formSchema = z.object({
 const SettingPage = () => {
     const { id } = useAppSelector(selectAuth);
     const { t } = useTranslation('translation', {
-        keyPrefix: 'feeding.create',
+        keyPrefix: 'settings',
     });
 
     const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
         try {
-            const data = await UserService.updatePassword(id!,values.currentPassword, values.password);
+            const data = await UserService.updatePassword(
+                id!,
+                values.currentPassword,
+                values.password
+            );
 
             if (data.status >= 200 && data.status <= 300) {
                 toast({
@@ -64,7 +68,7 @@ const SettingPage = () => {
                                 form={form}
                                 t={t}
                                 name='password'
-                                lang='password'
+                                lang='newPassword'
                                 type='password'
                             />
                         </div>

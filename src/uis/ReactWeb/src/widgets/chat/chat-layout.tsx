@@ -11,6 +11,7 @@ import { selectAuth } from '@/shared/model/store/selectors/auth.selectors.ts';
 import { SignalRContext } from '@/shared/model/signalrR';
 import { ChatUser } from '@/entities/user/models/ChatUser';
 import { useAppSelector } from '@/shared/lib/hooks/redux-hooks';
+import { LoadingSpinner } from '@/shared/ui/loading-spinner';
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -25,6 +26,7 @@ export function ChatLayout({
 }: ChatLayoutProps) {
     const { id, error } = useAppSelector(selectAuth);
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [selectedUser, setSelectedUser] = useState<ChatUser>({
         firstName: '',
         lastName: '',
@@ -37,20 +39,48 @@ export function ChatLayout({
     const fetchData = async () => {
         try {
             console.log('start');
-            if (SignalRContext.connection?.state !== 'Connected') {
-                console.log(
-                    'Waiting for SignalR connection to be established...'
-                );
-                await SignalRContext.connection?.start();
-            }
+            const connection = SignalRContext.connection;
 
-            const response: ChatUser[] = await SignalRContext.invoke(
-                'ReceiveMessages',
-                id
-            );
-            console.log(response);
-            setSelectedUser(response[0]);
-            setUsers([...response]);
+            if (connection) {
+                if (connection.state === 'Disconnected') {
+                    console.log(
+                        'Waiting for SignalR connection to be established...'
+                    );
+                    await connection.start();
+                } else if (
+                    connection.state === 'Connecting' ||
+                    connection.state === 'Reconnecting'
+                ) {
+                    console.log(
+                        'SignalR connection is in the process of being established...'
+                    );
+                    await new Promise<void | void>((resolve) => {
+                        connection.onclose(() => {
+                            resolve();
+                        });
+                        connection.onreconnected(() => {
+                            resolve();
+                        });
+                    });
+                }
+
+                if (connection.state === 'Connected') {
+                    const response = await connection.invoke(
+                        'ReceiveMessages',
+                        id
+                    );
+                    console.log(response);
+                    setSelectedUser(response[0]);
+                    setUsers(response);
+                    setIsLoading(false);
+                } else {
+                    throw new Error(
+                        'SignalR connection could not be established.'
+                    );
+                }
+            } else {
+                throw new Error('SignalR connection is not defined.');
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -61,6 +91,11 @@ export function ChatLayout({
             fetchData();
         }
     }, [id]);
+
+    useEffect(() => {
+        console.log('Selected User:', selectedUser);
+        console.log('Users:', users);
+    }, [selectedUser, users]);
 
     SignalRContext.useSignalREffect(
         'NewMessage',
@@ -100,7 +135,9 @@ export function ChatLayout({
         };
     }, []);
 
-    return (
+    return isLoading ? (
+        <LoadingSpinner className='w-1/2' />
+    ) : (
         <ResizablePanelGroup
             direction='horizontal'
             onLayout={(sizes: number[]) => {
