@@ -78,7 +78,7 @@ const PaymantPage = () => {
                 <div>
                     <p>Номер лицензии:{huntingLicense.licenseNumber}</p>
                     {huntingLicense.isPaid ? (
-                        <div>Оплачена</div>
+                        <div>Оплачено</div>
                     ) : (
                         <Button onClick={handlerPayment}>Оплатить</Button>
                     )}

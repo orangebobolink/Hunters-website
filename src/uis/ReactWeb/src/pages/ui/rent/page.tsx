@@ -37,6 +37,7 @@ import {
 const RentPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [userProducts, setUserProducts] = useState<RentProduct[]>([]);
+    const [changeRender, setChangeRender] = useState<boolean>(false);
     const [filterType, setFilterType] = useState<string>('all');
     const [isOpen, setIsOpen] = useState(false);
     const [isUpdateOpen, setIsUpdateOpen] = useState(false);
@@ -63,7 +64,7 @@ const RentPage = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, [changeRender]);
 
     const handleDelete = async (id: string) => {
         try {
@@ -96,9 +97,10 @@ const RentPage = () => {
             if (data.status >= 200 && data.status <= 300) {
                 toast({
                     variant: 'success',
-                    title: 'Продукт удален успешно',
+                    title: 'Продукт арендован успешно',
                 });
-                setProducts(products.filter((p) => p.id != id));
+
+                setChangeRender(!changeRender);
             }
         } catch {
             toast({
@@ -304,6 +306,10 @@ const RentPage = () => {
                                             <DialogContent>
                                                 <RentForm
                                                     selectedProduct={null}
+                                                    changeRender={changeRender}
+                                                    setChangeRender={
+                                                        setChangeRender
+                                                    }
                                                 />
                                             </DialogContent>
                                         </Dialog>
@@ -319,6 +325,10 @@ const RentPage = () => {
                                                         selectedProduct!
                                                     }
                                                     type='update'
+                                                    changeRender={changeRender}
+                                                    setChangeRender={
+                                                        setChangeRender
+                                                    }
                                                 />
                                             </DialogContent>
                                         </Dialog>
