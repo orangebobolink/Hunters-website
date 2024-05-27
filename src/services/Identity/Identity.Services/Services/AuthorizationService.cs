@@ -34,10 +34,18 @@ namespace Identity.Services.Services
 
             await _tokenService.UpdateUserRefreshTokenAsync(user, refreshToken);
 
-            var huntingLicense = await _huntingLicenseRepository
-                .GetByPredicate(
-                h => h.UserId == user.Id && h.ExpiryDate < DateTime.Now,
+            var huntingLicense = await _huntingLicenseRepository.GetByPredicate(
+                hl => hl.UserId == user.Id
+                    && hl.ExpiryDate > DateTime.Now,
                 cancellationToken);
+
+            if (huntingLicense is null)
+            {
+                huntingLicense = new HuntingLicense()
+                {
+                    IsPaid = false
+                };
+            }
 
             _logger.LogInformation($"User {user.UserName} logged in successfully.");
 
@@ -48,7 +56,7 @@ namespace Identity.Services.Services
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 AccessToken = accessToken,
                 HuntingLicenseId = huntingLicense?.Id,
-                IsPaid = huntingLicense?.IsPaid,
+                IsPaid = huntingLicense.IsPaid,
                 AvatarUrl = user.AvatarUrl
             };
 
