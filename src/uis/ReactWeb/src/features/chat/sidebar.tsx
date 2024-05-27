@@ -51,7 +51,7 @@ export function Sidebar({
             users.every((u) => u.id !== user.id)
         );
         setOrdinarUsers(commandUsers);
-        setIsOpen(true);
+        setIsOpen(!isOpen);
     };
 
     const changeSelectedUser = (id: string) => {
@@ -68,7 +68,7 @@ export function Sidebar({
             {!isCollapsed && (
                 <div className='flex justify-between p-2 items-center'>
                     <div className='flex gap-2 items-center text-2xl'>
-                        <p className='font-medium'>Chats</p>
+                        <p className='font-medium'>Чаты</p>
                         <span className='text-zinc-300'>({links.length})</span>
                     </div>
 
@@ -135,7 +135,7 @@ export function Sidebar({
                                 changeSelectedUser(link.id);
                             }}
                         >
-                            <Avatar className='flex justify-center items-center'>
+                            <Avatar className='flex justify-center mx-5 items-center'>
                                 <AvatarImage
                                     src={link.avatarUrl}
                                     alt={link.avatarUrl}

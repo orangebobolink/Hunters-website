@@ -22,6 +22,7 @@ const TripPage = () => {
     });
 
     useEffect(() => {
+        console.log(isPaid);
         if (roles.includes('User') && !isPaid) {
             toast({
                 variant: 'destructive',

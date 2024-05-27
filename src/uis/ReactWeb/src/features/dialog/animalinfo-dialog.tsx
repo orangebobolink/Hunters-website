@@ -62,6 +62,7 @@ const AnimalInfoDialog = ({ animal, isOpen, setIsOpen }: IProps) => {
             (h) => h.id != id
         );
         await HuntingService.remove(id);
+        animal.huntingSeasons = animal.huntingSeasons.filter((s) => s.id != id);
     };
 
     const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
@@ -74,7 +75,6 @@ const AnimalInfoDialog = ({ animal, isOpen, setIsOpen }: IProps) => {
             wayOfHunting: values.wayOfHunting,
             weapon: values.weapon,
         };
-        animal.huntingSeasons?.push(request);
 
         try {
             const data = await HuntingService.create(request);
@@ -85,6 +85,7 @@ const AnimalInfoDialog = ({ animal, isOpen, setIsOpen }: IProps) => {
                     title: 'Сезон охоты добавлен успешно',
                 });
                 setIsOpen(false);
+                animal.huntingSeasons?.push(request);
             }
         } catch {
             toast({

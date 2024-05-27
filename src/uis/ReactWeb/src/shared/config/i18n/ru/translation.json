@@ -7,7 +7,7 @@
       "raid": "Рейды",
       "animal": "Животные",
       "reporting": "Просмотр отчетов",
-      "managing": "Управление пользоавтелями",
+      "managing": "Управление пользователями",
       "webname": "HuntingBY",
       "permit": "Путевка",
       "paymantFee":"Оплата пошлин",
@@ -158,7 +158,7 @@
       "name": "Название",
       "description": "Описание",
       "price": "Цена",
-      "quantityInStock": "Количсевто на складе",
+      "quantityInStock": "Количество на складе",
       "imageUrl": "URL изображения",
       "type": "Тип"
     },

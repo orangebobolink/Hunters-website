@@ -81,6 +81,7 @@ const authSlice = createSlice({
                     LocaleStorageUtils.setAccessToken(payload.accessToken);
 
                     setFulfilledValues(state);
+                    console.log(payload);
                 }
             )
             .addCase(loginThunk.rejected, setRejectedValues)
