@@ -54,7 +54,7 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<ResponseUserDto>>> GetAllByRoles(
+        public async Task<ActionResult<List<ResponseUserDto>>> GetAllUsersByRoles(
             string roleName,
             CancellationToken cancellationToken = default)
         {

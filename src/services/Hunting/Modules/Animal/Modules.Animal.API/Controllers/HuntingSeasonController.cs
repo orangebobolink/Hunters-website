@@ -10,14 +10,15 @@ namespace Modules.Animal.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HuntingSeasonController(IMediator mediator)
+    public class HuntingSeasonController(
+        IMediator mediator)
         : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(
+        public async Task<IActionResult> CreateHuntingSeason(
             HuntingSeasonRequestDto request,
             CancellationToken cancellationToken = default)
         {
@@ -29,7 +30,7 @@ namespace Modules.Animal.API.Controllers
 
         [Authorize]
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(
+        public async Task<IActionResult> DeleteHuntingSeason(
             Guid id,
             CancellationToken cancellationToken = default)
         {
@@ -40,7 +41,8 @@ namespace Modules.Animal.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllHuntingSeasons(
+            CancellationToken cancellationToken = default)
         {
             var query = new GetAllHutningSeasonsQuery();
             var result = await _mediator.Send(query, cancellationToken);
