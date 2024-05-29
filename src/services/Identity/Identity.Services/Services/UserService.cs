@@ -22,7 +22,7 @@ namespace Identity.Services.Services
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly ILogger<UserService> _logger = logger;
-        private readonly IBus _bus = bus;
+        private readonly IPublishEndpoint _bus = bus;
         private readonly ThrowExceptionUtility<UserService> _throwExceptionUtilities = new(logger);
 
         public async Task<ResponseCreateUserDto> CreateAsync(
@@ -48,7 +48,11 @@ namespace Identity.Services.Services
             var addToRoleResult = await _userRepository.AddToRolesAsync(user, user.RoleNames);
             addToRoleResult.CheckAddToRoleResult(_logger);
 
-            await _bus.PublishObj<User, CreateUserMessage>(user, cancellationToken);
+            var message = user.Adapt<CreateUserMessage>();
+
+            await _bus.Publish(message, cancellationToken);
+
+            await _userRepository.SaveChangesAsync();
 
             var response = user.Adapt<ResponseCreateUserDto>();
 
@@ -129,7 +133,11 @@ namespace Identity.Services.Services
 
             await UpdateUserRolesAsync(updatedUser, oldRoles);
 
-            await _bus.PublishObj<RequestUpdateUserDto, UpdateUserMessage>(user, cancellationToken);
+            var message = user.Adapt<UpdateUserMessage>();
+
+            await _bus.Publish(message, cancellationToken);
+
+            await _userRepository.SaveChangesAsync();
 
             var response = updatedUser.Adapt<ResponseUpdateUserDto>();
 
@@ -153,7 +161,11 @@ namespace Identity.Services.Services
 
             result.CheckUserUpdateResult(logger);
 
-            await _bus.PublishObj<UserChangePasswordRequestDto, UpdateUserMessage>(user, cancellationToken);
+            var message = user.Adapt<UpdateUserMessage>();
+
+            await _bus.Publish(message, cancellationToken);
+
+            await _userRepository.SaveChangesAsync();
 
             var response = existedUser.Adapt<ResponseUpdateUserDto>();
 

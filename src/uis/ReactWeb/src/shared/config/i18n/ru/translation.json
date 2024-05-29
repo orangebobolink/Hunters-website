@@ -124,7 +124,13 @@
   "animal": {
     "weapon":"Доступные оружия охоты",
     "note": "Примечание",
-    "wayOfHunting": "Способы охоты"
+    "wayOfHunting": "Способы охоты",
+    "create": {
+      "name":"Название",
+      "description":"Описание",
+      "image": "URL изображения",
+      "type":"Вид"
+    }
   },
   "trip": {
     "addTrip": "Создать путевку",

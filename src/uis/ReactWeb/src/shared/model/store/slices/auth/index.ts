@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { LocaleStorageUtils } from '@/shared/lib/utils';
 import { loginThunk } from '@/shared/model/store/slices/auth/loginThunk';
 import { logoutThunk } from '@/shared/model/store/slices/auth/logoutThunk';
 import { refreshAuthThunk } from '@/shared/model/store/slices/auth/refreshAuthThunk';
 import { LoginResponse } from '@/shared/model/store/queries/typing/responses/LoginResponse';
-import { stat } from 'fs';
 import { isPaidThunk } from './isPaidThunk';
+import { huntingIdThunk } from './huntingIdThunk';
 
 type InitialState = {
     id: string | null;
@@ -117,6 +116,11 @@ const authSlice = createSlice({
             .addCase(isPaidThunk.pending, setPendingStatuses)
             .addCase(isPaidThunk.fulfilled, (state, action) => {
                 state.isPaid = action.payload;
+                setFulfilledValues(state);
+            })
+            .addCase(huntingIdThunk.pending, setPendingStatuses)
+            .addCase(huntingIdThunk.fulfilled, (state, action) => {
+                state.huntingLicenseId = action.payload;
                 setFulfilledValues(state);
             });
     },

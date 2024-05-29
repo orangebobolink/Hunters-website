@@ -17,10 +17,11 @@ interface IProps {
     trips: Trip[];
     changeRender: boolean;
     setChangeRender: (flag: boolean) => void;
+    isOpen: boolean;
+    setIsOpen: (flag: boolean) => void;
 }
 
-const TripDataTable = ({ trips, changeRender, setChangeRender }: IProps) => {
-    const [isOpen, setIsOpen] = useState(false);
+const TripDataTable = ({ trips, changeRender, setChangeRender, isOpen,setIsOpen }: IProps) => {
     const [selectedTrip, setSelectedTrip] = useState<Trip>();
     const { t } = useTranslation('translation', {
         keyPrefix: 'trip.table',

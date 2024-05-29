@@ -5,7 +5,6 @@ import { Trip } from '@/entities/trip/models/Trip.ts';
 import { TripService } from '@/entities/trip/api/TripService.ts';
 import { Dialog, DialogContent, DialogTrigger } from '@/shared/ui/dialog.tsx';
 import { Button } from '@/shared/ui';
-import TripTable from '@/features/table/trip-table.tsx';
 import CreateTripForm from '@/entities/trip/ui/create-trip-form.tsx';
 import { toast } from '@/shared/ui/use-toast.ts';
 import { Status } from '@/entities/status/Status.ts';
@@ -15,6 +14,7 @@ import TripDataTable from '@/features/table/trip-data-table';
 const TripPage = () => {
     const [trips, setTrips] = useState<Trip[]>([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenInfo, setIsOpenInfo] = useState(false);
     const [changeRender, setChangeRender] = useState(false);
     const { roles, id, isPaid } = useAppSelector(selectAuth);
     const { t } = useTranslation('translation', {
@@ -56,7 +56,7 @@ const TripPage = () => {
         };
 
         fetchPermissions();
-    }, [isOpen, changeRender]);
+    }, [isOpen, changeRender, isOpenInfo]);
 
     return (
         <div className='select-none h-full w-full flex items-center flex-col justify-center space-y-5'>
@@ -65,6 +65,8 @@ const TripPage = () => {
                     changeRender={changeRender}
                     trips={trips}
                     setChangeRender={setChangeRender}
+                    isOpen={isOpenInfo}
+                    setIsOpen={setIsOpenInfo}
                 />
             </div>
             {roles.includes('Manager') && (

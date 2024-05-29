@@ -43,7 +43,7 @@ const PermissionPage = () => {
             <div className='w-2/3 flex justify-center'>
                 <PermissionDataTable permissions={permissions} />
             </div>
-            <Dialog onOpenChange={() => setIsOpen(false)}>
+            <Dialog open={isOpen}>
                 <DialogTrigger asChild>
                     <Button onClick={() => setIsOpen(true)}>
                         Создать разрешение

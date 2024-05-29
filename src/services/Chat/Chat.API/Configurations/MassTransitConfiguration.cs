@@ -18,7 +18,7 @@ namespace Chat.API.Configurations
                 var password = config["RabbitMQ:Password"];
 
                 x.AddEntityFrameworkOutboxPattern();
-                x.SetKebabCaseEndpointNameFormatter();
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("Chat", false));
                 x.AddConsumers(assembly);
 
                 x.UsingRabbitMq((context, cfg) =>

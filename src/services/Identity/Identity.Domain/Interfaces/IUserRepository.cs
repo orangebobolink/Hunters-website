@@ -30,5 +30,6 @@ namespace Identity.Domain.Interfaces
            User user,
            string currentPassword,
            string newPassword);
+        Task SaveChangesAsync();
     }
 }

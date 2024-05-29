@@ -1,5 +1,6 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
+using Identity.Infrastructure.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MR.EntityFrameworkCore.KeysetPagination;
@@ -7,10 +8,12 @@ using MR.EntityFrameworkCore.KeysetPagination;
 namespace Identity.Infrastructure.Repositories
 {
     internal class UserRepository(
-        UserManager<User> userManager)
+        UserManager<User> userManager,
+        ApplicationDbContext context)
         : IUserRepository
     {
         private readonly UserManager<User> _userManager = userManager;
+        private readonly ApplicationDbContext _context = context;
 
         public async Task<IdentityResult> CreateAsync(
             User entity,
@@ -104,6 +107,11 @@ namespace Identity.Infrastructure.Repositories
             string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

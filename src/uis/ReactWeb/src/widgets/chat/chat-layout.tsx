@@ -81,6 +81,7 @@ export function ChatLayout({
             } else {
                 throw new Error('SignalR connection is not defined.');
             }
+            setIsLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

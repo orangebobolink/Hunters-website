@@ -7,12 +7,14 @@ import { loginThunk } from '@/shared/model/store/slices/auth/loginThunk';
 import { logoutThunk } from '@/shared/model/store/slices/auth/logoutThunk';
 import { refreshAuthThunk } from '@/shared/model/store/slices/auth/refreshAuthThunk';
 import { isPaidThunk } from '@/shared/model/store/slices/auth/isPaidThunk';
+import { huntingIdThunk } from '@/shared/model/store/slices/auth/huntingIdThunk';
 
 const actions = {
     login: loginThunk,
     initAuth: refreshAuthThunk,
     logout: logoutThunk,
     changeIsPaid: isPaidThunk,
+    changeHuntingLicenseId: huntingIdThunk,
     ...authActions,
 };
 
