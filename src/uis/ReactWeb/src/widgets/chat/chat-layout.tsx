@@ -12,6 +12,7 @@ import { SignalRContext } from '@/shared/model/signalrR';
 import { ChatUser } from '@/entities/user/models/ChatUser';
 import { useAppSelector } from '@/shared/lib/hooks/redux-hooks';
 import { LoadingSpinner } from '@/shared/ui/loading-spinner';
+import { Message } from '@/entities/chat/entities/Message';
 
 interface ChatLayoutProps {
     defaultLayout: number[] | undefined;
@@ -101,7 +102,7 @@ export function ChatLayout({
     SignalRContext.useSignalREffect(
         'NewMessage',
         (...args) => {
-            const message = args[0];
+            const message = args[0] as Message;
 
             if (id == message.toUserId) {
                 if (selectedUser.id === message.userId) {
@@ -112,11 +113,29 @@ export function ChatLayout({
                     };
                     setSelectedUser(newSelectedUser);
                 }
-                users.map((u) => {
+
+                let userExists = false;
+                const updatedUsers = users.map((u) => {
                     if (u.id == message.userId) {
-                        u.messages.push(message);
+                        userExists = true;
+                        return {
+                            ...u,
+                            messages: [...u.messages, message],
+                        };
                     }
+                    return u;
                 });
+
+                if (!userExists) {
+                    const newUser: ChatUser = {
+                        id: message.toUserId,
+                        messages: [message],
+                        groupId: message.groupId,
+                    };
+                    updatedUsers.push(newUser);
+                }
+
+                setUsers(updatedUsers);  
             }
         },
         []

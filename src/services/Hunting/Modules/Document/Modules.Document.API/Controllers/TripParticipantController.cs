@@ -13,7 +13,7 @@ namespace Modules.Document.API.Controllers
         private readonly ITripParticipantService _tripParticipantService = tripParticipantService;
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetTripParticipantById(Guid id, CancellationToken cancellationToken = default)
         {
             var trip = await _tripParticipantService.GetByIdAsync(id, cancellationToken);
 
@@ -21,7 +21,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(
+        public async Task<IActionResult> CreateTripParticipant(
             TripParticipantRequestDto request,
             CancellationToken cancellationToken = default)
         {
@@ -33,7 +33,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(
+        public async Task<IActionResult> UpdateTripParticipant(
             Guid id,
             TripParticipantRequestDto request,
             CancellationToken cancellationToken = default)
@@ -44,7 +44,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteTripParticipant(Guid id, CancellationToken cancellationToken = default)
         {
             var deletedTripParticipant = await _tripParticipantService.DeleteAsync(id, cancellationToken);
 

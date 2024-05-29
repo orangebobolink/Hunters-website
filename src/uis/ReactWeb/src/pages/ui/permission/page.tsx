@@ -4,7 +4,6 @@ import { selectAuth } from '@/shared/model/store/selectors/auth.selectors.ts';
 import { useTranslation } from 'react-i18next';
 import { Permission } from '@/entities/permision/Permision.ts';
 import { PermissionService } from '@/entities/permision/PermissionService.ts';
-import PermissionTable from '@/features/table/PermissionTable.tsx';
 import { Dialog, DialogContent, DialogTrigger } from '@/shared/ui/dialog.tsx';
 import { Button } from '@/shared/ui';
 import CreatePermissionForm from '@/entities/permision/ui/create-permission-form.tsx';

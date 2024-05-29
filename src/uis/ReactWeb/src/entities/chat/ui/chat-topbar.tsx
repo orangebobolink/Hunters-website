@@ -20,7 +20,7 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
                 </Avatar>
                 <div className='flex flex-col'>
                     <span className='font-medium'>
-                        {selectedUser.firstName + ' ' + selectedUser.lastName}
+                        {selectedUser?.firstName + ' ' + selectedUser?.lastName}
                     </span>
                 </div>
             </div>

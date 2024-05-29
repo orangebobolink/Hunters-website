@@ -12,7 +12,7 @@ namespace Rent.API.Controllers
         private readonly IUserService _userService = userService;
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(
+        public async Task<IActionResult> GetUserById(
             Guid id,
             CancellationToken cancellationToken = default)
         {
@@ -22,7 +22,7 @@ namespace Rent.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(
+        public async Task<IActionResult> GetAllUsers(
             CancellationToken cancellationToken = default)
         {
             var response = await _userService.GetAllAsync(cancellationToken);
