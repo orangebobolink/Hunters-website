@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Modules.Animal.Infrastructure.Contexts;
 using Modules.Animal.Infrastructure.Interfaces;
-using Shared.Infrastructure.Interfaces;
 
 namespace Modules.Animal.Infrastructure.Configurations
 {
@@ -17,7 +16,6 @@ namespace Modules.Animal.Infrastructure.Configurations
                 {
                     try
                     {
-
                         appContext.Database.Migrate();
 
                         var dataSeed = scope.ServiceProvider.GetRequiredService<IAnimalDataSeeder>();

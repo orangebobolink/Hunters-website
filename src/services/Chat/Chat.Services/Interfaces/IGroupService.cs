@@ -4,6 +4,6 @@ namespace Chat.Services.Interfaces
 {
     public interface IGroupService
     {
-        public Task<List<ResponseGroupDto>> GetAllGroupsByUserId(Guid id);
+        public Task<List<ResponseUserDto>> GetAllGroupsByUserId(Guid id);
     }
 }

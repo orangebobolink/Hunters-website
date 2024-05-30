@@ -1,5 +1,6 @@
 ﻿using Identity.Domain.Entities;
 using Identity.Domain.Interfaces;
+using Identity.Infrastructure.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MR.EntityFrameworkCore.KeysetPagination;
@@ -7,10 +8,12 @@ using MR.EntityFrameworkCore.KeysetPagination;
 namespace Identity.Infrastructure.Repositories
 {
     internal class UserRepository(
-        UserManager<User> userManager)
+        UserManager<User> userManager,
+        ApplicationDbContext context)
         : IUserRepository
     {
         private readonly UserManager<User> _userManager = userManager;
+        private readonly ApplicationDbContext _context = context;
 
         public async Task<IdentityResult> CreateAsync(
             User entity,
@@ -31,7 +34,9 @@ namespace Identity.Infrastructure.Repositories
             CancellationToken cancellationToken)
         {
             var reference = await _userManager.Users
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
 
             var keysetContext = _userManager.Users.KeysetPaginate(
                 b => b.Descending(x => x.UserName!).Descending(x => x.Id),
@@ -40,7 +45,7 @@ namespace Identity.Infrastructure.Repositories
 
             return await keysetContext.Query
                 .Take(numberTake)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<User?> GetByCredentialsAsync(
@@ -50,7 +55,6 @@ namespace Identity.Infrastructure.Repositories
             return await _userManager.Users
                     .FirstOrDefaultAsync(u =>
                         u.Email == creditionals.Email
-                        || u.UserName == creditionals.UserName
                         || u.PhoneNumber == creditionals.PhoneNumber,
                         cancellationToken);
         }
@@ -72,14 +76,42 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<IdentityResult> UpdateAsync(User entity)
         {
-            return await _userManager.DeleteAsync(entity);
+            return await _userManager.UpdateAsync(entity);
         }
 
-        public async Task<IdentityResult> AddToRoleAsync(
+        public async Task<IdentityResult> AddToRolesAsync(
             User user,
-            string role = Role.User)
+            List<string> roles)
         {
-            return await _userManager.AddToRoleAsync(user, role);
+            return await _userManager.AddToRolesAsync(user, roles);
+        }
+
+        public async Task<List<string>> GetRoles(User user)
+        {
+            return [.. (await _userManager.GetRolesAsync(user))];
+        }
+
+        public async Task<IdentityResult> RemoveFromRolesAsync(User user, List<string> roles)
+        {
+            return await _userManager.RemoveFromRolesAsync(user, roles);
+        }
+
+        public async Task<List<User>> GetAllByRole(string roleName)
+        {
+            return [.. (await _userManager.GetUsersInRoleAsync(roleName))];
+        }
+
+        public async Task<IdentityResult> UpdatePasswordAsync(
+            User user,
+            string currentPassword,
+            string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

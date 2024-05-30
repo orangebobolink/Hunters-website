@@ -7,8 +7,8 @@ using Modules.Animal.Application.Features.AnimalFeatures.Events.AnimalCreate;
 
 namespace Modules.Animal.Infrastructure.DataSeed
 {
-    internal class AnimalDataSeeder(IMediator mediator, 
-        ApplicationDbContext context) 
+    internal class AnimalDataSeeder(IMediator mediator,
+        ApplicationDbContext context)
         : IAnimalDataSeeder
     {
         private readonly IMediator _mediator = mediator;
@@ -17,7 +17,7 @@ namespace Modules.Animal.Infrastructure.DataSeed
 
         public async Task SeedAsync()
         {
-            if(!await _context.Animals.AnyAsync())
+            if (!await _context.Animals.AnyAsync())
             {
                 _context.AddRange(_animals);
 
@@ -30,9 +30,11 @@ namespace Modules.Animal.Infrastructure.DataSeed
             var animalsName = _animals
                 .Select(u => u.Name)
                 .ToList();
+
             var animals = await _context.Animals
                 .Where(u => animalsName.Contains(u.Name))
                 .ToListAsync();
+
             var animalsMessage = new AnimalCreateRangeEvent(animals);
 
             await _mediator.Publish(animalsMessage);

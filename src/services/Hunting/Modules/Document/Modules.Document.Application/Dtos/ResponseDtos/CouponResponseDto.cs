@@ -1,9 +1,10 @@
-﻿namespace Modules.Document.Application.Dtos.ResponseDto
+﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class CouponResponseDto
+    public record CouponResponseDto
     {
-        public Guid Id { get; set; }
-        public Guid PermissionId { get; set; }
-        public string AnimalName { get; set; } = string.Empty;
+        public Guid Id { get; init; }
+        public Guid PermissionId { get; init; }
+        public string AnimalName { get; init; } = string.Empty;
+        public bool IsUsed { get; init; }
     }
 }

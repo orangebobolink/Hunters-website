@@ -1,10 +1,10 @@
-﻿namespace Modules.Document.Application.Dtos.ResponseDto
+﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class FeedingProductResponseDto
+    public record class FeedingProductResponseDto
     {
-        public Guid Id { get; set; }
-        public string Product { get; set; } = string.Empty;
-        public int Quantity { get; set; }
-        public string UnitOfMeasurement { get; set; } = string.Empty;
+        public Guid Id { get; init; }
+        public string Product { get; init; } = string.Empty;
+        public int Quantity { get; init; }
+        public string UnitOfMeasurement { get; init; } = string.Empty;
     }
 }

@@ -11,14 +11,14 @@ namespace Chat.API.Configurations
         {
             services.AddMassTransit(x =>
             {
-                var assembly = Assembly.GetAssembly(typeof(CreateUserConsumer));
+                var assembly = Assembly.GetAssembly(typeof(UserDataSeedConsumer));
                 var host = config["RabbitMQ:Host"];
                 var virtualHost = config["RabbitMQ:VirtualHost"];
                 var username = config["RabbitMQ:Username"];
                 var password = config["RabbitMQ:Password"];
 
                 x.AddEntityFrameworkOutboxPattern();
-                x.SetKebabCaseEndpointNameFormatter();
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("Chat", false));
                 x.AddConsumers(assembly);
 
                 x.UsingRabbitMq((context, cfg) =>

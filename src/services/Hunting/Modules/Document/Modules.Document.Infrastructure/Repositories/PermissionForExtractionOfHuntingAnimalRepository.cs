@@ -17,6 +17,8 @@ namespace Modules.Document.Infrastructure.Repositories
                 .Include(p => p.Animal)
                 .Include(p => p.Issued)
                 .Include(p => p.Received)
+                .Include(p => p.Land)
+                .Include(p => p.Coupons)
                 .ToListAsync(cancellationToken);
         }
 
@@ -26,6 +28,8 @@ namespace Modules.Document.Infrastructure.Repositories
                 .Include(p => p.Animal)
                 .Include(p => p.Issued)
                 .Include(p => p.Received)
+                .Include(p => p.Land)
+                 .Include(p => p.Coupons)
                 .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
     }

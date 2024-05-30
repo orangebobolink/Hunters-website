@@ -23,21 +23,6 @@ namespace Modules.Document.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FeedingFeedingProduct", b =>
-                {
-                    b.Property<Guid>("FeedingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("FeedingsId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("FeedingFeedingProduct", "Document");
-                });
-
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
                 {
                     b.Property<long>("Id")
@@ -263,16 +248,27 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<Guid>("IssuedId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("LandId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ReceivedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("ReceivedId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IssuedId");
+
+                    b.HasIndex("LandId");
 
                     b.HasIndex("ReceivedId");
 
@@ -283,6 +279,9 @@ namespace Modules.Document.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FeedingId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Product")
@@ -296,6 +295,8 @@ namespace Modules.Document.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FeedingId");
 
                     b.ToTable("FeedingProducts", "Document");
                 });
@@ -350,12 +351,18 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<Guid>("IssuedId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("LandId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ReceivedId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
@@ -365,6 +372,8 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.HasIndex("AnimalId");
 
                     b.HasIndex("IssuedId");
+
+                    b.HasIndex("LandId");
 
                     b.HasIndex("ReceivedId");
 
@@ -380,6 +389,9 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<DateTime>("ExitTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("LandId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,7 +399,12 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<DateTime>("ReturnedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("LandId");
 
                     b.ToTable("Raids", "Document");
                 });
@@ -398,23 +415,8 @@ namespace Modules.Document.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AcceptedId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("AmountOfFee")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("IssuedId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Number")
                         .IsRequired()
@@ -423,11 +425,8 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Property<Guid>("PermissionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ReceivedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ReceivedId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("ReturnedDate")
                         .HasColumnType("datetime2");
@@ -436,18 +435,17 @@ namespace Modules.Document.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ToDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AcceptedId");
-
-                    b.HasIndex("IssuedId");
-
                     b.HasIndex("PermissionId");
 
-                    b.HasIndex("ReceivedId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Trips", "Document");
                 });
@@ -460,6 +458,9 @@ namespace Modules.Document.Infrastructure.Migrations
 
                     b.Property<Guid>("HuntingLicenseId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("ParticipantId")
                         .HasColumnType("uniqueidentifier");
@@ -500,29 +501,24 @@ namespace Modules.Document.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RaidId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RaidId");
 
                     b.ToTable("Users", "Document");
                 });
 
-            modelBuilder.Entity("FeedingFeedingProduct", b =>
+            modelBuilder.Entity("RaidUser", b =>
                 {
-                    b.HasOne("Modules.Document.Domain.Entities.Feeding", null)
-                        .WithMany()
-                        .HasForeignKey("FeedingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("ParticipantsId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("Modules.Document.Domain.Entities.FeedingProduct", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("RaidsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ParticipantsId", "RaidsId");
+
+                    b.HasIndex("RaidsId");
+
+                    b.ToTable("RaidUser", "Document");
                 });
 
             modelBuilder.Entity("Modules.Document.Domain.Entities.Coupon", b =>
@@ -544,6 +540,12 @@ namespace Modules.Document.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Modules.Document.Domain.Entities.Land", "Land")
+                        .WithMany()
+                        .HasForeignKey("LandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Modules.Document.Domain.Entities.User", "Received")
                         .WithMany()
                         .HasForeignKey("ReceivedId")
@@ -552,7 +554,20 @@ namespace Modules.Document.Infrastructure.Migrations
 
                     b.Navigation("Issued");
 
+                    b.Navigation("Land");
+
                     b.Navigation("Received");
+                });
+
+            modelBuilder.Entity("Modules.Document.Domain.Entities.FeedingProduct", b =>
+                {
+                    b.HasOne("Modules.Document.Domain.Entities.Feeding", "Feeding")
+                        .WithMany("Products")
+                        .HasForeignKey("FeedingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Feeding");
                 });
 
             modelBuilder.Entity("Modules.Document.Domain.Entities.HuntingLicense", b =>
@@ -580,6 +595,12 @@ namespace Modules.Document.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Modules.Document.Domain.Entities.Land", "Land")
+                        .WithMany()
+                        .HasForeignKey("LandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Modules.Document.Domain.Entities.User", "Received")
                         .WithMany()
                         .HasForeignKey("ReceivedId")
@@ -590,42 +611,35 @@ namespace Modules.Document.Infrastructure.Migrations
 
                     b.Navigation("Issued");
 
+                    b.Navigation("Land");
+
                     b.Navigation("Received");
+                });
+
+            modelBuilder.Entity("Modules.Document.Domain.Entities.Raid", b =>
+                {
+                    b.HasOne("Modules.Document.Domain.Entities.Land", "Land")
+                        .WithMany()
+                        .HasForeignKey("LandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Land");
                 });
 
             modelBuilder.Entity("Modules.Document.Domain.Entities.Trip", b =>
                 {
-                    b.HasOne("Modules.Document.Domain.Entities.User", "Accepted")
-                        .WithMany()
-                        .HasForeignKey("AcceptedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Modules.Document.Domain.Entities.User", "Issued")
-                        .WithMany()
-                        .HasForeignKey("IssuedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Modules.Document.Domain.Entities.PermissionForExtractionOfHuntingAnimal", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Modules.Document.Domain.Entities.User", "Received")
-                        .WithMany()
-                        .HasForeignKey("ReceivedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Accepted");
-
-                    b.Navigation("Issued");
+                    b.HasOne("Modules.Document.Domain.Entities.User", null)
+                        .WithMany("Trips")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Permission");
-
-                    b.Navigation("Received");
                 });
 
             modelBuilder.Entity("Modules.Document.Domain.Entities.TripParticipant", b =>
@@ -655,11 +669,24 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Navigation("Trip");
                 });
 
-            modelBuilder.Entity("Modules.Document.Domain.Entities.User", b =>
+            modelBuilder.Entity("RaidUser", b =>
                 {
+                    b.HasOne("Modules.Document.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Modules.Document.Domain.Entities.Raid", null)
-                        .WithMany("Participants")
-                        .HasForeignKey("RaidId");
+                        .WithMany()
+                        .HasForeignKey("RaidsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Modules.Document.Domain.Entities.Feeding", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Modules.Document.Domain.Entities.PermissionForExtractionOfHuntingAnimal", b =>
@@ -667,14 +694,14 @@ namespace Modules.Document.Infrastructure.Migrations
                     b.Navigation("Coupons");
                 });
 
-            modelBuilder.Entity("Modules.Document.Domain.Entities.Raid", b =>
-                {
-                    b.Navigation("Participants");
-                });
-
             modelBuilder.Entity("Modules.Document.Domain.Entities.Trip", b =>
                 {
                     b.Navigation("TripParticipants");
+                });
+
+            modelBuilder.Entity("Modules.Document.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Trips");
                 });
 #pragma warning restore 612, 618
         }

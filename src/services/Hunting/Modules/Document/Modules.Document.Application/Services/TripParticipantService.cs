@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -9,20 +9,29 @@ using Shared.Helpers;
 
 namespace Modules.Document.Application.Services
 {
-    internal class TripParticipantService(ITripParticipantRepository tripParticipantRepository, ILogger<TripParticipantService> logger) : ITripParticipantService
+    internal class TripParticipantService(
+        ITripParticipantRepository tripParticipantRepository,
+        ILogger<TripParticipantService> logger)
+        : ITripParticipantService
     {
-        private readonly ITripParticipantRepository _tripParticipantRepository = tripParticipantRepository;
+        private readonly ITripParticipantRepository _tripParticipantRepository
+            = tripParticipantRepository;
         private readonly ILogger<TripParticipantService> _logger = logger;
 
-        public async Task<TripResponseDto> CreateAsync(TripRequestDto request, CancellationToken cancellationToken)
+        public async Task<TripParticipantResponseDto> CreateAsync(
+            TripParticipantRequestDto request,
+            CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(
+                t => t.TripId == request.TripId
+                    && t.HuntingLicenseId == request.HuntingLicenseId,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingTripParticipant is not null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingTripParticipant));
+            }
 
             var tripParticipant = request.Adapt<TripParticipant>();
             tripParticipant.Id = Guid.NewGuid();
@@ -31,14 +40,18 @@ namespace Modules.Document.Application.Services
 
             await _tripParticipantRepository.SaveChangesAsync(cancellationToken);
 
-            var response = tripParticipant.Adapt<TripResponseDto>();
+            var response = tripParticipant.Adapt<TripParticipantResponseDto>();
 
             return response;
         }
 
-        public async Task<TripResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TripParticipantResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingTripParticipant = await _tripParticipantRepository.GetByIdAsync(id, cancellationToken);
+            var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (existingTripParticipant is null)
             {
@@ -50,14 +63,32 @@ namespace Modules.Document.Application.Services
 
             await _tripParticipantRepository.SaveChangesAsync(cancellationToken);
 
-            var response = existingTripParticipant.Adapt<TripResponseDto>();
+            var response = existingTripParticipant.Adapt<TripParticipantResponseDto>();
 
             return response;
         }
 
-        public async Task<TripResponseDto> UpdateAsync(Guid id, TripRequestDto request, CancellationToken cancellationToken)
+        public async Task<TripParticipantResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingTripParticipant = await _tripParticipantRepository.GetByIdAsync(id, cancellationToken);
+            var participan = await _tripParticipantRepository.GetByIdIncludeAsync(
+                id,
+                cancellationToken);
+
+            var response = participan.Adapt<TripParticipantResponseDto>();
+
+            return response;
+        }
+
+        public async Task<TripParticipantResponseDto> UpdateAsync(
+            Guid id,
+            TripParticipantRequestDto request,
+            CancellationToken cancellationToken)
+        {
+            var existingTripParticipant = await _tripParticipantRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (existingTripParticipant is null)
             {
@@ -71,7 +102,7 @@ namespace Modules.Document.Application.Services
 
             await _tripParticipantRepository.SaveChangesAsync(cancellationToken);
 
-            var response = existingTripParticipant.Adapt<TripResponseDto>();
+            var response = existingTripParticipant.Adapt<TripParticipantResponseDto>();
 
             return response;
         }

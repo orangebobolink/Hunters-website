@@ -5,6 +5,7 @@ import {ReduxProvider} from '@/app/providers/redux-provider.tsx';
 import {AuthProvider} from '@/app/providers/auth-provider.tsx';
 import TranslateProvider from '@/app/providers/translate-provider.tsx';
 import SignalRProvider from '@/app/providers/signalR-provider.tsx';
+import {Toaster} from '@/shared/ui/toaster.tsx';
 
 function App() {
     return (
@@ -20,8 +21,19 @@ function App() {
                     </SignalRProvider>
                 </ThemeProvider>
             </AuthProvider>
+            <Toaster />
         </ReduxProvider>
     )
 }
 
 export default App
+
+/*
+ <SignalRProvider>
+                        <TranslateProvider>
+                            <BrowserRouter>
+                                <Router/>
+                            </BrowserRouter>
+                        </TranslateProvider>
+                    </SignalRProvider>
+ */

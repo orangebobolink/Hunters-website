@@ -10,5 +10,7 @@
         public UserRequestDto? Received { get; set; }
         public DateTime ReceivedDate = DateTime.Now;
         public List<FeedingProductRequestDto> Products { get; set; } = [];
+        public string Status { get; set; } = string.Empty;
+        public Guid LandId { get; init; }
     }
 }

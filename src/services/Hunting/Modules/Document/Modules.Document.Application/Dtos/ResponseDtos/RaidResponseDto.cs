@@ -1,13 +1,14 @@
-﻿using Modules.Document.Domain.Entities;
-
-namespace Modules.Document.Application.Dtos.ResponseDto
+﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class RaidResponseDto
+    public record class RaidResponseDto
     {
-        public Guid Id { get; set; }
-        public DateTime ExitTime { get; set; }
-        public DateTime ReturnedTime { get; set; }
-        public List<UserResponseDto> Participants { get; set; } = [];
-        public string Note { get; set; } = string.Empty;
+        public Guid Id { get; init; }
+        public DateTime ExitTime { get; init; }
+        public DateTime ReturnedTime { get; init; }
+        public List<UserResponseDto> Participants { get; init; } = [];
+        public string Note { get; init; } = string.Empty;
+        public Guid LandId { get; init; }
+        public LandResponseDto? Land { get; init; }
+        public string Status { get; set; } = string.Empty;
     }
 }

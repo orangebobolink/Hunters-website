@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Entities;
 using Modules.Document.Domain.Interfaces;
@@ -17,15 +17,19 @@ namespace Modules.Document.Application.Services
         private readonly ILandRepository _landRepository = landRepository;
         private readonly ILogger<LandService> _logger = logger;
 
-        public async Task<LandResponseDto> CreateAsync(LandRequestDto request, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> CreateAsync(
+            LandRequestDto request,
+            CancellationToken cancellationToken)
         {
-            //var existingFeeding = await _feedingRepository.GetByIdAsync(id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(
+                l => l.Name == request.Name,
+                cancellationToken);
 
-            //if (existingFeedingProduct is null)
-            //{
-            //    _logger.LogWarning("id is null");
-            //    ThrowHelper.ThrowKeyNotFoundException(nameof(existingFeedingProduct));
-            //}
+            if (existingLand is null)
+            {
+                _logger.LogWarning("id is null");
+                ThrowHelper.ThrowKeyNotFoundException(nameof(existingLand));
+            }
 
             var land = request.Adapt<Land>();
             land.Id = Guid.NewGuid();
@@ -39,9 +43,12 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingLand = await _landRepository.GetByIdAsync(id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingLand is null)
             {
@@ -58,7 +65,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<LandResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<LandResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             var feedings = await _landRepository.GetAllAsync(cancellationToken);
 
@@ -67,9 +75,11 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> GetByIdAsync(
+            Guid id, CancellationToken cancellationToken)
         {
-            var feeding = await _landRepository.GetByIdAsync(id, cancellationToken);
+            var feeding = await _landRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (feeding is null)
             {
@@ -82,9 +92,13 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<LandResponseDto> UpdateAsync(Guid id, LandRequestDto request, CancellationToken cancellationToken)
+        public async Task<LandResponseDto> UpdateAsync(
+            Guid id,
+            LandRequestDto request,
+            CancellationToken cancellationToken)
         {
-            var existingLand = await _landRepository.GetByIdAsync(id, cancellationToken);
+            var existingLand = await _landRepository.GetByPredicate(
+                e => e.Id == id, cancellationToken);
 
             if (existingLand is null)
             {

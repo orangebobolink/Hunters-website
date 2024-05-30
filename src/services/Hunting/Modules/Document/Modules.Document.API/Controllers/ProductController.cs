@@ -5,12 +5,14 @@ namespace Modules.Document.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController(IProductService productService) : ControllerBase
+    public class ProductController(
+        IProductService productService)
+        : ControllerBase
     {
         private readonly IProductService _productService = productService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllProducts(CancellationToken cancellationToken = default)
         {
             var products = await _productService.GetAllAsync(cancellationToken);
 

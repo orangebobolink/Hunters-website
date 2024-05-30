@@ -9,13 +9,6 @@ namespace Identity.Services.Validators
     {
         public RequestUserDtoValidator()
         {
-            RuleFor(user => user.UserName)
-                .NotEmpty()
-                .WithMessage(UserErrorHelper.EmptyUsernameError)
-                .MinimumLength(4)
-                .MaximumLength(20)
-                .WithMessage(UserErrorHelper.InvalidUsernameError);
-
             RuleFor(user => user.Email)
                 .NotEmpty()
                 .WithMessage(UserErrorHelper.EmptyEmailError)

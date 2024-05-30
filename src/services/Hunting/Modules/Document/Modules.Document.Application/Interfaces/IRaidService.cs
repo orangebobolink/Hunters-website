@@ -1,5 +1,5 @@
 ﻿using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 
 namespace Modules.Document.Application.Interfaces
 {
@@ -10,6 +10,7 @@ namespace Modules.Document.Application.Interfaces
         Task<RaidResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken);
         Task<RaidResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<List<RaidResponseDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<List<RaidResponseDto>> GetRaidsByIdAsync(Guid id, CancellationToken cancellationToken);
         public Task<RaidResponseDto> GetByIdIncludeAsync(Guid id, CancellationToken cancellationToken);
         public Task<List<RaidResponseDto>> GetAllIncludeAsync(CancellationToken cancellationToken);
     }

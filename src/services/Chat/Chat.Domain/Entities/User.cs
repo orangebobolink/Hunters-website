@@ -8,6 +8,6 @@
         public string LastName { get; set; } = string.Empty;
         public string AvatarUrl { get; set; } = string.Empty;
         public List<Message> Messages { get; set; } = [];
-        public List<Group> Groups { get; set; } = [];
+        public List<UserGroup> Groups { get; set; } = [];
     }
 }

@@ -13,13 +13,13 @@ namespace Identity.Infrastructure.DataSeed
     internal class DataSeeder
         : IDataSeeder
     {
-        private readonly IBus _bus;
+        private readonly IPublishEndpoint _bus;
         protected readonly ApplicationDbContext _context;
         private readonly List<IdentityRole<Guid>> _roles;
         private readonly List<User> _users;
         private readonly List<IdentityUserRole<Guid>> _userRole;
 
-        public DataSeeder(IBus bus, ApplicationDbContext context)
+        public DataSeeder(IPublishEndpoint bus, ApplicationDbContext context)
         {
             _bus = bus;
             _context = context;
@@ -43,11 +43,13 @@ namespace Identity.Infrastructure.DataSeed
             var message = new UserDataSeedMessage() { Users = usersMessage };
 
             await _bus.Publish(message);
+
+            await _context.SaveChangesAsync();
         }
 
         private async Task SeedRolesAsync()
         {
-            if(!await _context.Roles.AnyAsync())
+            if (!await _context.Roles.AnyAsync())
             {
                 _context.AddRange(_roles);
 
@@ -57,7 +59,7 @@ namespace Identity.Infrastructure.DataSeed
 
         private async Task SeedUsersAsync()
         {
-            if(!await _context.Users.AnyAsync())
+            if (!await _context.Users.AnyAsync())
             {
                 _context.AddRange(_users);
 
@@ -67,7 +69,7 @@ namespace Identity.Infrastructure.DataSeed
 
         private async Task SeedUserRole()
         {
-            if(!await _context.UserRoles.AnyAsync())
+            if (!await _context.UserRoles.AnyAsync())
             {
                 _context.UserRoles.AddRange(_userRole);
                 await _context.SaveChangesAsync();

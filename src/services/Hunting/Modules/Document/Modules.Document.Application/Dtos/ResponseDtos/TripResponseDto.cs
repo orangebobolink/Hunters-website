@@ -1,25 +1,16 @@
-﻿namespace Modules.Document.Application.Dtos.ResponseDto
+﻿namespace Modules.Document.Application.Dtos.ResponseDtos
 {
-    public class TripResponseDto
+    public record class TripResponseDto
     {
-        public Guid Id { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public string Number { get; set; } = string.Empty;
-        public Guid PermissionId { get; set; }
-        public PermisionResponseDto? Permission { get; set; }
-        public string SpecialConditions { get; set; } = string.Empty;
-        public Guid IssuedId { get; set; }
-        public UserResponseDto? Issued { get; set; }
-        public Guid ReceivedId { get; set; }
-        public UserResponseDto? Received { get; set; }
-        public DateTime ReceivedDate { get; set; }
-        public DateTime EventDate { get; set; }
-        public List<TripParticipantResponseDto> TripParticipants { get; set; } = [];
-        public DateTime ReturnedDate { get; set; }
-        public bool IsReturned { get; set; } = false;
-        public Guid AcceptedId { get; set; }
-        public UserResponseDto? Accepted { get; set; }
-        public decimal AmountOfFee { get; set; }
+        public Guid Id { get; init; }
+        public string Number { get; init; } = string.Empty;
+        public Guid PermissionId { get; init; }
+        public PermissionResponseDto? Permission { get; init; }
+        public string SpecialConditions { get; init; } = string.Empty;
+        public DateTime EventDate { get; init; }
+        public ICollection<TripParticipantResponseDto> TripParticipants { get; init; } = [];
+        public decimal Price { get; init; }
+        public DateTime ReturnedDate { get; init; }
+        public string Status { get; init; } = null!;
     }
 }

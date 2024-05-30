@@ -1,5 +1,4 @@
-﻿using MassTransit.Mediator;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Modules.Document.Application.Dtos.RequestDtos;
 using Modules.Document.Application.Interfaces;
 
@@ -7,12 +6,14 @@ namespace Modules.Document.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TripController(ITripService tripService) : ControllerBase
+    public class TripController(
+        ITripService tripService)
+        : ControllerBase
     {
         private readonly ITripService _tripService = tripService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllTrips(CancellationToken cancellationToken = default)
         {
             var result = await _tripService.GetAllAsync(cancellationToken);
 
@@ -20,15 +21,23 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetTripById(Guid id, CancellationToken cancellationToken = default)
         {
             var trip = await _tripService.GetByIdAsync(id, cancellationToken);
 
             return Ok(trip);
         }
 
+        [HttpGet("user/{id:guid}")]
+        public async Task<IActionResult> GetTripsByParticipantId(Guid id, CancellationToken cancellationToken = default)
+        {
+            var trip = await _tripService.GetByParticipantId(id, cancellationToken);
+
+            return Ok(trip);
+        }
+
         [HttpGet("{id:guid}/include")]
-        public async Task<IActionResult> GetByIdInclude(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetTripByIdInclude(Guid id, CancellationToken cancellationToken = default)
         {
             var trip = await _tripService.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -36,7 +45,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("include")]
-        public async Task<IActionResult> GetAllInclude(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllTripsInclude(CancellationToken cancellationToken = default)
         {
             var trips = await _tripService.GetAllIncludeAsync(cancellationToken);
 
@@ -44,7 +53,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TripRequestDto tripDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateTrip(TripRequestDto tripDto, CancellationToken cancellationToken = default)
         {
             var createdTrip = await _tripService.CreateAsync(tripDto, cancellationToken);
 
@@ -52,7 +61,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, TripRequestDto tripDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateTrip(Guid id, TripRequestDto tripDto, CancellationToken cancellationToken = default)
         {
             var updatedTrip = await _tripService.UpdateAsync(id, tripDto, cancellationToken);
 
@@ -60,7 +69,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteTrip(Guid id, CancellationToken cancellationToken = default)
         {
             var deletedTrip = await _tripService.DeleteAsync(id, cancellationToken);
 

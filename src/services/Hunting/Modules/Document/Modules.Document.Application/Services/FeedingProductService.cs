@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using Modules.Document.Application.Dtos.RequestDtos;
-using Modules.Document.Application.Dtos.ResponseDto;
+using Modules.Document.Application.Dtos.ResponseDtos;
 using Modules.Document.Application.Interfaces;
 using Modules.Document.Domain.Interfaces;
 using Shared.Helpers;
@@ -13,12 +13,17 @@ namespace Modules.Document.Application.Services
         ILogger<FeedingProductService> logger)
         : IFeedingProductService
     {
-        private readonly IFeedingProductRepository _feedingProductRepository = feedingProductRepository;
+        private readonly IFeedingProductRepository _feedingProductRepository
+            = feedingProductRepository;
         private readonly ILogger<FeedingProductService> _logger = logger;
 
-        public async Task<FeedingProductResponseDto> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<FeedingProductResponseDto> DeleteAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (existingFeedingProduct is null)
             {
@@ -35,7 +40,8 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<List<FeedingProductResponseDto>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<FeedingProductResponseDto>> GetAllAsync(
+            CancellationToken cancellationToken)
         {
             var coupons = await _feedingProductRepository.GetAllAsync(cancellationToken);
 
@@ -44,9 +50,13 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<FeedingProductResponseDto> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<FeedingProductResponseDto> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
         {
-            var coupon = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var coupon = await _feedingProductRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (coupon is null)
             {
@@ -59,9 +69,14 @@ namespace Modules.Document.Application.Services
             return response;
         }
 
-        public async Task<FeedingProductResponseDto> UpdateAsync(Guid id, FeedingProductRequestDto request, CancellationToken cancellationToken)
+        public async Task<FeedingProductResponseDto> UpdateAsync(
+            Guid id,
+            FeedingProductRequestDto request,
+            CancellationToken cancellationToken)
         {
-            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(e => e.Id == id, cancellationToken);
+            var existingFeedingProduct = await _feedingProductRepository.GetByPredicate(
+                e => e.Id == id,
+                cancellationToken);
 
             if (existingFeedingProduct is null)
             {

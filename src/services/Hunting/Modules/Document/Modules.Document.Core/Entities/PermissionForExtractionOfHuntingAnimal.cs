@@ -1,4 +1,5 @@
-﻿using Modules.Document.Domain.Interfaces;
+﻿using Modules.Document.Domain.Enums;
+using Modules.Document.Domain.Interfaces;
 
 namespace Modules.Document.Domain.Entities
 {
@@ -14,6 +15,9 @@ namespace Modules.Document.Domain.Entities
         public User? Issued { get; set; }
         public Guid ReceivedId { get; set; }
         public User? Received { get; set; }
-        public List<Coupon> Coupons { get; set; }
+        public ICollection<Coupon> Coupons { get; set; } = [];
+        public Guid LandId { get; set; }
+        public Land? Land { get; set; }
+        public Status Status { get; set; } = Status.Compiled;
     }
 }

@@ -41,9 +41,10 @@ namespace Identity.Infrastructure.DataSeed
                     NormalizedEmail = "USER@GMAIL.COM",
                     PasswordHash = passwordHasher.HashPassword(null, "password"),
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    LastName = "lastUser",
-                    FirstName = "firstUser",
-                    MiddleName = "middleUser"
+                    AvatarUrl = "https://kartinki.pics/uploads/posts/2022-03/1648068560_1-kartinkin-net-p-okhotniki-kartinki-1.jpg",
+                    LastName = "Тишков",
+                    FirstName = "Никита",
+                    MiddleName = "Валерьевич"
                 },
                 new User {
                     Id = Guid.NewGuid(),
@@ -52,10 +53,37 @@ namespace Identity.Infrastructure.DataSeed
                     Email = "admin@gmail.com",
                     NormalizedEmail = "ADMIN@GMAIL.COM",
                     PasswordHash = passwordHasher.HashPassword(null, "password"),
+                    AvatarUrl = "https://kartinki.pics/uploads/posts/2022-03/1648068560_1-kartinkin-net-p-okhotniki-kartinki-1.jpg",
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    LastName = "lastAdmin",
-                    FirstName = "firstAdmin",
-                    MiddleName = "middleUser"
+                    LastName = "Макаров",
+                    FirstName = "Дмитрий",
+                    MiddleName = "Иванович"
+                },
+                new User {
+                    Id = Guid.NewGuid(),
+                    UserName = "manager",
+                    NormalizedUserName = "MANAGER",
+                    Email = "manager@gmail.com",
+                    NormalizedEmail = "MANAGER@GMAIL.COM",
+                    AvatarUrl = "https://kartinki.pics/uploads/posts/2022-03/1648068560_1-kartinkin-net-p-okhotniki-kartinki-1.jpg",
+                    PasswordHash = passwordHasher.HashPassword(null, "password"),
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    LastName = "Герасенко",
+                    FirstName = "Алексей",
+                    MiddleName = "Михайлович"
+                },
+                new User {
+                    Id = Guid.NewGuid(),
+                    UserName = "ranger",
+                    NormalizedUserName = "RANGER",
+                    Email = "ranger@gmail.com",
+                    AvatarUrl = "https://kartinki.pics/uploads/posts/2022-03/1648068560_1-kartinkin-net-p-okhotniki-kartinki-1.jpg",
+                    NormalizedEmail = "RANGER@GMAIL.COM",
+                    PasswordHash = passwordHasher.HashPassword(null, "password"),
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    LastName = "Агустин",
+                    FirstName = "Артемий",
+                    MiddleName = "Игнатович"
                 },
             };
 
@@ -75,6 +103,16 @@ namespace Identity.Infrastructure.DataSeed
                 {
                     UserId = users[1].Id,
                     RoleId = roles.First(q => q.Name == Role.Admin).Id
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = users[2].Id,
+                    RoleId = roles.First(q => q.Name == Role.Manager).Id
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = users[3].Id,
+                    RoleId = roles.First(q => q.Name == Role.Ranger).Id
                 }
             };
 

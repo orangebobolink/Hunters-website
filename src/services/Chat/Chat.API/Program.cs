@@ -1,5 +1,6 @@
 using Chat.API.Configurations;
 using Chat.API.Hubs;
+using Chat.API.Middleware;
 using Chat.Infrastructure.Configurations;
 using Chat.Services.Configurations;
 using Identity.API.Configurations;
@@ -11,6 +12,7 @@ builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddServicesConfiguration();
 builder.Services.AddInfrastructureConfiguration();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddSwaggerGenConfiguration(builder.Configuration);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
@@ -21,7 +23,7 @@ var app = builder.Build();
 
 app.UseCors();
 
-if(!app.Environment.IsProduction())
+if (!app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI(s =>

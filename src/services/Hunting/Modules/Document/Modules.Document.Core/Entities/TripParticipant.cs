@@ -11,5 +11,6 @@ namespace Modules.Document.Domain.Entities
         public HuntingLicense? HuntingLicense { get; set; }
         public Guid TripId { get; set; }
         public Trip? Trip { get; set; }
+        public bool Paid { get; set; }
     }
 }

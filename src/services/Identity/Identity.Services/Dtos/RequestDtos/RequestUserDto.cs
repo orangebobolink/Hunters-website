@@ -11,5 +11,6 @@
         public string LastName { get; set; } = string.Empty;
         public string AvatarUrl { get; set; } = string.Empty;
         public string Sex { get; set; } = string.Empty;
+        public List<string> RoleNames { get; set; } = [];
     }
 }

@@ -1,6 +1,4 @@
-﻿// Ignore Spelling: API Dto
-
-using Identity.Services.Dtos.RequestDtos;
+﻿using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,15 +6,18 @@ namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthorizationController(IAuthorizationService authorizationService) : ControllerBase
+    public class AuthorizationController(
+        IAuthorizationService authorizationService)
+        : ControllerBase
     {
         private readonly IAuthorizationService _authorizationService = authorizationService;
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Login([FromBody] RequestLoginUserDto loginUserDto,
-                                                    CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Login(
+            [FromBody] RequestLoginUserDto loginUserDto,
+            CancellationToken cancellationToken = default)
         {
             var response = await _authorizationService.LoginAsync(loginUserDto, cancellationToken);
 
@@ -26,8 +27,9 @@ namespace Identity.API.Controllers
         [HttpPost("registration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Registration([FromBody] RequestRegistrationUserDto registrationUserDto,
-                                                            CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Registration(
+            [FromBody] RequestRegistrationUserDto registrationUserDto,
+            CancellationToken cancellationToken = default)
         {
             var response = await _authorizationService.RegistrationAsync(registrationUserDto, cancellationToken);
 

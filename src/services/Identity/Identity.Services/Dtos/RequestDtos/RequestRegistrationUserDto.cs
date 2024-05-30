@@ -1,6 +1,4 @@
-﻿using Identity.Domain.Enums;
-
-namespace Identity.Services.Dtos.RequestDtos
+﻿namespace Identity.Services.Dtos.RequestDtos
 {
     public record class RequestRegistrationUserDto
     {

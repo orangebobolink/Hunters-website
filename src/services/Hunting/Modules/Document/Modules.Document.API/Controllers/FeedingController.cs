@@ -13,14 +13,15 @@ namespace Modules.Document.API.Controllers
         private readonly IFeedingService _feedingService = feedingService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllFeeding(CancellationToken cancellationToken = default)
         {
             var feedings = await _feedingService.GetAllAsync(cancellationToken);
+
             return Ok(feedings);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetFeedingById(Guid id, CancellationToken cancellationToken = default)
         {
             var feeding = await _feedingService.GetByIdAsync(id, cancellationToken);
 
@@ -28,7 +29,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("{id}/include")]
-        public async Task<IActionResult> GetByIdInclude(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetFeedingByIdInclude(Guid id, CancellationToken cancellationToken = default)
         {
             var feeding = await _feedingService.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -36,7 +37,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("include")]
-        public async Task<IActionResult> GetAllInclude(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetFeedingAllInclude(CancellationToken cancellationToken = default)
         {
             var feedings = await _feedingService.GetAllIncludeAsync(cancellationToken);
 
@@ -44,15 +45,20 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(FeedingRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateFeeding(
+            FeedingRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var createdFeeding = await _feedingService.CreateAsync(request, cancellationToken);
 
-            return CreatedAtAction(nameof(GetById), new { id = createdFeeding.Id }, createdFeeding);
+            return Ok(createdFeeding);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, FeedingRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateFeeding(
+            Guid id,
+            FeedingRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var updatedFeeding = await _feedingService.UpdateAsync(id, request, cancellationToken);
 
@@ -60,7 +66,9 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteFeeding(
+            Guid id,
+            CancellationToken cancellationToken = default)
         {
             var deletedFeeding = await _feedingService.DeleteAsync(id, cancellationToken);
 

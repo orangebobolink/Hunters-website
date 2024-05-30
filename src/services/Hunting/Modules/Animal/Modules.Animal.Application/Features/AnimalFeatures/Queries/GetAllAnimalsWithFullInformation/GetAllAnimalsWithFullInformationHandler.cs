@@ -2,14 +2,13 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Modules.Animal.Application.Dtos.ResponseDtos;
-using Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimalsWithFullInformation;
 using Modules.Animal.Domain.Entities;
 using Modules.Animal.Domain.Helpers;
 using Modules.Animal.Domain.Interfaces.Repositories;
 using Shared.Helpers;
 using Shared.Redis;
 
-namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFullInformation
+namespace Modules.Animal.Application.Features.AnimalFeatures.Queries.GetAllAnimalsWithFullInformation
 {
     internal class GetAllAnimalsWithFullInformationHandler(
         IAnimalRepository animalRepository,
@@ -25,7 +24,7 @@ namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFu
             GetAllAnimalsWithFullInformationQuery request,
             CancellationToken cancellationToken)
         {
-            var animals = await _cacheService.GetAsync(CacheHelper.GetCacheKeyForAllAnimals(),
+            var animals = await _cacheService.GetAsync(CacheHelper.GetCacheKeyForAllAnimalsWithFullInformation(),
                 async () => await GetAnimalsThroughRepository(cancellationToken),
                 cancellationToken);
 
@@ -39,7 +38,7 @@ namespace Modules.Animal.Application.Features.Animal.Queries.GetAllAnimalsWithFu
         {
             var animals = await _animalRepository.GetAllWithFullInformationAsync(cancellationToken);
 
-            if(!animals.Any())
+            if (!animals.Any())
             {
                 _logger.LogWarning("No animals found in the database.");
                 ThrowHelper.ThrowInvalidOperationException(ErrorMessageHelper.NoAnimalsFound());

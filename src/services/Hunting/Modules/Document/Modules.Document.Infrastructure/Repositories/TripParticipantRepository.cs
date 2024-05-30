@@ -27,6 +27,5 @@ namespace Modules.Document.Infrastructure.Repositories
                 .Include(tp => tp.Trip)
                 .FirstOrDefaultAsync(tp => tp.Id == id, cancellationToken);
         }
-
     }
 }

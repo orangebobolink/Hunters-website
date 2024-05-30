@@ -1,4 +1,5 @@
-﻿using Modules.Document.Domain.Interfaces;
+﻿using Modules.Document.Domain.Enums;
+using Modules.Document.Domain.Interfaces;
 
 namespace Modules.Document.Domain.Entities
 {
@@ -7,7 +8,10 @@ namespace Modules.Document.Domain.Entities
         public Guid Id { get; set; }
         public DateTime ExitTime { get; set; }
         public DateTime ReturnedTime { get; set; }
-        public List<User> Participants { get; set; } = [];
+        public ICollection<User> Participants { get; set; } = [];
         public string Note { get; set; } = string.Empty;
+        public Guid LandId { get; set; }
+        public Land? Land { get; set; }
+        public Status Status { get; set; } = Status.Compiled;
     }
 }

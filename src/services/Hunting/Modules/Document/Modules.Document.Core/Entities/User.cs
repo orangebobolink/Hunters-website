@@ -9,5 +9,7 @@ namespace Modules.Document.Domain.Entities
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string MiddleName { get; set; } = string.Empty;
+        public ICollection<Raid> Raids { get; set; } = [];
+        public ICollection<Trip> Trips { get; set; } = [];
     }
 }

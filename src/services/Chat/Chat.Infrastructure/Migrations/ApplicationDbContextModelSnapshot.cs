@@ -111,17 +111,23 @@ namespace Chat.Infrastructure.Migrations
 
             modelBuilder.Entity("Chat.Domain.Entities.UserGroup", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId", "GroupId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("UserGroups", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserGroup");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
@@ -318,13 +324,13 @@ namespace Chat.Infrastructure.Migrations
             modelBuilder.Entity("Chat.Domain.Entities.UserGroup", b =>
                 {
                     b.HasOne("Chat.Domain.Entities.Group", null)
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Chat.Domain.Entities.User", null)
-                        .WithMany()
+                        .WithMany("Groups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -333,10 +339,14 @@ namespace Chat.Infrastructure.Migrations
             modelBuilder.Entity("Chat.Domain.Entities.Group", b =>
                 {
                     b.Navigation("Messages");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Chat.Domain.Entities.User", b =>
                 {
+                    b.Navigation("Groups");
+
                     b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618

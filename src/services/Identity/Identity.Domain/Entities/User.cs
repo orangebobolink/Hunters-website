@@ -1,5 +1,6 @@
 ﻿using Identity.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Identity.Domain.Entities
 {
@@ -13,5 +14,8 @@ namespace Identity.Domain.Entities
         public Sex Sex { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
+        public List<HuntingLicense> HuntingLicenses { get; set; } = [];
+        [NotMapped]
+        public List<string> RoleNames { get; set; } = [];
     }
 }
