@@ -13,7 +13,7 @@ namespace Rent.API.Controllers
         private readonly IRentProductService _rentProductService = rentProductService;
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(
+        public async Task<IActionResult> GetRentProductById(
             Guid id,
             CancellationToken cancellationToken = default)
         {
@@ -22,8 +22,18 @@ namespace Rent.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("user/{userId:guid}")]
+        public async Task<IActionResult> GetRentProductsByUserId(
+          Guid userId,
+          CancellationToken cancellationToken = default)
+        {
+            var response = await _rentProductService.GetByUserIdAsync(userId, cancellationToken);
+
+            return Ok(response);
+        }
+
         [HttpGet]
-        public async Task<IActionResult> GetAll(
+        public async Task<IActionResult> GetAllRentProducts(
             CancellationToken cancellationToken = default)
         {
             var response = await _rentProductService.GetAllAsync(cancellationToken);
@@ -32,7 +42,7 @@ namespace Rent.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(
+        public async Task<IActionResult> CreateRentProduct(
            RentProductRequestDto request,
            CancellationToken cancellationToken = default)
         {
@@ -44,7 +54,7 @@ namespace Rent.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(
+        public async Task<IActionResult> UpdateRentProduct(
             Guid id,
             RentProductRequestDto request,
             CancellationToken cancellationToken = default)
@@ -58,7 +68,7 @@ namespace Rent.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(
+        public async Task<IActionResult> DeleteRentProduct(
             Guid id,
             CancellationToken cancellationToken = default)
         {

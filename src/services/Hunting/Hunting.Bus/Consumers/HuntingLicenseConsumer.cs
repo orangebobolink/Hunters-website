@@ -15,7 +15,8 @@ namespace Hunting.Bus.Consumers
         private readonly IHuntingLicenseRepository _huntingLicenseRepository = huntingLicenseRepository;
         private readonly ILogger<HuntingLicenseConsumer> _logger = logger;
 
-        public async Task Consume(ConsumeContext<CreateHuntingLicenseMessage> context)
+        public async Task Consume(
+            ConsumeContext<CreateHuntingLicenseMessage> context)
         {
             var huntingLicense = context.Message
                 .Adapt<HuntingLicense>();

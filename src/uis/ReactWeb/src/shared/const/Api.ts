@@ -1,5 +1,4 @@
-import {BackendEndpoints} from '@/shared/const/BackendEndpoints.ts';
-
+import { BackendEndpoints } from '@/shared/const/BackendEndpoints.ts';
 
 const BASE_URL = 'http://localhost:5001';
 const BASE_API_URL = 'http://localhost:5001/api';
@@ -30,4 +29,5 @@ export const apiMap = {
     GET_RENT_PRODUCT: `${BASE_API_URL}/${BackendEndpoints.GET_RENT_PRODUCT}`,
     GET_REPORT_PRODUCT_POPULAR: `${BASE_API_URL}/${BackendEndpoints.GET_REPORT_PRODUCT_POPULAR}`,
     GET_REPORT_PRODUCT_REVENUE: `${BASE_API_URL}/${BackendEndpoints.GET_REPORT_PRODUCT_REVENUE}`,
+    GET_ANIMALS_BY_POPULAR: `${BASE_API_URL}/${BackendEndpoints.GET_ANIMALS_BY_POPULAR}`,
 };

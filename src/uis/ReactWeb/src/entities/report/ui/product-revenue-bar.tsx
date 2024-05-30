@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
             <div className="custom-tooltip font-bold text-pink-120">
-                <p className="label">{`Название ${label} : ${payload[0].payload?.price}`}</p>
+                <p className="label">{`Название ${label}`}</p>
                 <p className="label">{`Заработали ${payload[0].value} руб`}</p>
             </div>
         );
@@ -43,7 +43,7 @@ const ProductRevenueBar = () => {
     }, [period]);
 
     return (
-        <div className=' flex flex-col justify-center items-center  min-w-[350px]  mt-4 w-[20dvw] h-[250px]'>
+        <div className=' flex flex-col justify-center items-center  min-w-[350px]  mt-4 w-full h-[250px]'>
             <PeriodSelect period={period}
                           setPeriod={setPeriod}/>
             <ResponsiveContainer width='100%'
@@ -64,7 +64,6 @@ const ProductRevenueBar = () => {
                              activeBar={<Rectangle fill='pink'
                                                    stroke='blue'/>}
                          />
-                         <Legend/>
                      </BarChart>
                  )}
             </ResponsiveContainer>

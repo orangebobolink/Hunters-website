@@ -11,6 +11,10 @@ import {Trip} from '@/entities/trip/models/Trip.ts';
 import {TripService} from '@/entities/trip/api/TripService.ts';
 import PermissionCombobox from '@/features/combobox/permission-combobox.tsx';
 
+interface IProps {
+    setIsOpen: (isOpen:boolean) => void;
+}
+
 const formSchema = z.object({
     number: z.string(),
     permissionId: z.string(),
@@ -18,7 +22,7 @@ const formSchema = z.object({
     price: z.number().int().gte(0)
 });
 
-const CreateTripForm = () => {
+const CreateTripForm = ({setIsOpen}:IProps) => {
     const { t} = useTranslation("translation",
         {
             keyPrefix: "trip.create"
@@ -38,23 +42,26 @@ const CreateTripForm = () => {
 
             try {
                 const data = await TripService.create(request);
-
+                console.log(data.status >= 200 && data.status <= 300)
                 if(data.status >= 200 && data.status <= 300)
                 {
                     toast({
                         variant: "success",
                         title: "Путевка созданна успешно",
                     })
+
+                    setIsOpen(false)
                 }
             }catch {
                 toast({
                     variant: "destructive",
                     title: "Что-то пошло не так",
                 })
+                setIsOpen(false)
             }
 
         },
-        [],
+        [setIsOpen],
     );
 
     const form = useForm<z.infer<typeof formSchema>>({

@@ -12,11 +12,11 @@ namespace Identity.Services.Services
 {
     internal class HuntingLicenseService(
         IHyntingLicenseRepository hyntingLicenseRepository,
-        IBus bus)
+        IPublishEndpoint bus)
         : IHuntingLicenseService
     {
         private readonly IHyntingLicenseRepository _hyntingLicenseRepository = hyntingLicenseRepository;
-        private readonly IBus _bus = bus;
+        private readonly IPublishEndpoint _bus = bus;
 
         public async Task<HuntingLicenseResponseDto> CreateAsync(
             HuntingLicenseRequestDto huntingLicenseRequest,
@@ -42,7 +42,9 @@ namespace Identity.Services.Services
 
             var message = huntingLicense.Adapt<CreateHuntingLicenseMessage>();
 
-            await _bus.Publish(message);
+            await _bus.Publish(message, cancellationToken);
+
+            await _hyntingLicenseRepository.SaveChangesAsync(cancellationToken);
 
             var response = huntingLicense.Adapt<HuntingLicenseResponseDto>();
 

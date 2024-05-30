@@ -25,7 +25,7 @@ namespace Hunting.API.Configurations
                 //    o.UseBusOutbox();
                 //});
 
-                x.SetKebabCaseEndpointNameFormatter();
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("Hunting", false));
                 x.AddConsumers(assembly);
 
                 x.UsingRabbitMq((context, cfg) =>

@@ -29,7 +29,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Helpers\MockSetupsHelpers\" />
 		<Folder Include="Tests\ControllerTests\" />
 	</ItemGroup>
 

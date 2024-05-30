@@ -13,7 +13,8 @@ namespace Identity.API.Controllers
         [HttpPost("refresh")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Refresh(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Refresh(
+            CancellationToken cancellationToken = default)
         {
             var response = await _tokenService.RefreshAsync(cancellationToken);
 
@@ -25,7 +26,8 @@ namespace Identity.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Revoke(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Revoke(
+            CancellationToken cancellationToken = default)
         {
             await _tokenService.RevokeAsync(cancellationToken);
 

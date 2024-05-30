@@ -26,5 +26,10 @@ namespace Identity.Domain.Interfaces
         Task<IdentityResult> UpdateAsync(User entity);
         Task<IdentityResult> DeleteAsync(User entity);
         Task<List<User>> GetAllByRole(string roleName);
+        Task<IdentityResult> UpdatePasswordAsync(
+           User user,
+           string currentPassword,
+           string newPassword);
+        Task SaveChangesAsync();
     }
 }

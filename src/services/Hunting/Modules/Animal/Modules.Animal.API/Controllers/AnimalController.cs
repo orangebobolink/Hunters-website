@@ -12,13 +12,15 @@ namespace Modules.Animal.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnimalController(IMediator mediator)
-                : ControllerBase
+    public class AnimalController(
+        IMediator mediator)
+        : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAnimals(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllAnimals(
+            CancellationToken cancellationToken = default)
         {
             var query = new GetAllAnimalsWithFullInformationQuery();
             var result = await _mediator.Send(query, cancellationToken);
@@ -27,7 +29,9 @@ namespace Modules.Animal.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetAnimalById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAnimalById(
+            Guid id,
+            CancellationToken cancellationToken = default)
         {
             var query = new GetAnimalByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
@@ -37,7 +41,9 @@ namespace Modules.Animal.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateAnimal(AnimalInfoRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAnimal(
+            AnimalInfoRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var command = new AnimalCreateCommand(request);
             var result = await _mediator.Send(command, cancellationToken);
@@ -47,7 +53,10 @@ namespace Modules.Animal.API.Controllers
 
         [Authorize]
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateAnimal(Guid id, AnimalInfoRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAnimal(
+            Guid id,
+            AnimalInfoRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var command = new AnimalUpdateCommand(id, request);
             var result = await _mediator.Send(command, cancellationToken);
@@ -57,7 +66,9 @@ namespace Modules.Animal.API.Controllers
 
         [Authorize]
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteAnimal(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAnimal(
+            Guid id,
+            CancellationToken cancellationToken = default)
         {
             var command = new AnimalDeleteCommand(id);
             await _mediator.Send(command, cancellationToken);

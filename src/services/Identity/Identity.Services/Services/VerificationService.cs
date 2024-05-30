@@ -1,9 +1,7 @@
-﻿using Identity.Domain.Entities;
-using Identity.Services.Dtos.RequestDtos;
+﻿using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Interfaces;
 using Mapster;
-using System.Threading;
 
 namespace Identity.Services.Services
 {
@@ -13,9 +11,13 @@ namespace Identity.Services.Services
     {
         private readonly IHuntingLicenseService _huntingLicenseService = huntingLicenseService;
 
-        public async Task<HuntingLicenseResponseDto> VerifyHuntingLicenseAsync(string licenseNumber, CancellationToken cancellationToken)
+        public async Task<HuntingLicenseResponseDto> VerifyHuntingLicenseAsync(
+            string licenseNumber,
+            CancellationToken cancellationToken)
         {
-            var huntingLicenseFromService = await _huntingLicenseService.GetFromAnotherServiceAsync(licenseNumber, cancellationToken);
+            var huntingLicenseFromService = await _huntingLicenseService.GetFromAnotherServiceAsync(
+                licenseNumber,
+                cancellationToken);
 
             if (huntingLicenseFromService is null)
             {

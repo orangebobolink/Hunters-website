@@ -38,7 +38,8 @@ namespace Chat.Services.Services
                     Id = requestMessage.GroupId,
                     Users = [
                         new UserGroup() { UserId = existingUser.Id},
-                        new UserGroup() { UserId = requestMessage.ToUserId }]
+                        new UserGroup() { UserId = requestMessage.ToUserId }
+                        ]
                 };
 
                 _groupRepository.Create(group);

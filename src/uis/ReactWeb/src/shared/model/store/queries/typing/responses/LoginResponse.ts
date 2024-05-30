@@ -4,5 +4,6 @@ export interface LoginResponse {
     roles: string[]
     huntingLicenseId: string
     isPaid: boolean
-    accessToken: string
+    accessToken: string,
+    avatarUrl: string
 }

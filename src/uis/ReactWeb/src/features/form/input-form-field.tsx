@@ -22,15 +22,15 @@ const InputFormField : FC<IProps> = ({t, form, name, lang, type}) => {
                         {t(lang)}
                     </FormLabel>
                     <FormControl>
-                        {type === "number" ?
-                         <Input type={type}
-                                {...field}
-                                onChange={event => field.onChange(+event.target.value)} />
-                        :
-                         <Input type={type}
-                                {...field}/>
+                    {
+                            {
+                                "number": <Input type={type}
+                                                 {...field}
+                                                 onChange={event => field.onChange(+event.target.value)} />,
+                                "file":<Input type="url" placeholder="http://image"/>,
+                            }[type!] || <Input type={type}
+                            {...field}/>
                         }
-
                     </FormControl>
                     <FormMessage />
                 </FormItem>

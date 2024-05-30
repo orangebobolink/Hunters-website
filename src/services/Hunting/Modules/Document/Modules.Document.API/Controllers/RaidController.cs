@@ -6,12 +6,14 @@ namespace Modules.Document.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RaidController(IRaidService raidService) : ControllerBase
+    public class RaidController(
+        IRaidService raidService)
+        : ControllerBase
     {
         private readonly IRaidService _raidService = raidService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllRaids(CancellationToken cancellationToken = default)
         {
             var raids = await _raidService.GetAllAsync(cancellationToken);
 
@@ -19,7 +21,9 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRaidsById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetRaidById(
+            Guid id,
+            CancellationToken cancellationToken = default)
         {
             var raid = await _raidService.GetRaidsByIdAsync(id, cancellationToken);
 
@@ -27,7 +31,9 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("{id}/include")]
-        public async Task<IActionResult> GetByIdInclude(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetRaidByIdInclude(
+            Guid id,
+            CancellationToken cancellationToken = default)
         {
             var raid = await _raidService.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -35,7 +41,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("include")]
-        public async Task<IActionResult> GetAllInclude(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllRaidsInclude(CancellationToken cancellationToken = default)
         {
             var raids = await _raidService.GetAllIncludeAsync(cancellationToken);
 
@@ -43,7 +49,9 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RaidRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateRaid(
+            RaidRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var createdRaid = await _raidService.CreateAsync(request, cancellationToken);
 
@@ -51,7 +59,10 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, RaidRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateRaid(
+            Guid id,
+            RaidRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var updatedRaid = await _raidService.UpdateAsync(id, request, cancellationToken);
 
@@ -59,7 +70,9 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteRaid(
+            Guid id,
+            CancellationToken cancellationToken = default)
         {
             var deletedRaid = await _raidService.DeleteAsync(id, cancellationToken);
 

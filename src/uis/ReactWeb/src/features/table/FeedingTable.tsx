@@ -5,6 +5,7 @@ import {useState} from 'react';
 import FeedingInfoDialog from '@/features/dialog/feeding-info-dialog.tsx';
 import {format} from 'date-fns';
 import {useTranslation} from 'react-i18next';
+import { EnumService } from '../statusTranslate';
 
 interface IProps
 {
@@ -31,7 +32,7 @@ const FeedingTable = ({feedings}:IProps) => {
                 {feeding.land.name}
             </TableCell>
             <TableCell>
-                {feeding.status.toString()}
+                {EnumService.statysTranslate(feeding.status.toString())}
             </TableCell>
             <TableCell>
                 <Button

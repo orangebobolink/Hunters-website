@@ -13,7 +13,7 @@ import {ProductService} from '@/entities/feeding/api/ProductService.ts';
 const formSchema = z.object({
     name: z.string().min(1, "Номер дожен быть юольше 1 символов"),
     unitOfMeasurement: z.string(),
-    quantity: z.string().min(0),
+    quantity: z.number(),
 });
 
 interface IProps
@@ -72,6 +72,15 @@ const FeedingProductDrawer = ({isOpen, setIsOpen, parentForm, feedingProducts, s
         },
     })
 
+    const options: { key: string; value: string; }[] = products.map(product => ({
+        key: product,
+        value: (product == "Seed"?"Пшеница" : "Овес")
+      }));
+    const optionsMesuare = [
+        {key: "кг.", value: "кг."},
+        {key: "шт.", value: "шт."},
+    ]
+
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
@@ -85,11 +94,11 @@ const FeedingProductDrawer = ({isOpen, setIsOpen, parentForm, feedingProducts, s
                                 <SelectForm form={form} t={t}
                                             name="name"
                                             lang="name"
-                                            options={products}/>
+                                            options={options}/>
                                 <SelectForm form={form} t={t}
                                                 name="unitOfMeasurement"
                                                 lang="unitOfMeasurement"
-                                                options={["кг", "шт."]}/>
+                                                options={optionsMesuare}/>
                                 <InputFormField form={form} t={t}
                                                 name="quantity"
                                                 lang="quantity"

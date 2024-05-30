@@ -7,10 +7,10 @@
       "raid": "Рейды",
       "animal": "Животные",
       "reporting": "Просмотр отчетов",
-      "managing": "Управление пользоавтелями",
+      "managing": "Управление пользователями",
       "webname": "HuntingBY",
       "permit": "Путевка",
-      "paymantFee":"Плата пошлин",
+      "paymantFee":"Оплата пошлин",
       "checkHuntingLicense":"Проверка лицензии",
       "rent":
       {
@@ -46,6 +46,21 @@
       "signUp": "Регистрация"
     }
   },
+  "raid": {
+    "table": {
+      "location":"Локация",
+      "exitTime": "Дата выхода в рейд",
+      "returnedTime":"Время возвращения",
+      "status":"Статус"
+    },
+    "createReport":"Создать отчет",
+    "create": {
+      "exitTime": "Дата выхода в рейд",
+      "returnedTime":"Время возвращения",
+      "rangers": "Участники",
+      "note":"Итог рейда"
+    }
+  },
   "login": {
     "email": "Электронная почта",
     "password": "Пароль",
@@ -59,6 +74,7 @@
     "password": "Пароль",
     "forgotPassword": "Забыли пароль?",
     "firstName": "Имя",
+    "userName":"Имя пользователя",
     "lastName": "Фамилия",
     "middleName": "Отчество",
     "dateOfBirth": "Дата рождения",
@@ -92,7 +108,7 @@
       "fromDate": "C",
       "toDate": "По",
       "animalName": "Животное",
-      "couponLength": "Количсевто купонов"
+      "couponLength": "Количество купонов"
     },
     "create": {
       "number": "Номер",
@@ -105,15 +121,28 @@
       "cancel": "Закрыть"
     }
   },
+  "animal": {
+    "weapon":"Доступные оружия охоты",
+    "note": "Примечание",
+    "wayOfHunting": "Способы охоты",
+    "create": {
+      "name":"Название",
+      "description":"Описание",
+      "image": "URL изображения",
+      "type":"Вид"
+    }
+  },
   "trip": {
     "addTrip": "Создать путевку",
     "create": {
       "number":"Номер",
       "specialConditions": "Специальные условия",
       "price": "Цена",
-      "add": "Создать"
+      "add": "Создать",
+      "eventData":"Дата охоты"
     },
     "table":{
+      "buy":"Купить путевку",
       "location": "Локация",
       "fromDate": "C",
       "toDate": "По",
@@ -135,7 +164,7 @@
       "name": "Название",
       "description": "Описание",
       "price": "Цена",
-      "quantityInStock": "Количсевто на складе",
+      "quantityInStock": "Количество на складе",
       "imageUrl": "URL изображения",
       "type": "Тип"
     },
@@ -146,5 +175,27 @@
     "price": "Цена",
     "onStock": "На складе",
     "rent": "Арендавать"
+  },
+  "huntingLicense": {
+    "create":{
+      "licenseNumber":"Номер лицезнии"
+    }
+  },
+  "settings": {
+    "currentPassword": "Действующий пароль",
+    "newPassword": "Новый пароль"
+  },
+  "permission": {
+    "create": {
+      "number": "Номер",
+      "fromDate": "Дата начало",
+      "toDate": "Дата окончания",
+      "couponsNumber": "Количсетво купонов",
+      "description": "Описание",
+      "price": "Цена",
+      "quantityInStock": "Количсевто на складе",
+      "imageUrl": "URL изображения",
+      "type": "Тип"
+    }
   }
 }

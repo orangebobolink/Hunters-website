@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Entities;
+using Identity.Domain.Interfaces;
 using Identity.Services.Dtos.RequestDtos;
 using Identity.Services.Dtos.ResponseDtos;
 using Identity.Services.Extensions;
@@ -12,11 +13,13 @@ namespace Identity.Services.Services
 {
     internal class AuthorizationService(UserManager<User> userManager,
         ITokenService tokenService,
+        IHyntingLicenseRepository huntingLicenseRepository,
         IUserService userService,
         ILogger<AuthorizationService> logger) : IAuthorizationService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly ITokenService _tokenService = tokenService;
+        private readonly IHyntingLicenseRepository _huntingLicenseRepository = huntingLicenseRepository;
         private readonly IUserService _userService = userService;
         private readonly ILogger<AuthorizationService> _logger = logger;
         private readonly ThrowExceptionUtility<AuthorizationService> _throwExceptionUtilities = new(logger);
@@ -31,6 +34,19 @@ namespace Identity.Services.Services
 
             await _tokenService.UpdateUserRefreshTokenAsync(user, refreshToken);
 
+            var huntingLicense = await _huntingLicenseRepository.GetByPredicate(
+                hl => hl.UserId == user.Id
+                    && hl.ExpiryDate > DateTime.Now,
+                cancellationToken);
+
+            if (huntingLicense is null)
+            {
+                huntingLicense = new HuntingLicense()
+                {
+                    IsPaid = false
+                };
+            }
+
             _logger.LogInformation($"User {user.UserName} logged in successfully.");
 
             var response = new ResponseAuthenticatedDto
@@ -39,6 +55,9 @@ namespace Identity.Services.Services
                 UserName = user.UserName!,
                 Roles = (List<string>)await _userManager.GetRolesAsync(user),
                 AccessToken = accessToken,
+                HuntingLicenseId = huntingLicense?.Id,
+                IsPaid = huntingLicense.IsPaid,
+                AvatarUrl = user.AvatarUrl
             };
 
             return response;

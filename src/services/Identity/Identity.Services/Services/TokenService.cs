@@ -21,15 +21,21 @@ namespace Identity.Services.Services
         : ITokenService
     {
         private readonly UserManager<User> _userManager = userManager;
+
         private readonly IHyntingLicenseRepository _hyntingLicenseRepository
             = hyntingLicenseRepository;
+
         private readonly IRefreshTokenCookie _refreshTokenCookieUtilities
             = refreshTokenCookieUtilities;
+
         private readonly IAccessTokenUtilities _accessTokenUtilities
             = accessTokenUtilities;
+
         private readonly IRefreshTokenUtilities _refreshTokenUtilities
             = refreshTokenUtilities;
+
         private readonly ILogger<TokenService> _logger = logger;
+
         private readonly ThrowExceptionUtility<TokenService> _throwExceptionUtilities
             = new(logger);
 
@@ -77,7 +83,7 @@ namespace Identity.Services.Services
                     && hl.ExpiryDate > DateTime.Now,
                 cancellationToken);
 
-            if(huntingLicense is null)
+            if (huntingLicense is null)
             {
                 huntingLicense = new HuntingLicense()
                 {
@@ -93,6 +99,7 @@ namespace Identity.Services.Services
                 IsPaid = huntingLicense!.IsPaid,
                 HuntingLicenseId = huntingLicense!.Id,
                 AccessToken = newAccessToken,
+                AvatarUrl = user.AvatarUrl
             };
 
             return response;
@@ -144,7 +151,6 @@ namespace Identity.Services.Services
 
             _refreshTokenCookieUtilities.DeleteRefreshTokenCookie();
         }
-
 
         private async Task<User> FindUserByUsernameAsync(string username)
         {

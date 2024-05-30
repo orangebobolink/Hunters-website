@@ -11,14 +11,14 @@ namespace Modules.Document.API.Controllers
         private readonly IPermissionService _permissionService = permissionService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllPermissions(CancellationToken cancellationToken = default)
         {
             var permissions = await _permissionService.GetAllAsync(cancellationToken);
             return Ok(permissions);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPermissionById(Guid id, CancellationToken cancellationToken = default)
         {
             var permission = await _permissionService.GetByIdAsync(id, cancellationToken);
 
@@ -26,7 +26,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("{id}/include")]
-        public async Task<IActionResult> GetByIdInclude(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPermissionByIdInclude(Guid id, CancellationToken cancellationToken = default)
         {
             var permission = await _permissionService.GetByIdIncludeAsync(id, cancellationToken);
 
@@ -34,28 +34,33 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("include")]
-        public async Task<IActionResult> GetAllInclude(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllPermissionsInclude(
+            CancellationToken cancellationToken = default)
         {
             var permissions = await _permissionService.GetAllIncludeAsync(cancellationToken);
+
             return Ok(permissions);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PermisionRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreatePermission(
+            PermisionRequestDto request,
+            CancellationToken cancellationToken = default)
         {
             var createdPermission = await _permissionService.CreateAsync(request, cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = createdPermission.Id }, createdPermission);
+
+            return Ok(createdPermission);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, PermisionRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdatePermission(Guid id, PermisionRequestDto request, CancellationToken cancellationToken = default)
         {
             var updatedPermission = await _permissionService.UpdateAsync(id, request, cancellationToken);
             return Ok(updatedPermission);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeletePermission(Guid id, CancellationToken cancellationToken = default)
         {
             var deletedPermission = await _permissionService.DeleteAsync(id, cancellationToken);
             return Ok(deletedPermission);

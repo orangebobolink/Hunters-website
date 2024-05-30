@@ -25,7 +25,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<HuntingLicense>> GetByUserId(
+        public async Task<ActionResult<HuntingLicense>> GetHuntingLicenseByUserId(
             Guid id,
             CancellationToken cancellationToken = default)
         {
@@ -36,7 +36,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<HuntingLicense>> Create(
+        public async Task<ActionResult<HuntingLicense>> CreateHuntingLicense(
             HuntingLicenseRequestDto huntingLicenseRequestDto,
             CancellationToken cancellationToken = default)
         {

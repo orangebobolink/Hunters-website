@@ -15,14 +15,14 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllCoupons(CancellationToken cancellationToken = default)
         {
             var coupons = await _couponService.GetAllAsync(cancellationToken);
             return Ok(coupons);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetCouponById(Guid id, CancellationToken cancellationToken = default)
         {
             var coupon = await _couponService.GetByIdAsync(id, cancellationToken);
 
@@ -30,7 +30,7 @@ namespace Modules.Document.API.Controllers
         }
 
         [HttpGet("not-used")]
-        public async Task<IActionResult> GetAllOnlyIsNotUsed(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllCouponsOnlyIsNotUsed(CancellationToken cancellationToken = default)
         {
             var coupons = await _couponService.GetAllOnlyIsNotUsedAsync(cancellationToken);
             return Ok(coupons);

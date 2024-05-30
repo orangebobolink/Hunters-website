@@ -9,42 +9,40 @@ namespace Modules.Animal.Infrastructure.DataSeed
         {
             List<AnimalInfo> animals = [
                 new AnimalInfo()
-                {  
+                {
                     Id = Guid.NewGuid(),
-                    Name = "Gray Wolf",
-                    Description = "The gray wolf, also known as the timber wolf, " +
-                                "is a canine native to the wilderness and remote areas of Eurasia and North America.",
+                    Name = "Серый волк",
+                    Description = "Вид хищных млекопитающих из семейства псовых (Canidae).",
                     Type = AnimalType.Mammal,
-                    ImageUrl = "https://example.com/gray-wolf.jpg",
+                    ImageUrl = "https://eger98.ru/d/volk.jpg",
                     HuntingSeasons = [
                          new HuntingSeason
                          {
                              Id = Guid.NewGuid(),
-                             StartDate = new DateTime(2023, 11, 1),
-                             EndDate = new DateTime(2023, 12, 31),
-                             WayOfHunting = "Stalking",
-                             Weapon = "Rifle",
-                             Note = "Hunting wolf requires a special permit."
+                             StartDate = new DateTime(2024, 11, 1),
+                             EndDate = new DateTime(2024, 12, 31),
+                             WayOfHunting = "С наскоком",
+                             Weapon = "Гладкоствольное до 1000 Дж",
+                             Note = "Охота с собаками"
                          },
                     ]
                 },
                 new AnimalInfo
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Elk",
-                    Description = "The elk or wapiti is one of the largest species within the deer family " +
-                                 "and is native to North America and Eastern Asia.",
+                    Name = "Лось",
+                    Description = "Род парнокопытных млекопитающих, самые крупные представители семейства оленевых.",
                     Type = AnimalType.Mammal,
-                    ImageUrl = "https://example.com/elk.jpg",
+                    ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Moose_superior.jpg/800px-Moose_superior.jpg",
                     HuntingSeasons = [
                         new HuntingSeason
                         {
                             Id = Guid.NewGuid(),
-                            StartDate = new DateTime(2023, 9, 1),
-                            EndDate = new DateTime(2023, 11, 30),
-                            WayOfHunting = "Calling",
-                            Weapon = "Bow",
-                            Note = "Elk hunting is popular during the rut season."
+                            StartDate = new DateTime(2024, 9, 1),
+                            EndDate = new DateTime(2024, 11, 30),
+                            WayOfHunting = "С собаками",
+                            Weapon = "Арбалет",
+                            Note = "Охота только до полудня"
                         }]
                 }];
 

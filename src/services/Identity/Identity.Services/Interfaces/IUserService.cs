@@ -15,6 +15,7 @@ namespace Identity.Services.Interfaces
             CancellationToken cancellationToken);
         Task<ResponseCreateUserDto> CreateAsync(RequestUserDto user, CancellationToken cancellationToken);
         Task<ResponseUpdateUserDto> UpdateAsync(Guid id, RequestUpdateUserDto user, CancellationToken cancellationToken);
+        Task<ResponseUpdateUserDto> UpdatePasswordAsync(Guid id, UserChangePasswordRequestDto user, CancellationToken cancellationToken);
         Task<List<ResponseUserDto>> GetALlByRoles(string roleName, CancellationToken cancellationToken);
     }
 }

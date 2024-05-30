@@ -8,7 +8,7 @@ interface IProps {
     form:UseFormReturn<any>,
     name: string,
     lang: string,
-    options: string[]
+    options: {key:string, value:string}[]
 }
 
 const SelectForm = ({form, t, name, lang, options}:IProps) => {
@@ -27,7 +27,7 @@ const SelectForm = ({form, t, name, lang, options}:IProps) => {
                                 <SelectValue placeholder={t(lang)} />
                             </SelectTrigger>
                             <SelectContent>
-                                {options.map(o =><SelectItem value={o}>{o}</SelectItem>)}
+                                {options.map(o =><SelectItem value={o.key}>{o.value}</SelectItem>)}
                             </SelectContent>
                         </Select>
                     </FormControl>

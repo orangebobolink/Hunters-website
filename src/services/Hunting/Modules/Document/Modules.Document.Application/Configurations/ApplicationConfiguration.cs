@@ -17,6 +17,7 @@ namespace Modules.Document.Application.Configurations
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IRaidService, RaidService>();
+            services.AddScoped<IReportingService, ReportingService>();
         }
     }
 }

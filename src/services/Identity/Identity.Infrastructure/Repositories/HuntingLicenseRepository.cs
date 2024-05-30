@@ -30,7 +30,9 @@ namespace Identity.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<HuntingLicense>> GetAllByPredicate(Expression<Func<HuntingLicense, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<IEnumerable<HuntingLicense>> GetAllByPredicate(
+            Expression<Func<HuntingLicense, bool>> predicate,
+            CancellationToken cancellationToken)
         {
             return await _context.HuntingLicenses
                .AsNoTracking()
@@ -38,7 +40,9 @@ namespace Identity.Infrastructure.Repositories
                .ToListAsync(cancellationToken);
         }
 
-        public async Task<HuntingLicense?> GetByPredicate(Expression<Func<HuntingLicense, bool>> predicate, CancellationToken cancellationToken)
+        public async Task<HuntingLicense?> GetByPredicate(
+            Expression<Func<HuntingLicense, bool>> predicate,
+            CancellationToken cancellationToken)
         {
             return await _context.HuntingLicenses
               .AsNoTracking()
