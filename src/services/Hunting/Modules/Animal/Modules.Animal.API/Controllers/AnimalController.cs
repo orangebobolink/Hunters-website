@@ -12,8 +12,9 @@ namespace Modules.Animal.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnimalController(IMediator mediator)
-                : ControllerBase
+    public class AnimalController(
+        IMediator mediator)
+        : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
@@ -29,7 +30,7 @@ namespace Modules.Animal.API.Controllers
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetAnimalById(
-            Guid id, 
+            Guid id,
             CancellationToken cancellationToken = default)
         {
             var query = new GetAnimalByIdQuery(id);
@@ -41,7 +42,7 @@ namespace Modules.Animal.API.Controllers
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAnimal(
-            AnimalInfoRequestDto request, 
+            AnimalInfoRequestDto request,
             CancellationToken cancellationToken = default)
         {
             var command = new AnimalCreateCommand(request);
@@ -53,8 +54,8 @@ namespace Modules.Animal.API.Controllers
         [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateAnimal(
-            Guid id, 
-            AnimalInfoRequestDto request, 
+            Guid id,
+            AnimalInfoRequestDto request,
             CancellationToken cancellationToken = default)
         {
             var command = new AnimalUpdateCommand(id, request);
@@ -66,7 +67,7 @@ namespace Modules.Animal.API.Controllers
         [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteAnimal(
-            Guid id, 
+            Guid id,
             CancellationToken cancellationToken = default)
         {
             var command = new AnimalDeleteCommand(id);
